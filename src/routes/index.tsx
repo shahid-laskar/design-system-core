@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Leaf, Package, RotateCcw, Sparkles } from "lucide-react";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { ProductCard } from "@/components/brand/product-card";
-import { SiteShell } from "@/components/brand/site-shell";
 import { Button } from "@/components/ui/button";
 import heroHome from "@/assets/hero-home.jpg";
 import productPrayerSet from "@/assets/product-prayer-set.jpg";
@@ -93,7 +92,7 @@ const assurances = [
 
 function HomePage() {
   return (
-    <SiteShell>
+    <>
       {/* Hero */}
       <section className="border-b border-border bg-secondary/50">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
