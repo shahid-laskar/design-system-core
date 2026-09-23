@@ -4,6 +4,7 @@ import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageContainer } from "@/components/brand/design-primitives";
 import {
   Sheet,
   SheetClose,
@@ -28,7 +29,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         Complimentary delivery on considered bundles over £75
       </p>
       <header className="border-b border-border bg-background">
-        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <PageContainer className="flex h-18 items-center justify-between">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu"><Menu /></Button>
@@ -52,7 +53,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <Link to="/" className="shrink-0" aria-label="Sukoon House home"><BrandMark /></Link>
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
-            {navItems.map((item) => <a key={item.label} href={item.href ?? `/${item.hash}`} className="text-sm font-semibold transition-colors hover:text-primary">{item.label}</a>)}
+            {navItems.map((item) => <a key={item.label} href={item.href ?? `/${item.hash}`} className="nav-link">{item.label}</a>)}
           </nav>
 
           <div className="flex items-center gap-1">
@@ -60,13 +61,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Account"><UserRound /></Button>
             <Button variant="ghost" size="icon" aria-label="Shopping bag" className="relative"><ShoppingBag /><span className="absolute right-1.5 top-1.5 flex size-4 items-center justify-center rounded-full bg-clay text-[0.6rem] font-bold text-clay-foreground">2</span></Button>
           </div>
-        </div>
+        </PageContainer>
       </header>
 
       <main>{children}</main>
 
       <footer className="border-t border-border bg-primary text-primary-foreground">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.25fr_0.75fr_0.75fr] lg:px-8 lg:py-20">
+        <PageContainer className="grid gap-12 py-14 md:grid-cols-2 lg:grid-cols-[1.25fr_0.75fr_0.75fr] lg:py-20">
           <div>
             <BrandMark className="text-primary-foreground" />
             <p className="mt-5 max-w-md font-display text-2xl leading-snug">A more thoughtful rhythm for modern Muslim family life.</p>
@@ -84,9 +85,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/60">Here to help</h2>
             <ul className="mt-5 space-y-3 text-sm"><li>Delivery & returns</li><li>Care guides</li><li>Our approach</li><li>Contact</li></ul>
           </div>
-        </div>
+        </PageContainer>
         <div className="border-t border-primary-foreground/15">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-xs text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"><p>© 2026 Sukoon House. Working brand label.</p><p>Privacy · Terms · Accessibility</p></div>
+          <PageContainer className="flex flex-col gap-3 py-5 text-xs text-primary-foreground/60 sm:flex-row sm:items-center sm:justify-between"><p>© 2026 Sukoon House. Working brand label.</p><p>Privacy · Terms · Accessibility</p></PageContainer>
         </div>
       </footer>
     </div>
