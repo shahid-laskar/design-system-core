@@ -40,7 +40,7 @@ const products = [
     imageAlt: "The Stillness Set — olive prayer mat with a small Quran stand in soft daylight",
     category: "Home & prayer",
     name: "The Stillness Set",
-    price: "£68",
+    price: "₹3,499",
     note: "Olive · Linen blend · 2 pieces",
     badge: "New",
   },
@@ -49,7 +49,7 @@ const products = [
     imageAlt: "The Everyday Pair — folded sand hijab and stone-grey abaya on linen",
     category: "Modest essentials",
     name: "The Everyday Pair",
-    price: "£54",
+    price: "₹2,799",
     note: "Sand & stone · Soft-touch cotton",
   },
   {
@@ -57,8 +57,8 @@ const products = [
     imageAlt: "First Forms Set — wooden stacking rings and soft muslin in warm tones",
     category: "Little ones",
     name: "First Forms Set",
-    price: "£42",
-    previousPrice: "£48",
+    price: "₹1,999",
+    previousPrice: "₹2,299",
     note: "Clay mix · FSC beech · Ages 1+",
     badge: "Family edit",
   },
@@ -67,7 +67,7 @@ const products = [
     imageAlt: "The Considered Gift — rolled olive prayer mat, linen-bound prayer book, and attar",
     category: "Curated bundles",
     name: "The Considered Gift",
-    price: "£75",
+    price: "₹3,899",
     note: "Three pieces · Ready to give",
     badge: "Bundle",
   },
@@ -129,7 +129,7 @@ function HomePage() {
               </Button>
             </div>
             <p className="mt-8 text-xs text-muted-foreground">
-              Complimentary delivery on considered bundles over £75
+              Complimentary delivery on considered bundles over ₹2,999
             </p>
           </div>
           <div className="relative">

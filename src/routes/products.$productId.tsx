@@ -90,9 +90,9 @@ const catalog: Record<string, ProductDetail> = {
     name: "The Stillness Set",
     category: "Home & prayer",
     categoryHref: "/collection",
-    price: "£68",
-    priceValue: 68,
-    previousPrice: "£76",
+    price: "₹3,499",
+    priceValue: 3499,
+    previousPrice: "₹3,999",
     inStock: true,
     lead: "A quieter place for the daily return.",
     description:
@@ -126,7 +126,7 @@ const catalog: Record<string, ProductDetail> = {
     careInfo:
       "Brush gently after use. Spot clean with cool water and mild soap; air dry flat. Wipe the beech stand with a soft, dry cloth.",
     deliveryInfo:
-      "UK delivery in 2–4 working days. Returns are welcome within 30 days when pieces are unused and in their original packaging.",
+      "Pan-India delivery in 3–5 working days. Returns are welcome within 30 days when pieces are unused and in their original packaging.",
     storyTitle: "A small pause, made tangible.",
     storyCopy:
       "The Stillness Set begins with a simple thought: the objects we return to each day should make that return feel easier. The weave is soft underfoot without feeling precious; the stand folds away when the room needs to become something else.",
@@ -134,16 +134,16 @@ const catalog: Record<string, ProductDetail> = {
       title: "Stillness + The Everyday Pair",
       description:
         "The Stillness Set paired with our sand hijab and stone-grey abaya in soft-touch cotton.",
-      price: "£112",
-      originalPrice: "£122",
-      savings: "Save £10",
+      price: "₹5,699",
+      originalPrice: "₹6,298",
+      savings: "Save ₹599",
       image: productModest,
     },
     pairsWith: {
       title: "The Considered Gift",
       description:
         "A linen-bound book of daily supplications and a subtle cedar attar, gathered for giving—or for keeping close.",
-      price: "£75",
+      price: "₹3,899",
       image: productBundle,
     },
   },
@@ -152,8 +152,8 @@ const catalog: Record<string, ProductDetail> = {
     name: "The Everyday Pair",
     category: "Modest essentials",
     categoryHref: "/collection",
-    price: "£54",
-    priceValue: 54,
+    price: "₹2,799",
+    priceValue: 2799,
     inStock: true,
     lead: "Fluid modesty for the daily rhythm.",
     description:
@@ -179,22 +179,22 @@ const catalog: Record<string, ProductDetail> = {
       "Available in lengths 52, 54, 56, and 58. Generous cut with relaxed drop sleeves.",
     careInfo:
       "Machine wash cold on gentle cycle with like colours. Hang dry in shade. Warm iron if needed.",
-    deliveryInfo: "UK delivery in 2–4 working days. Complimentary returns within 30 days.",
+    deliveryInfo: "Pan-India delivery in 3–5 working days. Complimentary returns within 30 days.",
     storyTitle: "Ease that moves with family life.",
     storyCopy:
       "Designed for practical modesty that feels as natural at home as it does running errands or gathering with family. Breathable, durable, and free of unnecessary ornamentation.",
     bundle: {
       title: "Everyday Modesty + Stillness Set",
       description: "Combine our signature modest pairing with the olive Stillness prayer set.",
-      price: "£112",
-      originalPrice: "£122",
-      savings: "Save £10",
+      price: "₹5,699",
+      originalPrice: "₹6,298",
+      savings: "Save ₹599",
       image: productPrayer,
     },
     pairsWith: {
       title: "The Considered Gift",
       description: "Gathered for giving or keeping close in subtle cedar and linen.",
-      price: "£75",
+      price: "₹3,899",
       image: productBundle,
     },
   },
@@ -203,9 +203,9 @@ const catalog: Record<string, ProductDetail> = {
     name: "First Forms Set",
     category: "Little ones",
     categoryHref: "/collection",
-    price: "£42",
-    priceValue: 42,
-    previousPrice: "£48",
+    price: "₹1,999",
+    priceValue: 1999,
+    previousPrice: "₹2,299",
     inStock: true,
     lead: "Calm play for growing hands.",
     description:
@@ -230,22 +230,22 @@ const catalog: Record<string, ProductDetail> = {
       "FSC-certified European beechwood with food-safe botanical oil finish and GOTS organic cotton.",
     dimensionsInfo: "Stacking height: 16 cm. Base diameter: 10 cm. 6 nesting elements.",
     careInfo: "Wipe with damp cloth. Do not submerge wooden elements in water.",
-    deliveryInfo: "UK delivery in 2–4 working days. 30-day family satisfaction trial.",
+    deliveryInfo: "Pan-India delivery in 3–5 working days. 30-day family satisfaction trial.",
     storyTitle: "Play that respects a peaceful home.",
     storyCopy:
       "Children's objects don't need to be loud, garish, or disposable. First Forms brings natural tactile warmth into the family living space.",
     bundle: {
       title: "Little Ones Nursery Bundle",
       description: "First Forms Set paired with organic cotton wraps and linen keepsake bag.",
-      price: "£78",
-      originalPrice: "£90",
-      savings: "Save £12",
+      price: "₹3,699",
+      originalPrice: "₹4,298",
+      savings: "Save ₹599",
       image: productChild,
     },
     pairsWith: {
       title: "The Stillness Set",
       description: "Create a peaceful shared prayer and quiet corner for parent and child.",
-      price: "£68",
+      price: "₹3,499",
       image: productPrayer,
     },
   },
@@ -416,7 +416,8 @@ function ProductPage() {
                     </>
                   ) : (
                     <>
-                      <ShoppingBag /> Add to bag · £{product.priceValue * quantity}
+                      <ShoppingBag /> Add to bag · ₹
+                      {(product.priceValue * quantity).toLocaleString("en-IN")}
                     </>
                   )}
                 </Button>
@@ -425,7 +426,7 @@ function ProductPage() {
 
             {/* Reassurance */}
             <div className="grid gap-3 border-y border-border py-5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <Reassurance icon={PackageCheck} title="Delivery" copy="2–4 working days" />
+              <Reassurance icon={PackageCheck} title="Delivery" copy="3–5 working days" />
               <Reassurance icon={Sparkles} title="Packaging" copy="Plastic-free, ready to give" />
               <Reassurance icon={RotateCcw} title="Returns" copy="30 days, simply arranged" />
             </div>

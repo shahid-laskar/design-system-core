@@ -26,7 +26,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
       <p className="bg-primary px-4 py-2.5 text-center text-xs font-semibold text-primary-foreground">
-        Complimentary delivery on considered bundles over £75
+        Complimentary delivery on considered bundles over ₹2,999
       </p>
       <header className="border-b border-border bg-background">
         <PageContainer className="grid h-18 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:flex lg:justify-between">

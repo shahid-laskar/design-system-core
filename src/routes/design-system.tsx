@@ -304,7 +304,7 @@ function DesignSystemPage() {
               imageAlt="Folded olive prayer mat and wooden book stand in a sunlit room"
               category="Home & prayer"
               name="The Stillness Set"
-              price="£68"
+              price="₹3,499"
               note="Olive · Linen blend · 2 pieces"
               badge="New"
             />
@@ -313,8 +313,8 @@ function DesignSystemPage() {
               imageAlt="Muted wooden stacking toy and cotton blanket on a shelf"
               category="Little ones"
               name="First Forms Set"
-              price="£42"
-              previousPrice="£48"
+              price="₹1,999"
+              previousPrice="₹2,299"
               note="Clay mix · FSC beech · Ages 1+"
               badge="Bundle"
             />
@@ -323,7 +323,7 @@ function DesignSystemPage() {
               imageAlt="Olive textile and oak stand in a warm interior"
               category="Home"
               name="Everyday Prayer Mat"
-              price="£46"
+              price="₹2,299"
               note="Olive · Also in chalk and clay"
             />
             <ProductCard
@@ -331,13 +331,13 @@ function DesignSystemPage() {
               imageAlt="Wooden toy with neutral muslin blanket"
               category="Little ones"
               name="Muslin & Timber Pair"
-              price="£36"
+              price="₹1,799"
               note="Mineral mix · GOTS cotton"
             />
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-border py-5 text-sm">
             <p>
-              <span className="font-semibold">Delivery:</span> 2–4 working days
+              <span className="font-semibold">Delivery:</span> 3–5 working days
             </p>
             <p>
               <span className="font-semibold">Returns:</span> 30 days, simply arranged
@@ -407,7 +407,7 @@ function DesignSystemPage() {
                     <div>
                       <p className="font-display text-lg">The Stillness Set</p>
                       <p className="mt-1 text-sm text-muted-foreground">Olive · Qty 1</p>
-                      <p className="mt-3 text-sm font-semibold">£68</p>
+                      <p className="mt-3 text-sm font-semibold">₹3,499</p>
                     </div>
                   </div>
                   <Separator />
@@ -418,7 +418,7 @@ function DesignSystemPage() {
                 <div className="border-t border-border pt-5">
                   <div className="flex justify-between font-semibold">
                     <span>Subtotal</span>
-                    <span>£110</span>
+                    <span>₹5,499</span>
                   </div>
                   <Button className="mt-5 w-full" size="lg">
                     Continue to checkout

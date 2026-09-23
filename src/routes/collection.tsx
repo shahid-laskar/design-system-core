@@ -50,7 +50,7 @@ export const Route = createFileRoute("/collection")({
 
 type Category = "Home & Prayer" | "Little Ones" | "Modest Essentials" | "Bundles";
 type Material = "Linen" | "Cotton" | "Wood" | "Wool";
-type PriceTier = "Under £40" | "£40–£70" | "Over £70";
+type PriceTier = "Under ₹2,000" | "₹2,000–₹4,000" | "Over ₹4,000";
 type Product = {
   id: number;
   image: string;
@@ -73,7 +73,7 @@ const categories: Array<"All" | Category> = [
   "Bundles",
 ];
 const materials: Material[] = ["Linen", "Cotton", "Wood", "Wool"];
-const priceTiers: PriceTier[] = ["Under £40", "£40–£70", "Over £70"];
+const priceTiers: PriceTier[] = ["Under ₹2,000", "₹2,000–₹4,000", "Over ₹4,000"];
 
 const products: Product[] = [
   {
@@ -82,8 +82,8 @@ const products: Product[] = [
     imageAlt: "Olive prayer mat and Quran stand in soft daylight",
     category: "Home & Prayer",
     name: "The Stillness Set",
-    price: "£68",
-    priceValue: 68,
+    price: "₹3,499",
+    priceValue: 3499,
     note: "Olive · Linen blend · 2 pieces",
     badge: "New",
     materials: ["Linen"],
@@ -94,8 +94,8 @@ const products: Product[] = [
     imageAlt: "Sand hijab and stone-grey abaya folded on linen",
     category: "Modest Essentials",
     name: "The Everyday Pair",
-    price: "£54",
-    priceValue: 54,
+    price: "₹2,799",
+    priceValue: 2799,
     note: "Sand & stone · Soft-touch cotton",
     materials: ["Cotton"],
   },
@@ -105,9 +105,9 @@ const products: Product[] = [
     imageAlt: "Wooden stacking rings and soft muslin in warm tones",
     category: "Little Ones",
     name: "First Forms Set",
-    price: "£42",
-    priceValue: 42,
-    previousPrice: "£48",
+    price: "₹1,999",
+    priceValue: 1999,
+    previousPrice: "₹2,299",
     note: "Clay mix · FSC beech · Ages 1+",
     badge: "Family edit",
     materials: ["Wood", "Cotton"],
@@ -118,8 +118,8 @@ const products: Product[] = [
     imageAlt: "Rolled prayer mat, linen-bound prayer book and attar",
     category: "Bundles",
     name: "The Considered Gift",
-    price: "£75",
-    priceValue: 75,
+    price: "₹3,899",
+    priceValue: 3899,
     note: "Three pieces · Ready to give",
     badge: "Bundle",
     materials: ["Linen"],
@@ -130,8 +130,8 @@ const products: Product[] = [
     imageAlt: "Natural prayer mat with understated woven border",
     category: "Home & Prayer",
     name: "Quiet Ground Mat",
-    price: "£38",
-    priceValue: 38,
+    price: "₹1,899",
+    priceValue: 1899,
     note: "Natural · Wool blend · Woven edge",
     materials: ["Wool"],
   },
@@ -141,8 +141,8 @@ const products: Product[] = [
     imageAlt: "Wooden forms for children arranged on cotton muslin",
     category: "Little Ones",
     name: "The Growing Set",
-    price: "£36",
-    priceValue: 36,
+    price: "₹1,799",
+    priceValue: 1799,
     note: "Beech · Organic cotton · Ages 2+",
     materials: ["Wood", "Cotton"],
   },
@@ -152,8 +152,8 @@ const products: Product[] = [
     imageAlt: "Soft stone grey modest wear set on a linen surface",
     category: "Modest Essentials",
     name: "Ease Abaya",
-    price: "£72",
-    priceValue: 72,
+    price: "₹3,699",
+    priceValue: 3699,
     note: "Stone · Fluid weave · Two lengths",
     materials: ["Cotton"],
   },
@@ -163,8 +163,8 @@ const products: Product[] = [
     imageAlt: "Prayer and home gift set in olive and linen tones",
     category: "Bundles",
     name: "Homecoming Bundle",
-    price: "£92",
-    priceValue: 92,
+    price: "₹4,699",
+    priceValue: 4699,
     note: "Four pieces · Gift wrapped",
     badge: "Bundle",
     materials: ["Linen", "Wood"],
@@ -175,8 +175,8 @@ const products: Product[] = [
     imageAlt: "Compact olive prayer set for travel",
     category: "Home & Prayer",
     name: "The Journey Mat",
-    price: "£32",
-    priceValue: 32,
+    price: "₹1,599",
+    priceValue: 1599,
     note: "Olive · Foldable cotton · Travel size",
     materials: ["Cotton"],
   },
@@ -186,8 +186,8 @@ const products: Product[] = [
     imageAlt: "Folded soft cotton hijabs in neutral colours",
     category: "Modest Essentials",
     name: "Daily Hijab Pair",
-    price: "£28",
-    priceValue: 28,
+    price: "₹1,399",
+    priceValue: 1399,
     note: "Oat & stone · Brushed cotton",
     materials: ["Cotton"],
   },
@@ -197,8 +197,8 @@ const products: Product[] = [
     imageAlt: "Natural wooden rings with a linen keepsake bag",
     category: "Little Ones",
     name: "Little Keepsakes",
-    price: "£58",
-    priceValue: 58,
+    price: "₹2,899",
+    priceValue: 2899,
     note: "FSC beech · Linen bag · 5 pieces",
     materials: ["Wood", "Linen"],
   },
@@ -208,8 +208,8 @@ const products: Product[] = [
     imageAlt: "Prayer essentials arranged as a thoughtful family gift",
     category: "Bundles",
     name: "Gathering Set",
-    price: "£110",
-    priceValue: 110,
+    price: "₹5,499",
+    priceValue: 5499,
     note: "Five pieces · Family edition",
     materials: ["Wool", "Wood"],
   },
@@ -225,11 +225,11 @@ function CollectionPage() {
   const filtered = useMemo(() => {
     const withinTier = (price: number) =>
       selectedPrices.some((tier) =>
-        tier === "Under £40"
-          ? price < 40
-          : tier === "£40–£70"
-            ? price >= 40 && price <= 70
-            : price > 70,
+        tier === "Under ₹2,000"
+          ? price < 2000
+          : tier === "₹2,000–₹4,000"
+            ? price >= 2000 && price <= 4000
+            : price > 4000,
       );
     const result = products.filter(
       (product) =>
