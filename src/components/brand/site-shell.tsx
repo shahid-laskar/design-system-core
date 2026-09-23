@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/sheet";
 
 const navItems = [
-  { label: "Home & prayer", hash: "#products" },
-  { label: "Family", hash: "#editorial" },
-  { label: "Modest essentials", hash: "#foundations" },
-  { label: "Journal", hash: "#states" },
+  { label: "The collection", hash: "#shop" },
+  { label: "Our approach", hash: "#modest" },
+  { label: "Journal", hash: "#journal" },
+  { label: "Design system", href: "/design-system" },
 ];
 
 export function SiteShell({ children }: { children: ReactNode }) {
