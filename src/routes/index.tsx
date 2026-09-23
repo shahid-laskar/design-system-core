@@ -220,6 +220,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-    </SiteShell>
+    </>
   );
 }
