@@ -3,6 +3,7 @@ import { ArrowRight, Leaf, Package, RotateCcw, Sparkles } from "lucide-react";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { ProductCard } from "@/components/brand/product-card";
 import { Button } from "@/components/ui/button";
+import { Eyebrow, PageContainer } from "@/components/brand/design-primitives";
 import heroHome from "@/assets/hero-home.jpg";
 import productPrayerSet from "@/assets/product-prayer-set.jpg";
 import productChildSet from "@/assets/product-child-set.jpg";
@@ -95,9 +96,9 @@ function HomePage() {
     <>
       {/* Hero */}
       <section className="border-b border-border bg-secondary/50">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-8 lg:py-24">
+        <PageContainer className="grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
           <div>
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="eyebrow-wide text-muted-foreground">
               Sukoon House · The first collection
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.04] sm:text-6xl lg:text-7xl">
@@ -120,7 +121,7 @@ function HomePage() {
             </p>
           </div>
           <div className="relative">
-            <div className="aspect-[4/3] overflow-hidden rounded-sm bg-muted">
+            <div className="media-frame aspect-[4/3]">
               <img
                 src={heroHome}
                 alt="A calm living space with a folded olive prayer mat and an open Quran on a wooden stand"
@@ -133,15 +134,15 @@ function HomePage() {
               The Stillness Set, photographed in a family home at first light.
             </p>
           </div>
-        </div>
+        </PageContainer>
       </section>
 
       {/* Featured products */}
       <section id="shop" className="scroll-mt-24">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="eyebrow-wide text-muted-foreground">
                 01 · The collection
               </p>
               <h2 className="mt-3 font-display text-4xl sm:text-5xl">
@@ -162,14 +163,14 @@ function HomePage() {
               <ProductCard key={product.name} {...product} />
             ))}
           </div>
-        </div>
+        </PageContainer>
       </section>
 
       {/* Approach band */}
       <section id="modest" className="scroll-mt-24 border-y border-border bg-primary text-primary-foreground">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-16 lg:px-8 lg:py-24">
+        <PageContainer className="section-space grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div>
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-primary-foreground/60">
+            <p className="eyebrow-wide text-primary-foreground/60">
               02 · Our approach
             </p>
             <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
@@ -197,13 +198,13 @@ function HomePage() {
               ))}
             </ul>
           </div>
-        </div>
+        </PageContainer>
       </section>
 
       {/* Journal */}
       <section id="journal" className="scroll-mt-24">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+        <PageContainer className="section-space">
+          <p className="eyebrow-wide text-muted-foreground">
             03 · The journal
           </p>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl">
@@ -218,7 +219,7 @@ function HomePage() {
               <EditorialCard key={story.title} {...story} />
             ))}
           </div>
-        </div>
+        </PageContainer>
       </section>
     </>
   );

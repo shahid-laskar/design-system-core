@@ -27,6 +27,7 @@
   --breakpoint-xl: 80rem;
   --container-shell: 80rem;
   --tracking-eyebrow: 0.14em;
+  --tracking-eyebrow-wide: 0.18em;
   --tracking-brand: 0.2em;
   --duration-brand-fast: 200ms;
   --duration-brand-slow: 500ms;
@@ -232,6 +233,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--tracking-eyebrow);
+}
+
+@utility eyebrow-wide {
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow-wide);
 }
 
 @utility display-section {
