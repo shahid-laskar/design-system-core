@@ -41,7 +41,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <nav className="flex flex-col px-6 py-5" aria-label="Mobile navigation">
                 {navItems.map((item) => (
                   <SheetClose asChild key={item.label}>
-                    <a href={`/design-system${item.hash}`} className="border-b border-border py-5 font-display text-2xl transition-colors hover:text-primary">{item.label}</a>
+                    <a href={item.href ?? `/${item.hash}`} className="border-b border-border py-5 font-display text-2xl transition-colors hover:text-primary">{item.label}</a>
                   </SheetClose>
                 ))}
               </nav>
@@ -49,10 +49,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </SheetContent>
           </Sheet>
 
-          <Link to="/design-system" className="shrink-0" aria-label="Sukoon House design system"><BrandMark /></Link>
+          <Link to="/" className="shrink-0" aria-label="Sukoon House home"><BrandMark /></Link>
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
-            {navItems.map((item) => <a key={item.label} href={`/design-system${item.hash}`} className="text-sm font-semibold transition-colors hover:text-primary">{item.label}</a>)}
+            {navItems.map((item) => <a key={item.label} href={item.href ?? `/${item.hash}`} className="text-sm font-semibold transition-colors hover:text-primary">{item.label}</a>)}
           </nav>
 
           <div className="flex items-center gap-1">
