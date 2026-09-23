@@ -78,11 +78,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <p className="mt-3 text-xs text-primary-foreground/65">Occasional notes, useful ideas, and considered arrivals.</p>
           </div>
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/60">Explore</h2>
+            <h2 className="eyebrow text-primary-foreground/60">Explore</h2>
             <ul className="mt-5 space-y-3 text-sm"><li>Home & prayer</li><li>For little ones</li><li>Everyday modesty</li><li>Curated bundles</li></ul>
           </div>
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/60">Here to help</h2>
+            <h2 className="eyebrow text-primary-foreground/60">Here to help</h2>
             <ul className="mt-5 space-y-3 text-sm"><li>Delivery & returns</li><li>Care guides</li><li>Our approach</li><li>Contact</li></ul>
           </div>
         </PageContainer>

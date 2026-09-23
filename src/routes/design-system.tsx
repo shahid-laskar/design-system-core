@@ -39,7 +39,7 @@ function DesignSystemPage() {
         <PageContainer className="py-16 sm:py-24 lg:py-28">
           <div className="grid items-end gap-12 lg:grid-cols-[1.3fr_0.7fr]">
             <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">Foundation / 01</p><h1 className="mt-5 max-w-4xl font-display text-5xl leading-[0.94] sm:text-7xl lg:text-8xl">Made for the rhythm of Muslim family life.</h1></div>
-            <div className="border-l border-border pl-6"><p className="text-base leading-7 text-muted-foreground">A warm, editorial system balancing commerce with care. Quiet enough for reflection, clear enough for everyday decisions.</p><p className="mt-6 text-xs font-bold uppercase tracking-[0.14em]">Sukoon House · System v1.0</p></div>
+            <div className="border-l border-border pl-6"><p className="text-base leading-7 text-muted-foreground">A warm, editorial system balancing commerce with care. Quiet enough for reflection, clear enough for everyday decisions.</p><p className="eyebrow mt-6">Sukoon House · System v1.0</p></div>
           </div>
         </PageContainer>
       </section>
@@ -53,8 +53,8 @@ function DesignSystemPage() {
             ].map(([name, color, role]) => <div key={name} className="bg-card"><div className={`aspect-square ${color}`} /><div className="p-4"><p className="text-sm font-semibold">{name}</p><p className="mt-1 text-xs text-muted-foreground">{role}</p></div></div>)}
           </div>
           <div className="mt-16 grid gap-12 lg:grid-cols-2">
-            <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Display · Newsreader</p><p className="mt-5 font-display text-5xl leading-[0.95] sm:text-6xl">A gentler way to gather.</p><p className="mt-5 max-w-lg font-display text-2xl italic text-muted-foreground">Thoughtful objects. Meaningful routines. A home shaped with intention.</p></div>
-            <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Interface · Manrope</p><p className="mt-5 text-lg leading-8">Readable, direct, and human. Product information stays clear while editorial moments are given room to breathe.</p><div className="mt-8 grid grid-cols-4 items-end gap-4">{["4", "8", "16", "32"].map((space) => <div key={space}><div className="bg-clay" style={{ height: `${Number(space) * 2}px` }} /><p className="mt-2 text-xs text-muted-foreground">{space}px</p></div>)}</div></div>
+            <div><p className="eyebrow text-muted-foreground">Display · Newsreader</p><p className="mt-5 font-display text-5xl leading-[0.95] sm:text-6xl">A gentler way to gather.</p><p className="mt-5 max-w-lg font-display text-2xl italic text-muted-foreground">Thoughtful objects. Meaningful routines. A home shaped with intention.</p></div>
+            <div><p className="eyebrow text-muted-foreground">Interface · Manrope</p><p className="mt-5 text-lg leading-8">Readable, direct, and human. Product information stays clear while editorial moments are given room to breathe.</p><div className="mt-8 grid grid-cols-4 items-end gap-4">{["4", "8", "16", "32"].map((space) => <div key={space}><div className="bg-clay" style={{ height: `${Number(space) * 2}px` }} /><p className="mt-2 text-xs text-muted-foreground">{space}px</p></div>)}</div></div>
           </div>
           <div className="mt-16 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -73,7 +73,7 @@ function DesignSystemPage() {
         </section>
 
         <section>
-          <SectionHeading index="03" eyebrow="Surfaces" title="One hierarchy, consistently applied." copy="Cards, media, and navigation use the same hairline borders, restrained radii, semantic surfaces, and clear typographic hierarchy." />
+          <SectionHeading index="02" eyebrow="Surfaces" title="One hierarchy, consistently applied." copy="Cards, media, and navigation use the same hairline borders, restrained radii, semantic surfaces, and clear typographic hierarchy." />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             <div className="rounded-sm border border-border bg-card p-6 shadow-soft"><p className="eyebrow text-muted-foreground">Card · soft</p><h3 className="mt-3 font-display text-2xl">Quiet containment</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">Use for individual items and focused states, never as a wrapper around an entire section.</p></div>
             <div className="rounded-sm border border-border bg-card p-6"><p className="eyebrow text-muted-foreground">Input · default</p><div className="mt-4 space-y-2"><Label htmlFor="surface-example">Email address</Label><Input id="surface-example" placeholder="amina@example.com" /></div></div>
@@ -82,7 +82,7 @@ function DesignSystemPage() {
         </section>
 
         <section>
-          <SectionHeading index="02" eyebrow="Controls" title="Clear actions, quiet confidence." copy="Controls use familiar shapes, strong contrast, and generous touch areas. States are visible without calling unnecessary attention to themselves." />
+          <SectionHeading index="03" eyebrow="Controls" title="Clear actions, quiet confidence." copy="Controls use familiar shapes, strong contrast, and generous touch areas. States are visible without calling unnecessary attention to themselves." />
           <div className="mt-12 grid gap-12 lg:grid-cols-2">
             <div className="space-y-8"><div className="flex flex-wrap gap-3"><Button>Primary action</Button><Button variant="secondary">Secondary</Button><Button variant="outline">Outline</Button><Button variant="ghost">Quiet action</Button><Button variant="link">Text link</Button></div><div className="flex flex-wrap gap-3"><Button disabled>Unavailable</Button><Button><LoaderCircle className="animate-spin" /> Loading</Button><Button variant="destructive">Remove item</Button><Button size="icon" variant="outline" aria-label="Save item"><Heart /></Button></div><div className="flex flex-wrap gap-2"><Badge>New</Badge><Badge variant="secondary">Limited</Badge><Badge variant="clay">Family edit</Badge><Badge variant="mineral">Journal</Badge><Badge variant="outline">Organic</Badge></div></div>
             <div className="grid gap-5 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="name">Full name</Label><Input id="name" placeholder="Amina Rahman" /></div><div className="space-y-2"><Label htmlFor="email">Email address</Label><Input id="email" type="email" placeholder="amina@example.com" /></div><div className="space-y-2 sm:col-span-2"><Label htmlFor="message">Your note</Label><Textarea id="message" placeholder="How can we help?" /></div><div className="space-y-2 sm:col-span-2"><Label htmlFor="invalid">Order reference</Label><Input id="invalid" aria-invalid="true" defaultValue="SH-102" /><p className="text-xs text-destructive">Please enter the complete eight-character reference.</p></div></div>
