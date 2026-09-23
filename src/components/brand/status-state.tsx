@@ -7,6 +7,7 @@ type StatusStateProps = {
   title: string;
   description: string;
   action: string;
+  onAction?: () => void;
   tone?: "default" | "success" | "error";
 };
 
@@ -16,6 +17,7 @@ export function StatusState({
   title,
   description,
   action,
+  onAction,
   tone = "default",
 }: StatusStateProps) {
   const toneClass =
@@ -32,7 +34,11 @@ export function StatusState({
       <p className="eyebrow mt-5 text-muted-foreground">{eyebrow}</p>
       <h3 className="mt-2 font-display text-2xl">{title}</h3>
       <p className="mt-3 max-w-xs text-sm leading-6 text-muted-foreground">{description}</p>
-      <Button variant={tone === "error" ? "outline" : "default"} className="mt-6">
+      <Button
+        variant={tone === "error" ? "outline" : "default"}
+        className="mt-6"
+        onClick={onAction}
+      >
         {action}
       </Button>
     </div>

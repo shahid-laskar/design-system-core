@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/sheet";
 
 const navItems = [
-  { label: "The collection", hash: "#shop" },
-  { label: "Our approach", hash: "#modest" },
-  { label: "Journal", hash: "#journal" },
+  { label: "The collection", href: "/collection" },
+  { label: "Our approach", href: "/#modest" },
+  { label: "Journal", href: "/#journal" },
   { label: "Design system", href: "/design-system" },
 ];
 
@@ -29,7 +29,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         Complimentary delivery on considered bundles over £75
       </p>
       <header className="border-b border-border bg-background">
-        <PageContainer className="flex h-18 items-center justify-between">
+        <PageContainer className="grid h-18 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:flex lg:justify-between">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
@@ -46,12 +46,21 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <nav className="flex flex-col px-6 py-5" aria-label="Mobile navigation">
                 {navItems.map((item) => (
                   <SheetClose asChild key={item.label}>
-                    <a
-                      href={item.href ?? `/${item.hash}`}
-                      className="border-b border-border py-5 font-display text-2xl transition-colors hover:text-primary"
-                    >
-                      {item.label}
-                    </a>
+                    {item.href.startsWith("/") && !item.href.includes("#") ? (
+                      <Link
+                        to={item.href}
+                        className="border-b border-border py-5 font-display text-2xl transition-colors hover:text-primary"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={item.href}
+                        className="border-b border-border py-5 font-display text-2xl transition-colors hover:text-primary"
+                      >
+                        {item.label}
+                      </a>
+                    )}
                   </SheetClose>
                 ))}
               </nav>
@@ -63,16 +72,31 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </SheetContent>
           </Sheet>
 
-          <Link to="/" className="shrink-0" aria-label="Sukoon House home">
+          <Link
+            to="/"
+            className="min-w-0 justify-self-center lg:shrink-0"
+            aria-label="Sukoon House home"
+          >
             <BrandMark />
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
-            {navItems.map((item) => (
-              <a key={item.label} href={item.href ?? `/${item.hash}`} className="nav-link">
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) =>
+              item.href.startsWith("/") && !item.href.includes("#") ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="nav-link"
+                  activeProps={{ className: "text-primary font-bold" }}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a key={item.label} href={item.href} className="nav-link">
+                  {item.label}
+                </a>
+              ),
+            )}
           </nav>
 
           <div className="flex items-center gap-1">

@@ -21,10 +21,12 @@ Historical branches and commits from all three repositories are retained within 
 The visual language communicates contemporary Islamic family identity through intentional composition, honest materiality, warmth, and typographic restraint rather than decorative clichés (no generic mosque silhouettes, excessive gold foil, or fake urgency badges).
 
 ### Typography
+
 - **Display Serif:** [Newsreader](https://fonts.google.com/specimen/Newsreader) — expressive, warm, editorial headline voice.
 - **Interface & Commerce Sans:** [Manrope](https://fonts.google.com/specimen/Manrope) — crisp, humanist, high-legibility sans-serif for commerce details, navigation, and body copy.
 
 ### Color Palette (Earth & Stone)
+
 - **Background (Alabaster / Chalk):** `oklch(0.975 0.008 84)`
 - **Foreground (Deep Ink / Charcoal):** `oklch(0.24 0.025 72)`
 - **Muted Foreground:** `oklch(0.49 0.026 73)`
@@ -84,10 +86,12 @@ src/
 ## 🛠️ Local Development
 
 ### Prerequisites
+
 - Node.js 20+ (Node.js 22 LTS recommended)
 - npm or bun
 
 ### Setup
+
 ```bash
 # Install dependencies
 npm install
@@ -110,5 +114,6 @@ npm run build
 ## 📦 Build with Lovable
 
 This project syncs with the Lovable editor:
+
 - Project URL: [https://lovable.dev/projects/cebf015f-beb5-4135-a390-04c71d33ed6f](https://lovable.dev/projects/cebf015f-beb5-4135-a390-04c71d33ed6f)
 - Any pushes to `main` sync back directly into Lovable.
