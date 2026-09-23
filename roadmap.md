@@ -14,7 +14,7 @@ This roadmap tracks the development of the Sukoon House (Haven Home Goods) digit
 ## Phase 2: Storefront Expansion & Product Experience
 
 - [x] Build collection / product discovery experience at `/collection` with category tabs, sorting, responsive grid, mobile filter sheet, and empty states
-- [ ] Product Detail Page (PDP) layout with multi-angle galleries, variant selectors, and material origin notes
+- [x] Product Detail Page (PDP) layout at `/products/$productId` with multi-angle galleries, variant selectors, sticky purchase controls, and craft notes
 - [ ] Curated Bundle Builder with interactive 3-step SKU pairing
 - [ ] Editorial Journal reading experience and story index
 - [ ] Brand Story & Ethical Sourcing page

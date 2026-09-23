@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Heart, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ type ProductCardProps = {
   previousPrice?: string;
   note: string;
   badge?: string;
+  href?: string;
 };
 
 export function ProductCard({
@@ -23,18 +25,28 @@ export function ProductCard({
   previousPrice,
   note,
   badge,
+  href,
 }: ProductCardProps) {
+  const targetHref =
+    href ??
+    `/products/${name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")}`;
+
   return (
     <article className="group min-w-0">
       <div className="media-frame relative aspect-[4/5]">
-        <img
-          src={image}
-          alt={imageAlt}
-          width={1200}
-          height={1504}
-          loading="lazy"
-          className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.025]"
-        />
+        <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
+          <img
+            src={image}
+            alt={imageAlt}
+            width={1200}
+            height={1504}
+            loading="lazy"
+            className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.025]"
+          />
+        </Link>
         {badge ? (
           <Badge variant="clay" className="absolute left-3 top-3 bg-background/90">
             {badge}
@@ -52,7 +64,9 @@ export function ProductCard({
       <div className="pt-4">
         <Eyebrow>{category}</Eyebrow>
         <div className="mt-2 flex items-start justify-between gap-3">
-          <h3 className="font-display text-xl leading-tight">{name}</h3>
+          <Link to={targetHref} className="transition-colors hover:text-primary">
+            <h3 className="font-display text-xl leading-tight">{name}</h3>
+          </Link>
           <div className="shrink-0 text-right text-sm font-semibold">
             <span>{price}</span>
             {previousPrice ? (
