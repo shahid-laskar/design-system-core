@@ -25,7 +25,9 @@ export function SectionHeading({ index, eyebrow, title, copy }: SectionHeadingPr
       </div>
       <div>
         <h2 className="display-section">{title}</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">{copy}</p>
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+          {copy}
+        </p>
       </div>
     </div>
   );

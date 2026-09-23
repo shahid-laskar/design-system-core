@@ -14,13 +14,38 @@ type ProductCardProps = {
   badge?: string;
 };
 
-export function ProductCard({ image, imageAlt, category, name, price, previousPrice, note, badge }: ProductCardProps) {
+export function ProductCard({
+  image,
+  imageAlt,
+  category,
+  name,
+  price,
+  previousPrice,
+  note,
+  badge,
+}: ProductCardProps) {
   return (
     <article className="group min-w-0">
       <div className="media-frame relative aspect-[4/5]">
-        <img src={image} alt={imageAlt} width={1200} height={1504} loading="lazy" className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.025]" />
-        {badge ? <Badge variant="clay" className="absolute left-3 top-3 bg-background/90">{badge}</Badge> : null}
-        <Button variant="secondary" size="icon" className="absolute right-3 top-3" aria-label={`Save ${name}`}>
+        <img
+          src={image}
+          alt={imageAlt}
+          width={1200}
+          height={1504}
+          loading="lazy"
+          className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.025]"
+        />
+        {badge ? (
+          <Badge variant="clay" className="absolute left-3 top-3 bg-background/90">
+            {badge}
+          </Badge>
+        ) : null}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="absolute right-3 top-3"
+          aria-label={`Save ${name}`}
+        >
           <Heart />
         </Button>
       </div>
@@ -30,11 +55,15 @@ export function ProductCard({ image, imageAlt, category, name, price, previousPr
           <h3 className="font-display text-xl leading-tight">{name}</h3>
           <div className="shrink-0 text-right text-sm font-semibold">
             <span>{price}</span>
-            {previousPrice ? <span className="ml-2 text-muted-foreground line-through">{previousPrice}</span> : null}
+            {previousPrice ? (
+              <span className="ml-2 text-muted-foreground line-through">{previousPrice}</span>
+            ) : null}
           </div>
         </div>
         <p className="mt-2 text-sm text-muted-foreground">{note}</p>
-        <Button className="mt-4 w-full"><Plus /> Add to bag</Button>
+        <Button className="mt-4 w-full">
+          <Plus /> Add to bag
+        </Button>
       </div>
     </article>
   );

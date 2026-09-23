@@ -17,9 +17,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Sukoon House — Thoughtful Goods for Modern Muslim Family Life" },
-      { name: "description", content: "Considered home, prayer, and family essentials for modern Muslim households. Calm design, honest materials, quietly premium." },
+      {
+        name: "description",
+        content:
+          "Considered home, prayer, and family essentials for modern Muslim households. Calm design, honest materials, quietly premium.",
+      },
       { property: "og:title", content: "Sukoon House" },
-      { property: "og:description", content: "Made for the rhythm of Muslim family life — thoughtful goods and ideas for calm, intentional homes." },
+      {
+        property: "og:description",
+        content:
+          "Made for the rhythm of Muslim family life — thoughtful goods and ideas for calm, intentional homes.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -71,7 +79,8 @@ const editorials = [
     imageAlt: "A calm reading corner with soft textiles and warm light",
     topic: "The home",
     title: "A gentler way to gather",
-    summary: "How small rituals — a set table, a quiet corner, an unhurried evening — turn a house into a place of rest.",
+    summary:
+      "How small rituals — a set table, a quiet corner, an unhurried evening — turn a house into a place of rest.",
     readTime: "4 min read",
   },
   {
@@ -79,7 +88,8 @@ const editorials = [
     imageAlt: "A family's daily rhythm expressed through warm, ordered spaces",
     topic: "Family rhythm",
     title: "Routines that hold a family together",
-    summary: "Practical ideas for weaving prayer, meals, and play into a rhythm children can grow inside.",
+    summary:
+      "Practical ideas for weaving prayer, meals, and play into a rhythm children can grow inside.",
     readTime: "6 min read",
   },
 ];
@@ -105,12 +115,14 @@ function HomePage() {
               Made for the rhythm of Muslim family life.
             </h1>
             <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
-              Thoughtfully designed goods for the home, for prayer, and for little
-              ones — calm enough for reflection, clear enough for everyday decisions.
+              Thoughtfully designed goods for the home, for prayer, and for little ones — calm
+              enough for reflection, clear enough for everyday decisions.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button size="lg" asChild>
-                <a href="#shop">Shop the collection <ArrowRight /></a>
+                <a href="#shop">
+                  Shop the collection <ArrowRight />
+                </a>
               </Button>
               <Button variant="link" size="lg" asChild>
                 <a href="#journal">Read the journal</a>
@@ -142,15 +154,13 @@ function HomePage() {
         <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow-wide text-muted-foreground">
-                01 · The collection
-              </p>
+              <p className="eyebrow-wide text-muted-foreground">01 · The collection</p>
               <h2 className="mt-3 font-display text-4xl sm:text-5xl">
                 The product remains the focus.
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
-                A small, considered range. Each piece is chosen for how it lives in
-                a home — not how it fills a catalogue.
+                A small, considered range. Each piece is chosen for how it lives in a home — not how
+                it fills a catalogue.
               </p>
             </div>
             <Button variant="outline" asChild>
@@ -167,22 +177,22 @@ function HomePage() {
       </section>
 
       {/* Approach band */}
-      <section id="modest" className="scroll-mt-24 border-y border-border bg-primary text-primary-foreground">
+      <section
+        id="modest"
+        className="scroll-mt-24 border-y border-border bg-primary text-primary-foreground"
+      >
         <PageContainer className="section-space grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div>
-            <p className="eyebrow-wide text-primary-foreground/60">
-              02 · Our approach
-            </p>
+            <p className="eyebrow-wide text-primary-foreground/60">02 · Our approach</p>
             <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
               Identity through restraint, not decoration.
             </h2>
           </div>
           <div className="space-y-8">
             <p className="max-w-xl text-sm leading-7 text-primary-foreground/80">
-              We express Islamic identity through composition, material, and care —
-              honest fibres, quiet colours, and language that respects your
-              intelligence. No urgency banners, no noise, nothing that would feel
-              out of place in a peaceful home.
+              We express Islamic identity through composition, material, and care — honest fibres,
+              quiet colours, and language that respects your intelligence. No urgency banners, no
+              noise, nothing that would feel out of place in a peaceful home.
             </p>
             <ul className="grid gap-6 sm:grid-cols-2">
               {assurances.map(({ icon: Icon, title, detail }) => (
@@ -204,15 +214,13 @@ function HomePage() {
       {/* Journal */}
       <section id="journal" className="scroll-mt-24">
         <PageContainer className="section-space">
-          <p className="eyebrow-wide text-muted-foreground">
-            03 · The journal
-          </p>
+          <p className="eyebrow-wide text-muted-foreground">03 · The journal</p>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl">
             Ideas with a place in real life.
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
-            Notes on home, family rhythm, and intentional living — written slowly,
-            published occasionally.
+            Notes on home, family rhythm, and intentional living — written slowly, published
+            occasionally.
           </p>
           <div className="mt-12 grid gap-14">
             {editorials.map((story) => (
