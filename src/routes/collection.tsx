@@ -4,6 +4,7 @@ import { ListFilter, PackageOpen } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
+import { useCommerceProducts } from "@/lib/commerce/use-commerce";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -63,14 +64,14 @@ type Size = "S" | "M" | "L" | "XL" | "XXL";
 type PriceBand = "under-500" | "500-1000" | "1000-2000" | "above-2000";
 
 type Product = {
-  id: number;
+  id: number | string;
   pillar: Pillar;
   subcategory: string;
   name: string;
   price: number;
   mrp?: number;
   note: string;
-  materials: Material[];
+  materials: Material[] | string[];
   sizes?: Size[];
   rating: number;
   reviews: number;
@@ -78,6 +79,7 @@ type Product = {
   festive?: boolean;
   badge?: string;
   image: string;
+  handle?: string;
 };
 
 const pillars: Array<{ id: "All" | Pillar; label: string }> = [
@@ -507,19 +509,32 @@ function CollectionPage() {
     }
   }, [search.occasion]);
 
+  const { data: liveProducts } = useCommerceProducts();
+
+  const allProducts = useMemo(() => {
+    if (liveProducts && liveProducts.length > 0) {
+      const liveNames = new Set(liveProducts.map((p) => p.name.toLowerCase()));
+      const fallbackProducts = products.filter(
+        (p) => !liveNames.has(p.name.toLowerCase())
+      );
+      return [...liveProducts, ...fallbackProducts] as Product[];
+    }
+    return products;
+  }, [liveProducts]);
+
   const apparelContext =
     pillar === "All"
       ? true
-      : products.some((p) => p.pillar === pillar && (!sub || p.subcategory === sub) && p.sizes);
+      : allProducts.some((p) => p.pillar === pillar && (!sub || p.subcategory === sub) && p.sizes);
 
   const filtered = useMemo(() => {
-    const r = products.filter(
+    const r = allProducts.filter(
       (p) =>
         (pillar === "All" || p.pillar === pillar) &&
         (!sub || p.subcategory === sub) &&
         (selSizes.length === 0 || (p.sizes?.some((s) => selSizes.includes(s)) ?? false)) &&
         (!band || inBand(p.price, band)) &&
-        (selMaterials.length === 0 || p.materials.some((m) => selMaterials.includes(m))) &&
+        (selMaterials.length === 0 || p.materials.some((m) => selMaterials.includes(m as any))) &&
         (!under999 || p.price < 999) &&
         (!inStockOnly || p.inStock) &&
         (!festive || p.festive),
@@ -529,7 +544,7 @@ function CollectionPage() {
     if (sort === "rating")
       return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     return r;
-  }, [pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort]);
+  }, [allProducts, pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort]);
 
   const touch = () => setVisible(PAGE);
   const choosePillar = (p: "All" | Pillar) => {
@@ -859,6 +874,7 @@ function CollectionPage() {
                       rating={p.rating}
                       reviewCount={p.reviews}
                       inStock={p.inStock}
+                      href={p.handle ? `/products/${p.handle}` : undefined}
                     />
                   ))}
                 </div>

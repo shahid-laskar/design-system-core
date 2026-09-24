@@ -347,26 +347,39 @@ const STANDARD_SHIPPING_PRICE = 70;
 - [x] Production build verified (Vite 8 + Nitro `cloudflare-module`, 0 errors).
 - [x] Documentation consolidated into single `PROJECT_MASTER.md`.
 - [x] **Commerce architecture decision made** — Medusa.js v2 (see §19).
+- [x] **Milestone A — Commerce Foundation Completed:**
+  - Medusa.js v2.21.1 backend bootstrapped in `/opt/lifestyle-web/web/backend/`.
+  - PostgreSQL 16 containerized with persistent storage (`sukoon-postgres`), health checks.
+  - Redis 7 containerized (`sukoon-redis`) for event bus, workflow engine, and caching.
+  - Medusa Admin dashboard active and accessible at `http://localhost:9000/app`.
+  - Admin user created (`admin@sukoonhouse.in`).
+  - Store initialized as "Sukoon House" with India Region (INR default currency).
+  - 7 Core Pillar categories and collections seeded.
+  - Multi-variant apparel model with variant-level inventory tracking (S, M, L, XL, XXL) tested and verified.
+  - Acceptance product "Blue Floral Salwar Suit" verified live in Store API and database ledger.
+  - Frontend commerce client and TanStack Query hooks implemented in `src/lib/commerce/`.
+  - Storefront `/collection` and `/products/$productId` integrated with live Medusa catalog data with zero style changes.
+  - All automated Milestone A acceptance tests passing (`test-milestone-a.sh`).
 
 ### In Progress
 - [ ] Physical audit of wife's existing salwar suit inventory.
 - [ ] Sourcing paid 2-unit samples from Panipat (mats) and Saharanpur (rehals).
 
-### Pending (Backend Phase)
-- [ ] Medusa.js v2 backend scaffolding and VPS provisioning.
-- [ ] Live product catalog from Medusa API replacing mock fixtures.
-- [ ] Razorpay payment integration (community plugin + webhook handler).
-- [ ] Shiprocket shipping integration (fulfillment workflow + AWB tracking).
-- [ ] Custom Purchase Order & Supplier Management module.
-- [ ] Cart and Checkout connected to Medusa cart API.
-- [ ] Customer accounts, order history, and returns portal.
-- [ ] Blog/CMS via Directus.
+### Pending (Next Milestones)
+- [ ] Milestone B: Purchasing + Checkout + Payments:
+  - Razorpay payment gateway integration.
+  - Medusa Cart API persistence across sessions.
+  - Shiprocket courier serviceability & fulfillment workflow.
+  - Custom Purchase Order & Supplier management module.
+- [ ] Milestone C: Post-Purchase, Returns, Reviews & Content:
+  - Customer accounts, order history, and returns portal.
+  - Directus blog CMS integration.
+  - Reviews moderation and photo upload.
 
 ### Known Limitations
-- Product catalog is in-memory mock fixtures; no live API.
-- Cart is client-side context only; no persistence across sessions.
-- Pincode estimator is mock simulation; no real courier API.
-- No payment processing capability.
+- Cart is client-side context only (persisted Medusa cart planned for Milestone B).
+- Pincode estimator is mock simulation (Shiprocket serviceability API planned for Milestone B).
+- No payment processing capability (Razorpay integration planned for Milestone B).
 
 ### Known Technical Debt
 - Product type interfaces duplicated between `collection.tsx` and `products.$productId.tsx`. Extract to `src/types/catalog.ts` during API integration.

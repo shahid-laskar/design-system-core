@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useCommerceProduct } from "@/lib/commerce/use-commerce";
 import {
   Camera,
   Check,
@@ -212,10 +213,12 @@ const catalog: Record<string, ProductDetail> = {
 
 function ProductPage() {
   const { productId } = Route.useParams();
-  const product = useMemo(
-    () => catalog[productId] ?? catalog["the-stillness-set"],
-    [productId],
-  );
+  const { data: liveProduct } = useCommerceProduct(productId);
+
+  const product = useMemo(() => {
+    if (liveProduct) return liveProduct;
+    return catalog[productId] ?? catalog["the-stillness-set"];
+  }, [liveProduct, productId]);
 
   if (!product) return null;
 
