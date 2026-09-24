@@ -29,3 +29,7 @@ This roadmap tracks the development of the Sukoon House (Haven Home Goods) digit
 
 - [ ] Packaging QR unboxing micro-PWA applet
 - [ ] Guided product care and ritual routines
+
+## Phase 2: Storefront Expansion & Product Experience
+
+- [ ] Update the global shell for seven family-store pillars, mobile navigation, cart trigger, and family footer
