@@ -5,6 +5,7 @@ import {
   getStoreProducts,
   MedusaStoreProduct,
 } from "./client";
+import { resolveProductBySlug } from "./catalog-data";
 
 export type Pillar = "Women" | "Men" | "Children" | "Prayer" | "Learning" | "Home" | "Gifts";
 export type Size = "S" | "M" | "L" | "XL" | "XXL";
@@ -72,7 +73,11 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   const sizes = sizeOption?.values?.map((v) => v.value as Size) || undefined;
 
   const inStock = p.variants?.some((v) => v.manage_inventory === false || true) ?? true;
-  const image = p.images?.[0]?.url || p.thumbnail || "/placeholder.svg";
+  const curated = resolveProductBySlug(p.handle);
+  let image = p.images?.[0]?.url || p.thumbnail;
+  if (!image || image.includes("unsplash.com") || image.includes("placeholder")) {
+    image = curated?.gallery?.[0]?.src || "/images/product-modest-set.jpg";
+  }
 
   return {
     id: p.handle || p.id,
@@ -146,14 +151,26 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   });
 
   const categoryName = p.categories?.[0]?.name || "Women's Ethnic & Modest";
-  const gallery =
-    p.images && p.images.length > 0
-      ? p.images.map((img) => ({
-          src: img.url,
+  const curated = resolveProductBySlug(p.handle);
+  const hasValidImages =
+    p.images &&
+    p.images.length > 0 &&
+    !p.images[0].url.includes("unsplash.com") &&
+    !p.images[0].url.includes("placeholder");
+
+  const gallery = hasValidImages
+    ? p.images!.map((img) => ({
+        src: img.url,
+        alt: p.title,
+        position: "object-center" as const,
+      }))
+    : (curated?.gallery ?? [
+        {
+          src: p.thumbnail || "/images/product-modest-set.jpg",
           alt: p.title,
-          position: "object-center",
-        }))
-      : [{ src: "/placeholder.svg", alt: p.title, position: "object-center" }];
+          position: "object-center" as const,
+        },
+      ]);
 
   return {
     id: p.handle,

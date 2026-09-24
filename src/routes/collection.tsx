@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
 import imgChild from "@/assets/product-child-set.jpg";
 import imgModest from "@/assets/product-modest-set.jpg";
+import imgMenKurta from "@/assets/product-men-kurta.jpg";
 import imgBundle from "@/assets/product-bundle.jpg";
 
 export const Route = createFileRoute("/collection")({
@@ -213,7 +214,7 @@ const products: Product[] = [
     rating: 4.8,
     reviews: 93,
     inStock: true,
-    image: imgBundle,
+    image: imgMenKurta,
   },
   {
     id: 7,
@@ -229,7 +230,7 @@ const products: Product[] = [
     reviews: 58,
     inStock: true,
     festive: true,
-    image: imgBundle,
+    image: imgMenKurta,
   },
   {
     id: 8,
@@ -244,7 +245,7 @@ const products: Product[] = [
     reviews: 34,
     inStock: true,
     festive: true,
-    image: imgBundle,
+    image: imgMenKurta,
   },
   {
     id: 9,
