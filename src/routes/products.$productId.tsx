@@ -367,7 +367,15 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               <div className="border-b border-border py-5">
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                   <p className="text-sm font-semibold">Select size: <span className="font-normal">{size}</span></p>
-                  <SizeGuideDialog />
+                  <SizeGuideDialog
+                    defaultCategory={
+                      product.category.toLowerCase().includes("men")
+                        ? "men"
+                        : product.category.toLowerCase().includes("child")
+                          ? "children"
+                          : "women"
+                    }
+                  />
                 </div>
                 <div className="mt-3 grid grid-cols-5 gap-2" role="radiogroup" aria-label="Size">
                   {product.sizes.map((option) => (
