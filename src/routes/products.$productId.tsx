@@ -253,7 +253,10 @@ const catalog: Record<string, ProductDetail> = {
 
 function ProductPage() {
   const { productId } = Route.useParams();
-  const product = useMemo(() => catalog[productId] ?? catalog["the-stillness-set"], [productId]);
+  const product = useMemo(
+    () => catalog[productId] ?? catalog["the-stillness-set"]!,
+    [productId],
+  );
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]?.name ?? "Olive");
@@ -291,7 +294,7 @@ function ProductPage() {
           <section aria-label="Product gallery" className="min-w-0">
             <div className="media-frame aspect-[4/5] sm:aspect-[5/6]">
               <img
-                src={product.gallery[selectedImage]?.src ?? product.gallery[0].src}
+                src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
                 alt={product.gallery[selectedImage]?.alt ?? product.name}
                 className={cn(
                   "size-full object-cover",
