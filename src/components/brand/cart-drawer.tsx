@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Check, MessageCircle, Minus, Plus, ShieldCheck, ShoppingBag, Trash2, Truck } from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
@@ -154,7 +155,11 @@ export function CartDrawer() {
               <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground"><Truck className="size-4 shrink-0 text-primary" /> Express Delivery: 2–4 Business Days</p>
               <div className="flex items-baseline justify-between border-t border-border pt-3 text-base font-bold"><span>Total</span><span>{formatPrice(total)}</span></div>
             </div>
-            <Button className="mt-4 w-full" size="lg" onClick={() => setCheckoutReady(true)} disabled={items.length === 0}>Proceed to Instant Checkout (UPI / Cards / COD)</Button>
+            <Button className="mt-4 w-full" size="lg" asChild disabled={items.length === 0}>
+              <Link to="/checkout" onClick={() => setIsOpen(false)}>
+                Proceed to Instant Checkout (UPI / Cards / COD)
+              </Link>
+            </Button>
             <Button variant="outline" className="mt-2 w-full" asChild disabled={items.length === 0}>
               <a href={`https://wa.me/919800000000?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle /> Order via WhatsApp (Personal Sizing Help)</a>
             </Button>
@@ -162,16 +167,6 @@ export function CartDrawer() {
           </div>
         </SheetContent>
       </Sheet>
-
-      {checkoutReady ? (
-        <div className="fixed inset-0 z-[60] grid place-items-center bg-overlay/70 p-4" role="presentation" onClick={() => setCheckoutReady(false)}>
-          <section className="w-full max-w-sm border border-border bg-background p-6 shadow-lifted" role="dialog" aria-modal="true" aria-labelledby="checkout-ready-title" onClick={(event) => event.stopPropagation()}>
-            <h2 id="checkout-ready-title" className="font-display text-2xl">Your order is ready</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">Checkout is a demo in this preview. Your basket total is {formatPrice(total)}; contact us on WhatsApp to place the order.</p>
-            <Button className="mt-5 w-full" onClick={() => setCheckoutReady(false)}>Back to basket</Button>
-          </section>
-        </div>
-      ) : null}
     </>
   );
 }
