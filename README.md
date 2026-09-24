@@ -1,6 +1,9 @@
 # Sukoon House — Canonical Design System & Storefront
 
-This repository is the consolidated, single source of truth for **Sukoon House** (formerly Haven Home Goods), a premium Muslim family lifestyle brand. It unites the brand visual identity, the canonical design token architecture, reusable UI primitives, and the responsive digital storefront.
+This repository hosts the canonical storefront and design system for **Sukoon House**, a curated online retail destination for modern Muslim households.
+
+> [!IMPORTANT]
+> The single authoritative source of truth for all business logic, category architecture, product models, design tokens, and developer guidelines is **[`PROJECT_MASTER.md`](./PROJECT_MASTER.md)**.
 
 ---
 
