@@ -99,7 +99,7 @@ export function SiteShell({ children, cartCount = 2, onCartOpen }: SiteShellProp
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[88vw] max-w-sm p-0">
+            <SheetContent side="left" className="flex h-full w-[88vw] max-w-sm flex-col gap-0 p-0">
               <SheetHeader className="border-b border-border px-6 py-7 text-left">
                 <SheetTitle>
                   <BrandMark />
@@ -156,6 +156,9 @@ export function SiteShell({ children, cartCount = 2, onCartOpen }: SiteShellProp
                     </a>
                     {["Track Your Order", "7-Day Exchange Policy"].map((label) => (
                       <SheetClose asChild key={label}>
+                        <Link
+                          to="/collection"
+                          className="py-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                         >
                           {label}
                         </Link>
