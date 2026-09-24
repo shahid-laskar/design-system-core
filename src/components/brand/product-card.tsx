@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Plus } from "lucide-react";
+import { Eye, Heart, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/brand/design-primitives";
@@ -10,11 +10,15 @@ type ProductCardProps = {
   category: string;
   name: string;
   price: string;
-  previousPrice?: string;
+  previousPrice?: string | undefined;
+  savings?: string | undefined;
   note: string;
-  badge?: string;
-  savings?: string;
-  href?: string;
+  badge?: string | undefined;
+  href?: string | undefined;
+  sizes?: string[] | undefined;
+  rating?: number | undefined;
+  reviewCount?: number | undefined;
+  inStock?: boolean | undefined;
 };
 
 export function ProductCard({
@@ -24,10 +28,14 @@ export function ProductCard({
   name,
   price,
   previousPrice,
+  savings,
   note,
   badge,
-  savings,
   href,
+  sizes,
+  rating,
+  reviewCount,
+  inStock = true,
 }: ProductCardProps) {
   const targetHref =
     href ??
@@ -35,6 +43,7 @@ export function ProductCard({
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")}`;
+  const isApparel = Boolean(sizes?.length);
 
   return (
     <article className="group min-w-0">
@@ -54,6 +63,11 @@ export function ProductCard({
             {badge}
           </Badge>
         ) : null}
+        {!inStock ? (
+          <span className="absolute bottom-3 left-3 rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
+            Out of stock
+          </span>
+        ) : null}
         <Button
           variant="secondary"
           size="icon"
@@ -62,6 +76,11 @@ export function ProductCard({
         >
           <Heart />
         </Button>
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+          <Button variant="secondary" className="w-full bg-background/95">
+            <Eye /> {isApparel ? "Select size" : "Quick view"}
+          </Button>
+        </div>
       </div>
       <div className="pt-4">
         <Eyebrow>{category}</Eyebrow>
@@ -72,14 +91,32 @@ export function ProductCard({
           <div className="shrink-0 text-right text-sm font-semibold">
             <span>{price}</span>
             {previousPrice ? (
-              <span className="ml-2 text-muted-foreground line-through">{previousPrice}</span>
+              <span className="ml-2 font-normal text-muted-foreground line-through">
+                {previousPrice}
+              </span>
             ) : null}
           </div>
         </div>
-        {savings ? <p className="mt-1 text-xs font-semibold text-clay">{savings}</p> : null}
         <p className="mt-2 text-sm text-muted-foreground">{note}</p>
-        <Button className="mt-4 w-full">
-          <Plus /> Add to bag
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          {rating ? (
+            <span className="inline-flex items-center gap-1">
+              <Star className="size-3 fill-current text-primary" aria-hidden />
+              <span className="text-foreground">{rating.toFixed(1)}</span>
+              {reviewCount ? <span>({reviewCount} reviews)</span> : null}
+            </span>
+          ) : null}
+          {savings ? (
+            <span className="rounded-full bg-muted px-2 py-0.5 text-muted-foreground">
+              Save {savings}
+            </span>
+          ) : null}
+        </div>
+        {isApparel ? (
+          <p className="mt-2 text-xs text-muted-foreground">Sizes: {sizes!.join(", ")}</p>
+        ) : null}
+        <Button className="mt-4 w-full" disabled={!inStock}>
+          <Plus /> {inStock ? "Add to bag" : "Notify me"}
         </Button>
       </div>
     </article>
