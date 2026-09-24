@@ -28,7 +28,7 @@ import productModestSet from "@/assets/product-modest-set.jpg";
 import productBundle from "@/assets/product-bundle.jpg";
 
 export const Route = createFileRoute("/collection")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): { category?: string; occasion?: string } => ({
     category: typeof search.category === "string" ? search.category : undefined,
     occasion: typeof search.occasion === "string" ? search.occasion : undefined,
   }),

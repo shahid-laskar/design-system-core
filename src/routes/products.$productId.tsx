@@ -253,7 +253,10 @@ const catalog: Record<string, ProductDetail> = {
 
 function ProductPage() {
   const { productId } = Route.useParams();
-  const product = useMemo(() => catalog[productId] ?? catalog["the-stillness-set"], [productId]);
+  const product = useMemo(
+    () => catalog[productId] ?? catalog["the-stillness-set"]!,
+    [productId],
+  );
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]?.name ?? "Olive");
