@@ -15,7 +15,7 @@ This roadmap tracks the development of the Sukoon House (Haven Home Goods) digit
 
 - [x] Build collection / product discovery experience at `/collection` with category tabs, sorting, responsive grid, mobile filter sheet, and empty states
 - [x] Product Detail Page (PDP) layout at `/products/$productId` with multi-angle galleries, variant selectors, sticky purchase controls, and craft notes
-- [ ] Upgrade PDP with apparel sizing, measurement guide, modest-fabric assurances, LMPC declarations, and non-apparel specifications
+- [x] Upgrade PDP with apparel sizing, measurement guide, modest-fabric assurances, LMPC declarations, and non-apparel specifications
 - [ ] Curated Bundle Builder with interactive 3-step SKU pairing
 - [ ] Editorial Journal reading experience and story index
 - [ ] Brand Story & Ethical Sourcing page

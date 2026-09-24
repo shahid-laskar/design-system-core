@@ -1,23 +1,27 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Check,
   ChevronRight,
+  CircleCheck,
+  Leaf,
+  MessageCircle,
   Minus,
   PackageCheck,
   Plus,
-  RotateCcw,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
+  Star,
+  Truck,
+  Zap,
 } from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
-import productBundle from "@/assets/product-bundle.jpg";
 import productChild from "@/assets/product-child-set.jpg";
 import productModest from "@/assets/product-modest-set.jpg";
 import productPrayer from "@/assets/product-prayer-set.jpg";
-import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
+import { PageContainer } from "@/components/brand/design-primitives";
+import { SizeGuideDialog } from "@/components/brand/size-guide-dialog";
 import {
   Accordion,
   AccordionContent,
@@ -28,585 +32,472 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/products/$productId")({
-  head: () => ({
-    meta: [
-      { title: "The Stillness Set — Sukoon House" },
-      {
-        name: "description",
-        content:
-          "A softly woven prayer mat and solid beech stand, made to create a quieter place for daily prayer.",
-      },
-      { property: "og:title", content: "The Stillness Set — Sukoon House" },
-      {
-        property: "og:description",
-        content:
-          "A quieter place for the daily return. Thoughtfully made in olive linen and FSC beech.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ params }) => {
+    const item = catalog[params.productId] ?? catalog["the-stillness-set"];
+    const name = item?.name ?? "Product";
+    const description = item?.description ?? "Thoughtful essentials for Muslim family life.";
+    return {
+      meta: [
+        { title: `${name} — Sukoon House` },
+        { name: "description", content: description },
+        { property: "og:title", content: `${name} — Sukoon House` },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   component: ProductPage,
 });
 
+type SizeName = "S" | "M" | "L" | "XL" | "XXL";
+type SizeOption = { name: SizeName; stock: "in-stock" | "low" | "sold-out" };
+type GalleryImage = { src: string; alt: string; position: string };
+
 type ProductDetail = {
   id: string;
+  sku: string;
+  kind: "apparel" | "non-apparel";
   name: string;
   category: string;
-  categoryHref: string;
-  price: string;
-  priceValue: number;
-  previousPrice?: string;
-  inStock: boolean;
-  lead: string;
+  categoryTrail: string[];
+  price: number;
+  mrp: number;
+  rating: string;
+  reviewCount: number;
   description: string;
-  gallery: Array<{ src: string; alt: string; position: string }>;
+  gallery: GalleryImage[];
   colors: Array<{ name: string; swatch: string }>;
-  materialsInfo: string;
-  dimensionsInfo: string;
-  careInfo: string;
-  deliveryInfo: string;
-  storyTitle: string;
-  storyCopy: string;
-  bundle: {
-    title: string;
-    description: string;
-    price: string;
-    originalPrice: string;
-    savings: string;
-    image: string;
-  };
-  pairsWith: {
-    title: string;
-    description: string;
-    price: string;
-    image: string;
-  };
+  sizes?: SizeOption[];
+  modelNote?: string;
+  specifications: Array<[string, string]>;
+  genericName: string;
+  netQuantity: string;
+  countryOfOrigin: string;
+};
+
+const apparelProduct: ProductDetail = {
+  id: "pure-cambric-cotton-set",
+  sku: "SH-WCS-014-SG",
+  kind: "apparel",
+  name: "Pure Cambric Cotton Set",
+  category: "Women's Ethnic",
+  categoryTrail: ["Women's Ethnic", "Salwar Suit Sets"],
+  price: 1499,
+  mrp: 1699,
+  rating: "4.9",
+  reviewCount: 38,
+  description:
+    "A breathable three-piece salwar suit in pure cambric cotton, fully lined for confident everyday modesty.",
+  gallery: [
+    { src: productModest, alt: "Sage and stone cotton salwar suit fabric set", position: "object-center" },
+    { src: productModest, alt: "Close view of soft cambric cotton texture", position: "object-top" },
+    { src: editorialHome, alt: "Pure cotton set styled in a calm home setting", position: "object-center" },
+  ],
+  colors: [
+    { name: "Sage Green", swatch: "bg-primary" },
+    { name: "Natural Sand", swatch: "bg-secondary" },
+    { name: "Stone Grey", swatch: "bg-mineral" },
+  ],
+  sizes: [
+    { name: "S", stock: "in-stock" },
+    { name: "M", stock: "in-stock" },
+    { name: "L", stock: "low" },
+    { name: "XL", stock: "in-stock" },
+    { name: "XXL", stock: "sold-out" },
+  ],
+  modelNote: 'Model is 5\'6" wearing Size M (Bust 38", Length 44")',
+  specifications: [
+    ["Top", "Pure 60s Cambric Cotton"],
+    ["Bottom", "Matching breathable cotton pants"],
+    ["Dupatta", "Soft lightweight malmal"],
+    ["Lining", "Attached breathable cotton inner"],
+  ],
+  genericName: "Women's 3-Piece Stitched Salwar Suit Set",
+  netQuantity: "1 Set (Kurta: 1 N, Pant: 1 N, Dupatta: 1 N)",
+  countryOfOrigin: "India (Manufactured in Surat / Delhi)",
 };
 
 const catalog: Record<string, ProductDetail> = {
+  "pure-cambric-cotton-set": apparelProduct,
+  "the-everyday-pair": apparelProduct,
   "the-stillness-set": {
     id: "the-stillness-set",
+    sku: "SH-PRY-021-OL",
+    kind: "non-apparel",
     name: "The Stillness Set",
-    category: "Home & prayer",
-    categoryHref: "/collection",
-    price: "₹3,499",
-    priceValue: 3499,
-    previousPrice: "₹3,999",
-    inStock: true,
-    lead: "A quieter place for the daily return.",
-    description:
-      "A softly woven prayer mat and solid beech stand, made to create a quieter place for daily prayer without calling unnecessary attention to itself.",
+    category: "Prayer",
+    categoryTrail: ["Prayer", "Prayer Mats & Rehals"],
+    price: 3499,
+    mrp: 3999,
+    rating: "4.9",
+    reviewCount: 38,
+    description: "A softly woven prayer mat and solid beech rehal, made for a quieter daily return.",
     gallery: [
-      {
-        src: productPrayer,
-        alt: "Olive Stillness prayer mat with a beech Quran stand in soft daylight",
-        position: "object-center",
-      },
-      {
-        src: productPrayer,
-        alt: "Close detail of the softly woven olive prayer mat",
-        position: "object-left",
-      },
-      {
-        src: editorialHome,
-        alt: "The Stillness Set in a calm home prayer corner",
-        position: "object-center",
-      },
+      { src: productPrayer, alt: "Olive prayer mat with solid beech rehal", position: "object-center" },
+      { src: productPrayer, alt: "Close view of the woven prayer mat", position: "object-left" },
+      { src: editorialHome, alt: "Stillness set in a calm prayer corner", position: "object-center" },
     ],
     colors: [
       { name: "Olive", swatch: "bg-primary" },
       { name: "Oat", swatch: "bg-secondary" },
       { name: "Mineral", swatch: "bg-mineral" },
     ],
-    materialsInfo:
-      "Linen-cotton upper woven in Bursa, Türkiye, with a recycled cotton base. The folding stand is shaped from FSC-certified European beech in a small workshop in Konya.",
-    dimensionsInfo:
-      "Prayer mat: 110 × 68 cm. Folded stand: 28 × 19 × 4 cm. Set weight: approximately 1.2 kg.",
-    careInfo:
-      "Brush gently after use. Spot clean with cool water and mild soap; air dry flat. Wipe the beech stand with a soft, dry cloth.",
-    deliveryInfo:
-      "Pan-India delivery in 3–5 working days. Returns are welcome within 30 days when pieces are unused and in their original packaging.",
-    storyTitle: "A small pause, made tangible.",
-    storyCopy:
-      "The Stillness Set begins with a simple thought: the objects we return to each day should make that return feel easier. The weave is soft underfoot without feeling precious; the stand folds away when the room needs to become something else.",
-    bundle: {
-      title: "Stillness + The Everyday Pair",
-      description:
-        "The Stillness Set paired with our sand hijab and stone-grey abaya in soft-touch cotton.",
-      price: "₹5,699",
-      originalPrice: "₹6,298",
-      savings: "Save ₹599",
-      image: productModest,
-    },
-    pairsWith: {
-      title: "The Considered Gift",
-      description:
-        "A linen-bound book of daily supplications and a subtle cedar attar, gathered for giving—or for keeping close.",
-      price: "₹3,899",
-      image: productBundle,
-    },
-  },
-  "the-everyday-pair": {
-    id: "the-everyday-pair",
-    name: "The Everyday Pair",
-    category: "Modest essentials",
-    categoryHref: "/collection",
-    price: "₹2,799",
-    priceValue: 2799,
-    inStock: true,
-    lead: "Fluid modesty for the daily rhythm.",
-    description:
-      "A sand hijab and stone-grey abaya folded from breathable, soft-touch cotton for unhurried comfort from morning to evening.",
-    gallery: [
-      {
-        src: productModest,
-        alt: "The Everyday Pair in soft sand and stone cotton",
-        position: "object-center",
-      },
-      {
-        src: productModest,
-        alt: "Detail of fluid modest cotton drape",
-        position: "object-top",
-      },
+    specifications: [
+      ["Prayer mat", "110 × 68 cm"],
+      ["Folded rehal", "28 × 19 × 4 cm"],
+      ["Set weight", "Approximately 1.2 kg"],
+      ["Materials", "Linen-cotton weave and FSC-certified beech"],
     ],
-    colors: [
-      { name: "Sand & Stone", swatch: "bg-clay" },
-      { name: "Olive Tint", swatch: "bg-primary" },
-    ],
-    materialsInfo: "100% organic long-staple combed cotton with breathable, anti-static weave.",
-    dimensionsInfo:
-      "Available in lengths 52, 54, 56, and 58. Generous cut with relaxed drop sleeves.",
-    careInfo:
-      "Machine wash cold on gentle cycle with like colours. Hang dry in shade. Warm iron if needed.",
-    deliveryInfo: "Pan-India delivery in 3–5 working days. Complimentary returns within 30 days.",
-    storyTitle: "Ease that moves with family life.",
-    storyCopy:
-      "Designed for practical modesty that feels as natural at home as it does running errands or gathering with family. Breathable, durable, and free of unnecessary ornamentation.",
-    bundle: {
-      title: "Everyday Modesty + Stillness Set",
-      description: "Combine our signature modest pairing with the olive Stillness prayer set.",
-      price: "₹5,699",
-      originalPrice: "₹6,298",
-      savings: "Save ₹599",
-      image: productPrayer,
-    },
-    pairsWith: {
-      title: "The Considered Gift",
-      description: "Gathered for giving or keeping close in subtle cedar and linen.",
-      price: "₹3,899",
-      image: productBundle,
-    },
+    genericName: "Prayer Mat and Rehal Set",
+    netQuantity: "1 Set (Prayer Mat: 1 N, Rehal: 1 N)",
+    countryOfOrigin: "India",
   },
   "first-forms-set": {
     id: "first-forms-set",
+    sku: "SH-KDS-008-NT",
+    kind: "non-apparel",
     name: "First Forms Set",
-    category: "Little ones",
-    categoryHref: "/collection",
-    price: "₹1,999",
-    priceValue: 1999,
-    previousPrice: "₹2,299",
-    inStock: true,
-    lead: "Calm play for growing hands.",
-    description:
-      "Muted wooden stacking rings and natural organic cotton muslin, thoughtfully crafted for sensory discovery without plastic or noise.",
+    category: "Children",
+    categoryTrail: ["Children", "Learning & Habit Boards"],
+    price: 1999,
+    mrp: 2299,
+    rating: "4.8",
+    reviewCount: 24,
+    description: "Calm wooden forms and organic cotton for considered, low-noise sensory play.",
     gallery: [
-      {
-        src: productChild,
-        alt: "Wooden stacking toy and cotton blanket on a shelf",
-        position: "object-center",
-      },
-      {
-        src: productChild,
-        alt: "Close detail of smooth beech stacking forms",
-        position: "object-center",
-      },
+      { src: productChild, alt: "Natural wooden forms and cotton blanket", position: "object-center" },
+      { src: productChild, alt: "Close view of smooth beech forms", position: "object-center" },
     ],
     colors: [
       { name: "Natural Beech", swatch: "bg-clay" },
       { name: "Muted Ochre", swatch: "bg-secondary" },
     ],
-    materialsInfo:
-      "FSC-certified European beechwood with food-safe botanical oil finish and GOTS organic cotton.",
-    dimensionsInfo: "Stacking height: 16 cm. Base diameter: 10 cm. 6 nesting elements.",
-    careInfo: "Wipe with damp cloth. Do not submerge wooden elements in water.",
-    deliveryInfo: "Pan-India delivery in 3–5 working days. 30-day family satisfaction trial.",
-    storyTitle: "Play that respects a peaceful home.",
-    storyCopy:
-      "Children's objects don't need to be loud, garish, or disposable. First Forms brings natural tactile warmth into the family living space.",
-    bundle: {
-      title: "Little Ones Nursery Bundle",
-      description: "First Forms Set paired with organic cotton wraps and linen keepsake bag.",
-      price: "₹3,699",
-      originalPrice: "₹4,298",
-      savings: "Save ₹599",
-      image: productChild,
-    },
-    pairsWith: {
-      title: "The Stillness Set",
-      description: "Create a peaceful shared prayer and quiet corner for parent and child.",
-      price: "₹3,499",
-      image: productPrayer,
-    },
+    specifications: [
+      ["Stacking height", "16 cm"],
+      ["Base diameter", "10 cm"],
+      ["Pieces", "6 nesting elements"],
+      ["Materials", "FSC-certified beech and GOTS organic cotton"],
+    ],
+    genericName: "Wooden Learning and Habit Set",
+    netQuantity: "1 Set (6 wooden elements, 1 cotton wrap)",
+    countryOfOrigin: "India",
   },
 };
 
 function ProductPage() {
   const { productId } = Route.useParams();
-  const product = useMemo(() => catalog[productId] ?? catalog["the-stillness-set"]!, [productId]);
+  const product = useMemo(
+    () => catalog[productId] ?? catalog["the-stillness-set"],
+    [productId],
+  );
 
+  if (!product) return null;
+
+  return <ProductExperience key={product.id} product={product} />;
+}
+
+function ProductExperience({ product }: { product: ProductDetail }) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [color, setColor] = useState(product.colors[0]?.name ?? "Olive");
+  const [color, setColor] = useState(product.colors[0]?.name ?? "Default");
+  const firstAvailableSize = product.sizes?.find((size) => size.stock !== "sold-out")?.name;
+  const [size, setSize] = useState<SizeName | undefined>(firstAvailableSize);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const [bundleAdded, setBundleAdded] = useState(false);
+  const addResetRef = useRef<number | undefined>(undefined);
 
-  function addToBag() {
+  const selectedSize = product.sizes?.find((option) => option.name === size);
+  const savings = product.mrp - product.price;
+  const discount = Math.round((savings / product.mrp) * 100);
+  const orderTotal = product.price * quantity;
+  const freeShipping = orderTotal >= 999;
+  const whatsAppText = encodeURIComponent(
+    `Hello Sukoon House, I would like to order ${product.name} (SKU: ${product.sku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
+  );
+
+  function addToBasket() {
+    window.clearTimeout(addResetRef.current);
     setAdded(true);
-    window.setTimeout(() => setAdded(false), 2400);
+    addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
+  }
+
+  function handleGalleryScroll(event: UIEvent<HTMLDivElement>) {
+    const width = event.currentTarget.clientWidth;
+    if (width === 0) return;
+    setSelectedImage(Math.round(event.currentTarget.scrollLeft / width));
   }
 
   return (
-    <>
-      <PageContainer className="py-5">
-        <nav
-          className="flex items-center gap-2 text-xs text-muted-foreground"
-          aria-label="Breadcrumb"
-        >
-          <Link to="/" className="transition-colors hover:text-foreground">
-            Home
-          </Link>
-          <ChevronRight className="size-3" />
-          <Link to="/collection" className="transition-colors hover:text-foreground">
-            {product.category}
-          </Link>
-          <ChevronRight className="size-3" />
-          <span className="text-foreground">{product.name}</span>
+    <div className="pb-20 lg:pb-0">
+      <PageContainer className="py-4 sm:py-5">
+        <nav className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs text-muted-foreground" aria-label="Breadcrumb">
+          <Link to="/" className="shrink-0 transition-colors hover:text-foreground">Home</Link>
+          {product.categoryTrail.map((item) => (
+            <span key={item} className="contents">
+              <ChevronRight className="size-3 shrink-0" />
+              <Link to="/collection" className="shrink-0 transition-colors hover:text-foreground">{item}</Link>
+            </span>
+          ))}
+          <ChevronRight className="size-3 shrink-0" />
+          <span className="truncate text-foreground">{product.name}</span>
         </nav>
       </PageContainer>
 
-      <PageContainer className="pb-16 lg:pb-24">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] lg:gap-16">
-          {/* Gallery */}
-          <section aria-label="Product gallery" className="min-w-0">
-            <div className="media-frame aspect-[4/5] sm:aspect-[5/6]">
+      <PageContainer className="pb-14 lg:pb-24">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.92fr)] lg:gap-14">
+          <section aria-label="Product gallery" className="min-w-0 lg:sticky lg:top-5 lg:self-start">
+            <div className="hidden overflow-hidden rounded-sm bg-muted lg:block">
               <img
+                key={selectedImage}
                 src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
                 alt={product.gallery[selectedImage]?.alt ?? product.name}
                 className={cn(
-                  "size-full object-cover",
+                  "aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500",
                   product.gallery[selectedImage]?.position ?? "object-center",
                 )}
-                width={1200}
-                height={1440}
+                width={1000}
+                height={1250}
               />
             </div>
-            <div
-              className="mt-3 grid grid-cols-3 gap-3"
-              role="list"
-              aria-label="Choose product image"
-            >
+
+            <div className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted lg:hidden" onScroll={handleGalleryScroll}>
+              {product.gallery.map((image) => (
+                <div key={image.alt} className="aspect-[4/5] w-full shrink-0 snap-center">
+                  <img src={image.src} alt={image.alt} className={cn("size-full object-cover", image.position)} width={800} height={1000} />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-3 flex justify-center gap-2 lg:hidden" aria-label="Image pagination">
+              {product.gallery.map((image, index) => (
+                <span key={image.alt} className={cn("size-1.5 rounded-full transition-colors", selectedImage === index ? "bg-primary" : "bg-border")} />
+              ))}
+            </div>
+
+            <div className="mt-3 hidden grid-cols-3 gap-3 lg:grid" role="list" aria-label="Choose product image">
               {product.gallery.map((image, index) => (
                 <Button
-                  key={image.alt + index}
+                  key={image.alt}
                   variant="ghost"
-                  className={cn(
-                    "h-auto overflow-hidden rounded-sm p-0 ring-offset-2",
-                    selectedImage === index && "ring-2 ring-primary",
-                  )}
+                  className={cn("h-auto overflow-hidden rounded-sm p-0 ring-offset-2", selectedImage === index && "ring-2 ring-primary")}
                   onClick={() => setSelectedImage(index)}
                   aria-label={`View image ${index + 1}`}
                   aria-pressed={selectedImage === index}
                 >
-                  <span className="media-frame aspect-square w-full">
-                    <img
-                      src={image.src}
-                      alt=""
-                      className={cn("size-full object-cover", image.position)}
-                    />
+                  <span className="aspect-square w-full overflow-hidden">
+                    <img src={image.src} alt="" className={cn("size-full object-cover", image.position)} />
                   </span>
                 </Button>
               ))}
             </div>
           </section>
 
-          {/* Purchasing Controls */}
-          <section className="min-w-0 lg:sticky lg:top-8 lg:self-start">
-            <Eyebrow>{product.category}</Eyebrow>
-            <h1 className="mt-3 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
-            <p className="mt-4 max-w-lg font-display text-xl leading-snug text-muted-foreground sm:text-2xl">
-              {product.lead}
-            </p>
+          <section className="min-w-0">
+            <div className="inline-flex items-center rounded-full border border-border bg-secondary/45 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-primary">
+              {product.category}
+            </div>
+            <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">{product.description}</p>
+            <a href="#reviews" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary">
+              <Star className="size-4 fill-warning text-warning" /> {product.rating} · {product.reviewCount} customer reviews
+            </a>
 
-            <div className="mt-6 flex items-center gap-3 border-b border-border pb-6">
-              <span className="text-lg font-semibold">{product.price}</span>
-              {product.previousPrice ? (
-                <span className="text-sm text-muted-foreground line-through">
-                  {product.previousPrice}
-                </span>
-              ) : null}
-              <span className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="size-1.5 rounded-full bg-success" /> In stock
-              </span>
+            <div className="mt-6 border-y border-border py-5">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <span className="font-display text-4xl">₹{product.price.toLocaleString("en-IN")}</span>
+                <span className="text-sm text-muted-foreground line-through">MRP ₹{product.mrp.toLocaleString("en-IN")}</span>
+                <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">Save ₹{savings} / {discount}% off</span>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">Inclusive of all taxes · Free shipping on this order</p>
             </div>
 
-            {/* Colour Variant */}
-            <div className="border-b border-border py-6">
+            <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                <p className="text-sm font-semibold">Colour</p>
-                <p className="text-sm text-muted-foreground">{color}</p>
+                <p className="text-sm font-semibold">Color: <span className="font-normal">{color}</span></p>
+                <span className="text-xs text-muted-foreground">{product.colors.length} colours</span>
               </div>
-              <div className="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Colour">
+              <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Colour">
                 {product.colors.map((option) => (
                   <Button
                     key={option.name}
                     variant="outline"
-                    className={cn(
-                      "h-11 justify-start px-3",
-                      color === option.name && "border-primary ring-1 ring-primary",
-                    )}
+                    className={cn("h-11 px-3", color === option.name && "border-primary ring-1 ring-primary")}
                     onClick={() => setColor(option.name)}
                     role="radio"
                     aria-checked={color === option.name}
                   >
-                    <span
-                      className={cn(
-                        "size-4 shrink-0 rounded-full border border-border",
-                        option.swatch,
-                      )}
-                    />
+                    <span className={cn("size-4 shrink-0 rounded-full border border-border", option.swatch)} />
                     {option.name}
                   </Button>
                 ))}
               </div>
             </div>
 
-            {/* Quantity and CTA */}
-            <div className="py-6">
+            {product.kind === "apparel" && product.sizes ? (
+              <div className="border-b border-border py-5">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                  <p className="text-sm font-semibold">Select size: <span className="font-normal">{size}</span></p>
+                  <SizeGuideDialog />
+                </div>
+                <div className="mt-3 grid grid-cols-5 gap-2" role="radiogroup" aria-label="Size">
+                  {product.sizes.map((option) => (
+                    <Button
+                      key={option.name}
+                      variant="outline"
+                      className={cn(
+                        "relative h-11 px-1",
+                        size === option.name && "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
+                        option.stock === "sold-out" && "text-muted-foreground line-through",
+                      )}
+                      onClick={() => setSize(option.name)}
+                      disabled={option.stock === "sold-out"}
+                      role="radio"
+                      aria-checked={size === option.name}
+                      aria-label={`${option.name}, ${option.stock === "sold-out" ? "sold out" : option.stock === "low" ? "only 2 left" : "in stock"}`}
+                    >
+                      {option.name}
+                    </Button>
+                  ))}
+                </div>
+                <StockMessage stock={selectedSize?.stock} size={size} />
+                <p className="mt-3 text-xs leading-5 text-muted-foreground">{product.modelNote}</p>
+              </div>
+            ) : (
+              <Specifications product={product} />
+            )}
+
+            <div className="py-5">
               <p className="text-sm font-semibold">Quantity</p>
               <div className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-3">
-                <div className="grid h-11 grid-cols-[2.75rem_2.25rem_2.75rem] items-center rounded-md border border-input">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-11"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    aria-label="Decrease quantity"
-                    disabled={quantity === 1}
-                  >
-                    <Minus />
-                  </Button>
-                  <span className="text-center text-sm font-semibold" aria-live="polite">
-                    {quantity}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-11"
-                    onClick={() => setQuantity(Math.min(8, quantity + 1))}
-                    aria-label="Increase quantity"
-                  >
-                    <Plus />
-                  </Button>
+                <div className="grid h-12 grid-cols-[2.75rem_2.25rem_2.75rem] items-center rounded-sm border border-input">
+                  <Button variant="ghost" size="icon" className="h-11 w-11" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity" disabled={quantity === 1}><Minus /></Button>
+                  <span className="text-center text-sm font-semibold" aria-live="polite">{quantity}</span>
+                  <Button variant="ghost" size="icon" className="h-11 w-11" onClick={() => setQuantity(Math.min(8, quantity + 1))} aria-label="Increase quantity"><Plus /></Button>
                 </div>
-                <Button size="lg" className="h-11 w-full" onClick={addToBag}>
-                  {added ? (
-                    <>
-                      <Check /> Added to bag
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag /> Add to bag · ₹
-                      {(product.priceValue * quantity).toLocaleString("en-IN")}
-                    </>
-                  )}
+                <Button size="lg" className="h-12 w-full" onClick={addToBasket}>
+                  {added ? <><Check /> Added{size ? ` · Size ${size}` : ""}</> : <><ShoppingBag /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}</>}
                 </Button>
               </div>
+              <Button variant="outline" size="lg" className="mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-3 text-left" asChild>
+                <a href={`https://wa.me/919800000000?text=${whatsAppText}`} target="_blank" rel="noreferrer">
+                  <MessageCircle />
+                  <span><span className="block">Buy with WhatsApp</span><span className="mt-0.5 block text-[0.68rem] font-normal text-muted-foreground">Send SKU &amp; Size for direct assistance</span></span>
+                </a>
+              </Button>
             </div>
 
-            {/* Reassurance */}
-            <div className="grid gap-3 border-y border-border py-5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <Reassurance icon={PackageCheck} title="Delivery" copy="3–5 working days" />
-              <Reassurance icon={Sparkles} title="Packaging" copy="Plastic-free, ready to give" />
-              <Reassurance icon={RotateCcw} title="Returns" copy="30 days, simply arranged" />
-            </div>
-
-            {/* Accordion */}
-            <Accordion type="single" collapsible className="mt-2">
-              <DetailItem value="materials" title="Materials & Origin">
-                {product.materialsInfo}
-              </DetailItem>
-              <DetailItem value="dimensions" title="Dimensions">
-                {product.dimensionsInfo}
-              </DetailItem>
-              <DetailItem value="care" title="Care Instructions">
-                {product.careInfo}
-              </DetailItem>
-              <DetailItem value="delivery" title="Delivery & Returns">
-                {product.deliveryInfo}
-              </DetailItem>
-            </Accordion>
+            <ShippingMeter total={orderTotal} qualified={freeShipping} />
           </section>
         </div>
       </PageContainer>
 
-      {/* Craft Story */}
-      <section className="border-y border-border bg-secondary/40">
-        <PageContainer className="section-space">
-          <SectionHeading
-            index="01"
-            eyebrow="Made with intention"
-            title={product.storyTitle}
-            copy={product.storyCopy}
-          />
-          <div className="mt-10 grid items-center gap-8 md:grid-cols-[1.05fr_0.95fr] md:gap-14">
-            <div className="media-frame aspect-[16/10]">
-              <img
-                src={editorialHome}
-                alt="A calm corner at home in warm morning light"
-                className="size-full object-cover"
-              />
-            </div>
-            <div>
-              <Eyebrow>Our guarantee</Eyebrow>
-              <h3 className="mt-3 font-display text-3xl">Useful, honest, made to last.</h3>
-              <ul className="mt-6 space-y-4 text-sm leading-6 text-muted-foreground">
-                <GuaranteeItem>Every material and making origin is clearly stated.</GuaranteeItem>
-                <GuaranteeItem>We inspect every set by hand before it leaves us.</GuaranteeItem>
-                <GuaranteeItem>
-                  If it is not right for your home, returns stay uncomplicated.
-                </GuaranteeItem>
-              </ul>
-            </div>
+      <section className="border-y border-border bg-secondary/30">
+        <PageContainer className="py-10 lg:py-14">
+          <div className="grid gap-3 md:grid-cols-3">
+            <TrustItem icon={ShieldCheck} title="100% Non-Transparent" copy="Pure cotton with attached breathable inner lining." />
+            <TrustItem icon={Leaf} title="100% Cambric Cotton" copy="Pre-washed, soft on sensitive skin, and tested for colorfastness." />
+            <TrustItem icon={CircleCheck} title="Hassle-Free 7-Day Exchange" copy="Easy doorstep size exchange if the fit isn't right." />
           </div>
         </PageContainer>
       </section>
 
-      {/* Bundle Pairing */}
-      <PageContainer className="section-space">
-        <SectionHeading
-          index="02"
-          eyebrow="A considered pairing"
-          title="Begin with the evening ritual."
-          copy="Add a complementary essential for an understated set that moves gently from prayer into the rest of the day. Optional, simply priced, and never required."
-        />
-        <div className="mt-10 grid overflow-hidden rounded-sm border border-border bg-card md:grid-cols-[0.9fr_1.1fr]">
-          <div className="media-frame aspect-[4/3] rounded-none md:aspect-auto">
-            <img
-              src={product.bundle.image}
-              alt={product.bundle.title}
-              className="size-full object-cover"
-            />
-          </div>
-          <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12">
-            <Eyebrow>Optional bundle</Eyebrow>
-            <h3 className="mt-3 font-display text-3xl">{product.bundle.title}</h3>
-            <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
-              {product.bundle.description}
-            </p>
-            <div className="mt-6 flex items-baseline gap-3">
-              <span className="text-lg font-semibold">{product.bundle.price}</span>
-              <span className="text-sm text-muted-foreground line-through">
-                {product.bundle.originalPrice}
-              </span>
-              <span className="text-xs font-semibold text-primary">{product.bundle.savings}</span>
-            </div>
-            <Button
-              variant="outline"
-              className="mt-6 w-full sm:w-fit"
-              onClick={() => setBundleAdded(true)}
-            >
-              {bundleAdded ? (
+      <PageContainer className="py-10 lg:py-16">
+        <h2 className="font-display text-3xl">Product details &amp; declarations</h2>
+        <Accordion type="multiple" className="mt-6 border-t border-border">
+          <AccordionItem value="fabric">
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">Fabric, Cut &amp; Care Instructions</AccordionTrigger>
+            <AccordionContent className="space-y-4 pr-6 leading-6 text-muted-foreground">
+              {product.kind === "apparel" ? (
                 <>
-                  <Check /> Bundle added
+                  <p>Pure 60s Cambric Cotton top, matching cotton pants, and soft lightweight malmal dupatta.</p>
+                  <p>Interlock stitching with internal seam margins. Attached breathable cotton lining keeps the garment 100% non-transparent in normal wear.</p>
+                  <p><strong className="text-foreground">Care:</strong> Gentle machine or hand wash in cold water with mild detergent. Line dry in shade.</p>
                 </>
               ) : (
-                <>
-                  <Plus /> Add bundle to bag
-                </>
+                <p>{product.specifications.map(([label, value]) => `${label}: ${value}`).join(". ")}.</p>
               )}
-            </Button>
-          </div>
-        </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="statutory">
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">Statutory Declarations (Legal Metrology / LMPC)</AccordionTrigger>
+            <AccordionContent>
+              <dl className="grid gap-x-6 gap-y-3 text-sm leading-6 sm:grid-cols-[12rem_minmax(0,1fr)]">
+                <Declaration label="Generic Name" value={product.genericName} />
+                <Declaration label="Net Quantity" value={product.netQuantity} />
+                <Declaration label="Maximum Retail Price (MRP)" value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`} />
+                <Declaration label="Unit Sale Price (USP)" value={`₹${product.price.toLocaleString("en-IN")}.00 per Set`} />
+                <Declaration label="Country of Origin" value={product.countryOfOrigin} />
+                <Declaration label="Consumer Care" value="support@sukoonhouse.in | +91 98XXX XXXXX" />
+              </dl>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="shipping">
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">Shipping &amp; 7-Day Doorstep Exchange Policy</AccordionTrigger>
+            <AccordionContent className="space-y-3 pr-6 leading-6 text-muted-foreground">
+              <p>Dispatched within 24–48 hours via express air courier.</p>
+              <p>Delivery in 2–4 business days across major Indian metros; 4–6 days for the rest of India.</p>
+              <p>Reverse pickup is arranged directly from your doorstep for size exchanges.</p>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </PageContainer>
 
-      {/* Pairs well with */}
-      <section className="border-t border-border">
-        <PageContainer className="section-space">
-          <Eyebrow>Pairs well with</Eyebrow>
-          <div className="mt-4 grid gap-7 md:grid-cols-[minmax(0,0.65fr)_minmax(0,1.35fr)] md:items-center">
-            <div className="media-frame aspect-[4/5]">
-              <img
-                src={product.pairsWith.image}
-                alt={product.pairsWith.title}
-                className="size-full object-cover"
-              />
-            </div>
-            <div>
-              <h2 className="font-display text-3xl sm:text-4xl">{product.pairsWith.title}</h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-                {product.pairsWith.description}
-              </p>
-              <div className="mt-5 flex items-center gap-5">
-                <span className="font-semibold">{product.pairsWith.price}</span>
-                <Link to="/collection">
-                  <Button variant="link" className="px-0">
-                    View collection <ChevronRight />
-                  </Button>
-                </Link>
-              </div>
-            </div>
+      <section id="reviews" className="border-t border-border">
+        <PageContainer className="py-10">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
+            <span className="font-display text-4xl">{product.rating}</span>
+            <div className="min-w-0"><p className="font-semibold">Loved by {product.reviewCount} customers</p><p className="text-sm text-muted-foreground">Verified customer ratings for comfort, material, and finish.</p></div>
           </div>
         </PageContainer>
       </section>
-    </>
-  );
-}
 
-function Reassurance({
-  icon: Icon,
-  title,
-  copy,
-}: {
-  icon: typeof ShieldCheck;
-  title: string;
-  copy: string;
-}) {
-  return (
-    <div className="flex min-w-0 items-start gap-3">
-      <Icon className="mt-0.5 size-4 shrink-0 text-primary" />
-      <div className="min-w-0">
-        <p className="text-xs font-semibold">{title}</p>
-        <p className="mt-0.5 text-xs leading-5 text-muted-foreground">{copy}</p>
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-lifted backdrop-blur lg:hidden">
+        <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+          <div className="min-w-0"><p className="truncate text-sm font-semibold">₹{orderTotal.toLocaleString("en-IN")} {size ? `· Size ${size}` : ""}</p><p className="truncate text-[0.68rem] text-muted-foreground">{color} · Qty {quantity}</p></div>
+          <Button onClick={addToBasket}>{added ? <><Check /> Added</> : <><ShoppingBag /> Add to Basket</>}</Button>
+        </div>
       </div>
     </div>
   );
 }
 
-function DetailItem({
-  value,
-  title,
-  children,
-}: {
-  value: string;
-  title: string;
-  children: string;
-}) {
+function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: SizeName }) {
+  if (!stock || !size) return null;
+  if (stock === "low") return <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-warning-foreground"><Zap className="size-4 fill-warning text-warning" /> Only 2 left in size {size}</p>;
+  return <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success"><CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours</p>;
+}
+
+function Specifications({ product }: { product: ProductDetail }) {
   return (
-    <AccordionItem value={value}>
-      <AccordionTrigger>{title}</AccordionTrigger>
-      <AccordionContent className="pr-6 leading-6 text-muted-foreground">
-        {children}
-      </AccordionContent>
-    </AccordionItem>
+    <div className="border-b border-border py-5">
+      <p className="text-sm font-semibold">Dimensions &amp; specifications</p>
+      <dl className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-border bg-border">
+        {product.specifications.map(([label, value]) => (
+          <div key={label} className="min-w-0 bg-background p-3"><dt className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">{label}</dt><dd className="mt-1 text-sm leading-5">{value}</dd></div>
+        ))}
+      </dl>
+    </div>
   );
 }
 
-function GuaranteeItem({ children }: { children: string }) {
+function ShippingMeter({ total, qualified }: { total: number; qualified: boolean }) {
+  const remaining = Math.max(0, 999 - total);
   return (
-    <li className="flex gap-3">
-      <ShieldCheck className="mt-1 size-4 shrink-0 text-primary" />
-      <span>{children}</span>
-    </li>
+    <div className="border-y border-border py-5">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-xs">
+        <p className="min-w-0 font-semibold">{qualified ? "Free shipping unlocked" : `Add ₹${remaining} for free shipping`}</p>
+        <span className="shrink-0 text-muted-foreground">₹999 threshold</span>
+      </div>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label="Free shipping progress" aria-valuemin={0} aria-valuemax={999} aria-valuenow={Math.min(total, 999)}><div className={cn("h-full rounded-full bg-primary transition-[width]", qualified ? "w-full" : "w-2/3")} /></div>
+      <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground"><Truck className="size-4 text-primary" /> 7-day size exchange with doorstep reverse pickup</p>
+    </div>
   );
+}
+
+function TrustItem({ icon: Icon, title, copy }: { icon: typeof ShieldCheck; title: string; copy: string }) {
+  return <article className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 border border-border bg-card p-5"><span className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary text-primary"><Icon className="size-5" /></span><div className="min-w-0"><h3 className="text-sm font-semibold">{title}</h3><p className="mt-1 text-xs leading-5 text-muted-foreground">{copy}</p></div></article>;
+}
+
+function Declaration({ label, value }: { label: string; value: string }) {
+  return <><dt className="font-semibold text-foreground">{label}</dt><dd className="border-b border-border pb-3 text-muted-foreground sm:border-0 sm:pb-0">{value}</dd></>;
 }
