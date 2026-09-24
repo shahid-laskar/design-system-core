@@ -29,6 +29,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/products/$productId")({
@@ -200,6 +201,7 @@ function ProductPage() {
 }
 
 function ProductExperience({ product }: { product: ProductDetail }) {
+  const { addItem, setIsOpen } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]?.name ?? "Default");
   const firstAvailableSize = product.sizes?.find((size) => size.stock !== "sold-out")?.name;
@@ -220,6 +222,18 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   function addToBasket() {
     window.clearTimeout(addResetRef.current);
     setAdded(true);
+    addItem({
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      originalPrice: product.mrp,
+      image: product.gallery[0]?.src ?? "",
+      size,
+      color,
+      quantity,
+    });
+    setIsOpen(true);
     addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
   }
 
