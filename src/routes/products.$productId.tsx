@@ -40,6 +40,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
 
@@ -223,6 +230,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const [size, setSize] = useState<SizeName | undefined>(firstAvailableSize);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
   const addResetRef = useRef<number | undefined>(undefined);
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
@@ -252,6 +260,34 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
   }
 
+  function handleMobilePurchaseClick() {
+    if (product.kind === "apparel" && product.sizes && !size) {
+      setSizeDrawerOpen(true);
+      return;
+    }
+    addToBasket();
+  }
+
+  function handleSelectSizeAndAdd(chosenSize: SizeName) {
+    setSize(chosenSize);
+    setSizeDrawerOpen(false);
+    window.clearTimeout(addResetRef.current);
+    setAdded(true);
+    addItem({
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      originalPrice: product.mrp,
+      image: product.gallery[0]?.src ?? "",
+      size: chosenSize,
+      color,
+      quantity,
+    });
+    setIsOpen(true);
+    addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
+  }
+
   function handleGalleryScroll(event: UIEvent<HTMLDivElement>) {
     const width = event.currentTarget.clientWidth;
     if (width === 0) return;
@@ -259,7 +295,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   }
 
   return (
-    <div className="pb-20 lg:pb-0">
+    <div className="pb-28 lg:pb-0">
       <PageContainer className="py-4 sm:py-5">
         <nav className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs text-muted-foreground" aria-label="Breadcrumb">
           <Link to="/" className="shrink-0 transition-colors hover:text-foreground">Home</Link>
@@ -523,14 +559,98 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         </Accordion>
       </PageContainer>
 
+      <CrossSellEnsemble product={product} />
+
       <ProductReviewHub product={product} />
 
+      {/* Mobile Persistent Bottom Dock */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-lifted backdrop-blur lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-          <div className="min-w-0"><p className="truncate text-sm font-semibold">₹{orderTotal.toLocaleString("en-IN")} {size ? `· Size ${size}` : ""}</p><p className="truncate text-[0.68rem] text-muted-foreground">{color} · Qty {quantity}</p></div>
-          <Button onClick={addToBasket}>{added ? <><Check /> Added</> : <><ShoppingBag /> Add to Basket</>}</Button>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">
+              ₹{orderTotal.toLocaleString("en-IN")}{" "}
+              <span className="rounded-xs bg-secondary/60 px-1.5 py-0.5 text-xs font-normal text-primary">
+                {size ? `Size ${size}` : "Select Size"}
+              </span>
+            </p>
+            <p className="truncate text-[0.68rem] text-muted-foreground">{color} · Qty {quantity}</p>
+          </div>
+          <Button size="lg" className="h-11 px-5 font-semibold" onClick={handleMobilePurchaseClick}>
+            {added ? (
+              <>
+                <Check className="size-4" /> Added{size ? ` · ${size}` : ""}
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="size-4" /> Add to Basket
+              </>
+            )}
+          </Button>
         </div>
       </div>
+
+      {/* Mobile Size Selection Bottom Sheet Fallback */}
+      {product.kind === "apparel" && product.sizes && (
+        <Sheet open={sizeDrawerOpen} onOpenChange={setSizeDrawerOpen}>
+          <SheetContent side="bottom" className="rounded-t-xl border-t border-border bg-background p-5 sm:mx-auto sm:max-w-md">
+            <SheetHeader className="text-left">
+              <div className="flex items-center gap-3">
+                <img
+                  src={product.gallery[0]?.src}
+                  alt={product.name}
+                  className="size-14 shrink-0 rounded-sm bg-muted object-cover"
+                />
+                <div className="min-w-0">
+                  <SheetTitle className="truncate font-display text-lg leading-tight">
+                    {product.name}
+                  </SheetTitle>
+                  <SheetDescription className="mt-0.5 text-xs text-muted-foreground">
+                    ₹{product.price.toLocaleString("en-IN")} · Choose size to add to basket
+                  </SheetDescription>
+                </div>
+              </div>
+            </SheetHeader>
+
+            <div className="mt-5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-foreground">Select Size:</p>
+                <SizeGuideDialog
+                  defaultCategory={
+                    product.category.toLowerCase().includes("men")
+                      ? "men"
+                      : product.category.toLowerCase().includes("child")
+                        ? "children"
+                        : "women"
+                  }
+                />
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {product.sizes.map((option) => (
+                  <Button
+                    key={option.name}
+                    variant="outline"
+                    className={cn(
+                      "flex h-14 flex-col items-center justify-center rounded-sm border p-1",
+                      option.stock === "sold-out" && "cursor-not-allowed opacity-40 line-through",
+                      size === option.name && "border-primary bg-primary/10 font-semibold text-primary",
+                    )}
+                    disabled={option.stock === "sold-out"}
+                    onClick={() => handleSelectSizeAndAdd(option.name)}
+                  >
+                    <span className="text-sm font-bold">{option.name}</span>
+                    <span className="text-[0.65rem] text-muted-foreground">
+                      {option.name === "S" ? "Bust 36″" : option.name === "M" ? "Bust 38″" : option.name === "L" ? "Bust 40″" : option.name === "XL" ? "Bust 42″" : "Bust 44″"}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+              <p className="mt-3 text-center text-xs text-muted-foreground">
+                Tapping a size will immediately add it to your basket.
+              </p>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
     </div>
   );
 }
@@ -677,6 +797,171 @@ function TrustItem({ icon: Icon, title, copy }: { icon: typeof ShieldCheck; titl
 
 function Declaration({ label, value }: { label: string; value: string }) {
   return <><dt className="font-semibold text-foreground">{label}</dt><dd className="border-b border-border pb-3 text-muted-foreground sm:border-0 sm:pb-0">{value}</dd></>;
+}
+
+function CrossSellEnsemble({ product }: { product: ProductDetail }) {
+  const { addItem, setIsOpen } = useCart();
+  const [bundleAdded, setBundleAdded] = useState(false);
+  const [addedItemIds, setAddedItemIds] = useState<Record<string, boolean>>({});
+
+  const companions = useMemo(() => {
+    if (product.kind === "apparel") {
+      return [
+        {
+          id: "matching-daily-hijab",
+          name: "Matching Micro-Modal Silk Daily Hijab (Sage)",
+          category: "Hijabs & Scarves",
+          price: 499,
+          image: productModest,
+          color: "Sage Green",
+          note: "Featherlight, breathable drape with subtle sheen.",
+        },
+        {
+          id: "magnetic-pins-set",
+          name: "Snag-Free Matte Magnetic Hijab Pins (Set of 4)",
+          category: "Modesty Accessories",
+          price: 199,
+          image: productChild,
+          note: "Ultra-strong neodymium magnets that protect fine fabrics.",
+        },
+      ];
+    }
+    return [
+      {
+        id: "solid-beech-rehal",
+        name: "Solid Beechwood Folding Rehal",
+        category: "Prayer Companions",
+        price: 899,
+        image: productPrayer,
+        note: "Hand-finished FSC-certified timber with non-toxic wax.",
+      },
+      {
+        id: "olive-jade-tasbih",
+        name: "Handcrafted 33-Bead Natural Olive Jade Tasbih",
+        category: "Tasbihs",
+        price: 499,
+        image: editorialHome,
+        note: "Natural mineral beads strung on braided silk cord.",
+      },
+    ];
+  }, [product.kind]);
+
+  const bundleTotal = companions.reduce((acc, c) => acc + c.price, 0);
+
+  function handleAddSingle(item: (typeof companions)[number]) {
+    addItem({
+      id: item.id,
+      name: item.name,
+      category: item.category,
+      price: item.price,
+      originalPrice: item.price,
+      image: item.image,
+      ...(item.color ? { color: item.color } : {}),
+      quantity: 1,
+    });
+    setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
+    setIsOpen(true);
+    setTimeout(() => {
+      setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
+    }, 2000);
+  }
+
+  function handleAddBundle() {
+    companions.forEach((item) => {
+      addItem({
+        id: item.id,
+        name: item.name,
+        category: item.category,
+        price: item.price,
+        originalPrice: item.price,
+        image: item.image,
+        ...(item.color ? { color: item.color } : {}),
+        quantity: 1,
+      });
+    });
+    setBundleAdded(true);
+    setIsOpen(true);
+    setTimeout(() => setBundleAdded(false), 2600);
+  }
+
+  return (
+    <section className="border-t border-border bg-secondary/25 py-12 lg:py-16">
+      <PageContainer>
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Pair &amp; Elevate</p>
+            <h2 className="font-display text-2xl sm:text-3xl">Complete Your Modest Ensemble</h2>
+            <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+              Handpicked companion pieces designed to coordinate seamlessly with this style.
+            </p>
+          </div>
+          <div className="mt-4 sm:mt-0">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleAddBundle}
+              className="h-10 text-xs font-semibold sm:text-sm"
+            >
+              {bundleAdded ? (
+                <>
+                  <Check className="size-4" /> Added Both to Basket
+                </>
+              ) : (
+                <>
+                  <Plus className="size-4" /> Add Both Companions · ₹{bundleTotal.toLocaleString("en-IN")}
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:gap-6">
+          {companions.map((comp) => (
+            <article
+              key={comp.id}
+              className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 rounded-sm border border-border bg-card p-4 transition-shadow hover:shadow-soft"
+            >
+              <div className="aspect-square overflow-hidden rounded-sm bg-muted">
+                <img src={comp.image} alt={comp.name} className="size-full object-cover" />
+              </div>
+              <div className="flex flex-col justify-between">
+                <div>
+                  <span className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
+                    {comp.category}
+                  </span>
+                  <h3 className="font-display text-base font-semibold leading-tight text-foreground">
+                    {comp.name}
+                  </h3>
+                  <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{comp.note}</p>
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <span className="text-sm font-bold text-foreground">
+                    ₹{comp.price.toLocaleString("en-IN")}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-8 px-2.5 text-xs font-semibold"
+                    onClick={() => handleAddSingle(comp)}
+                  >
+                    {addedItemIds[comp.id] ? (
+                      <>
+                        <Check className="size-3 text-success" /> Added
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="size-3" /> Quick Add
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </PageContainer>
+    </section>
+  );
 }
 
 type ReviewItem = {
