@@ -85,7 +85,13 @@ const pillars: Array<{ id: "All" | Pillar; label: string }> = [
 ];
 
 const subcategories: Record<Pillar, string[]> = {
-  Women: ["Salwar Suit Sets", "Kurtas & Kurtis", "Modest Dresses", "Abayas", "Hijabs & Accessories"],
+  Women: [
+    "Salwar Suit Sets",
+    "Kurtas & Kurtis",
+    "Modest Dresses",
+    "Abayas",
+    "Hijabs & Accessories",
+  ],
   Men: ["Kurtas", "Kurta-Pajama Sets", "Pathani Suits", "Prayer Caps"],
   Children: ["Boys' Wear", "Girls' Wear", "Habit Boards", "Learning Toys"],
   Prayer: ["Memory Foam Mats", "Pocket Travel Mats", "Bentwood Rehals", "Stone Tasbihs"],
@@ -112,30 +118,346 @@ const inBand = (p: number, b: PriceBand) =>
         : p > 2000;
 
 const products: Product[] = [
-  { id: 1, pillar: "Women", subcategory: "Salwar Suit Sets", name: "Pure Cambric Cotton Salwar Suit Set", price: 1499, mrp: 1799, note: "Sage · Three pieces", materials: ["Pure Cotton"], sizes: ["S", "M", "L", "XL"], rating: 4.8, reviews: 64, inStock: true, festive: true, badge: "New", image: imgModest },
-  { id: 2, pillar: "Women", subcategory: "Kurtas & Kurtis", name: "Everyday Block Print Cotton Kurta", price: 799, note: "Indigo block print", materials: ["Pure Cotton"], sizes: ["S", "M", "L", "XL", "XXL"], rating: 4.7, reviews: 112, inStock: true, image: imgModest },
-  { id: 3, pillar: "Women", subcategory: "Hijabs & Accessories", name: "Micro-Modal Silk Daily Hijab", price: 499, note: "Oat · Breathable drape", materials: ["Modal"], rating: 4.9, reviews: 208, inStock: true, image: imgModest },
-  { id: 4, pillar: "Women", subcategory: "Abayas", name: "Premium Nida Everyday Abaya", price: 1899, mrp: 2199, note: "Stone · Fluid Nida", materials: ["Modal"], sizes: ["M", "L", "XL"], rating: 4.8, reviews: 47, inStock: true, image: imgModest },
-  { id: 5, pillar: "Women", subcategory: "Modest Dresses", name: "Chanderi Tiered Modest Dress", price: 2299, note: "Dusty rose · Lined", materials: ["Chanderi"], sizes: ["S", "M", "L"], rating: 4.6, reviews: 21, inStock: false, festive: true, image: imgModest },
-  { id: 6, pillar: "Men", subcategory: "Kurtas", name: "Classic Friday Handloom Cotton Kurta", price: 899, note: "Ivory · Handloom weave", materials: ["Pure Cotton"], sizes: ["M", "L", "XL", "XXL"], rating: 4.8, reviews: 93, inStock: true, image: imgBundle },
-  { id: 7, pillar: "Men", subcategory: "Kurta-Pajama Sets", name: "Stitched Kurta-Pajama Set", price: 1299, mrp: 1499, note: "Mist grey · Two pieces", materials: ["Pure Cotton"], sizes: ["S", "M", "L", "XL"], rating: 4.7, reviews: 58, inStock: true, festive: true, image: imgBundle },
-  { id: 8, pillar: "Men", subcategory: "Pathani Suits", name: "Linen-Cotton Pathani Suit", price: 1599, note: "Olive · Relaxed fit", materials: ["Pure Cotton"], sizes: ["L", "XL", "XXL"], rating: 4.6, reviews: 34, inStock: true, festive: true, image: imgBundle },
-  { id: 9, pillar: "Men", subcategory: "Prayer Caps", name: "Breathable Knit Kufi Prayer Cap", price: 299, note: "White · One size", materials: ["Pure Cotton"], rating: 4.5, reviews: 76, inStock: true, image: imgBundle },
-  { id: 10, pillar: "Children", subcategory: "Boys' Wear", name: "Boys' Festive Cotton Kurta Set", price: 799, mrp: 999, note: "Sand · Ages 2–10", materials: ["Pure Cotton"], sizes: ["S", "M", "L"], rating: 4.8, reviews: 41, inStock: true, festive: true, image: imgChild },
-  { id: 11, pillar: "Children", subcategory: "Girls' Wear", name: "Girls' Cotton Sharara Suit", price: 999, note: "Blush · Ages 3–10", materials: ["Pure Cotton"], sizes: ["S", "M"], rating: 4.9, reviews: 29, inStock: true, festive: true, image: imgChild },
-  { id: 12, pillar: "Children", subcategory: "Habit Boards", name: "My Daily Salah Magnetic Habit Board", price: 899, note: "Birch · 35 magnets", materials: ["Wood"], rating: 4.9, reviews: 152, inStock: true, badge: "Loved", image: imgChild },
-  { id: 13, pillar: "Children", subcategory: "Learning Toys", name: "Arabic Alphabet Wooden Tracing Board", price: 649, note: "Beech · Ages 3+", materials: ["Wood"], rating: 4.7, reviews: 67, inStock: true, image: imgChild },
-  { id: 14, pillar: "Prayer", subcategory: "Memory Foam Mats", name: "Ergonomic Memory Foam Prayer Mat", price: 1299, mrp: 1599, note: "Olive · 15mm cushion", materials: ["Memory Foam"], rating: 4.9, reviews: 241, inStock: true, image: imgPrayer },
-  { id: 15, pillar: "Prayer", subcategory: "Pocket Travel Mats", name: "Water-Resistant Pocket Travel Mat", price: 399, note: "Folds to pocket size", materials: [], rating: 4.6, reviews: 88, inStock: true, image: imgPrayer },
-  { id: 16, pillar: "Prayer", subcategory: "Bentwood Rehals", name: "Ergonomic Bentwood Quran Stand Rehal", price: 899, note: "Walnut finish", materials: ["Wood"], rating: 4.8, reviews: 73, inStock: true, image: imgPrayer },
-  { id: 17, pillar: "Prayer", subcategory: "Stone Tasbihs", name: "99-Bead Natural Agate Stone Tasbih", price: 599, note: "Grey agate · Tassel", materials: [], rating: 4.7, reviews: 55, inStock: false, image: imgPrayer },
-  { id: 18, pillar: "Learning", subcategory: "Card Decks", name: "Daily Dua & Hadith 50-Card Family Deck", price: 499, note: "Illustrated · Bilingual", materials: [], rating: 4.9, reviews: 134, inStock: true, image: imgChild },
-  { id: 19, pillar: "Learning", subcategory: "Story Books", name: "Illustrated Bedtime Quran Stories Book", price: 450, note: "Hardcover · 96 pages", materials: [], rating: 4.8, reviews: 98, inStock: true, image: imgChild },
-  { id: 20, pillar: "Home", subcategory: "Bakhoor Burners", name: "Cast Brass Charcoal Bakhoor Burner", price: 899, note: "Hand-finished brass", materials: ["Brass"], rating: 4.7, reviews: 39, inStock: true, festive: true, image: imgBundle },
-  { id: 21, pillar: "Home", subcategory: "Wall Art", name: "Laser-Cut Ayatul Kursi Metal Wall Art", price: 1499, note: "Matte gold · 60cm", materials: ["Brass"], rating: 4.8, reviews: 26, inStock: true, image: imgBundle },
-  { id: 22, pillar: "Home", subcategory: "Attars", name: "Sandalwood & Amber Non-Alcoholic Attar", price: 499, note: "12ml · Roll-on", materials: [], rating: 4.6, reviews: 61, inStock: true, image: imgBundle },
-  { id: 23, pillar: "Gifts", subcategory: "Gift Boxes", name: "The Serene Prayer Sanctuary Gift Box", price: 2499, mrp: 2899, note: "Mat, tasbih & attar", materials: ["Memory Foam"], rating: 4.9, reviews: 44, inStock: true, festive: true, badge: "Gift", image: imgBundle },
-  { id: 24, pillar: "Gifts", subcategory: "Hampers", name: "The Eid Family Celebration Hamper", price: 2199, note: "Six pieces · Gift wrapped", materials: ["Brass", "Wood"], rating: 4.8, reviews: 32, inStock: true, festive: true, badge: "Gift", image: imgBundle },
+  {
+    id: 1,
+    pillar: "Women",
+    subcategory: "Salwar Suit Sets",
+    name: "Pure Cambric Cotton Salwar Suit Set",
+    price: 1499,
+    mrp: 1799,
+    note: "Sage · Three pieces",
+    materials: ["Pure Cotton"],
+    sizes: ["S", "M", "L", "XL"],
+    rating: 4.8,
+    reviews: 64,
+    inStock: true,
+    festive: true,
+    badge: "New",
+    image: imgModest,
+  },
+  {
+    id: 2,
+    pillar: "Women",
+    subcategory: "Kurtas & Kurtis",
+    name: "Everyday Block Print Cotton Kurta",
+    price: 799,
+    note: "Indigo block print",
+    materials: ["Pure Cotton"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    rating: 4.7,
+    reviews: 112,
+    inStock: true,
+    image: imgModest,
+  },
+  {
+    id: 3,
+    pillar: "Women",
+    subcategory: "Hijabs & Accessories",
+    name: "Micro-Modal Silk Daily Hijab",
+    price: 499,
+    note: "Oat · Breathable drape",
+    materials: ["Modal"],
+    rating: 4.9,
+    reviews: 208,
+    inStock: true,
+    image: imgModest,
+  },
+  {
+    id: 4,
+    pillar: "Women",
+    subcategory: "Abayas",
+    name: "Premium Nida Everyday Abaya",
+    price: 1899,
+    mrp: 2199,
+    note: "Stone · Fluid Nida",
+    materials: ["Modal"],
+    sizes: ["M", "L", "XL"],
+    rating: 4.8,
+    reviews: 47,
+    inStock: true,
+    image: imgModest,
+  },
+  {
+    id: 5,
+    pillar: "Women",
+    subcategory: "Modest Dresses",
+    name: "Chanderi Tiered Modest Dress",
+    price: 2299,
+    note: "Dusty rose · Lined",
+    materials: ["Chanderi"],
+    sizes: ["S", "M", "L"],
+    rating: 4.6,
+    reviews: 21,
+    inStock: false,
+    festive: true,
+    image: imgModest,
+  },
+  {
+    id: 6,
+    pillar: "Men",
+    subcategory: "Kurtas",
+    name: "Classic Friday Handloom Cotton Kurta",
+    price: 899,
+    note: "Ivory · Handloom weave",
+    materials: ["Pure Cotton"],
+    sizes: ["M", "L", "XL", "XXL"],
+    rating: 4.8,
+    reviews: 93,
+    inStock: true,
+    image: imgBundle,
+  },
+  {
+    id: 7,
+    pillar: "Men",
+    subcategory: "Kurta-Pajama Sets",
+    name: "Stitched Kurta-Pajama Set",
+    price: 1299,
+    mrp: 1499,
+    note: "Mist grey · Two pieces",
+    materials: ["Pure Cotton"],
+    sizes: ["S", "M", "L", "XL"],
+    rating: 4.7,
+    reviews: 58,
+    inStock: true,
+    festive: true,
+    image: imgBundle,
+  },
+  {
+    id: 8,
+    pillar: "Men",
+    subcategory: "Pathani Suits",
+    name: "Linen-Cotton Pathani Suit",
+    price: 1599,
+    note: "Olive · Relaxed fit",
+    materials: ["Pure Cotton"],
+    sizes: ["L", "XL", "XXL"],
+    rating: 4.6,
+    reviews: 34,
+    inStock: true,
+    festive: true,
+    image: imgBundle,
+  },
+  {
+    id: 9,
+    pillar: "Men",
+    subcategory: "Prayer Caps",
+    name: "Breathable Knit Kufi Prayer Cap",
+    price: 299,
+    note: "White · One size",
+    materials: ["Pure Cotton"],
+    rating: 4.5,
+    reviews: 76,
+    inStock: true,
+    image: imgBundle,
+  },
+  {
+    id: 10,
+    pillar: "Children",
+    subcategory: "Boys' Wear",
+    name: "Boys' Festive Cotton Kurta Set",
+    price: 799,
+    mrp: 999,
+    note: "Sand · Ages 2–10",
+    materials: ["Pure Cotton"],
+    sizes: ["S", "M", "L"],
+    rating: 4.8,
+    reviews: 41,
+    inStock: true,
+    festive: true,
+    image: imgChild,
+  },
+  {
+    id: 11,
+    pillar: "Children",
+    subcategory: "Girls' Wear",
+    name: "Girls' Cotton Sharara Suit",
+    price: 999,
+    note: "Blush · Ages 3–10",
+    materials: ["Pure Cotton"],
+    sizes: ["S", "M"],
+    rating: 4.9,
+    reviews: 29,
+    inStock: true,
+    festive: true,
+    image: imgChild,
+  },
+  {
+    id: 12,
+    pillar: "Children",
+    subcategory: "Habit Boards",
+    name: "My Daily Salah Magnetic Habit Board",
+    price: 899,
+    note: "Birch · 35 magnets",
+    materials: ["Wood"],
+    rating: 4.9,
+    reviews: 152,
+    inStock: true,
+    badge: "Loved",
+    image: imgChild,
+  },
+  {
+    id: 13,
+    pillar: "Children",
+    subcategory: "Learning Toys",
+    name: "Arabic Alphabet Wooden Tracing Board",
+    price: 649,
+    note: "Beech · Ages 3+",
+    materials: ["Wood"],
+    rating: 4.7,
+    reviews: 67,
+    inStock: true,
+    image: imgChild,
+  },
+  {
+    id: 14,
+    pillar: "Prayer",
+    subcategory: "Memory Foam Mats",
+    name: "Ergonomic Memory Foam Prayer Mat",
+    price: 1299,
+    mrp: 1599,
+    note: "Olive · 15mm cushion",
+    materials: ["Memory Foam"],
+    rating: 4.9,
+    reviews: 241,
+    inStock: true,
+    image: imgPrayer,
+  },
+  {
+    id: 15,
+    pillar: "Prayer",
+    subcategory: "Pocket Travel Mats",
+    name: "Water-Resistant Pocket Travel Mat",
+    price: 399,
+    note: "Folds to pocket size",
+    materials: [],
+    rating: 4.6,
+    reviews: 88,
+    inStock: true,
+    image: imgPrayer,
+  },
+  {
+    id: 16,
+    pillar: "Prayer",
+    subcategory: "Bentwood Rehals",
+    name: "Ergonomic Bentwood Quran Stand Rehal",
+    price: 899,
+    note: "Walnut finish",
+    materials: ["Wood"],
+    rating: 4.8,
+    reviews: 73,
+    inStock: true,
+    image: imgPrayer,
+  },
+  {
+    id: 17,
+    pillar: "Prayer",
+    subcategory: "Stone Tasbihs",
+    name: "99-Bead Natural Agate Stone Tasbih",
+    price: 599,
+    note: "Grey agate · Tassel",
+    materials: [],
+    rating: 4.7,
+    reviews: 55,
+    inStock: false,
+    image: imgPrayer,
+  },
+  {
+    id: 18,
+    pillar: "Learning",
+    subcategory: "Card Decks",
+    name: "Daily Dua & Hadith 50-Card Family Deck",
+    price: 499,
+    note: "Illustrated · Bilingual",
+    materials: [],
+    rating: 4.9,
+    reviews: 134,
+    inStock: true,
+    image: imgChild,
+  },
+  {
+    id: 19,
+    pillar: "Learning",
+    subcategory: "Story Books",
+    name: "Illustrated Bedtime Quran Stories Book",
+    price: 450,
+    note: "Hardcover · 96 pages",
+    materials: [],
+    rating: 4.8,
+    reviews: 98,
+    inStock: true,
+    image: imgChild,
+  },
+  {
+    id: 20,
+    pillar: "Home",
+    subcategory: "Bakhoor Burners",
+    name: "Cast Brass Charcoal Bakhoor Burner",
+    price: 899,
+    note: "Hand-finished brass",
+    materials: ["Brass"],
+    rating: 4.7,
+    reviews: 39,
+    inStock: true,
+    festive: true,
+    image: imgBundle,
+  },
+  {
+    id: 21,
+    pillar: "Home",
+    subcategory: "Wall Art",
+    name: "Laser-Cut Ayatul Kursi Metal Wall Art",
+    price: 1499,
+    note: "Matte gold · 60cm",
+    materials: ["Brass"],
+    rating: 4.8,
+    reviews: 26,
+    inStock: true,
+    image: imgBundle,
+  },
+  {
+    id: 22,
+    pillar: "Home",
+    subcategory: "Attars",
+    name: "Sandalwood & Amber Non-Alcoholic Attar",
+    price: 499,
+    note: "12ml · Roll-on",
+    materials: [],
+    rating: 4.6,
+    reviews: 61,
+    inStock: true,
+    image: imgBundle,
+  },
+  {
+    id: 23,
+    pillar: "Gifts",
+    subcategory: "Gift Boxes",
+    name: "The Serene Prayer Sanctuary Gift Box",
+    price: 2499,
+    mrp: 2899,
+    note: "Mat, tasbih & attar",
+    materials: ["Memory Foam"],
+    rating: 4.9,
+    reviews: 44,
+    inStock: true,
+    festive: true,
+    badge: "Gift",
+    image: imgBundle,
+  },
+  {
+    id: 24,
+    pillar: "Gifts",
+    subcategory: "Hampers",
+    name: "The Eid Family Celebration Hamper",
+    price: 2199,
+    note: "Six pieces · Gift wrapped",
+    materials: ["Brass", "Wood"],
+    rating: 4.8,
+    reviews: 32,
+    inStock: true,
+    festive: true,
+    badge: "Gift",
+    image: imgBundle,
+  },
 ];
 
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
@@ -172,7 +494,8 @@ function CollectionPage() {
     );
     if (sort === "price-low") return [...r].sort((a, b) => a.price - b.price);
     if (sort === "price-high") return [...r].sort((a, b) => b.price - a.price);
-    if (sort === "rating") return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+    if (sort === "rating")
+      return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     return r;
   }, [pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort]);
 
@@ -256,7 +579,11 @@ function CollectionPage() {
           <legend className="eyebrow mb-4 text-foreground">Size</legend>
           <div className="flex flex-wrap gap-2">
             {sizes.map((s) => (
-              <Chip key={s} active={selSizes.includes(s)} onClick={() => toggle(s, selSizes, setSelSizes)}>
+              <Chip
+                key={s}
+                active={selSizes.includes(s)}
+                onClick={() => toggle(s, selSizes, setSelSizes)}
+              >
                 {s}
               </Chip>
             ))}
@@ -366,11 +693,24 @@ function CollectionPage() {
           {pillar !== "All" ? (
             <div className="mt-4 overflow-x-auto pb-1">
               <div className="flex min-w-max gap-2" aria-label="Subcategories">
-                <Chip active={!sub} onClick={() => { setSub(null); touch(); }}>
+                <Chip
+                  active={!sub}
+                  onClick={() => {
+                    setSub(null);
+                    touch();
+                  }}
+                >
                   All {pillar}
                 </Chip>
                 {subcategories[pillar].map((s) => (
-                  <Chip key={s} active={sub === s} onClick={() => { setSub(sub === s ? null : s); touch(); }}>
+                  <Chip
+                    key={s}
+                    active={sub === s}
+                    onClick={() => {
+                      setSub(sub === s ? null : s);
+                      touch();
+                    }}
+                  >
                     {s}
                   </Chip>
                 ))}
@@ -421,13 +761,31 @@ function CollectionPage() {
             </div>
           </div>
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1 lg:mt-5">
-            <Chip active={under999} onClick={() => { setUnder999(!under999); touch(); }}>
+            <Chip
+              active={under999}
+              onClick={() => {
+                setUnder999(!under999);
+                touch();
+              }}
+            >
               Under ₹999
             </Chip>
-            <Chip active={inStockOnly} onClick={() => { setInStockOnly(!inStockOnly); touch(); }}>
+            <Chip
+              active={inStockOnly}
+              onClick={() => {
+                setInStockOnly(!inStockOnly);
+                touch();
+              }}
+            >
               In Stock Only
             </Chip>
-            <Chip active={festive} onClick={() => { setFestive(!festive); touch(); }}>
+            <Chip
+              active={festive}
+              onClick={() => {
+                setFestive(!festive);
+                touch();
+              }}
+            >
               Festive Ready
             </Chip>
           </div>
