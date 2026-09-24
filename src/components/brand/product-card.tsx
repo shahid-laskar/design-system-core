@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Eye, Heart, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/brand/design-primitives";
+import { useCart } from "@/lib/cart-context";
+import { cn } from "@/lib/utils";
 
 type ProductCardProps = {
   image: string;
@@ -37,6 +40,10 @@ export function ProductCard({
   reviewCount,
   inStock = true,
 }: ProductCardProps) {
+  const { addItem, setIsOpen } = useCart();
+  const [saved, setSaved] = useState(false);
+  const [added, setAdded] = useState(false);
+
   const targetHref =
     href ??
     `/products/${name
@@ -44,6 +51,31 @@ export function ProductCard({
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")}`;
   const isApparel = Boolean(sizes?.length);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    if (isApparel) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const numericPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 999;
+    const numericOriginalPrice = previousPrice
+      ? parseInt(previousPrice.replace(/[^0-9]/g, ""), 10)
+      : numericPrice;
+
+    addItem({
+      id: targetHref.replace("/products/", ""),
+      name,
+      category,
+      price: numericPrice,
+      originalPrice: numericOriginalPrice,
+      image,
+      quantity: 1,
+    });
+
+    setAdded(true);
+    setIsOpen(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <article className="group min-w-0">
@@ -71,14 +103,24 @@ export function ProductCard({
         <Button
           variant="secondary"
           size="icon"
-          className="absolute right-3 top-3"
-          aria-label={`Save ${name}`}
+          className={cn(
+            "absolute right-3 top-3 transition-colors",
+            saved && "bg-background text-primary"
+          )}
+          aria-label={saved ? `Remove ${name} from saved` : `Save ${name}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setSaved((s) => !s);
+          }}
         >
-          <Heart />
+          <Heart className={cn("size-4", saved && "fill-current text-primary")} />
         </Button>
         <div className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-          <Button variant="secondary" className="w-full bg-background/95">
-            <Eye /> {isApparel ? "Select size" : "Quick view"}
+          <Button variant="secondary" className="w-full bg-background/95" asChild>
+            <Link to={targetHref}>
+              <Eye className="mr-1.5 size-4" /> {isApparel ? "Select size" : "Quick view"}
+            </Link>
           </Button>
         </div>
       </div>
@@ -115,9 +157,19 @@ export function ProductCard({
         {isApparel ? (
           <p className="mt-2 text-xs text-muted-foreground">Sizes: {sizes!.join(", ")}</p>
         ) : null}
-        <Button className="mt-4 w-full" disabled={!inStock}>
-          <Plus /> {inStock ? "Add to bag" : "Notify me"}
-        </Button>
+
+        {isApparel ? (
+          <Button className="mt-4 w-full" disabled={!inStock} asChild>
+            <Link to={targetHref}>
+              <Plus className="mr-1 size-4" /> {inStock ? "Select size & buy" : "Out of stock"}
+            </Link>
+          </Button>
+        ) : (
+          <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
+            <Plus className="mr-1 size-4" />{" "}
+            {inStock ? (added ? "Added to bag!" : "Add to bag") : "Notify me"}
+          </Button>
+        )}
       </div>
     </article>
   );

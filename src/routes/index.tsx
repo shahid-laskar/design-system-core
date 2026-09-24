@@ -83,7 +83,7 @@ const products = [
     savings: "Save 12%",
     note: "Sage Green · 3-Piece Stitched Set (Kurta, Pants, Dupatta) · Breathable Cambric Cotton",
     badge: "Bestseller",
-    href: "/products/cotton-salwar-suit",
+    href: "/products/pure-cambric-cotton-salwar-suit-set",
   },
   {
     image: productMenKurta,
@@ -95,7 +95,7 @@ const products = [
     savings: "Save 10%",
     note: "Soft White · 100% Long-Staple Cotton · Mandarin Collar",
     badge: "Essential",
-    href: "/products/men-cotton-kurta",
+    href: "/products/classic-friday-handloom-cotton-kurta",
   },
   {
     image: productPrayerSet,
@@ -107,7 +107,7 @@ const products = [
     savings: "Save 13%",
     note: "Olive Velvet · 20mm Orthopedic Foam · Anti-Slip Base",
     badge: "Knee Relief",
-    href: "/products/memory-foam-mat",
+    href: "/products/ergonomic-memory-foam-prayer-mat",
   },
   {
     image: productChildSet,
@@ -119,7 +119,7 @@ const products = [
     savings: "Save 10%",
     note: "A3 Magnetic Board · 35 Wooden Tokens · Dry-Erase Pen",
     badge: "Parent Favorite",
-    href: "/products/salah-habit-board",
+    href: "/products/my-daily-salah-magnetic-habit-board",
   },
 ];
 

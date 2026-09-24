@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCommerceProduct } from "@/lib/commerce/use-commerce";
+import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
 import {
   Camera,
   Check,
@@ -53,7 +54,7 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/products/$productId")({
   head: ({ params }) => {
-    const item = catalog[params.productId] ?? catalog["the-stillness-set"];
+    const item = resolveProductBySlug(params.productId);
     const name = item?.name ?? "Product";
     const description = item?.description ?? "Thoughtful essentials for Muslim family life.";
     return {
@@ -217,7 +218,7 @@ function ProductPage() {
 
   const product = useMemo(() => {
     if (liveProduct) return liveProduct;
-    return catalog[productId] ?? catalog["the-stillness-set"];
+    return resolveProductBySlug(productId);
   }, [liveProduct, productId]);
 
   if (!product) return null;
