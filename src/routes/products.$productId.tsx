@@ -120,6 +120,8 @@ const apparelProduct: ProductDetail = {
 
 const catalog: Record<string, ProductDetail> = {
   "pure-cambric-cotton-set": apparelProduct,
+  "cotton-salwar-suit": apparelProduct,
+  "pure-cambric-cotton-salwar-suit-set": apparelProduct,
   "the-everyday-pair": apparelProduct,
   "the-stillness-set": {
     id: "the-stillness-set",
