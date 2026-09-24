@@ -1,14 +1,16 @@
-import { useMemo, useRef, useState, type UIEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Check,
   ChevronRight,
   CircleCheck,
   Leaf,
+  MapPin,
   MessageCircle,
   Minus,
   PackageCheck,
   Plus,
+  RotateCcw,
   ShieldCheck,
   ShoppingBag,
   Star,
@@ -81,18 +83,18 @@ const apparelProduct: ProductDetail = {
   id: "pure-cambric-cotton-set",
   sku: "SH-WCS-014-SG",
   kind: "apparel",
-  name: "Pure Cambric Cotton Set",
+  name: "Pure Cambric Cotton Salwar Suit Set",
   category: "Women's Ethnic",
   categoryTrail: ["Women's Ethnic", "Salwar Suit Sets"],
   price: 1499,
-  mrp: 1699,
+  mrp: 1799,
   rating: "4.9",
   reviewCount: 38,
   description:
-    "A breathable three-piece salwar suit in pure cambric cotton, fully lined for confident everyday modesty.",
+    "A breathable three-piece salwar suit in pure 60s cambric cotton, fully lined with soft cotton voil for guaranteed everyday modesty.",
   gallery: [
     { src: productModest, alt: "Sage and stone cotton salwar suit fabric set", position: "object-center" },
-    { src: productModest, alt: "Close view of soft cambric cotton texture", position: "object-top" },
+    { src: productModest, alt: "Close view of soft cambric cotton texture and stitching", position: "object-top" },
     { src: editorialHome, alt: "Pure cotton set styled in a calm home setting", position: "object-center" },
   ],
   colors: [
@@ -107,16 +109,17 @@ const apparelProduct: ProductDetail = {
     { name: "XL", stock: "in-stock" },
     { name: "XXL", stock: "sold-out" },
   ],
-  modelNote: 'Model is 5\'6" wearing Size M (Bust 38", Length 44")',
+  modelNote: 'Model is 5\'6" wearing Size M (Garment Bust 38", Kurta Length 44")',
   specifications: [
-    ["Top", "Pure 60s Cambric Cotton"],
-    ["Bottom", "Matching breathable cotton pants"],
-    ["Dupatta", "Soft lightweight malmal"],
-    ["Lining", "Attached breathable cotton inner"],
+    ["Top Fabric", "Pure 60s Cambric Cotton (Breathable plain weave)"],
+    ["Bottom", "Matching pure cotton pants with semi-elasticated waist & pockets"],
+    ["Dupatta", "Soft lightweight pure cotton malmal (2.25 meters)"],
+    ["Lining", "Attached pure cotton voil inner across torso (Sleeves unlined)"],
+    ["Stitch Quality", "Interlock reinforced seams with 2-inch tailoring margins"],
   ],
   genericName: "Women's 3-Piece Stitched Salwar Suit Set",
   netQuantity: "1 Set (Kurta: 1 N, Pant: 1 N, Dupatta: 1 N)",
-  countryOfOrigin: "India (Manufactured in Surat / Delhi)",
+  countryOfOrigin: "India (Handcrafted in Surat / Bengaluru)",
 };
 
 const catalog: Record<string, ProductDetail> = {
@@ -128,17 +131,17 @@ const catalog: Record<string, ProductDetail> = {
     id: "the-stillness-set",
     sku: "SH-PRY-021-OL",
     kind: "non-apparel",
-    name: "The Stillness Set",
+    name: "The Stillness Prayer Mat & Rehal Set",
     category: "Prayer",
-    categoryTrail: ["Prayer", "Prayer Mats & Rehals"],
+    categoryTrail: ["Prayer & Worship", "Prayer Mats & Rehals"],
     price: 3499,
     mrp: 3999,
     rating: "4.9",
     reviewCount: 38,
-    description: "A softly woven prayer mat and solid beech rehal, made for a quieter daily return.",
+    description: "A softly woven linen-cotton prayer mat with 15mm orthopaedic memory foam and solid beech folding rehal, made for quiet daily devotion.",
     gallery: [
       { src: productPrayer, alt: "Olive prayer mat with solid beech rehal", position: "object-center" },
-      { src: productPrayer, alt: "Close view of the woven prayer mat", position: "object-left" },
+      { src: productPrayer, alt: "Close view of the woven prayer mat texture and padding", position: "object-left" },
       { src: editorialHome, alt: "Stillness set in a calm prayer corner", position: "object-center" },
     ],
     colors: [
@@ -147,27 +150,29 @@ const catalog: Record<string, ProductDetail> = {
       { name: "Mineral", swatch: "bg-mineral" },
     ],
     specifications: [
-      ["Prayer mat", "110 × 68 cm"],
-      ["Folded rehal", "28 × 19 × 4 cm"],
-      ["Set weight", "Approximately 1.2 kg"],
-      ["Materials", "Linen-cotton weave and FSC-certified beech"],
+      ["Prayer Mat Dimensions", "115 × 70 cm"],
+      ["Cushioning Core", "15mm High-Density Orthopaedic Memory Foam"],
+      ["Mat Surface", "GOTS Organic Linen-Cotton Weave"],
+      ["Mat Backing", "Durable anti-slip textured rubberized grip"],
+      ["Folded Rehal", "28 × 19 × 4 cm (FSC-certified solid European beech wood)"],
+      ["Set Weight", "Approximately 1.35 kg"],
     ],
-    genericName: "Prayer Mat and Rehal Set",
-    netQuantity: "1 Set (Prayer Mat: 1 N, Rehal: 1 N)",
-    countryOfOrigin: "India",
+    genericName: "Prayer Mat and Rehal Gift Set",
+    netQuantity: "1 Set (Prayer Mat: 1 N, Solid Rehal: 1 N)",
+    countryOfOrigin: "India (Handcrafted in Saharanpur & Panipat)",
   },
   "first-forms-set": {
     id: "first-forms-set",
     sku: "SH-KDS-008-NT",
     kind: "non-apparel",
-    name: "First Forms Set",
+    name: "First Forms Wooden Learning Set",
     category: "Children",
-    categoryTrail: ["Children", "Learning & Habit Boards"],
+    categoryTrail: ["Children & Tarbiyah", "Learning & Habit Sets"],
     price: 1999,
     mrp: 2299,
     rating: "4.8",
     reviewCount: 24,
-    description: "Calm wooden forms and organic cotton for considered, low-noise sensory play.",
+    description: "Natural beechwood tactile forms and organic cotton wrap for calm, low-noise sensory learning and tarbiyah.",
     gallery: [
       { src: productChild, alt: "Natural wooden forms and cotton blanket", position: "object-center" },
       { src: productChild, alt: "Close view of smooth beech forms", position: "object-center" },
@@ -177,14 +182,15 @@ const catalog: Record<string, ProductDetail> = {
       { name: "Muted Ochre", swatch: "bg-secondary" },
     ],
     specifications: [
-      ["Stacking height", "16 cm"],
-      ["Base diameter", "10 cm"],
-      ["Pieces", "6 nesting elements"],
+      ["Age Suitability", "3 to 8 Years"],
+      ["Piece Count", "6 Solid Beechwood Nesting Elements + 1 Organic Wrap"],
+      ["Wood Finish", "Food-safe, non-toxic natural beeswax coating"],
+      ["Dimensions", "Stacking height 16 cm, base diameter 10 cm"],
       ["Materials", "FSC-certified beech and GOTS organic cotton"],
     ],
-    genericName: "Wooden Learning and Habit Set",
-    netQuantity: "1 Set (6 wooden elements, 1 cotton wrap)",
-    countryOfOrigin: "India",
+    genericName: "Children's Wooden Educational Learning Set",
+    netQuantity: "1 Set (6 wooden elements, 1 organic cotton wrap)",
+    countryOfOrigin: "India (Handcrafted in Channapatna / Karnataka)",
   },
 };
 
@@ -309,8 +315,16 @@ function ProductExperience({ product }: { product: ProductDetail }) {
           </section>
 
           <section className="min-w-0">
-            <div className="inline-flex items-center rounded-full border border-border bg-secondary/45 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-primary">
-              {product.category}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center rounded-full border border-border bg-secondary/45 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-primary">
+                {product.category}
+              </div>
+              {product.kind === "apparel" && (
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-3 py-1 text-[0.68rem] font-semibold text-primary">
+                  <ShieldCheck className="size-3.5 shrink-0 text-primary" />
+                  <span>100% Non-Transparent · Attached Cotton Inner</span>
+                </div>
+              )}
             </div>
             <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{product.description}</p>
@@ -376,7 +390,15 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   ))}
                 </div>
                 <StockMessage stock={selectedSize?.stock} size={size} />
-                <p className="mt-3 text-xs leading-5 text-muted-foreground">{product.modelNote}</p>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {size === "S" && "Garment Bust: 36″ · Recommended for Body Bust 32″–33″ with modest comfort ease"}
+                  {size === "M" && "Garment Bust: 38″ · Recommended for Body Bust 34″–35″ with modest comfort ease"}
+                  {size === "L" && "Garment Bust: 40″ · Recommended for Body Bust 36″–37″ with modest comfort ease"}
+                  {size === "XL" && "Garment Bust: 42″ · Recommended for Body Bust 38″–39″ with modest comfort ease"}
+                  {size === "XXL" && "Garment Bust: 44″ · Recommended for Body Bust 40″–41″ with modest comfort ease"}
+                  {!size && "Select a size to view garment bust & body recommendations"}
+                </p>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">{product.modelNote}</p>
               </div>
             ) : (
               <Specifications product={product} />
@@ -402,6 +424,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               </Button>
             </div>
 
+            <PincodeChecker />
+
             <ShippingMeter total={orderTotal} qualified={freeShipping} />
           </section>
         </div>
@@ -421,16 +445,40 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         <h2 className="font-display text-3xl">Product details &amp; declarations</h2>
         <Accordion type="multiple" className="mt-6 border-t border-border">
           <AccordionItem value="fabric">
-            <AccordionTrigger className="text-left font-semibold hover:no-underline">Fabric, Cut &amp; Care Instructions</AccordionTrigger>
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">Fabric, Modesty Cut &amp; Care Details</AccordionTrigger>
             <AccordionContent className="space-y-4 pr-6 leading-6 text-muted-foreground">
               {product.kind === "apparel" ? (
-                <>
-                  <p>Pure 60s Cambric Cotton top, matching cotton pants, and soft lightweight malmal dupatta.</p>
-                  <p>Interlock stitching with internal seam margins. Attached breathable cotton lining keeps the garment 100% non-transparent in normal wear.</p>
-                  <p><strong className="text-foreground">Care:</strong> Gentle machine or hand wash in cold water with mild detergent. Line dry in shade.</p>
-                </>
+                <div className="space-y-3 text-xs leading-5 sm:text-sm sm:leading-6">
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Fabric &amp; Weave:</span>
+                    <span>Pure 60s Cambric Cotton (Top &amp; Bottom), Lightweight Pure Cotton Malmal (Dupatta). Pre-washed and colorfast.</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Inner Lining:</span>
+                    <span>Attached pure breathable cotton voil inner lining across the torso; sleeves kept unlined for cool summer breathability. Guaranteed 100% non-transparent.</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Modesty Cut:</span>
+                    <span>Modest 6.5″ scoop neck with modesty placket stay; full 21″ sleeve length with tailored cuffs; side slits reinforced at 18″.</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Tailoring Margins:</span>
+                    <span>2-inch internal seam margins included on both sides for effortless custom sizing adjustments.</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Care Instructions:</span>
+                    <span>Gentle machine or hand wash in cold water with mild liquid detergent. Line dry in shade to protect natural botanical dyes. Medium steam iron.</span>
+                  </div>
+                </div>
               ) : (
-                <p>{product.specifications.map(([label, value]) => `${label}: ${value}`).join(". ")}.</p>
+                <div className="space-y-2 text-xs leading-5 sm:text-sm sm:leading-6">
+                  {product.specifications.map(([label, value]) => (
+                    <div key={label} className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                      <span className="font-semibold text-foreground">{label}:</span>
+                      <span>{value}</span>
+                    </div>
+                  ))}
+                </div>
               )}
             </AccordionContent>
           </AccordionItem>
@@ -492,6 +540,109 @@ function Specifications({ product }: { product: ProductDetail }) {
           <div key={label} className="min-w-0 bg-background p-3"><dt className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">{label}</dt><dd className="mt-1 text-sm leading-5">{value}</dd></div>
         ))}
       </dl>
+    </div>
+  );
+}
+
+function PincodeChecker() {
+  const [pincode, setPincode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("user_pincode") || "";
+    }
+    return "";
+  });
+  const [checkedPincode, setCheckedPincode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("user_pincode");
+      return saved && saved.length === 6 ? saved : "";
+    }
+    return "";
+  });
+
+  const estimatedDateStr = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 3);
+    return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+  }, []);
+
+  function handleCheck() {
+    const trimmed = pincode.trim();
+    if (trimmed.length === 6) {
+      setCheckedPincode(trimmed);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user_pincode", trimmed);
+      }
+    }
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleCheck();
+    }
+  }
+
+  return (
+    <div className="border-t border-border py-4">
+      <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
+        <MapPin className="size-3.5 text-primary" />
+        <span>Delivery &amp; Serviceability Check</span>
+      </div>
+      <div className="mt-2.5 flex max-w-xs gap-2">
+        <input
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={6}
+          value={pincode}
+          onChange={(e) => {
+            const val = e.target.value.replace(/\D/g, "");
+            setPincode(val);
+            if (val.length === 6) {
+              setCheckedPincode(val);
+              if (typeof window !== "undefined") {
+                localStorage.setItem("user_pincode", val);
+              }
+            } else {
+              setCheckedPincode("");
+            }
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter 6-digit Pincode"
+          className="h-9 w-full rounded-sm border border-input bg-background px-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 shrink-0 px-3 text-xs"
+          onClick={handleCheck}
+          disabled={pincode.length !== 6}
+        >
+          Check
+        </Button>
+      </div>
+
+      {checkedPincode && checkedPincode.length === 6 ? (
+        <div className="mt-3 space-y-1.5 rounded-sm bg-secondary/35 p-3 text-xs">
+          <p className="flex items-center gap-1.5 font-medium text-foreground">
+            <Truck className="size-3.5 shrink-0 text-primary" />
+            <span>Delivery to <strong className="font-semibold">{checkedPincode}</strong> by <strong className="font-semibold text-primary">{estimatedDateStr}</strong> (Express Air)</span>
+          </p>
+          <p className="flex items-center gap-1.5 text-muted-foreground">
+            <CircleCheck className="size-3.5 shrink-0 text-success" />
+            <span>Cash on Delivery (COD) Available</span>
+          </p>
+          <p className="flex items-center gap-1.5 text-muted-foreground">
+            <RotateCcw className="size-3.5 shrink-0 text-primary" />
+            <span>Free 7-Day Doorstep Size Exchange with Reverse Courier Pickup</span>
+          </p>
+        </div>
+      ) : (
+        <p className="mt-2 text-[0.7rem] text-muted-foreground">
+          Enter your delivery pincode to check dispatch timelines &amp; COD availability.
+        </p>
+      )}
     </div>
   );
 }
