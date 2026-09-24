@@ -23,6 +23,7 @@ This roadmap tracks the development of the Sukoon House (Haven Home Goods) digit
 ## Phase 3: Commerce & Cart Experience
 
 - [ ] Interactive slide-out cart drawer with free gift progress threshold
+- [ ] Cart state shared across the header and product pages, family cross-sells, shipping summary, and WhatsApp order assist
 - [ ] Empty bag, loading, error, and stock reservation states
 - [ ] Shopify AJAX Cart API client integration for seamless cart synchronization
 
