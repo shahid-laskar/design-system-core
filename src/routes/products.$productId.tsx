@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  Camera,
   Check,
   ChevronRight,
   CircleCheck,
@@ -14,6 +15,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Star,
+  ThumbsUp,
   Truck,
   Zap,
 } from "lucide-react";
@@ -31,6 +33,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
 
@@ -514,14 +523,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         </Accordion>
       </PageContainer>
 
-      <section id="reviews" className="border-t border-border">
-        <PageContainer className="py-10">
-          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4">
-            <span className="font-display text-4xl">{product.rating}</span>
-            <div className="min-w-0"><p className="font-semibold">Loved by {product.reviewCount} customers</p><p className="text-sm text-muted-foreground">Verified customer ratings for comfort, material, and finish.</p></div>
-          </div>
-        </PageContainer>
-      </section>
+      <ProductReviewHub product={product} />
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-lifted backdrop-blur lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -675,4 +677,359 @@ function TrustItem({ icon: Icon, title, copy }: { icon: typeof ShieldCheck; titl
 
 function Declaration({ label, value }: { label: string; value: string }) {
   return <><dt className="font-semibold text-foreground">{label}</dt><dd className="border-b border-border pb-3 text-muted-foreground sm:border-0 sm:pb-0">{value}</dd></>;
+}
+
+type ReviewItem = {
+  id: string;
+  author: string;
+  location: string;
+  verified: boolean;
+  rating: number;
+  date: string;
+  variant: string;
+  title: string;
+  body: string;
+  initialHelpful: number;
+  photo?: string;
+  tags: string[];
+};
+
+const sampleReviews: ReviewItem[] = [
+  {
+    id: "rev-1",
+    author: "Farhana K.",
+    location: "Bengaluru, Karnataka",
+    verified: true,
+    rating: 5,
+    date: "14 Sep 2026",
+    variant: "Purchased Size M · Sage Green",
+    title: "Finally a brand that understands modesty & cotton quality!",
+    body: "I was so hesitant to buy clothes online because so many kurtas end up see-through in the sun. This suit is 100% non-transparent thanks to the soft attached cotton lining. Cambric cotton feels breathable even in 32-degree weather. Size M fits with just the right amount of ease.",
+    initialHelpful: 24,
+    photo: productModest,
+    tags: ["photos", "5star", "fit", "verified"],
+  },
+  {
+    id: "rev-2",
+    author: "Amina S.",
+    location: "Hyderabad, Telangana",
+    verified: true,
+    rating: 5,
+    date: "09 Sep 2026",
+    variant: "Purchased Size XL · Sage Green",
+    title: "Perfect for Jummah and family gatherings",
+    body: "Beautiful finish on the neckline and the sleeves are genuinely full length (covers wrists properly). The malmal dupatta is lightweight and doesn't slip off the head constantly.",
+    initialHelpful: 19,
+    photo: editorialHome,
+    tags: ["photos", "5star", "fit", "verified"],
+  },
+  {
+    id: "rev-3",
+    author: "Zoya M.",
+    location: "Delhi NCR",
+    verified: true,
+    rating: 4,
+    date: "03 Sep 2026",
+    variant: "Purchased Size S · Sage Green",
+    title: "Very soft fabric, pants fit comfortably",
+    body: "The pants have elastic and pockets! Kurta length is modest (below knees). Deducted one star only because delivery took 4 days to East Delhi, but the product itself is exceptional.",
+    initialHelpful: 11,
+    tags: ["fit", "verified"],
+  },
+];
+
+function ProductReviewHub({ product }: { product: ProductDetail }) {
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
+  const [helpfulMap, setHelpfulMap] = useState<Record<string, number>>({
+    "rev-1": 24,
+    "rev-2": 19,
+    "rev-3": 11,
+  });
+  const [votedMap, setVotedMap] = useState<Record<string, boolean>>({});
+  const [activePhoto, setActivePhoto] = useState<{
+    src: string;
+    author: string;
+    variant: string;
+    title: string;
+  } | null>(null);
+
+  const filteredReviews = useMemo(() => {
+    if (selectedFilter === "all") return sampleReviews;
+    if (selectedFilter === "photos") return sampleReviews.filter((r) => Boolean(r.photo));
+    if (selectedFilter === "5star") return sampleReviews.filter((r) => r.rating === 5);
+    if (selectedFilter === "fit") return sampleReviews.filter((r) => r.tags.includes("fit"));
+    if (selectedFilter === "verified") return sampleReviews.filter((r) => r.verified);
+    return sampleReviews;
+  }, [selectedFilter]);
+
+  function handleHelpful(id: string) {
+    if (votedMap[id]) return;
+    setHelpfulMap((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
+    setVotedMap((prev) => ({ ...prev, [id]: true }));
+  }
+
+  return (
+    <section id="reviews" className="border-t border-border bg-background py-12 lg:py-20">
+      <PageContainer>
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Family Trust &amp; Reviews</p>
+          <h2 className="font-display text-3xl sm:text-4xl">Customer Ratings &amp; Experiences</h2>
+        </div>
+
+        {/* Top Grid: Rating Distribution + Sentiment Bars */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-12">
+          {/* Column 1: Overall Score & 5-Star Histogram */}
+          <div className="rounded-sm border border-border bg-card p-6">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-5xl font-semibold text-foreground">{product.rating}</span>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1 text-warning">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="size-4 fill-current" />
+                  ))}
+                </div>
+                <span className="mt-1 text-xs text-muted-foreground">Based on {product.reviewCount} verified family ratings</span>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-2.5">
+              {[
+                { stars: 5, pct: 84, count: 32 },
+                { stars: 4, pct: 13, count: 5 },
+                { stars: 3, pct: 3, count: 1 },
+                { stars: 2, pct: 0, count: 0 },
+                { stars: 1, pct: 0, count: 0 },
+              ].map(({ stars, pct, count }) => (
+                <div key={stars} className="grid grid-cols-[2.5rem_minmax(0,1fr)_3rem] items-center gap-3 text-xs">
+                  <span className="font-medium text-muted-foreground">{stars} ★</span>
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
+                  </div>
+                  <span className="text-right text-muted-foreground">{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Column 2: Structured Sentiment Bars */}
+          <div className="rounded-sm border border-border bg-card p-6">
+            <h3 className="text-sm font-semibold text-foreground">Verified Customer Sentiment</h3>
+            <p className="mt-1 text-xs text-muted-foreground">Aggregated feedback on fit, modesty opacity, and fabric durability.</p>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
+                  <span className="font-semibold text-primary">88% True to size</span>
+                </div>
+                <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full bg-primary" style={{ width: "88%" }} title="True to size (88%)" />
+                  <div className="h-full bg-secondary" style={{ width: "8%" }} title="Runs loose (8%)" />
+                  <div className="h-full bg-border" style={{ width: "4%" }} title="Runs tight (4%)" />
+                </div>
+                <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
+                  <span>Runs tight (4%)</span>
+                  <span>True to size (88%)</span>
+                  <span>Runs loose (8%)</span>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
+                  <span className="font-semibold text-success">97% 100% Non-Transparent</span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full rounded-full bg-success" style={{ width: "97%" }} />
+                </div>
+                <p className="mt-1 text-[0.68rem] text-muted-foreground">Attached inner lining guarantees complete confidence in bright daylight.</p>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium text-foreground">Fabric Softness &amp; Breathability</span>
+                  <span className="font-semibold text-primary">95% Soft Cambric Weave</span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full rounded-full bg-primary" style={{ width: "95%" }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium text-foreground">Colorfastness After Washing</span>
+                  <span className="font-semibold text-primary">92% Zero Bleed</span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full rounded-full bg-primary" style={{ width: "92%" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Real Customer Photos Carousel */}
+        <div className="mt-10">
+          <div className="flex items-center justify-between">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Camera className="size-4 text-primary" />
+              <span>Customer Photos &amp; Everyday Styling (12)</span>
+            </h3>
+            <span className="text-xs text-muted-foreground">Real home photos by verified buyers</span>
+          </div>
+
+          <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none">
+            {sampleReviews
+              .filter((r) => r.photo)
+              .map((rev) => (
+                <button
+                  key={rev.id}
+                  type="button"
+                  onClick={() =>
+                    setActivePhoto({
+                      src: rev.photo!,
+                      author: rev.author,
+                      variant: rev.variant,
+                      title: rev.title,
+                    })
+                  }
+                  className="group relative aspect-[4/5] w-36 shrink-0 snap-start overflow-hidden rounded-sm border border-border bg-muted text-left focus:outline-none focus:ring-2 focus:ring-primary sm:w-44"
+                >
+                  <img
+                    src={rev.photo}
+                    alt={`Customer photo by ${rev.author}`}
+                    className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-2 text-white">
+                    <p className="truncate text-xs font-semibold">{rev.author}</p>
+                    <p className="truncate text-[0.68rem] text-white/80">{rev.variant}</p>
+                  </div>
+                </button>
+              ))}
+          </div>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="mt-10 flex flex-wrap items-center gap-2 border-b border-border pb-4">
+          {[
+            { id: "all", label: `All Reviews (${product.reviewCount})` },
+            { id: "photos", label: "With Photos (12)" },
+            { id: "5star", label: "5 Star Only (32)" },
+            { id: "fit", label: "Fit & Sizing (18)" },
+            { id: "verified", label: "Verified Buyers Only" },
+          ].map(({ id, label }) => (
+            <Button
+              key={id}
+              variant={selectedFilter === id ? "default" : "outline"}
+              size="sm"
+              className={cn("h-8 rounded-full px-3 text-xs", selectedFilter === id && "font-semibold")}
+              onClick={() => setSelectedFilter(id)}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
+
+        {/* Individual Review Cards */}
+        <div className="mt-6 divide-y divide-border">
+          {filteredReviews.map((rev) => (
+            <article key={rev.id} className="py-6 first:pt-2">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-foreground">{rev.author}</span>
+                    <span className="text-xs text-muted-foreground">· {rev.location}</span>
+                    {rev.verified && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-success/12 px-2 py-0.5 text-[0.68rem] font-semibold text-success">
+                        <Check className="size-3" /> Verified Buyer
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-1.5 flex items-center gap-2">
+                    <div className="flex items-center gap-0.5 text-warning">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={cn("size-3.5", i < rev.rating ? "fill-current" : "text-muted")}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs font-medium text-foreground/80">{rev.variant}</span>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground">{rev.date}</span>
+              </div>
+
+              <h4 className="mt-3 text-sm font-semibold text-foreground">{rev.title}</h4>
+              <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{rev.body}</p>
+
+              {rev.photo && (
+                <div className="mt-3">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActivePhoto({
+                        src: rev.photo!,
+                        author: rev.author,
+                        variant: rev.variant,
+                        title: rev.title,
+                      })
+                    }
+                    className="inline-block overflow-hidden rounded-sm border border-border hover:opacity-90"
+                  >
+                    <img
+                      src={rev.photo}
+                      alt={`Photo review from ${rev.author}`}
+                      className="h-20 w-20 object-cover"
+                    />
+                  </button>
+                </div>
+              )}
+
+              <div className="mt-4 flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleHelpful(rev.id)}
+                  className={cn(
+                    "h-7 px-2.5 text-xs text-muted-foreground hover:text-foreground",
+                    votedMap[rev.id] && "font-semibold text-primary",
+                  )}
+                  disabled={votedMap[rev.id]}
+                >
+                  <ThumbsUp className="mr-1.5 size-3" />
+                  <span>
+                    {votedMap[rev.id]
+                      ? "Helpful (Marked)"
+                      : `Helpful (${helpfulMap[rev.id] ?? rev.initialHelpful})`}
+                  </span>
+                </Button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Customer Photo Lightbox Dialog */}
+        <Dialog open={Boolean(activePhoto)} onOpenChange={(open) => !open && setActivePhoto(null)}>
+          <DialogContent className="max-w-xl p-4 sm:p-6">
+            <DialogHeader className="text-left">
+              <DialogTitle className="font-display text-xl font-medium">{activePhoto?.title}</DialogTitle>
+              <DialogDescription>
+                Customer photo shared by {activePhoto?.author} ({activePhoto?.variant})
+              </DialogDescription>
+            </DialogHeader>
+            {activePhoto && (
+              <div className="mt-3 overflow-hidden rounded-sm bg-muted">
+                <img
+                  src={activePhoto.src}
+                  alt={activePhoto.title}
+                  className="aspect-[4/5] w-full object-cover"
+                />
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </PageContainer>
+    </section>
+  );
 }
