@@ -4,7 +4,9 @@
 
 export const MEDUSA_BACKEND_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_MEDUSA_BACKEND_URL) ||
-  "http://localhost:9000";
+  (typeof window !== "undefined" && window.location?.hostname
+    ? `http://${window.location.hostname}:9000`
+    : "http://localhost:9000");
 
 export const MEDUSA_PUBLISHABLE_KEY =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_MEDUSA_PUBLISHABLE_KEY) ||
