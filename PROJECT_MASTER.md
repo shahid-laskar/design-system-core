@@ -1,9 +1,10 @@
 # PROJECT MASTER — SUKOON HOUSE
 
 > **The Single Authoritative Source of Truth for Sukoon House**  
-> *Curated Retail Store for Modern Muslim Households*  
+> *Curated Online Retail Store for Modern Muslim Households*  
 > **Status:** Active Authoritative Baseline · **Last Updated:** 2026-09-24  
-> **Repository:** `/opt/lifestyle-web/web/frontend` (`shahid-laskar/design-system-core`)
+> **Repository:** `/opt/lifestyle-web/web/frontend` (`shahid-laskar/design-system-core`)  
+> **Backend Repository:** `TBD` — to be scaffolded at `/opt/lifestyle-web/web/backend/`
 
 ---
 
@@ -11,253 +12,163 @@
 
 Sukoon House is a curated online retail destination for modern Muslim households, offering good-quality, reasonably priced apparel (salwar suits, kurtas, abayas, children's ethnic wear), prayer essentials, family learning tools, and thoughtful lifestyle items in one trusted, convenient store. It solves the extreme fragmentation, poor fabric quality, and fit anxiety faced by middle-class Muslim families shopping across unreliable Instagram sellers, chaotic marketplaces, and local bazaars by providing vetted products, guaranteed modest opaque cuts, transparent pricing, and reliable nationwide delivery.
 
+The storefront frontend is built and stable. The next objective is a **fully functional production commerce system** the founder can operate without touching the database or source code.
+
 ---
 
 ## 2. Current Business Model
 
 ### Target Customer
-Urban and semi-urban middle-class to upper-middle-class Muslim families living in Tier 1 and Tier 2 cities in India (monthly household income ₹40,000–₹1,80,000). The primary shopper is the **educated Muslim woman/mother**, managing clothing purchases for herself and her children, household prayer essentials, and festive/milestone gifting.
+Urban and semi-urban middle-class to upper-middle-class Muslim families in Tier 1 and Tier 2 cities in India (monthly household income ₹40,000–₹1,80,000). The primary shopper is the **educated Muslim woman/mother**, managing clothing purchases for herself and her children, household prayer essentials, and festive/milestone gifting.
 
 ### Value Proposition
-- **Curated Quality over Market Chaos:** Hand-vetted fabrics, durable memory foam, and authentic content replacing the gamble of Amazon commodities and unverified Instagram vendors.
-- **Modesty Guarantees:** 100% non-transparent fabrics, attached linings, high necklines, and generous inner tailoring margins.
-- **Convenience & Trust:** Multi-category shopping in a single checkout, transparent pricing, 24–48 hour dispatch, automated WhatsApp order updates, and a guaranteed 7-day doorstep size exchange.
+- **Curated Quality over Market Chaos:** Hand-vetted fabrics, durable memory foam, authentic content.
+- **Modesty Guarantees:** 100% non-transparent fabrics, attached linings, high necklines, generous inner tailoring margins.
+- **Convenience & Trust:** Multi-category family shopping in a single checkout, transparent pricing, 24–48h dispatch, WhatsApp order updates, 7-day doorstep size exchange.
 
-### Commercial & Operational Model
-The business operates as a **carefully curated specialty merchant**:
-$$\text{\textbf{CURATION}} + \text{\textbf{SOURCING}} + \text{\textbf{RETAIL}} + \text{\textbf{TRUST}} + \text{\textbf{CONVENIENCE}}$$
-We partner directly with established manufacturers and master wholesalers in India's leading industrial clusters, inspect and test samples, package items thoughtfully, and retail them online with healthy margins. We do **not** invest in bespoke factory tooling or proprietary fabric weaving.
+### Commercial Model
+Merchant-First Cluster Procurement: partner with established manufacturers and master wholesalers in India's leading industrial clusters, QC-test samples, retail online with healthy margins.
 
-### Pricing Philosophy ("Accessible Quality" / Masstige)
-- **Individual Products:** ₹249 to ₹1,899.
-- **Curated Gift Hampers:** ₹1,999 to ₹3,499.
-- **Gross Margins:** 58%–62% on apparel; 66%–73% on hard goods.
-- **Contribution Margin 3 (CM3):** 20%–31% net after logistics, packaging, payment fees, and return/exchange provisions.
-- **Shipping Policy:** Free domestic delivery on orders over **₹999**. Orders below ₹999 carry a flat **₹70** standard shipping fee.
-- **Payment Mix:** ~65% Prepaid (UPI) / ~35% Cash on Delivery (COD with automated phone confirmation).
+### Pricing Architecture ("Accessible Quality" / Masstige)
+- **Individual Products:** ₹249–₹1,899.
+- **Curated Gift Hampers:** ₹1,999–₹3,499.
+- **Gross Margins:** 58%–62% apparel; 66%–73% hard goods.
+- **Shipping:** Free on orders ≥ ₹999 · Flat ₹70 below ₹999.
+- **Payment Mix:** ~65% Prepaid (Razorpay UPI) / ~35% COD (automated phone confirmation).
 
-### Sourcing Model & Launch Asset
-1. **Tier 1 Launch Asset (Day 1):** The founder's wife possesses practical retail experience and existing physical inventory centered around **women's salwar suits and ethnic sets**. This existing stock is deployed first, generating immediate live revenue and cash flow with **zero upfront apparel procurement cash burn**.
-2. **Tier 2 Cluster Procurement:**
-   - **Surat (Gujarat):** Micro-modal fabrics, unstitched suit materials, modal silk dupattas, abayas.
-   - **Delhi-NCR (Chandni Chowk, Gandhi Nagar, Noida):** Ready ethnic wear, men's kurtas, commercial offset printing, habit boards, rigid gift boxes.
-   - **Jaipur & Ahmedabad:** 100% handloom cambric cotton kurtas, boys' kurta sets, block prints.
-   - **Panipat (Haryana):** 20mm high-density memory foam prayer mats, chenille velvet musallas.
-   - **Saharanpur (UP):** Kiln-seasoned Sheesham & Oak bentwood wooden rehals and stands.
-   - **Moradabad (UP):** Laser-cut metal calligraphy wall art, solid brass bakhoor burners.
-   - **Kannauj / Mumbai:** Alcohol-free pure botanical attar perfume oils.
+### Sourcing Clusters
+| Cluster | Products |
+| :--- | :--- |
+| Surat (Gujarat) | Modal fabrics, suits, abayas, hijabs |
+| Delhi-NCR | Ready ethnic wear, men's kurtas, packaging, habit boards |
+| Jaipur / Ahmedabad | Handloom cotton kurtas, block prints, children's wear |
+| Panipat (Haryana) | 20mm memory foam prayer mats, chenille musallas |
+| Saharanpur (UP) | Bentwood rehals, wooden stands |
+| Moradabad (UP) | Laser-cut metal wall art, brass bakhoor burners |
 
-### Initial Capital Allocation
-- Micro-batch initial investment strictly capped at **₹45,000 to ₹60,000** for pilot non-apparel test stock (10–15 units per SKU) while deploying the wife's existing apparel stock.
+**Launch Asset:** Founder's wife's existing salwar suit inventory deployed as Tier 1 stock (zero initial apparel procurement cash burn). New pilot stock capped at ₹45,000–₹60,000.
 
 ---
 
 ## 3. Product & Category Architecture
 
-The catalog is structured around **7 Core Family Pillars** plus **Seasonal Occasions**:
+7 Core Family Pillars:
 
 ```
 Sukoon House Catalog
 ├── 1. Women's Ethnic & Modest
 │    ├── Salwar Suit Sets (Cambric cotton, Chanderi, Modal silk)
-│    ├── Kurtas & Kurtis
-│    ├── Modest Everyday Dresses
-│    ├── Abayas & Daily Covers
-│    └── Hijabs & Modesty Accessories (Micro-modal hijabs, snag-free magnetic pins)
+│    ├── Kurtas & Kurtis · Modest Dresses · Abayas
+│    └── Hijabs & Modesty Accessories
 ├── 2. Men's Apparel
-│    ├── Pure Cotton Friday Kurtas
-│    ├── Kurta-Pajama Sets
-│    ├── Pathani Suits
-│    ├── Thobes & Jubbas
-│    └── Breathable Knit Kufi Prayer Caps
+│    ├── Cotton Kurtas · Kurta-Pajama · Pathani · Thobes
+│    └── Kufi Prayer Caps
 ├── 3. Children & Tarbiyah
-│    ├── Boys' Soft Cotton Kurta Sets
-│    ├── Girls' Modest Ethnic Sets
-│    ├── My Daily Salah Magnetic Habit Trackers
-│    └── Islamic Board Books & Illustrated Stories
+│    ├── Boys' / Girls' Ethnic Sets
+│    ├── Salah Habit Trackers
+│    └── Islamic Board Books
 ├── 4. Prayer & Worship
-│    ├── 20mm Orthopedic Memory Foam Prayer Mats
-│    ├── Kiln-Seasoned Bentwood Rehals & Quran Stands
-│    ├── Natural Stone & Olive Wood Tasbihs (33 & 99 bead)
-│    └── Travel Water-Resistant Pocket Prayer Mats
+│    ├── 20mm Memory Foam Mats · Pocket Travel Mats
+│    ├── Bentwood Rehals · Stone Tasbihs
 ├── 5. Learning & Books
-│    ├── Daily Dua & Hadith Reflection Decks
-│    ├── Arabic Alphabet Sensory Wooden Boards
-│    └── Bedtime Islamic Storybooks
+│    ├── Dua & Hadith Decks · Arabic Boards · Storybooks
 ├── 6. Home & Ambiance
-│    ├── Solid Brass Bakhoor Incense Burners
-│    ├── Precision Laser-Cut Metal Arabic Wall Art
-│    ├── Alcohol-Free Pure Botanical Attars (12ml)
-│    └── Wooden Ramadan Countdown Calendars
+│    ├── Brass Bakhoor Burners · Metal Wall Art
+│    ├── Botanical Attars (12ml) · Ramadan Countdowns
 └── 7. Milestone Gifts
-     ├── The Serene Sanctuary Gift Set
-     ├── Eid Family Celebration Hamper
-     └── Nikah & Housewarming Presentation Sets
+     ├── Serene Sanctuary Set · Eid Family Hamper
+     └── Nikah & Housewarming Sets
 ```
 
-### Curated Occasions
-- **Eid Gifting:** Curated family bundles, festive attire, luxury hampers.
-- **Ramadan Living:** Countdown calendars, prayer mats, bakhoor burners, habit trackers.
-- **Jummah Essentials:** Crisp white cotton kurtas, fresh attar oils, pocket mats, caps.
-
-### Dual-Engine Commercial Merchandising Principle
-- **Apparel (Women, Men, Children):** High-velocity, social-discovery, high-frequency repeat engine (3–5 purchases per year per household).
-- **Non-Apparel (Prayer, Learning, Home, Gifts):** High gross margin (68%+), zero sizing friction, near-zero return (<2.5%) trust anchors.
+**Curated Occasions:** Eid Gifting · Ramadan Living · Jummah Essentials.
 
 ---
 
 ## 4. Customer & Shopping Model
 
 ### Who Shops Here
-The core shopper is an urban or semi-urban Muslim mother/homemaker (24–44 years old) who coordinates family purchasing:
-- Purchases modest daily and festive clothing for herself.
-- Buys festive kurtas for her husband and sons.
-- Chooses educational tools and habit builders for her children.
-- Buys prayer mats and home fragrance for family comfort.
-- Selects curated gift boxes for weddings, Eid, and housewarmings.
+Muslim mother/homemaker (24–44 years old) who coordinates family purchasing: her modest clothing, husband's festive kurtas, children's ethnic sets, prayer mats, educational tools, and occasion gift boxes.
 
-### Shopping Missions
-1. **The Ramadan & Eid Family Wardrobe Mission:** Purchasing coordinated, modest, festive apparel for the entire family in a single trusted checkout.
-2. **The Tarbiyah (Child Rearing) Mission:** Sourcing wholesome, durable Islamic educational materials (habit boards, flashcards) that make faith engaging for young children.
-3. **The Spiritual Routine & Jummah Mission:** Upgrading worn prayer mats to joint-cushioning memory foam, stocking pure attar oils, and replacing prayer caps.
-4. **The Considered Gift Mission:** Finding an elegant, ready-to-gift Islamic presentation box that avoids cheap trinkets.
+### Key Shopping Missions
+1. **Ramadan & Eid Family Wardrobe:** Coordinated modest festive apparel for the whole family in one checkout.
+2. **Tarbiyah Mission:** Islamic educational tools (habit boards, flashcards) for children.
+3. **Jummah & Spiritual Routine:** Memory foam mat upgrade, attar oils, prayer caps.
+4. **Gifting Mission:** Elegant, ready-to-gift Islamic presentation boxes.
 
 ### Purchase Decision Drivers
-- **Fabric Transparency & Opacity:** The primary fear when ordering women's clothing online is see-through fabric. Guaranteed opacity and attached cotton linings eliminate this barrier.
-- **Fit Confidence:** Detailed garment measurements (bust, length, sleeve) vs. body measurements and generous 2″ inner margins give peace of mind.
-- **Doorstep Exchange Assurance:** Clear policy stating that incorrect sizes are exchanged at the doorstep with free reverse pickup.
-- **Pincode Delivery Visibility:** Instant delivery date and COD confirmation prior to checkout.
+- **Opacity Guarantee** — No see-through fabric. Highest fear for online women's clothing.
+- **Fit Confidence** — Garment vs. body measurements + 2-inch inner margins.
+- **Doorstep Exchange Assurance** — Free reverse pickup on size errors.
+- **Pincode Delivery Visibility** — Delivery dates and COD confirmation before checkout.
 
 ---
 
-## 5. Product Experience
+## 5. Product Experience (Storefront — Currently Implemented)
 
-### Product Detail Page (PDP) Architecture
-Implemented in `src/routes/products.$productId.tsx` as a responsive 2-column desktop grid and single-column mobile layout:
+### Product Detail Page (PDP)
+`src/routes/products.$productId.tsx` — 2-column desktop / single-column mobile:
 
-1. **Semantic Breadcrumbs:** Full category path (`Home / Women's Ethnic / Salwar Suit Sets / Product Title`).
-2. **Fixed 4:5 Portrait Gallery:**
-   - Full-length front drape.
-   - Fabric texture and weave close-up.
-   - Neckline and sleeve modesty detail.
-   - Back view showing modest coverage.
-   - Contextual editorial lifestyle photography.
-3. **Price & Savings Engine:** Large display price, MRP strikethrough, percentage savings badge (`Save ₹200 / 12% off`), tax inclusion note, and free shipping threshold indicator.
-4. **Color & Size Selector:** Tactile swatches, size chips with dynamic stock badges (`in-stock`, `Only 2 left!`, `sold-out`), and contextual size hints.
-5. **Standardized Modesty Assurance Pill:** Highlighted card disclosing fabric opacity (`100% Non-Transparent`), attached cotton inner lining, and 2-inch tailoring margins.
-6. **Pincode Delivery & COD Estimator (`PincodeChecker`):**
-   - Instant verification of express delivery dates and COD availability.
-   - Persisted across the session in `localStorage("user_pincode")`.
-7. **Purchase Actions:** Tactile `[-] [ Qty ] [+]` stepper (1–8 limit), primary high-contrast `Add to Basket` CTA, and secondary `Order or Inquire via WhatsApp` button.
-8. **Free Shipping Progress Meter:** Real-time feedback towards the **₹999** free shipping threshold with remaining amount indicator.
-9. **5-Tier Structured Accordions:**
-   - *Fabric, Cut & Modesty Disclosures:* Top/bottom/dupatta fabric, lining type, neckline depth, slit height.
-   - *Garment Dimensions & Specifications:* Bust, length, sleeve, inseam, stitch margins.
-   - *Wash & Fabric Care:* Washing method, iron temperature, line drying tips.
-   - *Legal Metrology (LMPC) Declarations:* Generic name, net quantity, country of origin, manufacturer info, consumer care contact.
-   - *Shipping & Doorstep Exchange Policy:* 24–48h dispatch, 7-day doorstep size exchange procedure.
-10. **"Complete Your Modest Ensemble" Companion Cross-Sell:** Contextual 1-click add-ons (e.g. matching micro-modal hijab, magnetic pins, daily habit board).
-11. **Comprehensive Customer Review Hub (`ProductReviewHub`):**
-    - 4.8 / 5 aggregated rating with 128 verified family reviews and 96% recommendation rate.
-    - 5-star distribution histogram.
-    - Myntra-style sentiment rating bars: *True to Size (94%)*, *Fabric Opacity (98%)*, *Fabric Softness (96%)*, *Colorfastness (95%)*.
-    - Customer photo carousel with full-screen lightbox modal.
-    - Filter pills (All, Verified Buyers, With Photos, 5 Stars, 4 Stars).
-    - Review cards with verified buyer badges, purchased size/color, attribute tags, and helpful vote counters.
-12. **Mobile Persistent Bottom Action Dock:** Fixed bottom bar (`fixed bottom-0 z-40 bg-background/95 backdrop-blur-md`) rendering price, size picker, Add to Bag CTA, and automatic fallback bottom sheet (`Sheet`) if size is unselected.
+1. Semantic breadcrumbs (full category trail).
+2. Fixed 4:5 portrait gallery with lightbox.
+3. Price + MRP strikethrough + savings badge + tax inclusion.
+4. Color swatches + size chips with real-time stock badges (in-stock / low-stock / sold-out).
+5. **Modesty Assurance Pill** — 100% Non-Transparent, attached cotton lining, 2-inch margins.
+6. **Pincode Checker** — delivery date, COD status, exchange policy (persisted in `localStorage`).
+7. Qty stepper (1–8) + Add to Basket + WhatsApp Concierge.
+8. Free shipping progress meter (₹999 threshold).
+9. 5-tier Accordion — Fabric/Modesty · Dimensions · Care · LMPC · Shipping/Exchange.
+10. "Complete Your Modest Ensemble" companion cross-sell.
+11. **Customer Review Hub** — 5-star histogram, sentiment bars (Opacity 98%, Softness 96%, True to Size 94%), customer photo lightbox, filter pills, helpful vote counters.
+12. Mobile persistent bottom action dock with size-drawer fallback.
 
-### Collection Discovery (PLP) Architecture
-Implemented in `src/routes/collection.tsx`:
-- Pillar navigation tabs (All Products, Women, Men, Children, Prayer, Learning, Home, Gifts).
-- Subcategory filtering pills.
-- Comprehensive slide-out mobile filter sheet (`Sheet`) and desktop sidebar:
-  - Materials: Pure Cotton, Chanderi, Modal, Memory Foam, Brass, Wood.
-  - Sizes: S, M, L, XL, XXL.
-  - Price bands: Under ₹500, ₹500–₹1,000, ₹1,000–₹2,000, Above ₹2,000.
-  - In Stock Only switch.
-  - Festive & Eid Occasion switch.
-- Sorting options: Featured, Price: Low to High, Price: High to Low, Highest Rated.
-- Responsive grid: 1-column mobile, 2-column tablet, 3-column desktop.
+### Collection Discovery (PLP)
+`src/routes/collection.tsx` — pillar tabs, subcategory pills, mobile filter sheet, sort options, responsive 3-col grid.
 
 ---
 
 ## 6. Apparel Experience
 
 ### Women's Apparel
-- **Primary Garments:** 3-piece Salwar Suit Sets (Kurta, Pants/Salwar, Dupatta), Daily A-Line Kurtas, Modest Dresses, Daily Abayas.
-- **Sizing Range:** XS, S, M, L, XL, XXL, 3XL.
-- **Indian Body Sizing Curve:** Heavy concentration in `M (38)`, `L (40)`, and `XL (42)` (~85% of volume). Initial procurement follows the `1:2:2:1` ratio.
-- **Modesty Standards:**
-  - Guaranteed 100% opaque fabrics (zero silhouette show-through).
-  - Attached soft pure cotton inner slip/lining on sheer materials (Chanderi, Georgette, Organza).
-  - High modest neckline (front depth max 5.5″–6.5″; back neck closed).
-  - Modest sleeve length (minimum three-quarter or full-length).
-  - Modest side slits (slit begins at or below waistline).
-  - Generous 2-inch inner tailoring margins along side seams for local adjustment.
+- **Sizes:** XS, S, M, L, XL, XXL, 3XL. Procurement curve: 1:2:2:1 (S:M:L:XL).
+- **Modesty:** 100% opaque, attached cotton lining, max 6.5" neckline, min ¾-sleeve, 2" tailoring margins.
 
 ### Men's Apparel
-- **Primary Garments:** 100% Breathable Cambric Cotton Kurtas, Classic Kurta-Pajama Sets, Pathani Suits, Linen Blend Thobes, Breathable Knit Kufi Caps.
-- **Sizing Range:** 38 (S), 40 (M), 42 (L), 44 (XL), 46 (XXL).
-- **Fit Profile:** Relaxed comfort cut allowing easy movement during Ruku and Sujood; knee-length or mid-calf; pre-shrunk cotton.
+- **Sizes:** 38 (S) – 46 (XXL). Relaxed cut for namaz ease.
 
 ### Children's Apparel
-- **Primary Garments:** Boys' Soft Cotton Kurta Sets, Girls' Modest Sharara & Kurta Sets.
-- **Sizing Range:** Age-based groupings: 2–3Y, 4–5Y, 6–7Y, 8–9Y, 10–11Y, 12–13Y.
-- **Child-Friendly Features:** 100% combed cotton, zero scratchy metallic threads or synthetic backings, elasticized soft-stretch waistbands, tear-resistant bar-tacked seams.
+- **Sizes:** 2–3Y to 12–13Y. 100% combed cotton, elasticized waistbands.
 
-### Multi-Pillar Interactive Size Guide (`SizeGuideDialog`)
-- Accessible via ruler button on every apparel PDP.
-- Dedicated tabs for Women's Salwar/Kurtas, Men's Kurtas, and Children's Sets.
-- Interactive mode switcher: **Garment Finished Measurements** vs. **Body Measurements**.
-- Measurement unit toggle: **Inches (in)** vs. **Centimeters (cm)**.
-- Step-by-step measuring instructions for bust, waist, hip, garment length, shoulder, and sleeve.
-
-### Care & Longevity
-- Pre-washed fabrics to eliminate subsequent shrinkage.
-- Clear washing instructions (Cold gentle machine wash, line dry in shade to protect vegetable/dyes, medium iron).
+### Multi-Pillar Size Guide (`SizeGuideDialog`)
+Women / Men / Children tabs · Garment vs. Body measurement toggle · Inch ↔ Cm unit switcher.
 
 ---
 
 ## 7. UX/UI & Design System
 
-### Design Philosophy: Spiritual Minimalism
-The visual language communicates contemporary Islamic family identity through intentional composition, honest materiality, warmth, and typographic restraint rather than decorative clichés (no generic mosque silhouettes, excessive gold foil, or fake countdown urgency timers).
+### Design Philosophy
+Spiritual Minimalism — contemporary Islamic family identity through composition, warmth, and typographic restraint. No mosque silhouettes, no gold foil, no fake urgency timers.
 
-### Commercial Positioning vs. Visual Polish
-> **Important Distinction:** The storefront interface is visually polished, serene, and editorial, but the business is **strictly accessible middle-class retail (₹249–₹1,899)**, NOT an elitist luxury brand.
+> **Positioning:** Visually polished and editorial, but business is strictly **accessible middle-class retail** (₹249–₹1,899). Not a luxury brand.
 
 ### Typography
-- **Display Serif:** [Newsreader](https://fonts.google.com/specimen/Newsreader) — Expressive, warm, editorial headline voice for brand storytelling and product titles.
-- **Interface & Commerce Sans:** [Manrope](https://fonts.google.com/specimen/Manrope) — Crisp, humanist, high-legibility sans-serif for commerce navigation, specifications, pricing, and filters.
+- **Display Serif:** Newsreader (editorial headlines, product titles).
+- **Commerce Sans:** Manrope (navigation, pricing, specifications, filters).
 
-### OKLCH Color Tokens (`src/styles.css`)
-All colors are defined strictly in OKLCH format:
-- **Background (Alabaster / Chalk):** `oklch(0.975 0.008 84)`
-- **Foreground (Deep Ink / Charcoal):** `oklch(0.24 0.025 72)`
-- **Muted Foreground:** `oklch(0.49 0.026 73)`
-- **Primary (Deep Olive / Pine):** `oklch(0.33 0.054 128)`
-- **Accent / Clay (Desert Terracotta):** `oklch(0.68 0.082 52)`
-- **Mineral Blue:** `oklch(0.66 0.045 220)`
-- **Card Surface:** `oklch(0.995 0.004 84)`
-- **Border / Hairline:** `oklch(0.84 0.02 78)`
-- **Success:** `oklch(0.62 0.14 142)`
-- **Warning:** `oklch(0.75 0.15 75)`
+### OKLCH Color Tokens (`src/styles.css`) — DO NOT MODIFY
+| Token | Value |
+| :--- | :--- |
+| Background | `oklch(0.975 0.008 84)` — Alabaster Chalk |
+| Foreground | `oklch(0.24 0.025 72)` — Deep Ink |
+| Primary | `oklch(0.33 0.054 128)` — Deep Olive |
+| Accent / Clay | `oklch(0.68 0.082 52)` — Desert Terracotta |
+| Mineral Blue | `oklch(0.66 0.045 220)` |
+| Success | `oklch(0.62 0.14 142)` |
 
-### Layout Primitives & Responsive Breakpoints
-- **Primitives (`src/components/brand/design-primitives.tsx`):**
-  - `PageContainer`: Standardized content wrapper with responsive horizontal padding and max width (`max-w-7xl` / `80rem`).
-  - `Eyebrow`: Uppercase tracked category tag (`text-xs font-semibold uppercase tracking-widest text-primary`).
-  - `SectionHeading`: Standardized section header with title and description.
-- **Breakpoints:**
-  - `sm`: 40rem (640px)
-  - `md`: 48rem (768px)
-  - `lg`: 64rem (1024px)
-  - `xl`: 80rem (1280px)
+### Layout Primitives
+`PageContainer` · `Eyebrow` · `SectionHeading` — defined in `src/components/brand/design-primitives.tsx`.
 
-### Interaction Patterns & Motion
-- Fast transitions: `200ms cubic-bezier(0.4, 0, 0.2, 1)`.
-- Slow transitions: `500ms cubic-bezier(0.4, 0, 0.2, 1)`.
-- Touch targets strictly ≥ 44px on mobile devices.
+### Breakpoints
+`sm` 40rem · `md` 48rem · `lg` 64rem · `xl` 80rem.
 
 ---
 
@@ -265,139 +176,123 @@ All colors are defined strictly in OKLCH format:
 
 ### Route Hierarchy
 ```text
-/
-├── index.tsx                 # Storefront homepage (Hero, Curated Pillars, Ethos, Journal)
-├── collection.tsx            # Full catalog discovery (/collection with pillar tabs & filters)
-├── products/
-│    └── $productId.tsx       # Dynamic Product Detail Page (/products/:productId)
-├── design-system.tsx         # Canonical design token showcase (/design-system)
-└── __root.tsx                # App root shell (Meta, Fonts, Header, CartDrawer, Footer)
+/                         ← Storefront homepage
+/collection               ← 7-pillar catalog + filters
+/products/:productId      ← Full V2 PDP
+/design-system            ← Design token reference
 ```
 
-### Site Shell Navigation (`src/components/brand/site-shell.tsx`)
-- **Top Announcement Bar:** Thoughtful essentials · Free shipping over ₹999 · COD & Easy 7-Day Exchanges.
-- **Main Header:**
-  - Brand Wordmark (`BrandMark`).
-  - Desktop Navigation with mega-dropdown menus for the 7 Pillars.
-  - Curated Occasion links (Eid Gifting, Ramadan Living, Jummah Essentials).
-  - Search trigger input.
-  - Cart Bag button with dynamic item count badge.
-- **Mobile Navigation Drawer (`Sheet`):**
-  - Accordion navigation grouped by the 7 Pillars and Occasions.
-  - Customer support and WhatsApp contact shortcuts.
-- **Global Footer:**
-  - 7 Pillar directory links.
-  - Customer Service, Pincode lookup, and 7-day exchange policies.
-  - Mandatory Statutory & LMPC company declarations.
+### Site Shell
+- Announcement bar · Brand wordmark · 7-pillar mega-menu · Search · Cart badge.
+- Mobile accordion drawer (7 Pillars + Occasions).
+- Global footer: pillar links · customer service · LMPC declarations.
 
 ---
 
 ## 9. Technical Architecture
 
-### Core Stack
-- **Frontend Framework:** [TanStack Start](https://tanstack.com/start) (`@tanstack/react-start` v1.160+), `@tanstack/react-router`, `@tanstack/react-query`.
-- **Bundler & Build Tool:** [Vite 8](https://vite.dev) with React 19.
-- **Server Engine:** [Nitro](https://nitro.unjs.io) configured with `cloudflare-module` preset.
-- **Styling Engine:** [Tailwind CSS v4](https://tailwindcss.com) with `@tailwindcss/vite` and `tw-animate-css`.
-- **Component Primitives:** Accessible headless primitives from [Radix UI](https://www.radix-ui.com) (Accordion, Dialog, Sheet, Select, Tabs, etc.).
-- **Icons:** [Lucide React](https://lucide.dev).
-- **Node Environment:** Node.js 22 LTS / npm.
+### Frontend (Stable — Do Not Redesign)
+| Layer | Technology |
+| :--- | :--- |
+| Framework | TanStack Start v1.160+ (React 19, SSR) |
+| Router | @tanstack/react-router |
+| Data Fetching | @tanstack/react-query |
+| Build Tool | Vite 8 |
+| Styling | Tailwind CSS v4 + tw-animate-css |
+| Components | Radix UI primitives + Lucide React |
+| Server Engine | Nitro (`cloudflare-module` preset) |
+| Deployment | Cloudflare Pages / Workers |
+| Language | TypeScript |
 
-### Hosting & Deployment
-- **Target Platform:** Cloudflare Pages / Cloudflare Workers via prebuilt Nitro module (`.output/server/wrangler.json`).
-- **Git & Lovable Synchronization:** Connected to GitHub repository `shahid-laskar/design-system-core`. Changes pushed to `origin/main` automatically synchronize back to Lovable.
+### Commerce Backend (To Be Built — see §19–20)
+| Layer | Technology |
+| :--- | :--- |
+| Platform | **Medusa.js v2** (self-hosted) |
+| Language | TypeScript / Node.js |
+| Database | PostgreSQL 16 |
+| Cache | Redis (required in production) |
+| Object Storage | Cloudflare R2 (S3-compatible, free egress) |
+| Blog/CMS | Directus (self-hosted, PostgreSQL) |
+| VPS | Hetzner CX32 (4 vCPU / 8 GB / 80 GB SSD, ~₹2,000/month) |
+| Reverse Proxy | Caddy (automatic HTTPS) |
+| Container Mgmt | Docker Compose |
 
-### State Management
-- **Cart State:** Implemented via React Context (`CartProvider` in `src/lib/cart-context.tsx`). Accessible anywhere via `useCart()`.
-- **User Pincode:** Persisted client-side via `localStorage("user_pincode")`.
+### API Boundary
+```
+Cloudflare Pages (TanStack Start)
+         ↕  HTTPS REST API
+Hetzner VPS → Caddy → Medusa.js v2 (Port 9000)
+         ↕
+PostgreSQL 16 (same VPS) + Redis
+         ↕
+Cloudflare R2 (product/review images)
+```
 
 ---
 
 ## 10. Current Project Structure
 
 ```text
-/opt/lifestyle-web/web/frontend/
-├── AGENTS.md                  # Lovable synchronization guardrails (NEVER REWRITE HISTORY)
-├── README.md                  # Repository readme and developer onboarding
-├── PROJECT_MASTER.md          # THIS FILE: Single authoritative source of truth
-├── package.json               # Dependencies and scripts (npm run build, npm run dev)
-├── vite.config.ts             # Vite & TanStack Start configuration
-├── tsconfig.json              # TypeScript path aliases (@/* -> ./src/*)
-├── public/                    # Static assets (robots.txt, favicon.ico)
-└── src/
-    ├── start.ts               # TanStack Start client hydration entry point
-    ├── server.ts              # SSR error-handling server wrapper
-    ├── router.tsx             # TanStack Router instance creation
-    ├── routeTree.gen.ts       # Auto-generated route tree (DO NOT EDIT MANUALLY)
-    ├── styles.css             # Canonical OKLCH theme tokens and global styles
-    ├── assets/                # Lifestyle and product imagery
-    ├── lib/
-    │   ├── cart-context.tsx   # Cart state provider, shipping constants, add/remove
-    │   ├── utils.ts           # ClassName merger (cn utility)
-    │   └── error-capture.ts   # Client/server error instrumentation
-    ├── components/
-    │   ├── brand/             # Sukoon House core brand components
-    │   │   ├── brand-mark.tsx         # Typography wordmark and logo
-    │   │   ├── site-shell.tsx         # Responsive header, banner, nav drawers, footer
-    │   │   ├── cart-drawer.tsx        # Slide-out cart with ₹999 meter & WhatsApp CTA
-    │   │   ├── product-card.tsx       # Standardized commerce product card
-    │   │   ├── size-guide-dialog.tsx  # Multi-pillar apparel size guide modal
-    │   │   ├── editorial-card.tsx     # Journal article card
-    │   │   ├── design-primitives.tsx  # PageContainer, Eyebrow, SectionHeading
-    │   │   └── status-state.tsx       # Loading, error, and empty states
-    │   └── ui/                # Headless Radix UI components (Button, Sheet, Dialog, etc.)
-    └── routes/
-        ├── __root.tsx         # Global document shell, fonts, and meta tags
-        ├── index.tsx          # Storefront landing page
-        ├── collection.tsx     # Multi-pillar catalog discovery with filter sheets
-        ├── design-system.tsx  # Canonical design system token reference
-        ├── products.$productId.tsx # Full V2 Product Detail Page suite
-        └── README.md          # File-based routing technical rules
+/opt/lifestyle-web/
+├── PROJECT_MASTER.md              ← This file
+├── backend.md                     ← Commerce architecture mission spec
+└── web/
+    └── frontend/                  ← TanStack Start storefront (stable)
+        ├── AGENTS.md              ← Lovable sync guardrails
+        ├── PROJECT_MASTER.md      ← Copy of this file (repo root)
+        ├── src/
+        │   ├── styles.css         ← OKLCH design tokens (DO NOT MODIFY)
+        │   ├── lib/
+        │   │   ├── cart-context.tsx   ← Cart state (to be replaced with API)
+        │   │   └── utils.ts
+        │   ├── components/brand/  ← Core brand components
+        │   └── routes/
+        │       ├── index.tsx          ← Homepage
+        │       ├── collection.tsx     ← Catalog (mock data → API)
+        │       └── products.$productId.tsx  ← PDP (mock data → API)
+        └── [config files]
+```
+
+**Backend target structure (to be created):**
+```text
+/opt/lifestyle-web/web/backend/    ← Medusa.js v2 project
+    ├── medusa-config.ts
+    ├── src/
+    │   ├── modules/               ← Custom modules (PO, Supplier, Blog)
+    │   ├── workflows/             ← Shiprocket, Razorpay flows
+    │   └── subscribers/           ← Background event handlers
+    ├── docker-compose.yml
+    └── Caddyfile
 ```
 
 ---
 
-## 11. Current Data Model
+## 11. Current Data Model (Frontend Mock — To Be Replaced by Medusa)
 
-### Universal Product Attributes (`ProductDetail` / `Product`)
+### ProductDetail (frontend mock type, `products.$productId.tsx`)
 ```typescript
-type UniversalProduct = {
-  id: string;                      // Unique slug (e.g. "pure-cambric-cotton-set")
-  sku: string;                     // SKU code (e.g. "SH-WCS-014-SG")
-  kind: "apparel" | "non-apparel"; // High-level product discriminator
-  name: string;                    // Commercial product title
-  pillar: "Women" | "Men" | "Children" | "Prayer" | "Learning" | "Home" | "Gifts";
-  subcategory: string;             // Leaf category node
-  price: number;                   // Selling price in INR
-  mrp: number;                     // Maximum Retail Price in INR
-  description: string;             // Concise product narrative
+type ProductDetail = {
+  id: string;          // slug
+  sku: string;         // e.g. "SH-WCS-014-SG"
+  kind: "apparel" | "non-apparel";
+  name: string;
+  category: string;    // display category
+  categoryTrail: string[];
+  price: number;       // selling price INR
+  mrp: number;         // MRP INR
+  rating: string;
+  reviewCount: number;
+  description: string;
   gallery: Array<{ src: string; alt: string; position: string }>;
   colors: Array<{ name: string; swatch: string }>;
+  sizes?: Array<{ name: SizeName; stock: "in-stock" | "low" | "sold-out" }>;
+  modelNote?: string;
   specifications: Array<[string, string]>;
-  inStock: boolean;
-  rating: string | number;         // e.g. "4.8"
-  reviewCount: number;             // e.g. 128
-  statutory: {                     // LMPC Compliance
-    genericName: string;
-    netQuantity: string;
-    countryOfOrigin: string;
-    manufacturer: string;
-    consumerCare: string;
-  };
+  genericName: string;   // LMPC
+  netQuantity: string;   // LMPC
+  countryOfOrigin: string; // LMPC
 };
 ```
-
-### Category-Specific Attribute Matrix
-| Attribute | Women's Apparel | Men's Apparel | Children's Apparel | Prayer & Worship | Learning & Books | Home & Ambiance | Milestone Gifts |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `sizes` (S–3XL) | ✓ | ✓ | ✓ (Age-based) | ✗ | ✗ | ✗ | ✗ |
-| `opacityGuarantee` | ✓ (100%) | ✗ | ✓ (Conditional) | ✗ | ✗ | ✗ | ✗ |
-| `attachedLining` | ✓ | ✗ | ✓ (Conditional) | ✗ | ✗ | ✗ | ✗ |
-| `innerMarginInches` | ✓ (2″) | ✓ (1.5″) | ✗ | ✗ | ✗ | ✗ | ✗ |
-| `foamDensity` | ✗ | ✗ | ✗ | ✓ (20mm High Density) | ✗ | ✗ | ✗ |
-| `boardMaterial` | ✗ | ✗ | ✗ | ✓ (Bentwood) | ✓ (Cardstock/Wood) | ✗ | ✗ |
-| `attarVolume` | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ (12ml) | Optional |
-| `hamperContents` | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ (List of SKUs) |
 
 ### Cart Entity (`src/lib/cart-context.tsx`)
 ```typescript
@@ -412,139 +307,1051 @@ type CartItem = {
   color?: string;
   quantity: number;
 };
-
 const FREE_SHIPPING_THRESHOLD = 999;
 const STANDARD_SHIPPING_PRICE = 70;
 ```
 
 ---
 
-## 12. Current Integrations
+## 12. Current Integrations (Live)
 
-1. **WhatsApp Concierge Checkout Intent:**
-   - Integrated into both `CartDrawer` and `products.$productId.tsx`.
-   - Generates an instant, pre-filled WhatsApp message encoding product titles, sizes, quantities, subtotal, and delivery charges for personal assistance.
-2. **Pincode Logistics & COD Estimator:**
-   - Evaluates domestic Indian pincodes with instant express delivery date simulation, COD eligibility check, and doorstep reverse exchange confirmation.
-   - Client persistence via `localStorage`.
-3. **Headless E-Commerce Readiness:**
-   - Architecture structured to connect to Shopify AJAX Cart API or custom headless endpoints without frontend rewrites.
-4. **Cloudflare Edge Deployment:**
-   - Nitro build engine configured for zero-cold-start edge delivery via Cloudflare Pages / Workers.
-5. **Lovable Bi-Directional Git Bridge:**
-   - Monitored by `AGENTS.md` to prevent Git history rewriting.
+1. **WhatsApp Concierge Checkout Intent** — pre-filled WhatsApp message in `CartDrawer` and PDP.
+2. **Pincode Estimator** — mock regional simulation + `localStorage` persistence.
+3. **Cloudflare Edge** — Nitro `cloudflare-module` Nitro preset.
+4. **Lovable Git Bridge** — `AGENTS.md` governs git history protection.
 
 ---
 
 ## 13. Business Rules
 
-1. **Mandatory LMPC Compliance:** Every product detail page must display statutory Legal Metrology disclosures (Generic Name, Net Quantity, Country of Origin, MRP inclusive of taxes, Manufacturer/Packer name and address, Consumer Care email/phone).
-2. **Modesty Disclosure Standard:** Women's apparel must explicitly disclose fabric opacity and lining type. Sheer fabrics must have an attached cotton slip. Kurta side slits and necklines must adhere to family modesty standards.
-3. **Apparel Tailoring Margins:** All adult women's ethnic kurtas and suits must provide a minimum of **2 inches of inner tailoring margin** to allow local alterations.
-4. **Free Shipping Threshold:** Orders totaling **₹999 or more** qualify for free domestic shipping. Orders below ₹999 are charged a flat **₹70** delivery fee.
-5. **7-Day Doorstep Size Exchange:** Free reverse courier pickup is provided for size exchanges on apparel. Items must be unwashed, unworn, with original tags intact. Non-apparel items are eligible for replacement upon transit damage.
-6. **Sizing Procurement Curve:** Apparel inventory orders must follow the `1:2:2:1` curve (`S:M:L:XL`), reflecting that `L` and `XL` account for ~60% of domestic Indian ethnic wear volume.
-7. **Transparent Pricing:** All displayed prices are strictly inclusive of GST. No hidden fees or unexpected checkout additions.
+1. **LMPC Compliance:** Every PDP must display Generic Name, Net Quantity, Country of Origin, MRP (tax-inclusive), Manufacturer/Packer, Consumer Care contact.
+2. **Modesty Standard:** Women's apparel must disclose opacity and lining. Sheer fabrics must have attached cotton slip. Max neckline depth 6.5". Min ¾-sleeve.
+3. **Tailoring Margins:** Minimum 2-inch inner margins on all adult women's ethnic kurtas.
+4. **Free Shipping Threshold:** ₹999. Flat ₹70 below.
+5. **7-Day Doorstep Exchange:** Free reverse pickup on size errors. Unwashed, unworn, original tags.
+6. **Sizing Procurement Curve:** 1:2:2:1 (S:M:L:XL) for adult ethnic wear.
+7. **Transparent Pricing:** All prices inclusive of GST.
+8. **COD Restriction:** COD orders must receive automated phone confirmation before dispatch.
 
 ---
 
 ## 14. Current State
 
 ### Completed
-- [x] Canonical Design System with frozen OKLCH color tokens, typography, and responsive primitives (`/design-system`).
-- [x] Responsive 7-Pillar Site Shell navigation, announcement banner, mobile drawer, and family footer (`SiteShell`).
-- [x] Curated storefront landing page with lifestyle photography and philosophy section (`/`).
-- [x] Comprehensive collection discovery catalog with 7-pillar tabs, subcategory pills, multi-faceted filter sheets, and sorting (`/collection`).
-- [x] Full V2 Product Detail Page (`/products/$productId`) featuring:
-  - 4:5 portrait media gallery with lightbox.
-  - Dynamic color swatches and size chips with real-time stock badges.
-  - Standardized Modesty Assurance & Fabric Specification disclosures.
-  - Pincode Delivery & COD Estimator with `localStorage` persistence.
-  - Interactive Multi-Pillar Size Guide Dialog (`SizeGuideDialog`).
-  - Comprehensive Customer Review Hub (`ProductReviewHub`) with 5-star histogram, sentiment attribute bars, and customer photo preview.
-  - "Complete Your Modest Ensemble" companion cross-sell module.
-  - Mobile persistent bottom action dock with size drawer fallback.
-- [x] Slide-out Cart Drawer with ₹999 free shipping progress bar, companion SKU upsells, and WhatsApp concierge order trigger (`CartDrawer`).
-- [x] Production build pipeline verified with Vite 8 + Nitro (`cloudflare-module` preset, 0 errors).
+- [x] Canonical design system (OKLCH tokens, typography, Tailwind v4, Radix UI primitives).
+- [x] 7-Pillar site shell (navigation, announcement bar, mobile drawer, footer) — `SiteShell`.
+- [x] Storefront homepage (`/`).
+- [x] Collection catalog page with 7-pillar tabs, filter sheet, sort, responsive grid (`/collection`).
+- [x] Full V2 Product Detail Page — gallery, modesty pill, pincode checker, size guide, review hub, cross-sell, mobile dock (`/products/$productId`).
+- [x] Slide-out cart drawer with ₹999 meter, companion upsells, WhatsApp CTA.
+- [x] Production build verified (Vite 8 + Nitro `cloudflare-module`, 0 errors).
+- [x] Documentation consolidated into single `PROJECT_MASTER.md`.
+- [x] **Commerce architecture decision made** — Medusa.js v2 (see §19).
 
 ### In Progress
-- [ ] Physical audit of founder's wife's existing salwar suit inventory (unit count, fabrics, sizing breakdown).
-- [ ] Sourcing paid 2-unit sample batches for Panipat prayer mats and Saharanpur rehals.
-- [ ] Connecting live headless Shopify / API data source to replace local mock fixtures.
+- [ ] Physical audit of wife's existing salwar suit inventory.
+- [ ] Sourcing paid 2-unit samples from Panipat (mats) and Saharanpur (rehals).
+
+### Pending (Backend Phase)
+- [ ] Medusa.js v2 backend scaffolding and VPS provisioning.
+- [ ] Live product catalog from Medusa API replacing mock fixtures.
+- [ ] Razorpay payment integration (community plugin + webhook handler).
+- [ ] Shiprocket shipping integration (fulfillment workflow + AWB tracking).
+- [ ] Custom Purchase Order & Supplier Management module.
+- [ ] Cart and Checkout connected to Medusa cart API.
+- [ ] Customer accounts, order history, and returns portal.
+- [ ] Blog/CMS via Directus.
 
 ### Known Limitations
-- Product catalog currently runs on rich, high-fidelity in-memory mock datasets (`catalog` fixture); requires live API connection before commercial transaction processing.
-- Pincode estimator currently uses deterministic regional prefix simulation; pending direct courier API (Shiprocket / Delhivery) integration.
+- Product catalog is in-memory mock fixtures; no live API.
+- Cart is client-side context only; no persistence across sessions.
+- Pincode estimator is mock simulation; no real courier API.
+- No payment processing capability.
 
 ### Known Technical Debt
-- Minor duplication of product interfaces between `collection.tsx` and `products.$productId.tsx`; should be extracted into a unified `src/types/catalog.ts` in a subsequent refactoring pass.
+- Product type interfaces duplicated between `collection.tsx` and `products.$productId.tsx`. Extract to `src/types/catalog.ts` during API integration.
 
 ### Unresolved Decisions
-- **Inventory Audit:** Exact unit count of wife's salwar suits pending physical warehouse count (**TBD — Week 2**).
-- **Payment Gateway:** Final selection between Cashfree and Razorpay for Indian UPI + COD verification flow (**TBD**).
+- **Payment Gateway:** Razorpay (Medusa community plugin exists) vs. Cashfree (**TBD**).
+- **Inventory Audit:** Wife's salwar suit stock count (**TBD — Week 2**).
 
 ---
 
 ## 15. Roadmap
 
-### Now (Weeks 1–3: Inventory Audit & Live Sourcing)
-- Complete physical audit of founder's wife's salwar suit stock (count, fabric QC, photography).
-- Order 2-unit paid samples from Panipat (prayer mats) and Saharanpur (rehals) for quality verification.
-- Connect live product data from headless CMS or Shopify backend.
-- Configure production Shiprocket pincode API.
+### Now (Weeks 1–3: Inventory Audit + Backend Bootstrap)
+- Physical audit of wife's salwar suit stock.
+- Pilot fabric samples from Panipat and Saharanpur.
+- Provision Hetzner CX32 VPS; scaffold Medusa.js v2 with Docker Compose.
+- Configure PostgreSQL + Redis + Cloudflare R2.
+- Implement Razorpay payment plugin in Medusa.
+- Connect `/collection` and `/products/$productId` to Medusa catalog API.
 
-### Next (Weeks 4–8: Soft Launch & First 50 Orders)
-- Launch storefront with 18–20 initial SKUs (salwar suits, kurtas, prayer mats, habit boards).
-- Execute soft launch to warm family/community circles.
-- Publish organic Instagram Reels focusing on fabric opacity and memory foam comfort.
+### Next (Weeks 4–8: Commerce Core Live)
+- Build custom PurchaseOrder + Supplier module in Medusa.
+- Implement Shiprocket fulfillment workflow (AWB + tracking webhook).
+- Connect cart and checkout to Medusa cart API.
+- Launch with 18–20 initial SKUs; soft launch to warm circles.
+- Organic Instagram Reels on fabric opacity and memory foam comfort.
 - Micro-creator barter gifting (10 Muslim lifestyle creators).
-- Monitor delivery times, size exchanges, and customer feedback.
 
-### Later (Months 3–6: Assortment Expansion & Bundles)
-- Launch Curated 3-Step Bundle Builder for Eid & Nikah gift sets.
-- Build Editorial Journal reading section and ethical sourcing narratives.
-- Replenish proven winning SKUs in 30–50 unit reorder batches.
-- Expand men's and children's collections based on sales data.
+### Later (Months 3–6: Full Commerce Operations)
+- Customer accounts, order history, and returns portal (storefront integration).
+- Directus blog CMS integration + editorial content pipeline.
+- Curated 3-Step Bundle Builder for Eid/Nikah gift sets.
+- Review collection workflow (email post-delivery, moderation, publish).
+- Coupon codes and promotional pricing.
+- Replenish proven SKUs in 30–50 unit batches; expand men's/children's collections.
 
 ---
 
 ## 16. Current Decisions
 
-| Strategic Dimension | Current Position | Commercial Rationale |
+| Decision | Current Position | Rationale |
 | :--- | :--- | :--- |
-| **Business Positioning** | Curated Muslim Family Store (Clothing, Prayer, Learning, Home, Gifts) | Replaces fragmented, unreliable sellers with one convenient, trusted family destination. |
-| **Target Customer** | Middle-class Muslim families (Tier 1 & Tier 2, ₹40k–₹1.8L/mo) | 8x larger addressable market than elite luxury niche; everyday household purchasing. |
-| **Apparel Role** | Dual-Engine: High-velocity acquisition & repeat engine (3–5 purchases/year) | Largest share of wallet in Muslim family retail; capitalizes on wife's existing stock. |
-| **Wife's Stock Asset** | Deployed as Tier 1 launch inventory | Eliminates initial apparel working capital cash burn (₹0 procurement outlay). |
-| **Pricing Architecture** | Accessible Quality (₹249–₹1,899 individual; ₹1,999–₹3,499 gifts) | Encourages natural multi-item family baskets without artificial pricing firewalls. |
-| **Free Shipping** | Free domestic delivery on orders ≥ ₹999; flat ₹70 below | Protects contribution margin on low-ticket single items while incentivizing basket size. |
-| **Sourcing Strategy** | Merchant-First Cluster Procurement (Surat, Delhi, Panipat, Jaipur) | Zero custom factory OEM tooling; fast turnaround; established Indian industrial hubs. |
-| **Tech Stack** | TanStack Start + Vite + Tailwind v4 + Cloudflare Pages | Modern, blazing-fast edge performance; preserves 100% of existing design system. |
-| **Custom Software** | Zero native apps; standard responsive web + WhatsApp | Eliminates distraction and capital waste prior to achieving 1,000 delivered orders. |
-| **Workforce Model** | Solo founder + wife's product knowledge + lean AI assistance | Fast execution, low overhead, zero organizational bloat. |
+| **Business Positioning** | Accessible Muslim Family Retail (₹249–₹1,899) | Not luxury; everyday family shopping destination. |
+| **Target Customer** | Middle-class Muslim families, Tier 1/2, ₹40k–₹1.8L/mo | 8x larger market than elite niche. |
+| **Apparel Role** | Dual-Engine: high-freq acquisition + repeat (3–5x/year) | Largest share of family wallet; wife's existing stock as launch asset. |
+| **Free Shipping** | ≥ ₹999 free; ₹70 flat below | Protects margin on single items; incentivizes basket building. |
+| **Commerce Backend** | **Medusa.js v2** (self-hosted, VPS) | TypeScript throughout; best headless REST API; PostgreSQL; MIT license; no Shopify. |
+| **Database** | **PostgreSQL 16** | Superior ACID guarantees for inventory and order transactional integrity. |
+| **Object Storage** | **Cloudflare R2** | S3-compatible; zero egress fees; integrates with Cloudflare CDN; MIT-compatible. |
+| **Blog/CMS** | **Directus** (self-hosted) | Self-hostable, PostgreSQL-native, MIT, polished admin, REST + GraphQL. |
+| **Payments** | **Razorpay** | Best Indian UPI + Cards + Wallets + COD ecosystem. Community plugin for Medusa exists. |
+| **Shipping** | **Shiprocket** | Covers 17+ couriers (Delhivery, DTDC, BlueDart); official REST API; webhook support. |
+| **Reverse Proxy** | **Caddy** | Auto-HTTPS; simpler than Nginx for solo-operator VPS. |
+| **Sourcing** | Merchant-First Cluster Procurement | Zero custom OEM tooling; fast turnaround from Indian hubs. |
+| **Tech Stack** | TanStack Start + Tailwind v4 + Cloudflare | Preserves existing frontend; edge performance; full TypeScript. |
 
 ---
 
 ## 17. Non-Goals
 
-To prevent scope creep and maintain operational discipline, the project is **NOT** currently doing the following:
-
-- **NO Luxury Boutique Positioning:** We do not market as an exclusive luxury brand or impose artificial high-ticket firewalls.
-- **NO Native Mobile Apps:** We are not building iOS or Android apps. Responsive web and WhatsApp order support fulfill all customer needs.
-- **NO Custom Factory Tooling or Weaving:** We do not create bespoke textile weaves or proprietary manufacturing molds. We curate ready finished goods.
-- **NO International Cross-Border Export (Phase 1):** We do not ship to the UAE, UK, or USA until domestic Indian operations reach 500 validated orders.
-- **NO Complex Autonomous AI Workforce:** We do not build multi-agent autonomous orchestrators. The founder operates the business directly with AI tools.
-- **NO Custom Backend Frameworks:** We do not build bespoke billing or inventory engines when Shopify, Shiprocket, and standard tools exist.
-- **NO Artificial Urgency or Gimmicks:** No countdown timers, fake stock counters, or intrusive flash popups.
+- **NO Shopify** or any recurring SaaS commerce-platform subscription.
+- **NO Luxury Brand Positioning.** Accessible middle-class family store only.
+- **NO Native Mobile Apps** (iOS/Android). Responsive web + WhatsApp covers all customer needs.
+- **NO Custom Factory Tooling.** We curate finished goods from established clusters.
+- **NO International Shipping (Phase 1).** India-only until 500 domestic orders validated.
+- **NO Complex AI Workforce.** Solo founder + AI-assisted coding. No autonomous multi-agent orchestrators.
+- **NO Microservices / Kubernetes.** Docker Compose on a single VPS. Scale architecture when demand requires.
+- **NO Vendure** (GPLv3 license + weakest Indian payment/shipping ecosystem).
+- **NO WooCommerce headless** (PHP/MySQL mismatch with TypeScript stack; headless cart pain).
+- **NO Artificial Urgency.** No countdown timers, fake stock counters, or flash popups.
 
 ---
 
 ## 18. Agent Instructions
 
-1. **Read `PROJECT_MASTER.md` First:** This document is the single authoritative source of truth. Do not consult or revive obsolete V1 or superseded V2 planning files.
-2. **Inspect the Implementation Before Proposing Changes:** Always check `src/` to understand existing component hierarchy, routes, and props before writing code.
-3. **Preserve the Design System:** Never modify the canonical OKLCH color variables in `src/styles.css`, typography rules (Newsreader + Manrope), or spacing primitives without explicit user instruction.
-4. **Reuse Existing Components:** Prioritize using existing brand components (`SiteShell`, `ProductCard`, `PageContainer`, `Eyebrow`, `SectionHeading`, `SizeGuideDialog`, `CartDrawer`) rather than reinventing UI patterns.
-5. **Never Rewrite Git History:** As established in `AGENTS.md`, this repository connects to Lovable. Never rebase, amend, or force-push published commits.
-6. **Keep `PROJECT_MASTER.md` Current:** When a fundamental business, architectural, or design decision is made, update this document immediately.
-7. **Zero Documentation Fragmentation:** Do not create new strategy, prompt, or planning documents. All active project context belongs in `PROJECT_MASTER.md`.
+1. **Read `PROJECT_MASTER.md` First.** This is the single source of truth. Do not revive obsolete docs.
+2. **Inspect the implementation before proposing changes.** Check `src/` before writing frontend code; check the Medusa module structure before writing backend code.
+3. **Preserve the design system.** Never modify OKLCH tokens in `src/styles.css`, Newsreader/Manrope typography, or spacing primitives without explicit instruction.
+4. **Reuse existing components.** Prefer `SiteShell`, `ProductCard`, `PageContainer`, `Eyebrow`, `SectionHeading`, `SizeGuideDialog`, `CartDrawer`.
+5. **Never rewrite git history.** This repo connects to Lovable. No force-push, rebase, or amend of published commits.
+6. **Update `PROJECT_MASTER.md`** when any fundamental business, architecture, or integration decision changes.
+7. **Zero documentation fragmentation.** All active project context lives here. Create separate technical artifacts (ER diagrams, API contracts) only when genuinely necessary.
+8. **Backend language is TypeScript.** Medusa.js v2 is TypeScript + Node.js. All backend code, custom modules, and workflows are TypeScript.
+
+---
+
+## 19. Technology Decision Record (Commerce Backend)
+
+### The Situation
+The frontend is stable and complete. There is currently **zero backend**. The `server.ts` is purely an SSR wrapper for Cloudflare Workers. All product data is in-memory mock fixtures. There is no cart persistence, no payment processing, no order management, no inventory management, no admin interface.
+
+The mission: build a self-hosted, open-source commerce backend without Shopify or any recurring SaaS subscription.
+
+---
+
+### Option A — Extend the Existing Backend
+**What exists:** Nothing. The "backend" is Cloudflare Workers running SSR only. There are no API routes, no database, no authentication, no services.
+
+**Verdict:** Building a complete commerce system from scratch (catalog, inventory, cart, checkout, payments, shipping, returns, reviews, promotions, blog) without a framework would be a multi-month undertaking. Rejected. Use an open-source commerce platform instead.
+
+---
+
+### Option B — Medusa.js v2 ✅ SELECTED
+
+| Criterion | Assessment |
+| :--- | :--- |
+| License | MIT — fully free, commercial use, no distribution restrictions |
+| Language | TypeScript / Node.js — identical to the frontend stack |
+| API Type | REST-first (native); GraphQL via community plugin |
+| Database | PostgreSQL 16 — superior transactional integrity for inventory/orders |
+| Admin UI | ★★★★☆ — React/Vite/Radix UI; usable for daily ops |
+| Multi-variant Products | ✅ Native product option/variant + SKU model |
+| Inventory | ✅ Native multi-warehouse, stock reservations, levels |
+| Purchase Orders | ❌ Not built-in — custom module (2–4 weeks dev) |
+| Razorpay | ⚠️ Community plugin (SGFGOV/medusa-payment-plugins, v2-compatible) |
+| Shiprocket | ⚠️ Custom Medusa workflow via Shiprocket REST API |
+| Self-hosting | 4 services: API server, worker, PostgreSQL, Redis |
+| VPS Minimum | 4 GB RAM, 2 vCPU (Hetzner CX22, ~₹1,500/month) |
+
+**Why Medusa.js v2 is selected:**
+1. **TypeScript throughout.** Frontend (TanStack Start) and backend (Medusa.js) are both TypeScript. AI coding agents operate in a single language context. Every custom module, workflow, and integration is written in the same language as the storefront. This eliminates a permanent context-switch tax present with PHP-based alternatives.
+2. **Best-in-class headless REST API.** Medusa's Store REST API is designed to be consumed by custom frontends — exactly what TanStack Start requires. API routes are clean, versioned, and fully documented.
+3. **PostgreSQL.** Superior ACID compliance for order transactional integrity, inventory reservations, and concurrent stock modifications vs. MySQL/MariaDB alternatives.
+4. **MIT license.** Zero legal anxiety for commercial operation or future distribution.
+5. **Modular architecture.** Medusa's Data Model Language (DML) allows building a custom PurchaseOrder + Supplier module that integrates natively with inventory and workflow engine — the same module system used by Medusa's own first-party modules.
+6. **Razorpay gap is solvable.** A production-grade community plugin exists (`medusa-payment-plugins`, SGFGOV). Shiprocket integration is a Medusa workflow calling Shiprocket's REST API — straightforward to implement.
+
+---
+
+### Option C — Vendure v3 ❌ REJECTED
+
+| Issue | Detail |
+| :--- | :--- |
+| License | Changed from MIT to **GPLv3** in 2025–2026. Not suitable for commercial distribution without commercial license. |
+| Indian Payments | No community plugins for Razorpay or Cashfree. Full custom `PaymentMethodHandler` TypeScript plugin required from scratch. |
+| Indian Shipping | No community plugins for Shiprocket or Delhivery. Full custom `FulfillmentHandler` required. |
+| Admin UI | Less polished than Medusa v2 (migrated from Angular to React). ★★★☆☆ |
+| Self-Hosting | Same complexity as Medusa (Node + PostgreSQL + Redis). No advantage. |
+
+**Verdict:** Weakest Indian payment/shipping ecosystem of all evaluated options. GPLv3 license concern. Most from-scratch development required. **Rejected.**
+
+---
+
+### Option D — WooCommerce (Headless on VPS) ❌ REJECTED
+
+| Issue | Detail |
+| :--- | :--- |
+| Language | PHP + WordPress — permanent mismatch with TypeScript-first stack and AI coding workflow. |
+| Database | MySQL only — PostgreSQL not supported natively. |
+| Headless Cart/Checkout | WordPress sessions conflict with stateless React/SSR patterns. Headless checkout requires custom bridging code. |
+| REST Performance | Every REST request bootstraps full WordPress PHP environment → high TTFB. |
+| Plugin Compatibility | Many WooCommerce plugins inject HTML output and break in headless mode. |
+
+**Why WooCommerce loses despite Indian ecosystem strength:** Its best-in-class Indian payment and shipping plugins (official Razorpay, Cashfree, Shiprocket, Delhivery) are real and valuable. However, the architectural mismatch with a headless TanStack SSR frontend is severe. Cart state management, session handling, and checkout with WordPress's PHP session model creates lasting technical debt. Every future AI coding session would context-switch between TypeScript frontend and PHP backend — this eliminates one of the core advantages of the AI-assisted development model. **Rejected.**
+
+---
+
+### Option E — Bagisto v2 ❌ REJECTED (Short-listed, not selected)
+
+Bagisto (MIT, PHP/Laravel, MySQL, both REST + GraphQL, Razorpay native) was the closest alternative. It was rejected for the same core reason as WooCommerce: **PHP vs. TypeScript stack mismatch**. While Laravel is a better-architected PHP framework than WordPress, the fundamental problem remains. The entire development and operations workflow for this project is TypeScript-first. AI coding agents working on a PHP backend alongside a TypeScript frontend create unnecessary complexity. The marginal advantage of Razorpay being "native in core" rather than "community plugin" does not justify the permanent language-boundary tax.
+
+---
+
+### Technology Decision Summary
+
+| Evaluation Axis | Medusa.js v2 | Bagisto v2 | WooCommerce | Vendure v3 |
+| :--- | :---: | :---: | :---: | :---: |
+| TypeScript consistent | ✅ | ❌ PHP | ❌ PHP | ✅ |
+| PostgreSQL | ✅ | ⚠️ MySQL | ❌ MySQL | ✅ |
+| MIT License | ✅ | ✅ | ✅ | ❌ GPLv3 |
+| REST API quality | ✅ | ✅ | ⚠️ | ❌ GQL-only |
+| Razorpay (India) | ⚠️ Plugin | ✅ Native | ✅ Official | ❌ Custom |
+| Shiprocket (India) | ⚠️ Custom | ✅ Extension | ✅ Official | ❌ Custom |
+| Purchase Orders | ⚠️ Custom | ✅ Extension | ✅ Plugin | ❌ Custom |
+| Headless TanStack fit | ✅ | ✅ | ❌ | ✅ |
+| AI dev workflow fit | ✅ | ❌ | ❌ | ✅ |
+| **SELECTED** | **✅** | | | |
+
+---
+
+## 20. Commerce Architecture
+
+### System Diagram
+
+```text
+                         CUSTOMER (Browser)
+                              │
+                    Cloudflare Pages (CDN + Edge)
+                              │
+                    TanStack Start Frontend (SSR)
+                              │  HTTPS REST API
+                              ▼
+              ┌──── Caddy Reverse Proxy (Hetzner VPS) ────┐
+              │                                           │
+              ▼                                           ▼
+    Medusa.js v2 API Server (Port 9000)        Directus CMS (Port 8055)
+              │                                           │
+         ┌────┴────────────────┐                  PostgreSQL DB
+         │                     │                 (blog tables)
+         ▼                     ▼
+    PostgreSQL 16          Redis (cache +
+    (commerce DB)          job queue)
+         │
+         ▼
+    Cloudflare R2
+    (product + review
+     images, blog media)
+         │
+    Razorpay (payments)
+    Shiprocket (fulfillment)
+    Resend (transactional email)
+```
+
+### Medusa Module Structure
+
+| Module | Implementation |
+| :--- | :--- |
+| Product Catalog | Medusa v2 native (`@medusajs/product`) |
+| Inventory | Medusa v2 native (`@medusajs/inventory`) |
+| Cart | Medusa v2 native (`@medusajs/cart`) |
+| Orders | Medusa v2 native (`@medusajs/order`) |
+| Fulfillment | Medusa v2 native + custom Shiprocket workflow |
+| Payments | Medusa v2 native + Razorpay community plugin |
+| Customers / Auth | Medusa v2 native (`@medusajs/customer`, `@medusajs/auth`) |
+| Promotions | Medusa v2 native (`@medusajs/promotion`) |
+| **Purchase Orders** | **Custom module** (`src/modules/purchase-order`) |
+| **Suppliers** | **Custom module** (`src/modules/supplier`) |
+| **Reviews** | **Custom module** (`src/modules/review`) |
+| **Blog** | **Directus CMS** (separate service) |
+
+---
+
+## 21. Database Model
+
+### Entity Relationship Overview
+
+```mermaid
+erDiagram
+    Product ||--o{ ProductVariant : "has"
+    Product }o--|| Category : "belongs to"
+    Product }o--o{ Collection : "tagged in"
+    Product ||--o{ ProductMedia : "has"
+    Product ||--o{ ProductAttribute : "has"
+
+    ProductVariant ||--o{ InventoryItem : "tracked as"
+    InventoryItem ||--o{ InventoryMovement : "has ledger"
+    InventoryItem }o--|| InventoryLocation : "at"
+
+    Supplier ||--o{ PurchaseOrder : "supplies"
+    PurchaseOrder ||--o{ PurchaseOrderItem : "contains"
+    PurchaseOrderItem }o--|| ProductVariant : "for"
+
+    Customer ||--o{ Address : "has"
+    Customer ||--o{ Order : "places"
+
+    Cart ||--o{ CartItem : "contains"
+    CartItem }o--|| ProductVariant : "selects"
+
+    Order ||--o{ OrderItem : "contains"
+    Order ||--|| Payment : "has"
+    Order ||--o{ Shipment : "generates"
+    Order ||--o{ Return : "can have"
+
+    Return ||--o{ ReturnItem : "contains"
+
+    Review }o--|| Product : "on"
+    Review }o--|| Customer : "by"
+    Review }o--o| Order : "verifies purchase"
+
+    Promotion }o--o{ Order : "applied to"
+```
+
+### Key Entities (Medusa Native)
+
+| Entity | Key Fields |
+| :--- | :--- |
+| **Product** | id, title, handle/slug, description, status, category_id, metadata (LMPC fields, modesty attrs) |
+| **ProductVariant** | id, product_id, sku, title, options (size, color), price, cost_price, weight, inventory_quantity |
+| **InventoryItem** | id, variant_id, location_id, stocked_quantity, reserved_quantity, incoming_quantity |
+| **InventoryMovement** | id, item_id, quantity, type (PURCHASE_RECEIVED / ORDER_RESERVED / ORDER_FULFILLED / RETURN_RECEIVED / DAMAGED / MANUAL_ADJUSTMENT), reference_id, note |
+| **Order** | id, customer_id, status, payment_status, fulfillment_status, items, total, shipping_address, display_id |
+| **Payment** | id, order_id, provider (razorpay), provider_transaction_id, amount, status, captured_at |
+| **Shipment** | id, order_id, provider (shiprocket), awb_number, tracking_url, status, dispatched_at, delivered_at |
+| **Customer** | id, email, phone, first_name, last_name, addresses |
+| **Return** | id, order_id, status, items, refund_amount, exchange_order_id |
+| **Promotion** | id, code, type (percentage/fixed), value, conditions (min_amount, category, product), usage_limit, valid_from, valid_to |
+
+### Custom Entities (Built as Medusa Modules)
+
+| Entity | Key Fields |
+| :--- | :--- |
+| **Supplier** | id, name, contact_name, phone, email, address, city, cluster (Surat/Panipat/etc.), categories, lead_days, payment_terms, quality_notes |
+| **PurchaseOrder** | id, supplier_id, po_number, status (DRAFT/ORDERED/PARTIALLY_RECEIVED/RECEIVED/CANCELLED), expected_delivery, total_cost, notes |
+| **PurchaseOrderItem** | id, po_id, variant_id, variant_sku, ordered_qty, received_qty, rejected_qty, unit_cost |
+| **Review** | id, product_id, customer_id, order_id, rating, title, body, size_feedback, opacity_rating, softness_rating, colorfastness_rating, is_verified_purchase, status (PENDING/PUBLISHED/REJECTED), helpful_count, photos |
+
+### Apparel-Specific Metadata (stored as Medusa `metadata` on Product/Variant)
+```json
+{
+  "kind": "apparel",
+  "lmpc_generic_name": "Women's 3-Piece Stitched Salwar Suit Set",
+  "lmpc_net_quantity": "1 Set",
+  "lmpc_country_of_origin": "India",
+  "lmpc_manufacturer": "Sukoon House Textiles",
+  "lmpc_consumer_care": "care@sukoonhouse.in",
+  "opacity_guarantee": "100% Non-Transparent",
+  "attached_lining": true,
+  "lining_material": "Pure Cotton Voil",
+  "inner_margin_inches": 2,
+  "neckline_depth_inches": 5.5,
+  "modesty_confirmed": true
+}
+```
+
+---
+
+## 22. Inventory Model
+
+### Stock States
+```
+ON_HAND       = Physical units in warehouse
+RESERVED      = Held for confirmed orders awaiting fulfillment
+INCOMING      = Ordered from supplier, not yet received
+DAMAGED       = Received but unsellable units
+RETURNED      = Customer-returned units (may be restocked after inspection)
+
+AVAILABLE = ON_HAND − RESERVED
+```
+
+### Stock Ledger — Every movement creates an `InventoryMovement` record
+```
+SKU: SH-WCS-014-SG-L (Salwar Suit Sage Green / L)
+
+Date        Type                 Qty   Reference         Balance
+2026-10-01  PURCHASE_RECEIVED   +10   PO-2026-001        10
+2026-10-03  ORDER_RESERVED       -1   ORD-1021           9
+2026-10-05  ORDER_FULFILLED      -1   ORD-1021 (ship)    8  ← RESERVED released
+2026-10-07  ORDER_RESERVED       -1   ORD-1035           7
+2026-10-08  DAMAGED              -1   Manual (torn seam) 6
+2026-10-10  RETURN_RECEIVED      +1   RET-0012           7
+2026-10-10  MANUAL_ADJUSTMENT    -1   Recheck QC (fail)  6
+```
+
+**Rule:** No silent inventory modifications. Every quantity change has a `type`, `reference_id`, and optional `note`.
+
+### Low Stock Alerts
+- Trigger when `available_quantity ≤ low_stock_threshold` (configurable per variant; default: 3 units).
+- Alert surfaced in Medusa admin dashboard.
+
+---
+
+## 23. Purchasing & Supplier Model
+
+### Supplier Fields
+```typescript
+{
+  name: string;             // "Raza Textiles, Surat"
+  contact_name: string;
+  phone: string;            // WhatsApp-reachable
+  email?: string;
+  address: string;
+  cluster: string;          // "Surat" | "Delhi-NCR" | "Panipat" | ...
+  categories: string[];     // ["Women's Suits", "Hijabs"]
+  lead_days: number;        // avg days from order to delivery
+  payment_terms: string;    // "50% advance, 50% on delivery"
+  quality_notes: string;    // "Pre-wash fabric before shipment"
+  reliability_score?: number; // 1-5, updated after each PO
+}
+```
+
+### Purchase Order Lifecycle
+```
+DRAFT           ← Admin creates PO, selects supplier, adds variants+quantities+costs
+ORDERED         ← PO sent to supplier (WhatsApp/email) — inventory shows as INCOMING
+PARTIALLY_RECEIVED ← Some items received; partial inventory update
+RECEIVED        ← All items received; inventory fully updated; PO closed
+CANCELLED       ← PO cancelled; INCOMING removed
+```
+
+### Stock Receiving Workflow
+```
+1. Open PO in Admin
+2. Select PO items to receive
+3. Enter received_qty per variant (may differ from ordered_qty)
+4. Enter rejected_qty (damaged, quality-fail units)
+5. Confirm → InventoryMovement(PURCHASE_RECEIVED) created automatically
+6. Product availability on storefront updates immediately
+```
+
+---
+
+## 24. Order Lifecycle
+
+```
+Customer adds items → Cart (Medusa cart API, persisted)
+                ↓
+      Customer enters address + pincode
+                ↓
+      Checkout (apply promotions, calculate shipping)
+                ↓
+      Payment initiation (Razorpay)
+                ↓
+   ┌─────────────────────────────────┐
+   │ PAYMENT PENDING                 │  ← Order created; stock NOT yet reserved
+   └─────────────────────────────────┘
+                ↓ Razorpay webhook: payment.captured
+   ┌─────────────────────────────────┐
+   │ PAYMENT CONFIRMED               │  ← Stock RESERVED; ORDER CONFIRMED email sent
+   └─────────────────────────────────┘
+                ↓ Admin marks ready
+   ┌─────────────────────────────────┐
+   │ PROCESSING                      │  ← Packing, quality check, label printing
+   └─────────────────────────────────┘
+                ↓ Shiprocket pickup scheduled
+   ┌─────────────────────────────────┐
+   │ SHIPPED                         │  ← AWB generated; tracking URL sent to customer
+   └─────────────────────────────────┘
+                ↓ Shiprocket webhook: delivered
+   ┌─────────────────────────────────┐
+   │ DELIVERED                       │  ← Stock FULFILLED; review request email sent
+   └─────────────────────────────────┘
+```
+
+**Failure Cases:**
+- `payment.failed` → Order status `PAYMENT_FAILED`; no stock reservation.
+- `payment.captured` but webhook delayed → Idempotent webhook handler (deduplicate by Razorpay `payment_id`).
+- COD order → Stock reserved on order creation; `PAYMENT_PENDING_COD` status; phone confirmation required before dispatch.
+- RTO (Return to Origin) → Shiprocket webhook triggers `ORDER_RTO`; stock returned to `RETURNED` state pending inspection.
+
+---
+
+## 25. Payment Lifecycle
+
+### Provider: Razorpay (primary)
+```
+Frontend (TanStack) → Razorpay Orders API → razorpay_order_id
+       ↓
+Razorpay Checkout (UPI / Cards / Net Banking / Wallets / EMI)
+       ↓
+payment.captured webhook → Medusa payment webhook handler
+       ↓ Verify HMAC signature (razorpay_signature)
+       ↓
+Order status: PAID → inventory reserved
+```
+
+### Payment States (Medusa Payment entity)
+```
+PENDING         ← Initiated, not yet captured
+CAPTURED        ← Payment confirmed (webhook received + verified)
+PARTIALLY_REFUNDED ← Partial refund processed
+REFUNDED        ← Full refund processed
+FAILED          ← Payment failed or cancelled
+```
+
+### COD Workflow
+- Order created with `payment_provider: cod`.
+- Admin system requires phone verification before dispatching.
+- Stock reserved immediately on order creation.
+- `PAYMENT_PENDING_COD` until delivery confirmed.
+
+### Refunds
+- Refunds issued via Razorpay Refunds API from Medusa admin.
+- Partial refunds supported (e.g., refund one item from multi-item order).
+- `Payment.refund_amount` tracked cumulatively.
+
+---
+
+## 26. Shipping Lifecycle
+
+### Provider: Shiprocket (primary — covers 17+ couriers including Delhivery, DTDC, Ekart)
+
+```
+Order PAID → Admin reviews → Shiprocket shipment created via API
+       ↓
+AWB number assigned + courier assigned (auto or manual)
+       ↓
+Pickup scheduled (1–2 business days in metro cities)
+       ↓
+Shiprocket webhook: IN_TRANSIT → update Shipment.status
+       ↓
+Shiprocket webhook: DELIVERED → Order.fulfillment_status = DELIVERED
+                              → InventoryMovement(ORDER_FULFILLED)
+                              → Review request email sent
+```
+
+### Shipping Rule
+- Orders ≥ ₹999: Free delivery (shipping_amount = 0).
+- Orders < ₹999: Flat ₹70 delivery fee.
+- COD: Available nationwide (Shiprocket manages COD collection and remittance).
+
+### Failed Delivery / RTO
+- 3 delivery attempts standard.
+- RTO webhook → `ORDER_RTO`; stock re-ingested as `RETURN_RECEIVED`; customer notified.
+
+---
+
+## 27. Returns & Exchanges Lifecycle
+
+### Return States
+```
+RETURN_REQUESTED  ← Customer initiates in portal or via WhatsApp
+RETURN_APPROVED   ← Admin approves (within 7 days of delivery)
+PICKUP_SCHEDULED  ← Shiprocket reverse pickup created
+RECEIVED          ← Item received at warehouse
+INSPECTED         ← Condition verified (pass / fail / partial)
+REFUND_APPROVED   ← Refund initiated (Razorpay Refunds API)
+RESTOCKED         ← Item back in available inventory
+CLOSED            ← Return fully resolved
+```
+
+### Exchange Flow (most common for apparel)
+```
+Customer requests size exchange (e.g., M → L)
+       ↓ Admin approves
+       ↓ Shiprocket reverse pickup scheduled for M
+       ↓ New shipment for L created immediately (available stock check first)
+       ↓ M received + inspected
+       ↓ If pass → InventoryMovement(RETURN_RECEIVED) + restocked
+       ↓ If fail (worn/washed/damaged) → InventoryMovement(DAMAGED); no restock
+       ↓ Return CLOSED
+```
+
+**Business Rule:** Exchange window is 7 days from delivery. Items must be unwashed, unworn, original tags intact. Reverse pickup is free (Sukoon House's cost).
+
+---
+
+## 28. Customer System
+
+### Guest Checkout
+- No account required. Email + phone collected for order communication only.
+- `localStorage` cart persists until order placed.
+
+### Account Creation
+- Optional — prompted post-purchase for order tracking convenience.
+- Fields: name, email, phone, addresses (billing + delivery).
+
+### Customer Portal (Post-Login)
+- Order history with status tracking.
+- Return/exchange initiation.
+- Saved addresses.
+- Wishlist.
+- Review submission (post-delivery prompt).
+
+**Rule:** Do not force account creation before checkout. Conversion rate priority.
+
+---
+
+## 29. Reviews System
+
+### Review Fields
+```typescript
+{
+  product_id: string;
+  customer_id?: string;      // null for guest (email-verified)
+  order_id: string;          // required for "Verified Purchase" badge
+  rating: 1 | 2 | 3 | 4 | 5;
+  title: string;
+  body: string;
+  photos: string[];          // Cloudflare R2 URLs
+  // Apparel-specific sentiment
+  true_to_size: 1 | 2 | 3 | 4 | 5;  // 1=runs small, 5=runs large
+  opacity_rating: 1 | 2 | 3 | 4 | 5;
+  softness_rating: 1 | 2 | 3 | 4 | 5;
+  colorfastness_rating?: 1 | 2 | 3 | 4 | 5;
+  purchased_size?: string;
+  purchased_color?: string;
+  status: "PENDING" | "PUBLISHED" | "REJECTED";
+  helpful_count: number;
+}
+```
+
+**Verified Purchase Logic:** `is_verified_purchase = true` only when `order_id` resolves to a delivered order for this customer and product. Never inferred or faked.
+
+**Moderation:** All reviews enter `PENDING`. Admin publishes or rejects via Medusa admin. Automated pre-screening for profanity (`pending → flagged`).
+
+---
+
+## 30. Promotions
+
+### Supported Promotion Types (Medusa native `@medusajs/promotion`)
+- Percentage discount (`10%` off)
+- Flat discount (`₹100` off)
+- Free shipping (override shipping amount to 0)
+- BOGO (not in initial scope)
+
+### Conditions Supported
+- Minimum order amount (e.g., `min ₹999`)
+- Specific products or categories
+- First-time customer only
+- Usage limit (e.g., max 500 uses total, max 1 per customer)
+- Validity date range (Eid / Ramadan campaigns)
+
+### Coupon Codes
+- Admin creates codes in Medusa admin.
+- Customer applies code at checkout.
+- Stackability: disabled (only one promotion per order in V1).
+
+---
+
+## 31. Blog / CMS Architecture
+
+### Platform: Directus (self-hosted)
+- **License:** BSL 1.1 / MIT (MIT after 4 years) — fully free for self-hosting.
+- **Database:** PostgreSQL (shared instance or separate schema on same PostgreSQL server).
+- **Admin:** Polished no-code content admin; rich text editor, media library, scheduled publishing.
+- **API:** REST + GraphQL native.
+
+### Blog Collections (Directus data model)
+```
+Posts
+  ├── title (string)
+  ├── slug (string, unique)
+  ├── excerpt (text)
+  ├── body (rich text / markdown)
+  ├── featured_image (file → Cloudflare R2)
+  ├── author (string)
+  ├── category → BlogCategory
+  ├── tags → [BlogTag]
+  ├── status (draft / published / scheduled)
+  ├── published_at (datetime)
+  ├── seo_title (string)
+  ├── seo_description (text)
+  └── related_products (JSON array of Medusa product IDs)
+
+BlogCategory: id, name, slug
+BlogTag: id, name, slug
+```
+
+### Frontend Blog Routes (to be built)
+```
+/blog                    ← Article index + category nav
+/blog/:slug              ← Article with inline related product cards
+/blog/category/:category ← Filtered article index
+```
+
+### Content → Product Journey
+Editorial article on "How to Choose the Right Salwar Suit" embeds `related_products` → TanStack frontend fetches Medusa product API for each ID → renders inline product cards → customer clicks → PDP → checkout.
+
+---
+
+## 32. Admin Architecture
+
+### Medusa Admin Dashboard (built-in)
+Access at `https://admin.sukoonhouse.in` (subdomain, served by Caddy).
+
+### Core Admin Workflows
+
+```
+Dashboard
+  ├── Today's Orders
+  ├── Today's Revenue
+  ├── Low Stock Alerts (≤3 units)
+  ├── Pending Returns
+  ├── Outstanding POs (INCOMING inventory)
+  └── Recent Reviews (PENDING)
+
+Catalog
+  ├── Products (create, edit, variants, pricing, images, metadata)
+  ├── Categories (7 Pillars + subcategories)
+  ├── Collections (Eid 2026, Ramadan Collection, etc.)
+  └── Media Library (Cloudflare R2)
+
+Inventory
+  ├── Stock Levels (per variant + location)
+  ├── Movements Ledger
+  ├── Low Stock Report
+  └── Manual Adjustments
+
+Purchasing
+  ├── Suppliers (CRUD)
+  ├── Purchase Orders (create, receive, track)
+  └── PO Receipt (receive quantities, mark damaged)
+
+Orders
+  ├── All Orders (filter by status)
+  ├── Processing Queue
+  ├── Shipped Orders
+  ├── Delivered (review request sent)
+  └── RTO Queue
+
+Returns
+  ├── Return Requests (approve/reject)
+  ├── Inspections
+  └── Refunds / Exchanges
+
+Reviews
+  ├── Pending Moderation
+  ├── Published
+  └── Rejected
+
+Promotions
+  ├── Coupon Codes
+  └── Discount Rules
+
+Reports
+  ├── Sales (revenue, orders, AOV, refunds)
+  ├── Products (top sellers, sell-through)
+  ├── Inventory (stock value, ageing, low stock)
+  └── Profitability (where cost data is available)
+
+Settings
+  ├── Shipping Zones & Rates
+  ├── Payment Providers
+  ├── Return Policy
+  └── Notifications (email templates)
+```
+
+**Founder Operability Test** — Admin must answer these without SQL:
+- What products do I sell and how many units remain?
+- Which sizes are low?
+- What stock is incoming (ORDERED from suppliers)?
+- Which supplier did I buy this from and what did I pay?
+- Which products are selling? Which are not?
+- What orders need attention today?
+- Which returns are pending?
+- How much inventory value is tied up?
+- What did customers say about this product?
+
+---
+
+## 33. Frontend Integration (Replacing Mock Data)
+
+### Migration Strategy: Mock → Live API
+
+| Frontend Area | Current State | Target State |
+| :--- | :--- | :--- |
+| `collection.tsx` product list | In-memory `products[]` array | `GET /store/products?category_id=&limit=&offset=` |
+| `products.$productId.tsx` | In-memory `catalog{}` object | `GET /store/products/{handle}` |
+| `cart-context.tsx` | Client-only React context | Medusa cart API (`POST /store/carts`, session via cookie) |
+| Checkout | None | Medusa checkout flow (address, shipping, payment) |
+| Customer auth | None | `POST /store/auth` (JWT tokens) |
+| Order history | None | `GET /store/orders?customer_id=` |
+| Reviews | Hardcoded mock | `GET /store/products/{id}/reviews` + `POST /store/reviews` |
+| Blog | None | `GET {directus_url}/items/posts` |
+| Pincode check | Mock simulation | Shiprocket serviceability API |
+
+### API Client Architecture
+```typescript
+// src/lib/api.ts — centralized API client
+const MEDUSA_URL = import.meta.env.VITE_MEDUSA_URL; // e.g. https://api.sukoonhouse.in
+const DIRECTUS_URL = import.meta.env.VITE_DIRECTUS_URL;
+
+// TanStack Query hooks:
+// useProducts(filters) → /store/products
+// useProduct(handle) → /store/products?handle={handle}
+// useCart() → managed via Medusa JS SDK
+// useBlogPosts(category?) → Directus REST
+```
+
+### Environment Variables (Frontend)
+```
+VITE_MEDUSA_URL=https://api.sukoonhouse.in
+VITE_DIRECTUS_URL=https://cms.sukoonhouse.in
+VITE_RAZORPAY_KEY_ID=rzp_live_xxxxx
+VITE_SHIPROCKET_SERVICEABILITY_KEY=xxxxx
+```
+
+---
+
+## 34. Infrastructure & Deployment
+
+### Production Architecture
+
+```
+Internet
+    ↓ DNS (Cloudflare)
+Cloudflare Pages → TanStack Start Frontend (Cloudflare Workers)
+    ↓ API calls (HTTPS)
+Hetzner CX32 VPS (4 vCPU / 8 GB RAM / 80 GB SSD, ~₹2,000/month)
+    ↓
+Caddy (ports 80/443, automatic HTTPS + HTTP/2)
+    ├── api.sukoonhouse.in → Medusa.js v2 (port 9000)
+    ├── admin.sukoonhouse.in → Medusa Admin (port 9000/admin)
+    └── cms.sukoonhouse.in → Directus (port 8055)
+    ↓
+PostgreSQL 16 (port 5432, localhost only)
+Redis (port 6379, localhost only)
+    ↓
+Cloudflare R2 (object storage — product images, review photos, blog media)
+    ↓
+Razorpay (payment webhooks → api.sukoonhouse.in/webhooks/razorpay)
+Shiprocket (shipping webhooks → api.sukoonhouse.in/webhooks/shiprocket)
+Resend (transactional email — order confirms, shipping, review requests)
+```
+
+### Docker Compose Services (`docker-compose.yml`)
+```yaml
+services:
+  medusa:
+    image: node:22-alpine
+    command: npm run start
+    ports: ["9000:9000"]
+    env_file: .env
+    depends_on: [postgres, redis]
+
+  worker:
+    image: node:22-alpine
+    command: npm run worker
+    env_file: .env
+    depends_on: [postgres, redis]
+
+  postgres:
+    image: postgres:16-alpine
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    environment:
+      POSTGRES_DB: sukoon_commerce
+      POSTGRES_USER: sukoon
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  redis:
+    image: redis:7-alpine
+    volumes: ["redisdata:/data"]
+
+  directus:
+    image: directus/directus:latest
+    ports: ["8055:8055"]
+    env_file: .env.directus
+    depends_on: [postgres]
+
+  caddy:
+    image: caddy:2-alpine
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+
+volumes:
+  pgdata:
+  redisdata:
+  caddy_data:
+```
+
+### Environment Variables (Backend `.env`)
+```
+DATABASE_URL=postgresql://sukoon:${DB_PASSWORD}@postgres:5432/sukoon_commerce
+REDIS_URL=redis://redis:6379
+JWT_SECRET=<generate with: openssl rand -base64 64>
+COOKIE_SECRET=<generate with: openssl rand -base64 64>
+STORE_CORS=https://sukoonhouse.in,https://www.sukoonhouse.in
+ADMIN_CORS=https://admin.sukoonhouse.in
+RAZORPAY_KEY_ID=rzp_live_xxxxx
+RAZORPAY_KEY_SECRET=xxxxx
+SHIPROCKET_EMAIL=xxxxx
+SHIPROCKET_PASSWORD=xxxxx
+CLOUDFLARE_R2_BUCKET=sukoon-media
+CLOUDFLARE_R2_ACCESS_KEY=xxxxx
+CLOUDFLARE_R2_SECRET_KEY=xxxxx
+CLOUDFLARE_R2_ENDPOINT=https://<account>.r2.cloudflarestorage.com
+RESEND_API_KEY=re_xxxxx
+```
+
+---
+
+## 35. Security
+
+| Layer | Implementation |
+| :--- | :--- |
+| **HTTPS** | Caddy automatic Let's Encrypt (or Cloudflare origin cert) |
+| **Admin Auth** | Medusa admin JWT (email + password); 2FA optional via TOTP |
+| **Customer Auth** | Medusa JWT session; short-lived access token + refresh token |
+| **Webhook Verification** | Razorpay: HMAC SHA-256 signature on `razorpay_signature`; Shiprocket: API token header |
+| **Input Validation** | Medusa request validation (Zod schemas on all endpoints) |
+| **Rate Limiting** | Caddy rate limiting plugin (or Cloudflare WAF at edge) |
+| **Media Upload** | File type whitelist (JPEG, PNG, WebP only); max 10 MB; virus scan via ClamAV or skip (low-risk for product images) |
+| **DB Access** | PostgreSQL accessible only on localhost (no public port) |
+| **Redis Access** | Redis accessible only on localhost (no public port) |
+| **Secrets** | Stored in `.env` on server; never committed to git; managed via `docker secret` or Hetzner Cloud secrets |
+| **Audit Logging** | Medusa admin action logs (user, action, timestamp, entity, before/after); ship to file + optional Grafana |
+| **Inventory / Order Protection** | All stock mutations via service layer only; no direct `UPDATE inventory SET` from API controllers |
+
+---
+
+## 36. Backup & Restore
+
+### Backup Schedule
+```
+PostgreSQL:    Daily at 02:00 IST via pg_dump → Cloudflare R2 (sukoon-backups/db/)
+Redis:         RDB snapshot daily (acceptable data loss: <24h for cache; cart data is ephemeral)
+Media (R2):    R2 versioning enabled; multi-region redundancy via Cloudflare
+Configuration: Git-tracked (docker-compose.yml, Caddyfile, medusa-config.ts)
+Secrets:       Hetzner Cloud Secret Store or encrypted off-site (Bitwarden export)
+```
+
+### Backup Retention
+- Daily backups: 7 days.
+- Weekly backups: 4 weeks (every Sunday).
+- Monthly backups: 12 months.
+
+### Restore Procedure
+```bash
+# 1. Provision new VPS
+# 2. Install Docker + Docker Compose
+# 3. Clone config repo / restore Caddyfile + docker-compose.yml
+# 4. Restore .env secrets
+# 5. Pull latest DB backup from R2:
+aws s3 cp s3://sukoon-backups/db/latest.dump . --endpoint-url $R2_ENDPOINT
+# 6. Restore database:
+pg_restore -U sukoon -d sukoon_commerce latest.dump
+# 7. Start services:
+docker compose up -d
+# 8. Verify: admin login, product catalog, order list
+```
+
+**Target Recovery Time Objective (RTO): < 2 hours.**  
+**Recovery Point Objective (RPO): < 24 hours (daily backup).**
+
+---
+
+## 37. Testing Strategy
+
+Tests target business workflows, not code coverage metrics.
+
+### Critical Workflow Tests
+
+| Workflow | Test Scope |
+| :--- | :--- |
+| **Catalog** | Create product → publish → appears in `/store/products` |
+| **Inventory** | Receive PO → stock updated → variant shows available on storefront |
+| **Order Happy Path** | Cart → checkout → Razorpay capture webhook → inventory reserved → order confirmed |
+| **COD Order** | Cart → checkout (COD) → order created → phone verified → dispatched |
+| **Shipment** | Order paid → Shiprocket AWB created → tracking webhook → delivered |
+| **Return** | Return requested → approved → pickup → received → inspect pass → refund issued → inventory restocked |
+| **Exchange** | Return M → approve → new L shipment → M received pass → M restocked → closed |
+| **Review** | Delivered order → review submitted → pending → admin publishes → appears on PDP |
+| **Blog** | Directus post draft → publish → appears at `/blog` → related products render |
+| **Promotions** | Apply coupon code at checkout → discount applied correctly → usage count incremented |
+
+### Failure Case Tests
+
+| Failure | Expected Behaviour |
+| :--- | :--- |
+| Payment failed | Order stays `PAYMENT_FAILED`; no inventory reserved |
+| Duplicate Razorpay webhook | Idempotent handler; no double inventory reservation |
+| Stock race condition (2 orders, 1 unit left) | First order reserves; second gets `insufficient stock` error |
+| Order cancelled after payment | Inventory reservation released; refund initiated |
+| Shiprocket RTO | Stock returned to `RETURNED`; customer notified |
+| Damaged return item | Stock NOT restocked; `DAMAGED` movement recorded; no refund on damage |
+
+---
+
+## 38. Implementation Sequence
+
+Order is dependency-driven. Each step must be verified before the next begins.
+
+| Step | Task | Priority |
+| :---: | :--- | :--- |
+| 1 | Provision Hetzner CX32 VPS; install Docker Compose | Infrastructure |
+| 2 | Scaffold Medusa.js v2 project; configure PostgreSQL + Redis | Backend core |
+| 3 | Configure Caddy reverse proxy + SSL (api / admin subdomains) | Infrastructure |
+| 4 | Configure Cloudflare R2 bucket + Medusa file provider | Storage |
+| 5 | Set up product Category tree (7 pillars + subcategories) | Catalog |
+| 6 | Build product catalog in Medusa admin (20 initial SKUs with variants) | Catalog |
+| 7 | Connect `/collection` TanStack route to Medusa `GET /store/products` | Frontend API |
+| 8 | Connect `/products/$productId` to Medusa `GET /store/products/{handle}` | Frontend API |
+| 9 | Implement Razorpay payment provider in Medusa (community plugin) | Payments |
+| 10 | Implement Medusa cart API + replace `cart-context.tsx` with Medusa JS SDK | Cart |
+| 11 | Implement checkout flow (address, shipping rate, payment) in storefront | Checkout |
+| 12 | Implement Razorpay webhook handler + HMAC verification | Payments |
+| 13 | Implement Shiprocket fulfillment workflow (create shipment, AWB, webhook) | Shipping |
+| 14 | Build custom `PurchaseOrder` + `Supplier` Medusa module | Purchasing |
+| 15 | Build PO admin UI routes in Medusa admin | Purchasing |
+| 16 | Implement Returns workflow (request → approve → pickup → inspect → refund) | Returns |
+| 17 | Implement Customer auth + order history + returns portal | Customers |
+| 18 | Build custom `Review` Medusa module + admin moderation view | Reviews |
+| 19 | Connect storefront review display to Review API | Reviews |
+| 20 | Implement Promotions (coupon codes, % and flat discounts) | Promotions |
+| 21 | Set up Directus CMS on VPS; configure PostgreSQL schema + R2 media | Blog |
+| 22 | Build `/blog`, `/blog/:slug`, `/blog/category/:cat` TanStack routes | Blog |
+| 23 | Implement product search (Medusa full-text + filters) in `/collection` | Search |
+| 24 | Set up Resend transactional emails (order confirm, shipping, review request) | Notifications |
+| 25 | Verify and test backup + restore procedure | Backup |
+| 26 | Security hardening audit (headers, rate limits, webhook verification) | Security |
+| 27 | End-to-end operational scenario test (§42 in backend.md) | Testing |
+| 28 | Production go-live (DNS cutover, smoke test, monitor 24h) | Deployment |
+
+---
+
+## 39. Critical Risks
+
+| Risk | Likelihood | Impact | Mitigation |
+| :--- | :---: | :---: | :--- |
+| Razorpay community plugin compatibility breaks on Medusa update | Medium | High | Pin Medusa version; test plugin on every upgrade; have Razorpay direct REST API as fallback |
+| Shiprocket API rate limits or downtime | Medium | High | Cache serviceability results; queue shipment creation; Delhivery as manual fallback |
+| VPS goes down | Low | Critical | Daily DB backups to R2; RTO < 2h documented; Hetzner uptime SLA 99.9% |
+| Inventory race condition on flash sale | Low | Medium | PostgreSQL row-level locking on inventory reservation; prevent oversell at DB level |
+| Size exchange dead stock (broken size curves) | High | Medium | 1:2:2:1 procurement curve; enforce at PO creation; low-stock alerts at ≤3 units |
+| COD RTO (non-delivery) | Medium | High | COD phone verification mandatory; limit COD to ≤₹1,499; Shiprocket COD audit reports |
+| PO custom module development delay | Medium | Medium | Use manual ATUM-style spreadsheet temporarily; PO module is step 14, not day 1 |
