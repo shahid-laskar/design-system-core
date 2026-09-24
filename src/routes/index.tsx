@@ -10,7 +10,7 @@ import {
 import { ProductCard } from "@/components/brand/product-card";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { Button } from "@/components/ui/button";
-import { Eyebrow, PageContainer } from "@/components/brand/design-primitives";
+import { PageContainer } from "@/components/brand/design-primitives";
 import heroHome from "@/assets/hero-home.jpg";
 import productModestSet from "@/assets/product-modest-set.jpg";
 import productMenKurta from "@/assets/product-men-kurta.jpg";
