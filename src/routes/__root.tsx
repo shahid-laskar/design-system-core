@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteShell } from "../components/brand/site-shell";
+import { CartProvider } from "../lib/cart-context";
 import { Button } from "../components/ui/button";
 
 function NotFoundComponent() {
@@ -122,9 +123,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <SiteShell>
-        <Outlet />
-      </SiteShell>
+      <CartProvider>
+        <SiteShell>
+          <Outlet />
+        </SiteShell>
+      </CartProvider>
     </QueryClientProvider>
   );
 }

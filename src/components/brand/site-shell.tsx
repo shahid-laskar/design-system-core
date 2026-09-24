@@ -1,10 +1,12 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, Menu, Search, ShieldCheck, ShoppingBag } from "lucide-react";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageContainer } from "@/components/brand/design-primitives";
+import { CartDrawer } from "@/components/brand/cart-drawer";
+import { useCart } from "@/lib/cart-context";
 import {
   Accordion,
   AccordionContent,
@@ -73,17 +75,10 @@ const occasions = [
 
 type SiteShellProps = {
   children: ReactNode;
-  cartCount?: number;
-  onCartOpen?: () => void;
 };
 
-export function SiteShell({ children, cartCount = 2, onCartOpen }: SiteShellProps) {
-  const [cartOpen, setCartOpen] = useState(false);
-
-  const handleCartOpenChange = (open: boolean) => {
-    setCartOpen(open);
-    if (open) onCartOpen?.();
-  };
+export function SiteShell({ children }: SiteShellProps) {
+  const { itemCount, setIsOpen } = useCart();
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
@@ -212,36 +207,21 @@ export function SiteShell({ children, cartCount = 2, onCartOpen }: SiteShellProp
             <Button variant="ghost" size="icon" aria-label="Search">
               <Search />
             </Button>
-            <Sheet open={cartOpen} onOpenChange={handleCartOpenChange}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label={`Shopping bag, ${cartCount} items`} className="relative">
-                  <ShoppingBag />
-                  {cartCount > 0 ? (
-                    <span className="absolute right-1.5 top-1.5 flex size-4 items-center justify-center rounded-full bg-clay text-[0.6rem] font-bold text-clay-foreground">
-                      {cartCount > 99 ? "99+" : cartCount}
-                    </span>
-                  ) : null}
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="flex w-[92vw] max-w-md flex-col">
-                <SheetHeader className="border-b border-border pb-5 text-left">
-                  <SheetTitle className="font-display text-2xl">Your bag</SheetTitle>
-                  <SheetDescription>{cartCount} {cartCount === 1 ? "item" : "items"} saved for checkout.</SheetDescription>
-                </SheetHeader>
-                <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-                  <ShoppingBag className="mb-4 size-7 text-muted-foreground" />
-                  <p className="font-display text-xl">Your selected essentials will appear here.</p>
-                  <p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">
-                    The bag is ready for the store’s cart connection.
-                  </p>
-                </div>
-              </SheetContent>
-            </Sheet>
+            <Button variant="ghost" size="icon" aria-label={`Shopping bag, ${itemCount} items`} className="relative" onClick={() => setIsOpen(true)}>
+              <ShoppingBag />
+              {itemCount > 0 ? (
+                <span className="absolute right-1.5 top-1.5 flex size-4 items-center justify-center rounded-full bg-clay text-[0.6rem] font-bold text-clay-foreground">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              ) : null}
+            </Button>
           </div>
         </PageContainer>
       </header>
 
       <main>{children}</main>
+
+      <CartDrawer />
 
       <footer className="border-t border-border bg-primary text-primary-foreground">
         <PageContainer className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-20">
