@@ -10,15 +10,15 @@ type ProductCardProps = {
   category: string;
   name: string;
   price: string;
-  previousPrice?: string;
-  savings?: string;
+  previousPrice?: string | undefined;
+  savings?: string | undefined;
   note: string;
-  badge?: string;
-  href?: string;
-  sizes?: string[];
-  rating?: number;
-  reviewCount?: number;
-  inStock?: boolean;
+  badge?: string | undefined;
+  href?: string | undefined;
+  sizes?: string[] | undefined;
+  rating?: number | undefined;
+  reviewCount?: number | undefined;
+  inStock?: boolean | undefined;
 };
 
 export function ProductCard({
