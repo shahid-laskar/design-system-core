@@ -28,6 +28,10 @@ import productModestSet from "@/assets/product-modest-set.jpg";
 import productBundle from "@/assets/product-bundle.jpg";
 
 export const Route = createFileRoute("/collection")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    category: typeof search.category === "string" ? search.category : undefined,
+    occasion: typeof search.occasion === "string" ? search.occasion : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "The Collection — Sukoon House" },

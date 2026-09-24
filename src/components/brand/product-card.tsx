@@ -13,6 +13,7 @@ type ProductCardProps = {
   previousPrice?: string;
   note: string;
   badge?: string;
+  savings?: string;
   href?: string;
 };
 
@@ -25,6 +26,7 @@ export function ProductCard({
   previousPrice,
   note,
   badge,
+  savings,
   href,
 }: ProductCardProps) {
   const targetHref =
@@ -74,6 +76,7 @@ export function ProductCard({
             ) : null}
           </div>
         </div>
+        {savings ? <p className="mt-1 text-xs font-semibold text-clay">{savings}</p> : null}
         <p className="mt-2 text-sm text-muted-foreground">{note}</p>
         <Button className="mt-4 w-full">
           <Plus /> Add to bag
