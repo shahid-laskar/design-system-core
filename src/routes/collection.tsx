@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ListFilter, PackageOpen } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
@@ -30,6 +30,13 @@ import imgModest from "@/assets/product-modest-set.jpg";
 import imgBundle from "@/assets/product-bundle.jpg";
 
 export const Route = createFileRoute("/collection")({
+  validateSearch: (search: Record<string, unknown>): {
+    category?: string | undefined;
+    occasion?: string | undefined;
+  } => ({
+    category: typeof search["category"] === "string" ? search["category"] : undefined,
+    occasion: typeof search["occasion"] === "string" ? search["occasion"] : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "The Collection — Sukoon House" },
@@ -464,16 +471,41 @@ const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 const PAGE = 8;
 
 function CollectionPage() {
-  const [pillar, setPillar] = useState<"All" | Pillar>("All");
+  const search = Route.useSearch();
+  const initialPillar = useMemo(() => {
+    if (!search.category) return "All";
+    const match = pillars.find((p) => p.id.toLowerCase() === search.category?.toLowerCase());
+    return match ? (match.id as "All" | Pillar) : "All";
+  }, [search.category]);
+
+  const [pillar, setPillar] = useState<"All" | Pillar>(initialPillar);
   const [sub, setSub] = useState<string | null>(null);
   const [selSizes, setSelSizes] = useState<Size[]>([]);
   const [band, setBand] = useState<PriceBand | null>(null);
   const [selMaterials, setSelMaterials] = useState<Material[]>([]);
   const [under999, setUnder999] = useState(false);
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [festive, setFestive] = useState(false);
+  const [festive, setFestive] = useState(search.occasion === "festive");
   const [sort, setSort] = useState("featured");
   const [visible, setVisible] = useState(PAGE);
+
+  useEffect(() => {
+    if (search.category) {
+      const match = pillars.find((p) => p.id.toLowerCase() === search.category?.toLowerCase());
+      if (match) {
+        setPillar(match.id as "All" | Pillar);
+        setSub(null);
+        setVisible(PAGE);
+      }
+    }
+  }, [search.category]);
+
+  useEffect(() => {
+    if (search.occasion === "festive") {
+      setFestive(true);
+      setVisible(PAGE);
+    }
+  }, [search.occasion]);
 
   const apparelContext =
     pillar === "All"
