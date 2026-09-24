@@ -294,7 +294,7 @@ function ProductPage() {
           <section aria-label="Product gallery" className="min-w-0">
             <div className="media-frame aspect-[4/5] sm:aspect-[5/6]">
               <img
-                src={product.gallery[selectedImage]?.src ?? product.gallery[0].src}
+                src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
                 alt={product.gallery[selectedImage]?.alt ?? product.name}
                 className={cn(
                   "size-full object-cover",
