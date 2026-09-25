@@ -105,7 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const storedId = getStoredCartId();
       if (storedId) {
         const cart = await getMedusaCart(storedId);
-        if (cart && !cart.completed_at) {
+        if (cart && !(cart as { completed_at?: string | null }).completed_at) {
           setCartId(cart.id);
           setItems(mapMedusaCartToItems(cart));
           return;

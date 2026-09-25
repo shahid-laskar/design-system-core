@@ -81,7 +81,7 @@ export const Route = createFileRoute("/products/$productId")({
   component: ProductPage,
 });
 
-type SizeName = "S" | "M" | "L" | "XL" | "XXL";
+type SizeName = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "3XL";
 type SizeOption = { name: SizeName; stock: "in-stock" | "low" | "sold-out" };
 type GalleryImage = { src: string; alt: string; position: string };
 
@@ -980,6 +980,7 @@ function CrossSellEnsemble({ product }: { product: ProductDetail }) {
 
 type ReviewItem = {
   id: string;
+  apparelAttributes?: { fit?: string; opacity?: string };
   author: string;
   location: string;
   verified: boolean;
