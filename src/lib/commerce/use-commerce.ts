@@ -50,6 +50,13 @@ export type ProductDetail = {
   genericName: string;
   netQuantity: string;
   countryOfOrigin: string;
+  handle?: string;
+  variants?: Array<{
+    id: string;
+    title: string;
+    sku: string;
+    options?: Record<string, string>;
+  }>;
 };
 
 /**
@@ -205,6 +212,13 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     countryOfOrigin:
       (p.metadata?.["lmpc_country_of_origin"] as string) ||
       "India (Handcrafted in Surat)",
+    handle: p.handle,
+    variants: p.variants?.map((v) => ({
+      id: v.id,
+      title: v.title,
+      sku: v.sku,
+      options: v.options,
+    })),
   };
 }
 

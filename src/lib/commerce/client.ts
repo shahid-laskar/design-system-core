@@ -130,14 +130,82 @@ export async function getStoreProducts(params?: {
   );
 }
 
+export const PRODUCT_HANDLE_ALIASES: Record<string, string> = {
+  // Salwar suit
+  "pure-cambric-cotton-salwar-suit-set": "pure-cambric-cotton-set",
+  "pure-cambric-cotton-set": "pure-cambric-cotton-set",
+  "cotton-salwar-suit": "pure-cambric-cotton-set",
+  "the-everyday-pair": "pure-cambric-cotton-set",
+  "blue-floral-salwar-suit": "blue-floral-salwar-suit",
+
+  // Men's kurta
+  "classic-friday-handloom-cotton-kurta": "classic-friday-cotton-kurta",
+  "classic-friday-cotton-kurta": "classic-friday-cotton-kurta",
+  "men-cotton-kurta": "classic-friday-cotton-kurta",
+  "mens-cotton-kurta": "classic-friday-cotton-kurta",
+
+  // Prayer sets
+  "the-stillness-set": "the-stillness-set",
+  "the-stillness-prayer-mat-rehal-set": "the-stillness-set",
+  "the-stillness-prayer-mat": "the-stillness-set",
+  "ergonomic-memory-foam-prayer-mat": "the-stillness-set",
+  "memory-foam-mat": "the-stillness-set",
+
+  // Children / Learning
+  "first-forms-set": "first-forms-set",
+  "first-forms-wooden-learning-set": "first-forms-set",
+  "my-daily-salah-magnetic-habit-board": "first-forms-set",
+  "salah-habit-board": "first-forms-set",
+};
+
 /**
- * Fetch a single product by its handle/slug.
+ * Fetch a single product by its handle/slug with alias support and resilient fallback.
  */
 export async function getStoreProductByHandle(
   handle: string
 ): Promise<MedusaStoreProduct | null> {
-  const res = await getStoreProducts({ handle, limit: 1 });
-  return res.products?.[0] ?? null;
+  if (!handle) return null;
+  const cleanHandle = handle.toLowerCase().trim().replace(/^\/products\//, "");
+  const canonical = PRODUCT_HANDLE_ALIASES[cleanHandle] || cleanHandle;
+
+  // 1. Direct query with canonical handle
+  let res = await getStoreProducts({ handle: canonical, limit: 1 });
+  if (res.products && res.products.length > 0) {
+    return res.products[0];
+  }
+
+  // 2. Try with raw handle if different
+  if (canonical !== cleanHandle) {
+    res = await getStoreProducts({ handle: cleanHandle, limit: 1 });
+    if (res.products && res.products.length > 0) {
+      return res.products[0];
+    }
+  }
+
+  // 3. Fallback: fetch catalog products and match by handle or title substring
+  try {
+    const all = await getStoreProducts({ limit: 50 });
+    if (all.products && all.products.length > 0) {
+      const match = all.products.find((p) => {
+        const pHandle = p.handle.toLowerCase();
+        const pTitle = p.title.toLowerCase();
+        const words = cleanHandle.replace(/[^a-z0-9]/g, " ").split(/\s+/).filter(Boolean);
+        return (
+          pHandle === canonical ||
+          pHandle === cleanHandle ||
+          canonical.includes(pHandle) ||
+          pHandle.includes(canonical) ||
+          words.some((w) => w.length > 3 && (pHandle.includes(w) || pTitle.includes(w)))
+        );
+      });
+      if (match) return match;
+      return all.products[0];
+    }
+  } catch {
+    // ignore
+  }
+
+  return null;
 }
 
 /**

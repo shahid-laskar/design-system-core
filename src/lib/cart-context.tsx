@@ -15,6 +15,7 @@ import {
   getStoredCartId,
   MedusaCart,
   removeMedusaLineItem,
+  resolveVariantIdForProduct,
   setStoredCartId,
   updateMedusaLineItem,
 } from "./commerce/cart-service";
@@ -134,50 +135,42 @@ export function CartProvider({ children }: { children: ReactNode }) {
         let targetVariantId = incoming.variantId;
 
         if (!targetVariantId) {
-          const product = await getStoreProductByHandle(incoming.id);
-          if (product && product.variants && product.variants.length > 0) {
-            // Find variant matching size
-            const match = product.variants.find((v) => {
-              if (incoming.size) {
-                return (
-                  v.title?.toLowerCase().includes(incoming.size.toLowerCase()) ||
-                  Object.values(v.options || {}).some(
-                    (val) => val.toLowerCase() === incoming.size?.toLowerCase()
-                  )
-                );
-              }
-              return true;
-            });
-            targetVariantId = match?.id || product.variants[0].id;
-          }
+          targetVariantId =
+            (await resolveVariantIdForProduct(
+              incoming.id,
+              incoming.size,
+              incoming.color
+            )) ?? undefined;
         }
 
         if (targetVariantId) {
           // Add to Medusa cart
           const updatedCart = await addLineItemToMedusaCart(cart.id, targetVariantId, qty);
           setItems(mapMedusaCartToItems(updatedCart));
-        } else {
-          // Optimistic fallback if variant not resolved
-          setItems((current) => {
-            const existing = current.find(
-              (i) => i.id === incoming.id && i.size === incoming.size
-            );
-            if (existing) {
-              return current.map((i) =>
-                i === existing ? { ...i, quantity: i.quantity + qty } : i
-              );
-            }
-            return [
-              ...current,
-              {
-                ...incoming,
-                quantity: qty,
-                originalPrice: incoming.originalPrice ?? incoming.price,
-              },
-            ];
-          });
+          return;
         }
-      } catch {
+
+        // Optimistic fallback if variant not resolved
+        setItems((current) => {
+          const existing = current.find(
+            (i) => i.id === incoming.id && i.size === incoming.size
+          );
+          if (existing) {
+            return current.map((i) =>
+              i === existing ? { ...i, quantity: i.quantity + qty } : i
+            );
+          }
+          return [
+            ...current,
+            {
+              ...incoming,
+              quantity: qty,
+              originalPrice: incoming.originalPrice ?? incoming.price,
+            },
+          ];
+        });
+      } catch (err) {
+        console.warn("Direct Medusa cart sync failed, retaining item locally:", err);
         // Fallback optimistic local state
         setItems((current) => {
           const existing = current.find(

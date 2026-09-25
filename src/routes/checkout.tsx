@@ -26,6 +26,7 @@ import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_PRICE, useCart } from "@/lib
 import {
   addMedusaShippingMethod,
   completeMedusaCart,
+  ensureMedusaCartSynchronized,
   getMedusaShippingOptions,
   getOrCreateMedusaCart,
   getOrCreatePaymentCollection,
@@ -145,7 +146,10 @@ function CheckoutPage() {
   useEffect(() => {
     async function loadOptions() {
       try {
-        const cart = await getOrCreateMedusaCart();
+        let cart = await getOrCreateMedusaCart();
+        if (items.length > 0 && (!cart.items || cart.items.length === 0)) {
+          cart = await ensureMedusaCartSynchronized(cart, items);
+        }
         const options = await getMedusaShippingOptions(cart.id);
         setShippingOptions(options);
 
@@ -161,7 +165,7 @@ function CheckoutPage() {
       }
     }
     loadOptions();
-  }, [shippingUnlocked]);
+  }, [shippingUnlocked, items]);
 
   // Validation
   const isValid =
@@ -182,10 +186,19 @@ function CheckoutPage() {
 
     try {
       // 1. Get or create cart
-      const cart = await getOrCreateMedusaCart();
+      let cart = await getOrCreateMedusaCart();
+
+      // 1b. Validate & synchronize all line items with commerce backend
+      cart = await ensureMedusaCartSynchronized(cart, items);
+
+      if (!cart.items || cart.items.length === 0) {
+        setError("Your basket is empty. Please add items before checking out.");
+        setIsLoading(false);
+        return;
+      }
 
       // 2. Update email and shipping address
-      await updateMedusaCartDetails(cart.id, {
+      cart = await updateMedusaCartDetails(cart.id, {
         email,
         shipping_address: {
           first_name: firstName,
@@ -203,7 +216,7 @@ function CheckoutPage() {
       // 3. Add shipping method
       if (selectedShippingId) {
         try {
-          await addMedusaShippingMethod(cart.id, selectedShippingId);
+          cart = await addMedusaShippingMethod(cart.id, selectedShippingId);
         } catch {
           // Continue if already selected
         }

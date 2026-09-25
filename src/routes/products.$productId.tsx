@@ -259,8 +259,26 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   function addToBasket() {
     window.clearTimeout(addResetRef.current);
     setAdded(true);
+
+    let matchedVariantId: string | undefined;
+    if (product.variants && product.variants.length > 0) {
+      const match = product.variants.find((v) => {
+        if (size) {
+          return (
+            v.title?.toLowerCase().includes(size.toLowerCase()) ||
+            Object.values(v.options || {}).some(
+              (val) => val.toLowerCase() === size.toLowerCase()
+            )
+          );
+        }
+        return true;
+      });
+      matchedVariantId = match?.id || product.variants[0].id;
+    }
+
     addItem({
-      id: product.id,
+      id: product.handle || product.id,
+      variantId: matchedVariantId,
       name: product.name,
       category: product.category,
       price: product.price,
@@ -287,8 +305,23 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     setSizeDrawerOpen(false);
     window.clearTimeout(addResetRef.current);
     setAdded(true);
+
+    let matchedVariantId: string | undefined;
+    if (product.variants && product.variants.length > 0) {
+      const match = product.variants.find((v) => {
+        return (
+          v.title?.toLowerCase().includes(chosenSize.toLowerCase()) ||
+          Object.values(v.options || {}).some(
+            (val) => val.toLowerCase() === chosenSize.toLowerCase()
+          )
+        );
+      });
+      matchedVariantId = match?.id || product.variants[0].id;
+    }
+
     addItem({
-      id: product.id,
+      id: product.handle || product.id,
+      variantId: matchedVariantId,
       name: product.name,
       category: product.category,
       price: product.price,

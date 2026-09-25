@@ -1,6 +1,8 @@
 import {
   fetchMedusa,
   getDefaultRegionId,
+  getStoreProductByHandle,
+  getStoreProducts,
   MedusaStoreProduct,
 } from "./client";
 
@@ -23,6 +25,7 @@ export type MedusaCart = {
   total: number;
   subtotal: number;
   shipping_total: number;
+  completed_at?: string | null;
   items: Array<{
     id: string;
     title: string;
@@ -110,6 +113,10 @@ export async function getMedusaCart(cartId: string): Promise<MedusaCart | null> 
     const res = await fetchMedusa<{ cart: MedusaCart }>(
       `/store/carts/${cartId}?fields=*items,*items.variant,*shipping_methods`
     );
+    if (res.cart && res.cart.completed_at) {
+      setStoredCartId(null);
+      return null;
+    }
     return res.cart;
   } catch {
     // If cart is invalid/expired/completed, clear storage
@@ -125,9 +132,154 @@ export async function getOrCreateMedusaCart(): Promise<MedusaCart> {
   const storedId = getStoredCartId();
   if (storedId) {
     const existing = await getMedusaCart(storedId);
-    if (existing) return existing;
+    if (existing && !existing.completed_at) return existing;
   }
   return createMedusaCart();
+}
+
+/**
+ * Resolves a valid Medusa variant ID for a product identifier (handle, ID, or slug)
+ * and optional size/color attribute.
+ */
+export async function resolveVariantIdForProduct(
+  productIdOrHandle: string,
+  size?: string,
+  color?: string
+): Promise<string | null> {
+  if (!productIdOrHandle) return null;
+
+  // If already a variant ID
+  if (productIdOrHandle.startsWith("variant_")) {
+    return productIdOrHandle;
+  }
+
+  try {
+    const product = await getStoreProductByHandle(productIdOrHandle);
+    if (!product || !product.variants || product.variants.length === 0) {
+      return null;
+    }
+
+    // 1. Try matching both size and color if provided
+    if (size && color) {
+      const matchBoth = product.variants.find((v) => {
+        const title = v.title?.toLowerCase() || "";
+        const sizeMatch =
+          title.includes(size.toLowerCase()) ||
+          Object.values(v.options || {}).some(
+            (val) => val.toLowerCase() === size.toLowerCase()
+          );
+        const colorMatch =
+          title.includes(color.toLowerCase()) ||
+          Object.values(v.options || {}).some(
+            (val) => val.toLowerCase() === color.toLowerCase()
+          );
+        return sizeMatch && colorMatch;
+      });
+      if (matchBoth) return matchBoth.id;
+    }
+
+    // 2. Try matching size
+    if (size) {
+      const matchSize = product.variants.find((v) => {
+        const title = v.title?.toLowerCase() || "";
+        return (
+          title.includes(size.toLowerCase()) ||
+          Object.values(v.options || {}).some(
+            (val) => val.toLowerCase() === size.toLowerCase()
+          )
+        );
+      });
+      if (matchSize) return matchSize.id;
+    }
+
+    // 3. Try matching color
+    if (color) {
+      const matchColor = product.variants.find((v) => {
+        const title = v.title?.toLowerCase() || "";
+        return (
+          title.includes(color.toLowerCase()) ||
+          Object.values(v.options || {}).some(
+            (val) => val.toLowerCase() === color.toLowerCase()
+          )
+        );
+      });
+      if (matchColor) return matchColor.id;
+    }
+
+    // 4. Default to first variant
+    return product.variants[0].id;
+  } catch (err) {
+    console.error("Failed to resolve variant ID:", err);
+    return null;
+  }
+}
+
+/**
+ * Ensures all local items exist in the remote Medusa cart before checkout.
+ * Resolves missing variant IDs and pushes line items if the remote cart has 0 items
+ * or is missing items present in local state.
+ */
+export async function ensureMedusaCartSynchronized(
+  medusaCart: MedusaCart,
+  localItems: Array<{
+    id: string;
+    variantId?: string;
+    quantity: number;
+    size?: string;
+    color?: string;
+  }>
+): Promise<MedusaCart> {
+  let activeCart = (await getMedusaCart(medusaCart.id)) || medusaCart;
+
+  if (!localItems || localItems.length === 0) {
+    return activeCart;
+  }
+
+  // Map existing variant IDs already in Medusa cart
+  const remoteVariantMap = new Map<string, string>(); // variant_id -> line_id
+  for (const item of activeCart.items || []) {
+    if (item.variant_id) {
+      remoteVariantMap.set(item.variant_id, item.id);
+    }
+  }
+
+  let cartUpdated = false;
+
+  for (const localItem of localItems) {
+    let variantId = localItem.variantId;
+    if (!variantId) {
+      variantId =
+        (await resolveVariantIdForProduct(
+          localItem.id,
+          localItem.size,
+          localItem.color
+        )) ?? undefined;
+    }
+
+    if (!variantId) continue;
+
+    if (!remoteVariantMap.has(variantId)) {
+      // Add missing line item to remote cart
+      try {
+        activeCart = await addLineItemToMedusaCart(
+          activeCart.id,
+          variantId,
+          localItem.quantity || 1
+        );
+        remoteVariantMap.set(variantId, "added");
+        cartUpdated = true;
+      } catch (err) {
+        console.error(`Failed to add variant ${variantId} to cart:`, err);
+      }
+    }
+  }
+
+  if (cartUpdated) {
+    const refreshed = await getMedusaCart(activeCart.id);
+    if (refreshed) activeCart = refreshed;
+  }
+
+  return activeCart;
 }
 
 /**
