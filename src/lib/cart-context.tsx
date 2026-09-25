@@ -1,3 +1,4 @@
+import type React from "react";
 import {
   createContext,
   useCallback,
@@ -57,7 +58,11 @@ type CartContextValue = {
   refreshCart: () => Promise<void>;
 };
 
-const CartContext = createContext<CartContextValue | null>(null);
+// Keep one shared context across hot reloads so the header never loses the basket.
+const globalCart = globalThis as { __sukoonCartContext?: React.Context<CartContextValue | null> };
+const CartContext =
+  globalCart.__sukoonCartContext ??
+  (globalCart.__sukoonCartContext = createContext<CartContextValue | null>(null));
 
 function mapMedusaCartToItems(medusaCart: MedusaCart): CartItem[] {
   if (!medusaCart?.items) return [];
