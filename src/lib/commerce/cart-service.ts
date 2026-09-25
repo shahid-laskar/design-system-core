@@ -361,3 +361,102 @@ export async function getMedusaOrder(orderId: string): Promise<MedusaOrder | nul
     return null;
   }
 }
+
+export type CustomerOrderLookupResult = {
+  id: string;
+  display_id: number;
+  created_at: string;
+  total: number;
+  subtotal: number;
+  shipping_total: number;
+  status: string;
+  payment_status: string;
+  fulfillment_status: string;
+  items: Array<{
+    id: string;
+    title: string;
+    subtitle?: string;
+    variant_id: string;
+    variant_sku: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+    thumbnail?: string;
+  }>;
+  shipping_address?: MedusaAddress;
+  shipping_status?: string;
+  awb?: string;
+  courier?: string;
+  tracking_url?: string;
+  tracking_timeline?: {
+    awb: string;
+    courier: string;
+    current_status: string;
+    tracking_url: string;
+    expected_delivery?: string;
+    scans?: Array<{
+      date: string;
+      activity: string;
+      location: string;
+    }>;
+  };
+  return_eligible: boolean;
+  days_remaining_for_return: number;
+  existing_return?: {
+    id: string;
+    type: "RETURN" | "EXCHANGE";
+    status: string;
+    reverse_awb?: string;
+    replacement_awb?: string;
+  } | null;
+};
+
+/**
+ * Performs secure guest order lookup with Order ID and customer email/phone.
+ */
+export async function lookupOrder(
+  orderId: string,
+  email: string
+): Promise<CustomerOrderLookupResult | null> {
+  try {
+    const res = await fetchMedusa<{ order: CustomerOrderLookupResult }>(
+      "/store/orders/lookup",
+      {
+        method: "POST",
+        body: JSON.stringify({ order_id: orderId, email }),
+      }
+    );
+    return res.order;
+  } catch (err) {
+    console.error("Failed to lookup order:", err);
+    return null;
+  }
+}
+
+/**
+ * Submits customer return or exchange request.
+ */
+export async function submitReturnRequest(data: {
+  order_id: string;
+  email: string;
+  phone?: string;
+  type: "RETURN" | "EXCHANGE";
+  items: Array<{
+    order_item_id: string;
+    variant_id: string;
+    variant_sku: string;
+    quantity: number;
+    reason: string;
+    exchange_variant_id?: string;
+    exchange_variant_sku?: string;
+  }>;
+  customer_notes?: string;
+}): Promise<any> {
+  return await fetchMedusa<{ return_request: any }>(
+    "/store/returns/request",
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+}

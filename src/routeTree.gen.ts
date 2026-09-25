@@ -14,6 +14,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as OrderConfirmedRouteImport } from './routes/order-confirmed'
+import { Route as OrderTrackingRouteImport } from './routes/order-tracking'
 import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const OrderConfirmedRoute = OrderConfirmedRouteImport.update({
   path: '/order-confirmed',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderTrackingRoute = OrderTrackingRouteImport.update({
+  id: '/order-tracking',
+  path: '/order-tracking',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
   id: '/products/$productId',
   path: '/products/$productId',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/order-tracking': typeof OrderTrackingRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/order-tracking': typeof OrderTrackingRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
+  '/order-tracking': typeof OrderTrackingRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
+    | '/order-tracking'
     | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
+    | '/order-tracking'
     | '/products/$productId'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
+    | '/order-tracking'
     | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   CollectionRoute: typeof CollectionRoute
   DesignSystemRoute: typeof DesignSystemRoute
   OrderConfirmedRoute: typeof OrderConfirmedRoute
+  OrderTrackingRoute: typeof OrderTrackingRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderConfirmedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order-tracking': {
+      id: '/order-tracking'
+      path: '/order-tracking'
+      fullPath: '/order-tracking'
+      preLoaderRoute: typeof OrderTrackingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$productId': {
       id: '/products/$productId'
       path: '/products/$productId'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionRoute: CollectionRoute,
   DesignSystemRoute: DesignSystemRoute,
   OrderConfirmedRoute: OrderConfirmedRoute,
+  OrderTrackingRoute: OrderTrackingRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
 }
 export const routeTree = rootRouteImport

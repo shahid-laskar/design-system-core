@@ -237,7 +237,7 @@ function OrderConfirmedPage() {
             </a>
           </p>
         </div>
-        <div className="mt-4 md:mt-0 flex gap-3 justify-center">
+        <div className="mt-4 md:mt-0 flex flex-wrap gap-3 justify-center">
           <Button
             variant="outline"
             size="sm"
@@ -245,6 +245,17 @@ function OrderConfirmedPage() {
             className="gap-2"
           >
             <Printer className="size-4" /> Print Receipt
+          </Button>
+          <Button variant="secondary" size="sm" asChild className="gap-2">
+            <Link
+              to="/order-tracking"
+              search={{
+                order_id: orderNumber,
+                email: order?.email || "",
+              }}
+            >
+              <Truck className="size-4" /> Track Order
+            </Link>
           </Button>
           <Button size="sm" asChild className="gap-2">
             <Link to="/collection">
