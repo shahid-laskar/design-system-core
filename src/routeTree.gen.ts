@@ -10,16 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as OrderConfirmedRouteImport } from './routes/order-confirmed'
 import { Route as OrderTrackingRouteImport } from './routes/order-tracking'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -47,6 +54,11 @@ const OrderTrackingRoute = OrderTrackingRouteImport.update({
   path: '/order-tracking',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
   id: '/products/$productId',
   path: '/products/$productId',
@@ -55,64 +67,77 @@ const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
   '/order-tracking': typeof OrderTrackingRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
   '/order-tracking': typeof OrderTrackingRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
   '/checkout': typeof CheckoutRoute
   '/collection': typeof CollectionRoute
   '/design-system': typeof DesignSystemRoute
   '/order-confirmed': typeof OrderConfirmedRoute
   '/order-tracking': typeof OrderTrackingRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/blog'
     | '/checkout'
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
     | '/order-tracking'
+    | '/blog/$slug'
     | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/blog'
     | '/checkout'
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
     | '/order-tracking'
+    | '/blog/$slug'
     | '/products/$productId'
   id:
     | '__root__'
     | '/'
+    | '/blog'
     | '/checkout'
     | '/collection'
     | '/design-system'
     | '/order-confirmed'
     | '/order-tracking'
+    | '/blog/$slug'
     | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRoute: typeof BlogRouteWithChildren
   CheckoutRoute: typeof CheckoutRoute
   CollectionRoute: typeof CollectionRoute
   DesignSystemRoute: typeof DesignSystemRoute
@@ -128,6 +153,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -165,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderTrackingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/products/$productId': {
       id: '/products/$productId'
       path: '/products/$productId'
@@ -175,8 +214,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRoute: BlogRouteWithChildren,
   CheckoutRoute: CheckoutRoute,
   CollectionRoute: CollectionRoute,
   DesignSystemRoute: DesignSystemRoute,

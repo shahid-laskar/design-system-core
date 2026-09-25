@@ -134,3 +134,165 @@ export async function getStoreCategories(): Promise<{
     "/store/product-categories?fields=*category_children"
   );
 }
+
+// -------------------------------------------------------------
+// Milestone D: Product Reviews API
+// -------------------------------------------------------------
+
+export type StoreProductReview = {
+  id: string;
+  product_id: string;
+  customer_name: string;
+  customer_email: string;
+  rating: number;
+  title: string;
+  body: string;
+  photos?: string[];
+  purchased_variant_sku?: string | null;
+  verified_purchase: boolean;
+  apparel_attributes?: {
+    fit?: string;
+    opacity?: string;
+    true_to_size?: string;
+    opaque?: boolean;
+  };
+  helpful_count: number;
+  status: string;
+  created_at: string;
+};
+
+export type StoreReviewStats = {
+  average_rating: number;
+  review_count: number;
+  rating_breakdown: Record<string, number>;
+  apparel_attributes: {
+    true_to_size_percentage: number;
+    opacity_guarantee_percentage: number;
+  };
+};
+
+export async function getStoreProductReviews(
+  productId: string
+): Promise<{ reviews: StoreProductReview[]; stats: StoreReviewStats }> {
+  return fetchMedusa<{ reviews: StoreProductReview[]; stats: StoreReviewStats }>(
+    `/store/products/${productId}/reviews`
+  );
+}
+
+export async function createStoreProductReview(
+  productId: string,
+  data: {
+    rating: number;
+    title: string;
+    body: string;
+    customer_name: string;
+    customer_email: string;
+    order_id?: string;
+    apparel_attributes?: {
+      fit?: "tight" | "true_to_size" | "loose";
+      opacity?: "sheer" | "semi_opaque" | "opaque";
+    };
+    photos?: string[];
+  }
+): Promise<{ message: string; review: StoreProductReview }> {
+  return fetchMedusa<{ message: string; review: StoreProductReview }>(
+    `/store/products/${productId}/reviews`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+}
+
+// -------------------------------------------------------------
+// Milestone D: CMS / Blog API
+// -------------------------------------------------------------
+
+export type StoreBlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  body: string;
+  featured_image?: string;
+  author?: string;
+  category?: string;
+  tags?: string[];
+  status: string;
+  published_at?: string;
+  seo_title?: string;
+  seo_description?: string;
+  related_product_handles?: string[];
+  read_time?: string | number;
+  created_at: string;
+};
+
+export async function getStoreBlogPosts(params?: {
+  category?: string;
+  tag?: string;
+}): Promise<{ posts: StoreBlogPost[] }> {
+  const query = new URLSearchParams();
+  if (params?.category) query.set("category", params.category);
+  if (params?.tag) query.set("tag", params.tag);
+  const qStr = query.toString();
+  return fetchMedusa<{ posts: StoreBlogPost[] }>(
+    `/store/blog-posts${qStr ? `?${qStr}` : ""}`
+  );
+}
+
+export async function getStoreBlogPostBySlug(
+  slug: string
+): Promise<{ post: StoreBlogPost; related_products: MedusaStoreProduct[] }> {
+  return fetchMedusa<{ post: StoreBlogPost; related_products: MedusaStoreProduct[] }>(
+    `/store/blog-posts/${slug}`
+  );
+}
+
+// -------------------------------------------------------------
+// Milestone D: Full-Text Search API
+// -------------------------------------------------------------
+
+export async function searchStoreProducts(
+  q: string,
+  filters?: {
+    category?: string;
+    min_price?: number;
+    max_price?: number;
+    sort?: string;
+  }
+): Promise<{ products: MedusaStoreProduct[]; count: number; query: string }> {
+  const query = new URLSearchParams({ q });
+  if (filters?.category) query.set("category", filters.category);
+  if (filters?.min_price !== undefined) query.set("min_price", filters.min_price.toString());
+  if (filters?.max_price !== undefined) query.set("max_price", filters.max_price.toString());
+  if (filters?.sort) query.set("sort", filters.sort);
+
+  return fetchMedusa<{ products: MedusaStoreProduct[]; count: number; query: string }>(
+    `/store/products/search?${query.toString()}`
+  );
+}
+
+// -------------------------------------------------------------
+// Milestone D: Coupon / Promotion Validation API
+// -------------------------------------------------------------
+
+export type PromotionValidationResult = {
+  valid: boolean;
+  code?: string;
+  type?: "percentage" | "fixed";
+  discount_amount: number;
+  new_subtotal: number;
+  description?: string;
+  message: string;
+};
+
+export async function validateStorePromotion(
+  code: string,
+  subtotal: number
+): Promise<PromotionValidationResult> {
+  return fetchMedusa<PromotionValidationResult>("/store/promotions/validate", {
+    method: "POST",
+    body: JSON.stringify({ code, subtotal }),
+  });
+}
+

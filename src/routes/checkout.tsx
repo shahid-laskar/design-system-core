@@ -7,7 +7,9 @@ import {
   Lock,
   Package,
   ShieldCheck,
+  Tag,
   Truck,
+  X,
 } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,7 @@ import {
   MedusaShippingOption,
   updateMedusaCartDetails,
 } from "@/lib/commerce/cart-service";
+import { validateStorePromotion, type PromotionValidationResult } from "@/lib/commerce/client";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/checkout")({
@@ -88,9 +91,45 @@ function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Coupon / Promo Code State
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedPromotion, setAppliedPromotion] = useState<PromotionValidationResult | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponMessage, setCouponMessage] = useState<{ text: string; isError: boolean } | null>(null);
+
+  const discountAmount = appliedPromotion?.valid ? appliedPromotion.discount_amount : 0;
   const shippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD;
   const shippingFee = shippingUnlocked ? 0 : STANDARD_SHIPPING_PRICE;
-  const total = subtotal + shippingFee;
+  const total = Math.max(0, subtotal - discountAmount + shippingFee);
+
+  async function handleApplyCoupon(codeToApply?: string) {
+    const code = (codeToApply || couponCode).trim().toUpperCase();
+    if (!code) return;
+    setCouponLoading(true);
+    setCouponMessage(null);
+    try {
+      const res = await validateStorePromotion(code, subtotal);
+      if (res.valid) {
+        setAppliedPromotion(res);
+        setCouponMessage({ text: res.message, isError: false });
+        setCouponCode(code);
+      } else {
+        setAppliedPromotion(null);
+        setCouponMessage({ text: res.message || "Invalid coupon code", isError: true });
+      }
+    } catch (err: any) {
+      setAppliedPromotion(null);
+      setCouponMessage({ text: err.message || "Failed to validate coupon", isError: true });
+    } finally {
+      setCouponLoading(false);
+    }
+  }
+
+  function handleRemoveCoupon() {
+    setAppliedPromotion(null);
+    setCouponCode("");
+    setCouponMessage(null);
+  }
 
   // Load Razorpay script
   useEffect(() => {
@@ -503,11 +542,92 @@ function CheckoutPage() {
               ))}
             </div>
 
+            {/* Promo / Coupon Code Section */}
+            <div className="mt-5 rounded-md border border-dashed border-border p-3.5 bg-muted/20">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
+                <Tag className="size-3.5 text-primary" />
+                <span>Have a Coupon or Gift Code?</span>
+              </div>
+
+              {appliedPromotion?.valid ? (
+                <div className="mt-2.5 flex items-center justify-between rounded bg-success/10 px-3 py-2 text-xs font-medium text-success border border-success/30">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold tracking-wider">{appliedPromotion.code}</span>
+                    <span className="text-[0.68rem] text-success/80">(-{formatPrice(appliedPromotion.discount_amount)})</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="p-1 hover:text-destructive text-success"
+                    title="Remove coupon"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-2.5">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="e.g. SUKOON10 or WELCOME100"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      className="h-8 text-xs font-mono uppercase tracking-wider"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleApplyCoupon()}
+                      disabled={couponLoading || !couponCode.trim()}
+                      className="h-8 text-xs font-semibold"
+                    >
+                      {couponLoading ? "Checking..." : "Apply"}
+                    </Button>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1.5 text-[0.68rem] text-muted-foreground">
+                    <span>Try:</span>
+                    <button
+                      type="button"
+                      onClick={() => handleApplyCoupon("SUKOON10")}
+                      className="font-mono text-primary underline underline-offset-2 hover:opacity-80"
+                    >
+                      SUKOON10
+                    </button>
+                    <span>·</span>
+                    <button
+                      type="button"
+                      onClick={() => handleApplyCoupon("WELCOME100")}
+                      className="font-mono text-primary underline underline-offset-2 hover:opacity-80"
+                    >
+                      WELCOME100
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {couponMessage && (
+                <p
+                  className={cn(
+                    "mt-2 text-[0.7rem] font-medium",
+                    couponMessage.isError ? "text-destructive" : "text-success"
+                  )}
+                >
+                  {couponMessage.text}
+                </p>
+              )}
+            </div>
+
             <div className="mt-6 space-y-2.5 border-t border-border pt-4 text-sm">
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
+              {appliedPromotion?.valid && (
+                <div className="flex justify-between font-medium text-success">
+                  <span>Coupon Discount ({appliedPromotion.code})</span>
+                  <span>-{formatPrice(appliedPromotion.discount_amount)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-muted-foreground">
                 <span>Shipping Fee</span>
                 {shippingUnlocked ? (

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ListFilter, PackageOpen } from "lucide-react";
+import { ListFilter, PackageOpen, Search, X } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
 import { useCommerceProducts } from "@/lib/commerce/use-commerce";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -483,6 +484,7 @@ function CollectionPage() {
 
   const [pillar, setPillar] = useState<"All" | Pillar>(initialPillar);
   const [sub, setSub] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selSizes, setSelSizes] = useState<Size[]>([]);
   const [band, setBand] = useState<PriceBand | null>(null);
   const [selMaterials, setSelMaterials] = useState<Material[]>([]);
@@ -529,6 +531,7 @@ function CollectionPage() {
       : allProducts.some((p) => p.pillar === pillar && (!sub || p.subcategory === sub) && p.sizes);
 
   const filtered = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
     const r = allProducts.filter(
       (p) =>
         (pillar === "All" || p.pillar === pillar) &&
@@ -538,14 +541,19 @@ function CollectionPage() {
         (selMaterials.length === 0 || p.materials.some((m) => selMaterials.includes(m as any))) &&
         (!under999 || p.price < 999) &&
         (!inStockOnly || p.inStock) &&
-        (!festive || p.festive),
+        (!festive || p.festive) &&
+        (!q ||
+          p.name.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q) ||
+          p.pillar.toLowerCase().includes(q) ||
+          p.materials?.some((m) => m.toLowerCase().includes(q))),
     );
     if (sort === "price-low") return [...r].sort((a, b) => a.price - b.price);
     if (sort === "price-high") return [...r].sort((a, b) => b.price - a.price);
     if (sort === "rating")
       return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     return r;
-  }, [allProducts, pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort]);
+  }, [allProducts, pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort, searchQuery]);
 
   const touch = () => setVisible(PAGE);
   const choosePillar = (p: "All" | Pillar) => {
@@ -558,6 +566,7 @@ function CollectionPage() {
   const resetFilters = () => {
     setPillar("All");
     setSub(null);
+    setSearchQuery("");
     setSelSizes([]);
     setBand(null);
     setSelMaterials([]);
@@ -574,6 +583,7 @@ function CollectionPage() {
   const activeFilters =
     (pillar === "All" ? 0 : 1) +
     (sub ? 1 : 0) +
+    (searchQuery.trim() ? 1 : 0) +
     selSizes.length +
     (band ? 1 : 0) +
     selMaterials.length +
@@ -770,12 +780,39 @@ function CollectionPage() {
 
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur lg:static lg:border-0 lg:bg-transparent">
         <PageContainer className="py-3 lg:pt-10 lg:pb-0">
-          <div className="flex items-center justify-between gap-3 lg:border-b lg:border-border lg:pb-5">
-            <p className="min-w-0 text-sm text-muted-foreground">
-              Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
-              <span className="font-semibold text-foreground">{filtered.length}</span> products
-            </p>
-            <div className="flex shrink-0 items-center gap-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:border-b lg:border-border lg:pb-5">
+            <div className="flex items-center gap-3 flex-1 max-w-sm">
+              <div className="relative w-full">
+                <Search className="absolute left-3 top-2.5 size-3.5 text-muted-foreground" />
+                <Input
+                  placeholder="Search pure cambric, salwar, mats..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    touch();
+                  }}
+                  className="h-9 pl-9 pr-8 text-xs rounded-full bg-card/60"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery("");
+                      touch();
+                    }}
+                    className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="flex shrink-0 items-center justify-between sm:justify-end gap-2">
+              <p className="min-w-0 text-xs text-muted-foreground hidden md:block">
+                Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
+                <span className="font-semibold text-foreground">{filtered.length}</span> products
+              </p>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden">

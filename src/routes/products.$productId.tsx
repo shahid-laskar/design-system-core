@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from "react";
+import { useMemo, useRef, useState, useEffect, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCommerceProduct } from "@/lib/commerce/use-commerce";
 import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
@@ -39,6 +39,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -49,8 +50,17 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
+import {
+  getStoreProductReviews,
+  createStoreProductReview,
+  type StoreProductReview,
+  type StoreReviewStats,
+} from "@/lib/commerce/client";
 
 export const Route = createFileRoute("/products/$productId")({
   head: ({ params }) => {
@@ -1029,6 +1039,24 @@ const sampleReviews: ReviewItem[] = [
 
 function ProductReviewHub({ product }: { product: ProductDetail }) {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
+  const [liveReviews, setLiveReviews] = useState<StoreProductReview[]>([]);
+  const [stats, setStats] = useState<StoreReviewStats | null>(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Form State
+  const [rating, setRating] = useState(5);
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [orderId, setOrderId] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewBody, setReviewBody] = useState("");
+  const [fitAttribute, setFitAttribute] = useState<"true_to_size" | "tight" | "loose">("true_to_size");
+  const [opacityAttribute, setOpacityAttribute] = useState<"opaque" | "semi_opaque" | "sheer">("opaque");
+  const [photoUrl, setPhotoUrl] = useState("");
+
   const [helpfulMap, setHelpfulMap] = useState<Record<string, number>>({
     "rev-1": 24,
     "rev-2": 19,
@@ -1042,14 +1070,63 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
     title: string;
   } | null>(null);
 
+  // Fetch live reviews from Medusa backend
+  useEffect(() => {
+    let isMounted = true;
+    async function loadReviews() {
+      try {
+        const res = await getStoreProductReviews(product.id);
+        if (isMounted && res) {
+          if (res.reviews) setLiveReviews(res.reviews);
+          if (res.stats) setStats(res.stats);
+        }
+      } catch {
+        // Fallback gracefully to offline sample reviews
+      }
+    }
+    loadReviews();
+    return () => {
+      isMounted = false;
+    };
+  }, [product.id]);
+
+  const allReviews = useMemo(() => {
+    const formattedLive = liveReviews.map((lr) => ({
+      id: lr.id,
+      author: lr.customer_name,
+      location: "Verified Community",
+      verified: lr.verified_purchase,
+      rating: lr.rating,
+      date: new Date(lr.created_at).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      variant: lr.purchased_variant_sku ? `Variant: ${lr.purchased_variant_sku}` : "Verified Buyer",
+      title: lr.title,
+      body: lr.body,
+      initialHelpful: lr.helpful_count || 0,
+      photo: lr.photos?.[0],
+      tags: [
+        lr.photos?.length ? "photos" : "",
+        lr.rating === 5 ? "5star" : "",
+        "fit",
+        lr.verified_purchase ? "verified" : "",
+      ].filter(Boolean),
+      apparelAttributes: lr.apparel_attributes,
+    }));
+
+    return [...formattedLive, ...sampleReviews];
+  }, [liveReviews]);
+
   const filteredReviews = useMemo(() => {
-    if (selectedFilter === "all") return sampleReviews;
-    if (selectedFilter === "photos") return sampleReviews.filter((r) => Boolean(r.photo));
-    if (selectedFilter === "5star") return sampleReviews.filter((r) => r.rating === 5);
-    if (selectedFilter === "fit") return sampleReviews.filter((r) => r.tags.includes("fit"));
-    if (selectedFilter === "verified") return sampleReviews.filter((r) => r.verified);
-    return sampleReviews;
-  }, [selectedFilter]);
+    if (selectedFilter === "all") return allReviews;
+    if (selectedFilter === "photos") return allReviews.filter((r) => Boolean(r.photo));
+    if (selectedFilter === "5star") return allReviews.filter((r) => r.rating === 5);
+    if (selectedFilter === "fit") return allReviews.filter((r) => r.tags.includes("fit"));
+    if (selectedFilter === "verified") return allReviews.filter((r) => r.verified);
+    return allReviews;
+  }, [selectedFilter, allReviews]);
 
   function handleHelpful(id: string) {
     if (votedMap[id]) return;
@@ -1057,12 +1134,67 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
     setVotedMap((prev) => ({ ...prev, [id]: true }));
   }
 
+  async function handleReviewSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitError(null);
+    if (!customerName.trim() || !customerEmail.trim() || !reviewTitle.trim() || !reviewBody.trim()) {
+      setSubmitError("Please fill in your name, email, review title, and details.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await createStoreProductReview(product.id, {
+        rating,
+        title: reviewTitle.trim(),
+        body: reviewBody.trim(),
+        customer_name: customerName.trim(),
+        customer_email: customerEmail.trim(),
+        order_id: orderId.trim() || undefined,
+        apparel_attributes: {
+          fit: fitAttribute,
+          opacity: opacityAttribute,
+        },
+        photos: photoUrl.trim() ? [photoUrl.trim()] : undefined,
+      });
+
+      setSubmitSuccess(true);
+      // Reset form
+      setReviewTitle("");
+      setReviewBody("");
+      setPhotoUrl("");
+      setOrderId("");
+    } catch (err: any) {
+      setSubmitError(err.message || "Failed to submit review. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  const displayRating = stats?.average_rating ? stats.average_rating.toFixed(1) : product.rating;
+  const displayCount = (stats?.review_count || 0) + sampleReviews.length;
+  const trueToSizePct = stats?.apparel_attributes?.true_to_size_percentage || 88;
+  const opacityPct = stats?.apparel_attributes?.opacity_guarantee_percentage || 97;
+
   return (
     <section id="reviews" className="border-t border-border bg-background py-12 lg:py-20">
       <PageContainer>
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Family Trust &amp; Reviews</p>
-          <h2 className="font-display text-3xl sm:text-4xl">Customer Ratings &amp; Experiences</h2>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Family Trust &amp; Reviews</p>
+            <h2 className="font-display text-3xl sm:text-4xl">Customer Ratings &amp; Experiences</h2>
+          </div>
+          <Button
+            variant="outline"
+            className="self-start rounded-full border-primary/40 px-5 text-xs font-semibold text-primary hover:bg-primary/5 sm:self-auto"
+            onClick={() => {
+              setIsReviewModalOpen(true);
+              setSubmitSuccess(false);
+              setSubmitError(null);
+            }}
+          >
+            Write a Review
+          </Button>
         </div>
 
         {/* Top Grid: Rating Distribution + Sentiment Bars */}
@@ -1070,14 +1202,14 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
           {/* Column 1: Overall Score & 5-Star Histogram */}
           <div className="rounded-sm border border-border bg-card p-6">
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-5xl font-semibold text-foreground">{product.rating}</span>
+              <span className="font-display text-5xl font-semibold text-foreground">{displayRating}</span>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1 text-warning">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="size-4 fill-current" />
                   ))}
                 </div>
-                <span className="mt-1 text-xs text-muted-foreground">Based on {product.reviewCount} verified family ratings</span>
+                <span className="mt-1 text-xs text-muted-foreground">Based on {displayCount} verified family ratings</span>
               </div>
             </div>
 
@@ -1109,27 +1241,27 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
               <div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
-                  <span className="font-semibold text-primary">88% True to size</span>
+                  <span className="font-semibold text-primary">{trueToSizePct}% True to size</span>
                 </div>
                 <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full bg-primary" style={{ width: "88%" }} title="True to size (88%)" />
+                  <div className="h-full bg-primary" style={{ width: `${trueToSizePct}%` }} title={`True to size (${trueToSizePct}%)`} />
                   <div className="h-full bg-secondary" style={{ width: "8%" }} title="Runs loose (8%)" />
                   <div className="h-full bg-border" style={{ width: "4%" }} title="Runs tight (4%)" />
                 </div>
                 <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
-                  <span>Runs tight (4%)</span>
-                  <span>True to size (88%)</span>
-                  <span>Runs loose (8%)</span>
+                  <span>Runs tight</span>
+                  <span>True to size ({trueToSizePct}%)</span>
+                  <span>Runs loose</span>
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
-                  <span className="font-semibold text-success">97% 100% Non-Transparent</span>
+                  <span className="font-semibold text-success">{opacityPct}% 100% Non-Transparent</span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-success" style={{ width: "97%" }} />
+                  <div className="h-full rounded-full bg-success" style={{ width: `${opacityPct}%` }} />
                 </div>
                 <p className="mt-1 text-[0.68rem] text-muted-foreground">Attached inner lining guarantees complete confidence in bright daylight.</p>
               </div>
@@ -1168,7 +1300,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
           </div>
 
           <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none">
-            {sampleReviews
+            {allReviews
               .filter((r) => r.photo)
               .map((rev) => (
                 <button
@@ -1201,10 +1333,10 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
         {/* Filter Pills */}
         <div className="mt-10 flex flex-wrap items-center gap-2 border-b border-border pb-4">
           {[
-            { id: "all", label: `All Reviews (${product.reviewCount})` },
-            { id: "photos", label: "With Photos (12)" },
-            { id: "5star", label: "5 Star Only (32)" },
-            { id: "fit", label: "Fit & Sizing (18)" },
+            { id: "all", label: `All Reviews (${allReviews.length})` },
+            { id: "photos", label: `With Photos (${allReviews.filter((r) => r.photo).length})` },
+            { id: "5star", label: `5 Star Only (${allReviews.filter((r) => r.rating === 5).length})` },
+            { id: "fit", label: "Fit & Sizing" },
             { id: "verified", label: "Verified Buyers Only" },
           ].map(({ id, label }) => (
             <Button
@@ -1244,6 +1376,16 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                       ))}
                     </div>
                     <span className="text-xs font-medium text-foreground/80">{rev.variant}</span>
+                    {rev.apparelAttributes?.fit && (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] text-muted-foreground">
+                        Fit: {rev.apparelAttributes.fit === "true_to_size" ? "True to Size" : rev.apparelAttributes.fit}
+                      </span>
+                    )}
+                    {rev.apparelAttributes?.opacity && (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] text-muted-foreground">
+                        Opacity: {rev.apparelAttributes.opacity === "opaque" ? "100% Opaque" : rev.apparelAttributes.opacity}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <span className="text-xs text-muted-foreground">{rev.date}</span>
@@ -1315,6 +1457,211 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                   className="aspect-[4/5] w-full object-cover"
                 />
               </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Write a Review Dialog */}
+        <Dialog open={isReviewModalOpen} onOpenChange={setIsReviewModalOpen}>
+          <DialogContent className="max-w-lg p-5 sm:p-6 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="text-left">
+              <DialogTitle className="font-display text-2xl">Share Your Experience</DialogTitle>
+              <DialogDescription>
+                Help other families choose with confidence. Honest feedback on fabric, opacity, and fit is deeply valued.
+              </DialogDescription>
+            </DialogHeader>
+
+            {submitSuccess ? (
+              <div className="my-6 rounded-md border border-success/30 bg-success/10 p-4 text-center">
+                <CircleCheck className="mx-auto size-8 text-success" />
+                <h4 className="mt-2 text-base font-semibold text-success">Review Submitted!</h4>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Thank you for your thoughtful words. Your review has been submitted for moderation and will appear publicly once verified.
+                </p>
+                <Button
+                  className="mt-4"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsReviewModalOpen(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleReviewSubmit} className="mt-4 space-y-4">
+                {submitError && (
+                  <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-xs text-destructive">
+                    {submitError}
+                  </div>
+                )}
+
+                {/* Rating Stars */}
+                <div>
+                  <Label className="text-xs font-semibold">Your Rating</Label>
+                  <div className="mt-1.5 flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((starVal) => (
+                      <button
+                        key={starVal}
+                        type="button"
+                        onClick={() => setRating(starVal)}
+                        className="p-1 hover:scale-110 transition-transform"
+                      >
+                        <Star
+                          className={cn(
+                            "size-6",
+                            starVal <= rating
+                              ? "fill-warning text-warning"
+                              : "text-muted hover:text-warning"
+                          )}
+                        />
+                      </button>
+                    ))}
+                    <span className="ml-2 text-xs font-medium text-muted-foreground">
+                      {rating === 5 ? "Exceptional" : rating === 4 ? "Very Good" : rating === 3 ? "Average" : "Needs Improvement"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Name & Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="review-name" className="text-xs font-semibold">
+                      Your Name *
+                    </Label>
+                    <Input
+                      id="review-name"
+                      required
+                      placeholder="e.g. Amina Qureshi"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="mt-1 h-9 text-xs"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="review-email" className="text-xs font-semibold">
+                      Email Address *
+                    </Label>
+                    <Input
+                      id="review-email"
+                      type="email"
+                      required
+                      placeholder="e.g. amina@example.com"
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
+                      className="mt-1 h-9 text-xs"
+                    />
+                    <span className="text-[0.65rem] text-muted-foreground">Used for verified buyer check</span>
+                  </div>
+                </div>
+
+                {/* Order ID */}
+                <div>
+                  <Label htmlFor="review-order" className="text-xs font-semibold">
+                    Order ID (Optional)
+                  </Label>
+                  <Input
+                    id="review-order"
+                    placeholder="e.g. 1001 or order_01..."
+                    value={orderId}
+                    onChange={(e) => setOrderId(e.target.value)}
+                    className="mt-1 h-9 text-xs"
+                  />
+                  <span className="text-[0.65rem] text-muted-foreground">Earns a Verified Buyer trust badge</span>
+                </div>
+
+                {/* Apparel Attributes: Fit & Opacity */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-sm border border-border p-3 bg-muted/30">
+                  <div>
+                    <Label className="text-xs font-semibold">Sizing &amp; Fit</Label>
+                    <select
+                      className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                      value={fitAttribute}
+                      onChange={(e) => setFitAttribute(e.target.value as any)}
+                    >
+                      <option value="true_to_size">True to Size (Recommended)</option>
+                      <option value="tight">Runs Tight</option>
+                      <option value="loose">Runs Loose / Oversized</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label className="text-xs font-semibold">Fabric Opacity / Modesty</Label>
+                    <select
+                      className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                      value={opacityAttribute}
+                      onChange={(e) => setOpacityAttribute(e.target.value as any)}
+                    >
+                      <option value="opaque">100% Non-Transparent / Opaque</option>
+                      <option value="semi_opaque">Semi-Opaque (Light Layer Needed)</option>
+                      <option value="sheer">Sheer</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Review Title */}
+                <div>
+                  <Label htmlFor="review-title" className="text-xs font-semibold">
+                    Review Headline *
+                  </Label>
+                  <Input
+                    id="review-title"
+                    required
+                    placeholder="e.g. Perfect modesty and soft cambric drape"
+                    value={reviewTitle}
+                    onChange={(e) => setReviewTitle(e.target.value)}
+                    className="mt-1 h-9 text-xs"
+                  />
+                </div>
+
+                {/* Review Body */}
+                <div>
+                  <Label htmlFor="review-body" className="text-xs font-semibold">
+                    Your Review *
+                  </Label>
+                  <Textarea
+                    id="review-body"
+                    required
+                    rows={4}
+                    placeholder="Share how the fabric felt, how it held up after washing, and how the sizing fit your body..."
+                    value={reviewBody}
+                    onChange={(e) => setReviewBody(e.target.value)}
+                    className="mt-1 text-xs resize-none"
+                  />
+                </div>
+
+                {/* Photo URL */}
+                <div>
+                  <Label htmlFor="review-photo" className="text-xs font-semibold">
+                    Photo URL (Optional)
+                  </Label>
+                  <Input
+                    id="review-photo"
+                    placeholder="https://... photo of styling or texture"
+                    value={photoUrl}
+                    onChange={(e) => setPhotoUrl(e.target.value)}
+                    className="mt-1 h-9 text-xs"
+                  />
+                </div>
+
+                <DialogFooter className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsReviewModalOpen(false)}
+                    disabled={isSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    size="sm"
+                    disabled={isSubmitting}
+                    className="bg-primary text-primary-foreground font-semibold"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Review"}
+                  </Button>
+                </DialogFooter>
+              </form>
             )}
           </DialogContent>
         </Dialog>
