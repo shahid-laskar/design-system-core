@@ -453,7 +453,7 @@ export async function submitReturnRequest(data: {
   customer_notes?: string;
 }): Promise<any> {
   return await fetchMedusa<{ return_request: any }>(
-    "/store/returns/request",
+    "/store/return-requests/request",
     {
       method: "POST",
       body: JSON.stringify(data),
