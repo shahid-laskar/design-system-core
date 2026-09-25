@@ -158,7 +158,7 @@ function CheckoutPage() {
           const matchingOption = shippingUnlocked
             ? options.find((o) => o.amount === 0) || options[0]
             : options.find((o) => o.amount > 0) || options[0];
-          setSelectedShippingId(matchingOption.id);
+          if (matchingOption) setSelectedShippingId(matchingOption.id);
         }
       } catch {
         // Handled silently
@@ -283,9 +283,7 @@ function CheckoutPage() {
 
       <header className="mb-8">
         <Eyebrow className="text-primary">100% Encrypted &amp; Secure Checkout</Eyebrow>
-        <SectionHeading level={1} className="mt-2 text-3xl md:text-4xl">
-          Complete Your Order
-        </SectionHeading>
+        <h1 className="display-section mt-2 text-3xl md:text-4xl">Complete Your Order</h1>
       </header>
 
       {error ? (

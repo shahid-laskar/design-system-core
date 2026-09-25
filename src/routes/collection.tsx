@@ -544,7 +544,7 @@ function CollectionPage() {
         (!festive || p.festive) &&
         (!q ||
           p.name.toLowerCase().includes(q) ||
-          p.description?.toLowerCase().includes(q) ||
+          (p as { description?: string }).description?.toLowerCase().includes(q) ||
           p.pillar.toLowerCase().includes(q) ||
           p.materials?.some((m) => m.toLowerCase().includes(q))),
     );

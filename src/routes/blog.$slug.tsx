@@ -217,7 +217,7 @@ function BlogPostPage() {
         {relatedProducts.length > 0 && (
           <section className="mx-auto max-w-4xl border-t border-border mt-20 pt-12">
             <div className="text-center">
-              <Eyebrow text="Featured in this Story" />
+              <Eyebrow>Featured in this Story</Eyebrow>
               <h2 className="font-display text-2xl font-medium sm:text-3xl mt-1">
                 Related Essentials
               </h2>
