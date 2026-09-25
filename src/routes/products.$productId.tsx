@@ -130,9 +130,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         if (size) {
           return (
             v.title?.toLowerCase().includes(size.toLowerCase()) ||
-            Object.values(v.options || {}).some(
-              (val) => val.toLowerCase() === size.toLowerCase()
-            )
+            Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase())
           );
         }
         return true;
@@ -176,7 +174,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         return (
           v.title?.toLowerCase().includes(chosenSize.toLowerCase()) ||
           Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === chosenSize.toLowerCase()
+            (val) => val.toLowerCase() === chosenSize.toLowerCase(),
           )
         );
       });
@@ -208,12 +206,19 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   return (
     <div className="pb-28 lg:pb-0">
       <PageContainer className="py-4 sm:py-5">
-        <nav className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs text-muted-foreground" aria-label="Breadcrumb">
-          <Link to="/" className="shrink-0 transition-colors hover:text-foreground">Home</Link>
+        <nav
+          className="flex min-w-0 items-center gap-1.5 overflow-hidden text-xs text-muted-foreground"
+          aria-label="Breadcrumb"
+        >
+          <Link to="/" className="shrink-0 transition-colors hover:text-foreground">
+            Home
+          </Link>
           {product.categoryTrail.map((item) => (
             <span key={item} className="contents">
               <ChevronRight className="size-3 shrink-0" />
-              <Link to="/collection" className="shrink-0 transition-colors hover:text-foreground">{item}</Link>
+              <Link to="/collection" className="shrink-0 transition-colors hover:text-foreground">
+                {item}
+              </Link>
             </span>
           ))}
           <ChevronRight className="size-3 shrink-0" />
@@ -223,7 +228,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
       <PageContainer className="pb-14 lg:pb-24">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.92fr)] lg:gap-14">
-          <section aria-label="Product gallery" className="min-w-0 lg:sticky lg:top-5 lg:self-start">
+          <section
+            aria-label="Product gallery"
+            className="min-w-0 lg:sticky lg:top-5 lg:self-start"
+          >
             <div className="hidden overflow-hidden rounded-sm bg-muted lg:block">
               <img
                 key={selectedImage}
@@ -238,32 +246,58 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               />
             </div>
 
-            <div className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted lg:hidden" onScroll={handleGalleryScroll}>
+            <div
+              className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted lg:hidden"
+              onScroll={handleGalleryScroll}
+            >
               {product.gallery.map((image) => (
                 <div key={image.alt} className="aspect-[4/5] w-full shrink-0 snap-center">
-                  <img src={image.src} alt={image.alt} className={cn("size-full object-cover", image.position)} width={800} height={1000} />
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className={cn("size-full object-cover", image.position)}
+                    width={800}
+                    height={1000}
+                  />
                 </div>
               ))}
             </div>
 
             <div className="mt-3 flex justify-center gap-2 lg:hidden" aria-label="Image pagination">
               {product.gallery.map((image, index) => (
-                <span key={image.alt} className={cn("size-1.5 rounded-full transition-colors", selectedImage === index ? "bg-primary" : "bg-border")} />
+                <span
+                  key={image.alt}
+                  className={cn(
+                    "size-1.5 rounded-full transition-colors",
+                    selectedImage === index ? "bg-primary" : "bg-border",
+                  )}
+                />
               ))}
             </div>
 
-            <div className="mt-3 hidden grid-cols-3 gap-3 lg:grid" role="list" aria-label="Choose product image">
+            <div
+              className="mt-3 hidden grid-cols-3 gap-3 lg:grid"
+              role="list"
+              aria-label="Choose product image"
+            >
               {product.gallery.map((image, index) => (
                 <Button
                   key={image.alt}
                   variant="ghost"
-                  className={cn("h-auto overflow-hidden rounded-sm p-0 ring-offset-2", selectedImage === index && "ring-2 ring-primary")}
+                  className={cn(
+                    "h-auto overflow-hidden rounded-sm p-0 ring-offset-2",
+                    selectedImage === index && "ring-2 ring-primary",
+                  )}
                   onClick={() => setSelectedImage(index)}
                   aria-label={`View image ${index + 1}`}
                   aria-pressed={selectedImage === index}
                 >
                   <span className="aspect-square w-full overflow-hidden">
-                    <img src={image.src} alt="" className={cn("size-full object-cover", image.position)} />
+                    <img
+                      src={image.src}
+                      alt=""
+                      className={cn("size-full object-cover", image.position)}
+                    />
                   </span>
                 </Button>
               ))}
@@ -283,42 +317,67 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               )}
             </div>
             <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
-            <a href="#reviews" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary">
-              <Star className="size-4 fill-warning text-warning" /> {product.rating} · {product.reviewCount} reviews
+            <a
+              href="#reviews"
+              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary"
+            >
+              <Star className="size-4 fill-warning text-warning" /> {product.rating} ·{" "}
+              {product.reviewCount} reviews
             </a>
 
             <div className="mt-5 border-y border-border py-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span className="font-display text-4xl">₹{product.price.toLocaleString("en-IN")}</span>
+                <span className="font-display text-4xl">
+                  ₹{product.price.toLocaleString("en-IN")}
+                </span>
                 {savings > 0 ? (
                   <>
-                    <span className="text-sm text-muted-foreground line-through">MRP ₹{product.mrp.toLocaleString("en-IN")}</span>
-                    <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">{discount}% off · Save ₹{savings.toLocaleString("en-IN")}</span>
+                    <span className="text-sm text-muted-foreground line-through">
+                      MRP ₹{product.mrp.toLocaleString("en-IN")}
+                    </span>
+                    <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">
+                      {discount}% off · Save ₹{savings.toLocaleString("en-IN")}
+                    </span>
                   </>
                 ) : null}
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                Inclusive of all taxes · {freeShipping ? "Free shipping on this order" : `Add ₹${(999 - orderTotal).toLocaleString("en-IN")} more for free shipping`}
+                Inclusive of all taxes ·{" "}
+                {freeShipping
+                  ? "Free shipping on this order"
+                  : `Add ₹${(999 - orderTotal).toLocaleString("en-IN")} more for free shipping`}
               </p>
             </div>
             <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
 
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                <p className="text-sm font-semibold">Color: <span className="font-normal">{color}</span></p>
-                <span className="text-xs text-muted-foreground">{product.colors.length} colours</span>
+                <p className="text-sm font-semibold">
+                  Color: <span className="font-normal">{color}</span>
+                </p>
+                <span className="text-xs text-muted-foreground">
+                  {product.colors.length} colours
+                </span>
               </div>
               <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Colour">
                 {product.colors.map((option) => (
                   <Button
                     key={option.name}
                     variant="outline"
-                    className={cn("h-11 px-3", color === option.name && "border-primary ring-1 ring-primary")}
+                    className={cn(
+                      "h-11 px-3",
+                      color === option.name && "border-primary ring-1 ring-primary",
+                    )}
                     onClick={() => setColor(option.name)}
                     role="radio"
                     aria-checked={color === option.name}
                   >
-                    <span className={cn("size-4 shrink-0 rounded-full border border-border", option.swatch)} />
+                    <span
+                      className={cn(
+                        "size-4 shrink-0 rounded-full border border-border",
+                        option.swatch,
+                      )}
+                    />
                     {option.name}
                   </Button>
                 ))}
@@ -328,10 +387,16 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             {product.kind === "apparel" && product.sizes ? (
               <div className="border-b border-border py-5">
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                  <p className="text-sm font-semibold">Select size: <span className="font-normal">{size}</span></p>
+                  <p className="text-sm font-semibold">
+                    Select size: <span className="font-normal">{size}</span>
+                  </p>
                   <SizeGuideDialog defaultCategory={guideCategory} />
                 </div>
-                <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5" role="radiogroup" aria-label="Size">
+                <div
+                  className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5"
+                  role="radiogroup"
+                  aria-label="Size"
+                >
                   {product.sizes.map((option) => {
                     const soldOut = option.stock === "sold-out";
                     return (
@@ -340,8 +405,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                         variant="outline"
                         className={cn(
                           "relative h-12 flex-col gap-0 px-1 leading-tight",
-                          size === option.name && "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
-                          soldOut && "border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100",
+                          size === option.name &&
+                            "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
+                          soldOut &&
+                            "border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100",
                         )}
                         onClick={() => setSize(option.name)}
                         disabled={soldOut}
@@ -349,8 +416,23 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                         aria-checked={size === option.name}
                         aria-label={`${option.name}, ${soldOut ? "sold out" : option.stock === "low" ? "only 2 left" : "in stock"}`}
                       >
-                        <span className={cn("text-sm", soldOut && "line-through")}>{option.name}</span>
-                        {soldOut ? <span className="text-[0.6rem] font-normal">Sold out</span> : option.stock === "low" ? <span className={cn("text-[0.6rem] font-normal", size === option.name ? "text-primary-foreground" : "text-warning-foreground")}>2 left</span> : null}
+                        <span className={cn("text-sm", soldOut && "line-through")}>
+                          {option.name}
+                        </span>
+                        {soldOut ? (
+                          <span className="text-[0.6rem] font-normal">Sold out</span>
+                        ) : option.stock === "low" ? (
+                          <span
+                            className={cn(
+                              "text-[0.6rem] font-normal",
+                              size === option.name
+                                ? "text-primary-foreground"
+                                : "text-warning-foreground",
+                            )}
+                          >
+                            2 left
+                          </span>
+                        ) : null}
                       </Button>
                     );
                   })}
@@ -363,7 +445,11 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                       : "Select a size to see garment measurements"}
                   </p>
                 ) : null}
-                {product.modelNote ? <p className="mt-2 text-xs leading-5 text-muted-foreground">{product.modelNote}</p> : null}
+                {product.modelNote ? (
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                    {product.modelNote}
+                  </p>
+                ) : null}
               </div>
             ) : (
               <Specifications product={product} />
@@ -373,22 +459,70 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               <p className="text-sm font-semibold">Quantity</p>
               <div className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-3">
                 <div className="grid h-12 grid-cols-[2.75rem_2.25rem_2.75rem] items-center rounded-sm border border-input">
-                  <Button variant="ghost" size="icon" className="h-11 w-11" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity" disabled={quantity === 1}><Minus /></Button>
-                  <span className="text-center text-sm font-semibold" aria-live="polite">{quantity}</span>
-                  <Button variant="ghost" size="icon" className="h-11 w-11" onClick={() => setQuantity(Math.min(8, quantity + 1))} aria-label="Increase quantity"><Plus /></Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-11 w-11"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    aria-label="Decrease quantity"
+                    disabled={quantity === 1}
+                  >
+                    <Minus />
+                  </Button>
+                  <span className="text-center text-sm font-semibold" aria-live="polite">
+                    {quantity}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-11 w-11"
+                    onClick={() => setQuantity(Math.min(8, quantity + 1))}
+                    aria-label="Increase quantity"
+                  >
+                    <Plus />
+                  </Button>
                 </div>
                 <Button size="lg" className="h-12 w-full" onClick={addToBasket}>
-                  {added ? <><Check /> Added{size ? ` · Size ${size}` : ""}</> : <><ShoppingBag /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}</>}
+                  {added ? (
+                    <>
+                      <Check /> Added{size ? ` · Size ${size}` : ""}
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}
+                    </>
+                  )}
                 </Button>
               </div>
               <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5"><CircleCheck className="size-3.5 text-success" /> Dispatched in 24–48 hours</span>
-                <span className="inline-flex items-center gap-1.5"><CircleCheck className="size-3.5 text-success" /> {product.kind === "apparel" ? "7-day doorstep size exchange" : "Cash on delivery available"}</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <CircleCheck className="size-3.5 text-success" /> Dispatched in 24–48 hours
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <CircleCheck className="size-3.5 text-success" />{" "}
+                  {product.kind === "apparel"
+                    ? "7-day doorstep size exchange"
+                    : "Cash on delivery available"}
+                </span>
               </p>
-              <Button variant="outline" size="lg" className="mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-3 text-left" asChild>
-                <a href={`https://wa.me/919800000000?text=${whatsAppText}`} target="_blank" rel="noreferrer">
+              <Button
+                variant="outline"
+                size="lg"
+                className="mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-3 text-left"
+                asChild
+              >
+                <a
+                  href={`https://wa.me/919800000000?text=${whatsAppText}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <MessageCircle />
-                  <span><span className="block">Buy with WhatsApp</span><span className="mt-0.5 block text-[0.68rem] font-normal text-muted-foreground">Send SKU &amp; Size for direct assistance</span></span>
+                  <span>
+                    <span className="block">Buy with WhatsApp</span>
+                    <span className="mt-0.5 block text-[0.68rem] font-normal text-muted-foreground">
+                      Send SKU &amp; Size for direct assistance
+                    </span>
+                  </span>
                 </a>
               </Button>
             </div>
@@ -405,15 +539,39 @@ function ProductExperience({ product }: { product: ProductDetail }) {
           <div className="grid gap-3 md:grid-cols-3">
             {product.kind === "apparel" ? (
               <>
-                <TrustItem icon={ShieldCheck} title="Modest, opaque cuts" copy="Non-transparent fabrics with generous tailoring margins." />
-                <TrustItem icon={Leaf} title="Quality-checked fabric" copy="Each batch is sample-tested for feel, colourfastness and stitching." />
-                <TrustItem icon={CircleCheck} title="7-day doorstep size exchange" copy="Easy reverse pickup if the fit isn't right." />
+                <TrustItem
+                  icon={ShieldCheck}
+                  title="Modest, opaque cuts"
+                  copy="Non-transparent fabrics with generous tailoring margins."
+                />
+                <TrustItem
+                  icon={Leaf}
+                  title="Quality-checked fabric"
+                  copy="Each batch is sample-tested for feel, colourfastness and stitching."
+                />
+                <TrustItem
+                  icon={CircleCheck}
+                  title="7-day doorstep size exchange"
+                  copy="Easy reverse pickup if the fit isn't right."
+                />
               </>
             ) : (
               <>
-                <TrustItem icon={ShieldCheck} title="Hand-vetted quality" copy="Every product is sample-tested before it reaches our shelves." />
-                <TrustItem icon={Leaf} title="Honest materials" copy="Full specifications listed below — no surprises on arrival." />
-                <TrustItem icon={CircleCheck} title="Dispatched in 24–48 hours" copy="Free shipping on orders of ₹999 and above." />
+                <TrustItem
+                  icon={ShieldCheck}
+                  title="Hand-vetted quality"
+                  copy="Every product is sample-tested before it reaches our shelves."
+                />
+                <TrustItem
+                  icon={Leaf}
+                  title="Honest materials"
+                  copy="Full specifications listed below — no surprises on arrival."
+                />
+                <TrustItem
+                  icon={CircleCheck}
+                  title="Dispatched in 24–48 hours"
+                  copy="Free shipping on orders of ₹999 and above."
+                />
               </>
             )}
           </div>
@@ -425,7 +583,9 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         <Accordion type="multiple" className="mt-6 border-t border-border">
           <AccordionItem value="fabric">
             <AccordionTrigger className="text-left font-semibold hover:no-underline">
-              {product.kind === "apparel" ? "Fabric, fit & care" : "Specifications & what's in the box"}
+              {product.kind === "apparel"
+                ? "Fabric, fit & care"
+                : "Specifications & what's in the box"}
             </AccordionTrigger>
             <AccordionContent className="space-y-4 pr-6 leading-6 text-muted-foreground">
               <div className="space-y-2 text-xs leading-5 sm:text-sm sm:leading-6">
@@ -449,7 +609,9 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     ) : null}
                     <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
                       <span className="font-semibold text-foreground">Care:</span>
-                      <span>Gentle cold wash with mild detergent. Dry in shade. Medium steam iron.</span>
+                      <span>
+                        Gentle cold wash with mild detergent. Dry in shade. Medium steam iron.
+                      </span>
                     </div>
                   </>
                 ) : null}
@@ -457,23 +619,39 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="statutory">
-            <AccordionTrigger className="text-left font-semibold hover:no-underline">Statutory Declarations (Legal Metrology / LMPC)</AccordionTrigger>
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">
+              Statutory Declarations (Legal Metrology / LMPC)
+            </AccordionTrigger>
             <AccordionContent>
               <dl className="grid gap-x-6 gap-y-3 text-sm leading-6 sm:grid-cols-[12rem_minmax(0,1fr)]">
                 <Declaration label="Generic Name" value={product.genericName} />
                 <Declaration label="Net Quantity" value={product.netQuantity} />
-                <Declaration label="Maximum Retail Price (MRP)" value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`} />
-                <Declaration label="Unit Sale Price (USP)" value={`₹${product.price.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`} />
+                <Declaration
+                  label="Maximum Retail Price (MRP)"
+                  value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`}
+                />
+                <Declaration
+                  label="Unit Sale Price (USP)"
+                  value={`₹${product.price.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`}
+                />
                 <Declaration label="Country of Origin" value={product.countryOfOrigin} />
-                <Declaration label="Consumer Care" value="support@sukoonhouse.in | +91 98XXX XXXXX" />
+                <Declaration
+                  label="Consumer Care"
+                  value="support@sukoonhouse.in | +91 98XXX XXXXX"
+                />
               </dl>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="shipping">
-            <AccordionTrigger className="text-left font-semibold hover:no-underline">Shipping &amp; 7-Day Doorstep Exchange Policy</AccordionTrigger>
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">
+              Shipping &amp; 7-Day Doorstep Exchange Policy
+            </AccordionTrigger>
             <AccordionContent className="space-y-3 pr-6 leading-6 text-muted-foreground">
               <p>Dispatched within 24–48 hours via express air courier.</p>
-              <p>Delivery in 2–4 business days across major Indian metros; 4–6 days for the rest of India.</p>
+              <p>
+                Delivery in 2–4 business days across major Indian metros; 4–6 days for the rest of
+                India.
+              </p>
               <p>Reverse pickup is arranged directly from your doorstep for size exchanges.</p>
             </AccordionContent>
           </AccordionItem>
@@ -494,7 +672,9 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 {size ? `Size ${size}` : "Select Size"}
               </span>
             </p>
-            <p className="truncate text-[0.68rem] text-muted-foreground">{color} · Qty {quantity}</p>
+            <p className="truncate text-[0.68rem] text-muted-foreground">
+              {color} · Qty {quantity}
+            </p>
           </div>
           <Button size="lg" className="h-11 px-5 font-semibold" onClick={handleMobilePurchaseClick}>
             {added ? (
@@ -513,7 +693,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       {/* Mobile Size Selection Bottom Sheet Fallback */}
       {product.kind === "apparel" && product.sizes && (
         <Sheet open={sizeDrawerOpen} onOpenChange={setSizeDrawerOpen}>
-          <SheetContent side="bottom" className="rounded-t-xl border-t border-border bg-background p-5 sm:mx-auto sm:max-w-md">
+          <SheetContent
+            side="bottom"
+            className="rounded-t-xl border-t border-border bg-background p-5 sm:mx-auto sm:max-w-md"
+          >
             <SheetHeader className="text-left">
               <div className="flex items-center gap-3">
                 <img
@@ -544,8 +727,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     variant="outline"
                     className={cn(
                       "flex h-14 flex-col items-center justify-center rounded-sm border p-1",
-                      option.stock === "sold-out" && "cursor-not-allowed border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100 [&>span:first-child]:line-through",
-                      size === option.name && "border-primary bg-primary/10 font-semibold text-primary",
+                      option.stock === "sold-out" &&
+                        "cursor-not-allowed border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100 [&>span:first-child]:line-through",
+                      size === option.name &&
+                        "border-primary bg-primary/10 font-semibold text-primary",
                     )}
                     disabled={option.stock === "sold-out"}
                     onClick={() => handleSelectSizeAndAdd(option.name)}
@@ -592,8 +777,17 @@ function sizeGuideCategory(product: ProductDetail): "women" | "men" | "children"
 
 function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: SizeName }) {
   if (!stock || !size) return null;
-  if (stock === "low") return <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-warning-foreground"><Zap className="size-4 fill-warning text-warning" /> Only 2 left in size {size}</p>;
-  return <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success"><CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours</p>;
+  if (stock === "low")
+    return (
+      <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-warning-foreground">
+        <Zap className="size-4 fill-warning text-warning" /> Only 2 left in size {size}
+      </p>
+    );
+  return (
+    <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success">
+      <CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours
+    </p>
+  );
 }
 
 function Specifications({ product }: { product: ProductDetail }) {
@@ -602,7 +796,12 @@ function Specifications({ product }: { product: ProductDetail }) {
       <p className="text-sm font-semibold">Dimensions &amp; specifications</p>
       <dl className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-border bg-border">
         {product.specifications.map(([label, value]) => (
-          <div key={label} className="min-w-0 bg-background p-3"><dt className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">{label}</dt><dd className="mt-1 text-sm leading-5">{value}</dd></div>
+          <div key={label} className="min-w-0 bg-background p-3">
+            <dt className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
+              {label}
+            </dt>
+            <dd className="mt-1 text-sm leading-5">{value}</dd>
+          </div>
         ))}
       </dl>
     </div>
@@ -692,7 +891,11 @@ function PincodeChecker() {
         <div className="mt-3 space-y-1.5 rounded-sm bg-secondary/35 p-3 text-xs">
           <p className="flex items-center gap-1.5 font-medium text-foreground">
             <Truck className="size-3.5 shrink-0 text-primary" />
-            <span>Delivery to <strong className="font-semibold">{checkedPincode}</strong> by <strong className="font-semibold text-primary">{estimatedDateStr}</strong> (Express Air)</span>
+            <span>
+              Delivery to <strong className="font-semibold">{checkedPincode}</strong> by{" "}
+              <strong className="font-semibold text-primary">{estimatedDateStr}</strong> (Express
+              Air)
+            </span>
           </p>
           <p className="flex items-center gap-1.5 text-muted-foreground">
             <CircleCheck className="size-3.5 shrink-0 text-success" />
@@ -717,21 +920,64 @@ function ShippingMeter({ total, qualified }: { total: number; qualified: boolean
   return (
     <div className="border-y border-border py-5">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-xs">
-        <p className="min-w-0 font-semibold">{qualified ? "Free shipping unlocked" : `Add ₹${remaining} for free shipping`}</p>
+        <p className="min-w-0 font-semibold">
+          {qualified ? "Free shipping unlocked" : `Add ₹${remaining} for free shipping`}
+        </p>
         <span className="shrink-0 text-muted-foreground">₹999 threshold</span>
       </div>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label="Free shipping progress" aria-valuemin={0} aria-valuemax={999} aria-valuenow={Math.min(total, 999)}><div className={cn("h-full rounded-full bg-primary transition-[width]", qualified ? "w-full" : "w-2/3")} /></div>
-      <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground"><Truck className="size-4 text-primary" /> 7-day size exchange with doorstep reverse pickup</p>
+      <div
+        className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted"
+        role="progressbar"
+        aria-label="Free shipping progress"
+        aria-valuemin={0}
+        aria-valuemax={999}
+        aria-valuenow={Math.min(total, 999)}
+      >
+        <div
+          className={cn(
+            "h-full rounded-full bg-primary transition-[width]",
+            qualified ? "w-full" : "w-2/3",
+          )}
+        />
+      </div>
+      <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+        <Truck className="size-4 text-primary" /> 7-day size exchange with doorstep reverse pickup
+      </p>
     </div>
   );
 }
 
-function TrustItem({ icon: Icon, title, copy }: { icon: typeof ShieldCheck; title: string; copy: string }) {
-  return <article className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 border border-border bg-card p-5"><span className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary text-primary"><Icon className="size-5" /></span><div className="min-w-0"><h3 className="text-sm font-semibold">{title}</h3><p className="mt-1 text-xs leading-5 text-muted-foreground">{copy}</p></div></article>;
+function TrustItem({
+  icon: Icon,
+  title,
+  copy,
+}: {
+  icon: typeof ShieldCheck;
+  title: string;
+  copy: string;
+}) {
+  return (
+    <article className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 border border-border bg-card p-5">
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary text-primary">
+        <Icon className="size-5" />
+      </span>
+      <div className="min-w-0">
+        <h3 className="text-sm font-semibold">{title}</h3>
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">{copy}</p>
+      </div>
+    </article>
+  );
 }
 
 function Declaration({ label, value }: { label: string; value: string }) {
-  return <><dt className="font-semibold text-foreground">{label}</dt><dd className="border-b border-border pb-3 text-muted-foreground sm:border-0 sm:pb-0">{value}</dd></>;
+  return (
+    <>
+      <dt className="font-semibold text-foreground">{label}</dt>
+      <dd className="border-b border-border pb-3 text-muted-foreground sm:border-0 sm:pb-0">
+        {value}
+      </dd>
+    </>
+  );
 }
 
 function CrossSellEnsemble({ product }: { product: ProductDetail }) {
@@ -824,7 +1070,9 @@ function CrossSellEnsemble({ product }: { product: ProductDetail }) {
       <PageContainer>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Pair &amp; Elevate</p>
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">
+              Pair &amp; Elevate
+            </p>
             <h2 className="font-display text-2xl sm:text-3xl">Complete Your Modest Ensemble</h2>
             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
               Handpicked companion pieces designed to coordinate seamlessly with this style.
@@ -843,7 +1091,8 @@ function CrossSellEnsemble({ product }: { product: ProductDetail }) {
                 </>
               ) : (
                 <>
-                  <Plus className="size-4" /> Add Both Companions · ₹{bundleTotal.toLocaleString("en-IN")}
+                  <Plus className="size-4" /> Add Both Companions · ₹
+                  {bundleTotal.toLocaleString("en-IN")}
                 </>
               )}
             </Button>
@@ -975,8 +1224,12 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
   const [orderId, setOrderId] = useState("");
   const [reviewTitle, setReviewTitle] = useState("");
   const [reviewBody, setReviewBody] = useState("");
-  const [fitAttribute, setFitAttribute] = useState<"true_to_size" | "tight" | "loose">("true_to_size");
-  const [opacityAttribute, setOpacityAttribute] = useState<"opaque" | "semi_opaque" | "sheer">("opaque");
+  const [fitAttribute, setFitAttribute] = useState<"true_to_size" | "tight" | "loose">(
+    "true_to_size",
+  );
+  const [opacityAttribute, setOpacityAttribute] = useState<"opaque" | "semi_opaque" | "sheer">(
+    "opaque",
+  );
   const [photoUrl, setPhotoUrl] = useState("");
 
   const [helpfulMap, setHelpfulMap] = useState<Record<string, number>>({
@@ -1061,7 +1314,12 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
   async function handleReviewSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitError(null);
-    if (!customerName.trim() || !customerEmail.trim() || !reviewTitle.trim() || !reviewBody.trim()) {
+    if (
+      !customerName.trim() ||
+      !customerEmail.trim() ||
+      !reviewTitle.trim() ||
+      !reviewBody.trim()
+    ) {
       setSubmitError("Please fill in your name, email, review title, and details.");
       return;
     }
@@ -1105,8 +1363,12 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
       <PageContainer>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">Family Trust &amp; Reviews</p>
-            <h2 className="font-display text-3xl sm:text-4xl">Customer Ratings &amp; Experiences</h2>
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">
+              Family Trust &amp; Reviews
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl">
+              Customer Ratings &amp; Experiences
+            </h2>
           </div>
           <Button
             variant="outline"
@@ -1126,14 +1388,18 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
           {/* Column 1: Overall Score & 5-Star Histogram */}
           <div className="rounded-sm border border-border bg-card p-6">
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-5xl font-semibold text-foreground">{displayRating}</span>
+              <span className="font-display text-5xl font-semibold text-foreground">
+                {displayRating}
+              </span>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1 text-warning">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="size-4 fill-current" />
                   ))}
                 </div>
-                <span className="mt-1 text-xs text-muted-foreground">Based on {displayCount} verified family ratings</span>
+                <span className="mt-1 text-xs text-muted-foreground">
+                  Based on {displayCount} verified family ratings
+                </span>
               </div>
             </div>
 
@@ -1145,7 +1411,10 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                 { stars: 2, pct: 0, count: 0 },
                 { stars: 1, pct: 0, count: 0 },
               ].map(({ stars, pct, count }) => (
-                <div key={stars} className="grid grid-cols-[2.5rem_minmax(0,1fr)_3rem] items-center gap-3 text-xs">
+                <div
+                  key={stars}
+                  className="grid grid-cols-[2.5rem_minmax(0,1fr)_3rem] items-center gap-3 text-xs"
+                >
                   <span className="font-medium text-muted-foreground">{stars} ★</span>
                   <div className="h-2 overflow-hidden rounded-full bg-muted">
                     <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
@@ -1158,60 +1427,85 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
 
           {/* Column 2: Structured Sentiment Bars (apparel only) */}
           {product.kind === "apparel" && (
-          <div className="rounded-sm border border-border bg-card p-6">
-            <h3 className="text-sm font-semibold text-foreground">Verified Customer Sentiment</h3>
-            <p className="mt-1 text-xs text-muted-foreground">Aggregated feedback on fit, modesty opacity, and fabric durability.</p>
+            <div className="rounded-sm border border-border bg-card p-6">
+              <h3 className="text-sm font-semibold text-foreground">Verified Customer Sentiment</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Aggregated feedback on fit, modesty opacity, and fabric durability.
+              </p>
 
-            <div className="mt-5 space-y-4">
-              <div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
-                  <span className="font-semibold text-primary">{trueToSizePct}% True to size</span>
+              <div className="mt-5 space-y-4">
+                <div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
+                    <span className="font-semibold text-primary">
+                      {trueToSizePct}% True to size
+                    </span>
+                  </div>
+                  <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full bg-primary"
+                      style={{ width: `${trueToSizePct}%` }}
+                      title={`True to size (${trueToSizePct}%)`}
+                    />
+                    <div
+                      className="h-full bg-secondary"
+                      style={{ width: "8%" }}
+                      title="Runs loose (8%)"
+                    />
+                    <div
+                      className="h-full bg-border"
+                      style={{ width: "4%" }}
+                      title="Runs tight (4%)"
+                    />
+                  </div>
+                  <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
+                    <span>Runs tight</span>
+                    <span>True to size ({trueToSizePct}%)</span>
+                    <span>Runs loose</span>
+                  </div>
                 </div>
-                <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full bg-primary" style={{ width: `${trueToSizePct}%` }} title={`True to size (${trueToSizePct}%)`} />
-                  <div className="h-full bg-secondary" style={{ width: "8%" }} title="Runs loose (8%)" />
-                  <div className="h-full bg-border" style={{ width: "4%" }} title="Runs tight (4%)" />
-                </div>
-                <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
-                  <span>Runs tight</span>
-                  <span>True to size ({trueToSizePct}%)</span>
-                  <span>Runs loose</span>
-                </div>
-              </div>
 
-              <div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
-                  <span className="font-semibold text-success">{opacityPct}% 100% Non-Transparent</span>
+                <div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
+                    <span className="font-semibold text-success">
+                      {opacityPct}% 100% Non-Transparent
+                    </span>
+                  </div>
+                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-success"
+                      style={{ width: `${opacityPct}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 text-[0.68rem] text-muted-foreground">
+                    Attached inner lining guarantees complete confidence in bright daylight.
+                  </p>
                 </div>
-                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-success" style={{ width: `${opacityPct}%` }} />
-                </div>
-                <p className="mt-1 text-[0.68rem] text-muted-foreground">Attached inner lining guarantees complete confidence in bright daylight.</p>
-              </div>
 
-              <div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-foreground">Fabric Softness &amp; Breathability</span>
-                  <span className="font-semibold text-primary">95% Soft &amp; Breathable</span>
+                <div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-foreground">
+                      Fabric Softness &amp; Breathability
+                    </span>
+                    <span className="font-semibold text-primary">95% Soft &amp; Breathable</span>
+                  </div>
+                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary" style={{ width: "95%" }} />
+                  </div>
                 </div>
-                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary" style={{ width: "95%" }} />
-                </div>
-              </div>
 
-              <div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-foreground">Colorfastness After Washing</span>
-                  <span className="font-semibold text-primary">92% Zero Bleed</span>
-                </div>
-                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary" style={{ width: "92%" }} />
+                <div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-foreground">Colorfastness After Washing</span>
+                    <span className="font-semibold text-primary">92% Zero Bleed</span>
+                  </div>
+                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary" style={{ width: "92%" }} />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           )}
         </div>
 
@@ -1222,7 +1516,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
               <Camera className="size-4 text-primary" />
               <span>Customer Photos &amp; Everyday Styling (12)</span>
             </h3>
-            <span className="text-xs text-muted-foreground">Real home photos by verified buyers</span>
+            <span className="text-xs text-muted-foreground">
+              Real home photos by verified buyers
+            </span>
           </div>
 
           <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none">
@@ -1261,7 +1557,10 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
           {[
             { id: "all", label: `All Reviews (${allReviews.length})` },
             { id: "photos", label: `With Photos (${allReviews.filter((r) => r.photo).length})` },
-            { id: "5star", label: `5 Star Only (${allReviews.filter((r) => r.rating === 5).length})` },
+            {
+              id: "5star",
+              label: `5 Star Only (${allReviews.filter((r) => r.rating === 5).length})`,
+            },
             { id: "fit", label: "Fit & Sizing" },
             { id: "verified", label: "Verified Buyers Only" },
           ].map(({ id, label }) => (
@@ -1269,7 +1568,10 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
               key={id}
               variant={selectedFilter === id ? "default" : "outline"}
               size="sm"
-              className={cn("h-8 rounded-full px-3 text-xs", selectedFilter === id && "font-semibold")}
+              className={cn(
+                "h-8 rounded-full px-3 text-xs",
+                selectedFilter === id && "font-semibold",
+              )}
               onClick={() => setSelectedFilter(id)}
             >
               {label}
@@ -1304,12 +1606,18 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                     <span className="text-xs font-medium text-foreground/80">{rev.variant}</span>
                     {rev.apparelAttributes?.fit && (
                       <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] text-muted-foreground">
-                        Fit: {rev.apparelAttributes.fit === "true_to_size" ? "True to Size" : rev.apparelAttributes.fit}
+                        Fit:{" "}
+                        {rev.apparelAttributes.fit === "true_to_size"
+                          ? "True to Size"
+                          : rev.apparelAttributes.fit}
                       </span>
                     )}
                     {rev.apparelAttributes?.opacity && (
                       <span className="rounded-full bg-muted px-2 py-0.5 text-[0.65rem] text-muted-foreground">
-                        Opacity: {rev.apparelAttributes.opacity === "opaque" ? "100% Opaque" : rev.apparelAttributes.opacity}
+                        Opacity:{" "}
+                        {rev.apparelAttributes.opacity === "opaque"
+                          ? "100% Opaque"
+                          : rev.apparelAttributes.opacity}
                       </span>
                     )}
                   </div>
@@ -1370,7 +1678,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
         <Dialog open={Boolean(activePhoto)} onOpenChange={(open) => !open && setActivePhoto(null)}>
           <DialogContent className="max-w-xl p-4 sm:p-6">
             <DialogHeader className="text-left">
-              <DialogTitle className="font-display text-xl font-medium">{activePhoto?.title}</DialogTitle>
+              <DialogTitle className="font-display text-xl font-medium">
+                {activePhoto?.title}
+              </DialogTitle>
               <DialogDescription>
                 Customer photo shared by {activePhoto?.author} ({activePhoto?.variant})
               </DialogDescription>
@@ -1393,7 +1703,8 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
             <DialogHeader className="text-left">
               <DialogTitle className="font-display text-2xl">Share Your Experience</DialogTitle>
               <DialogDescription>
-                Help other families choose with confidence. Honest feedback on fabric, opacity, and fit is deeply valued.
+                Help other families choose with confidence. Honest feedback on fabric, opacity, and
+                fit is deeply valued.
               </DialogDescription>
             </DialogHeader>
 
@@ -1402,7 +1713,8 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                 <CircleCheck className="mx-auto size-8 text-success" />
                 <h4 className="mt-2 text-base font-semibold text-success">Review Submitted!</h4>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Thank you for your thoughtful words. Your review has been submitted for moderation and will appear publicly once verified.
+                  Thank you for your thoughtful words. Your review has been submitted for moderation
+                  and will appear publicly once verified.
                 </p>
                 <Button
                   className="mt-4"
@@ -1437,13 +1749,19 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                             "size-6",
                             starVal <= rating
                               ? "fill-warning text-warning"
-                              : "text-muted hover:text-warning"
+                              : "text-muted hover:text-warning",
                           )}
                         />
                       </button>
                     ))}
                     <span className="ml-2 text-xs font-medium text-muted-foreground">
-                      {rating === 5 ? "Exceptional" : rating === 4 ? "Very Good" : rating === 3 ? "Average" : "Needs Improvement"}
+                      {rating === 5
+                        ? "Exceptional"
+                        : rating === 4
+                          ? "Very Good"
+                          : rating === 3
+                            ? "Average"
+                            : "Needs Improvement"}
                     </span>
                   </div>
                 </div>
@@ -1476,7 +1794,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                       onChange={(e) => setCustomerEmail(e.target.value)}
                       className="mt-1 h-9 text-xs"
                     />
-                    <span className="text-[0.65rem] text-muted-foreground">Used for verified buyer check</span>
+                    <span className="text-[0.65rem] text-muted-foreground">
+                      Used for verified buyer check
+                    </span>
                   </div>
                 </div>
 
@@ -1492,7 +1812,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                     onChange={(e) => setOrderId(e.target.value)}
                     className="mt-1 h-9 text-xs"
                   />
-                  <span className="text-[0.65rem] text-muted-foreground">Earns a Verified Buyer trust badge</span>
+                  <span className="text-[0.65rem] text-muted-foreground">
+                    Earns a Verified Buyer trust badge
+                  </span>
                 </div>
 
                 {/* Apparel Attributes: Fit & Opacity */}
