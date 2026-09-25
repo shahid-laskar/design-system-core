@@ -105,11 +105,11 @@ function BlogIndexPage() {
       <section className="border-b border-border bg-card/50 py-16 sm:py-24">
         <PageContainer>
           <div className="max-w-2xl">
-            <Eyebrow text="Sukoon Journal" />
-            <SectionHeading
-              title="Stories, Craft & Mindful Living"
-              subtitle="Considered thoughts on modesty, purposeful routines, family tarbiyah, and durable Indian textile traditions."
-            />
+            <Eyebrow>Sukoon Journal</Eyebrow>
+            <h1 className="display-section mt-3">Stories, Craft &amp; Mindful Living</h1>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+              Considered thoughts on modesty, purposeful routines, family tarbiyah, and durable Indian textile traditions.
+            </p>
           </div>
 
           {/* Category Filter Pills */}
