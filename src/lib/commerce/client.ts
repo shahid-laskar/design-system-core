@@ -59,17 +59,33 @@ export async function fetchMedusa<T>(
   headers.set("x-publishable-api-key", MEDUSA_PUBLISHABLE_KEY);
   headers.set("Content-Type", "application/json");
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Medusa API error [${response.status}] ${url}: ${errorText}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      let errorMsg = errorText;
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.message) errorMsg = errorJson.message;
+      } catch {
+        // Keep raw text
+      }
+      throw new Error(errorMsg);
+    }
+
+    return response.json();
+  } catch (err: any) {
+    if (err?.message?.includes("Failed to fetch") || err?.name === "TypeError") {
+      throw new Error(
+        `Unable to connect to commerce server at ${MEDUSA_BACKEND_URL}. Please check your connection.`
+      );
+    }
+    throw err;
   }
-
-  return response.json();
 }
 
 let cachedRegionId: string | null = null;
