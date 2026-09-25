@@ -1347,7 +1347,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
       setPhotoUrl("");
       setOrderId("");
     } catch (err: unknown) {
-      setSubmitError(err.message || "Failed to submit review. Please try again.");
+      setSubmitError(
+        (err instanceof Error ? err.message : "") || "Failed to submit review. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -1836,7 +1838,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
                     <select
                       className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-primary"
                       value={opacityAttribute}
-                      onChange={(e) => setOpacityAttribute(e.target.value as typeof opacityAttribute)}
+                      onChange={(e) =>
+                        setOpacityAttribute(e.target.value as typeof opacityAttribute)
+                      }
                     >
                       <option value="opaque">100% Non-Transparent / Opaque</option>
                       <option value="semi_opaque">Semi-Opaque (Light Layer Needed)</option>
