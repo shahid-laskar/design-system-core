@@ -249,7 +249,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
   const savings = product.mrp - product.price;
-  const discount = Math.round((savings / product.mrp) * 100);
+  const discount = product.mrp > 0 ? Math.round((savings / product.mrp) * 100) : 0;
+  const guideCategory = sizeGuideCategory(product);
   const orderTotal = product.price * quantity;
   const freeShipping = orderTotal >= 999;
   const whatsAppText = encodeURIComponent(
@@ -419,19 +420,25 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               )}
             </div>
             <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">{product.description}</p>
-            <a href="#reviews" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary">
-              <Star className="size-4 fill-warning text-warning" /> {product.rating} · {product.reviewCount} customer reviews
+            <a href="#reviews" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary">
+              <Star className="size-4 fill-warning text-warning" /> {product.rating} · {product.reviewCount} reviews
             </a>
 
-            <div className="mt-6 border-y border-border py-5">
+            <div className="mt-5 border-y border-border py-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                 <span className="font-display text-4xl">₹{product.price.toLocaleString("en-IN")}</span>
-                <span className="text-sm text-muted-foreground line-through">MRP ₹{product.mrp.toLocaleString("en-IN")}</span>
-                <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">Save ₹{savings} / {discount}% off</span>
+                {savings > 0 ? (
+                  <>
+                    <span className="text-sm text-muted-foreground line-through">MRP ₹{product.mrp.toLocaleString("en-IN")}</span>
+                    <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">{discount}% off · Save ₹{savings.toLocaleString("en-IN")}</span>
+                  </>
+                ) : null}
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">Inclusive of all taxes · Free shipping on this order</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Inclusive of all taxes · {freeShipping ? "Free shipping on this order" : `Add ₹${(999 - orderTotal).toLocaleString("en-IN")} more for free shipping`}
+              </p>
             </div>
+            <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
 
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -459,46 +466,41 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               <div className="border-b border-border py-5">
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                   <p className="text-sm font-semibold">Select size: <span className="font-normal">{size}</span></p>
-                  <SizeGuideDialog
-                    defaultCategory={
-                      product.category.toLowerCase().includes("men")
-                        ? "men"
-                        : product.category.toLowerCase().includes("child")
-                          ? "children"
-                          : "women"
-                    }
-                  />
+                  <SizeGuideDialog defaultCategory={guideCategory} />
                 </div>
-                <div className="mt-3 grid grid-cols-5 gap-2" role="radiogroup" aria-label="Size">
-                  {product.sizes.map((option) => (
-                    <Button
-                      key={option.name}
-                      variant="outline"
-                      className={cn(
-                        "relative h-11 px-1",
-                        size === option.name && "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
-                        option.stock === "sold-out" && "text-muted-foreground line-through",
-                      )}
-                      onClick={() => setSize(option.name)}
-                      disabled={option.stock === "sold-out"}
-                      role="radio"
-                      aria-checked={size === option.name}
-                      aria-label={`${option.name}, ${option.stock === "sold-out" ? "sold out" : option.stock === "low" ? "only 2 left" : "in stock"}`}
-                    >
-                      {option.name}
-                    </Button>
-                  ))}
+                <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5" role="radiogroup" aria-label="Size">
+                  {product.sizes.map((option) => {
+                    const soldOut = option.stock === "sold-out";
+                    return (
+                      <Button
+                        key={option.name}
+                        variant="outline"
+                        className={cn(
+                          "relative h-12 flex-col gap-0 px-1 leading-tight",
+                          size === option.name && "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground",
+                          soldOut && "border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100",
+                        )}
+                        onClick={() => setSize(option.name)}
+                        disabled={soldOut}
+                        role="radio"
+                        aria-checked={size === option.name}
+                        aria-label={`${option.name}, ${soldOut ? "sold out" : option.stock === "low" ? "only 2 left" : "in stock"}`}
+                      >
+                        <span className={cn("text-sm", soldOut && "line-through")}>{option.name}</span>
+                        {soldOut ? <span className="text-[0.6rem] font-normal">Sold out</span> : option.stock === "low" ? <span className={cn("text-[0.6rem] font-normal", size === option.name ? "text-primary-foreground" : "text-warning-foreground")}>2 left</span> : null}
+                      </Button>
+                    );
+                  })}
                 </div>
                 <StockMessage stock={selectedSize?.stock} size={size} />
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {size === "S" && "Garment Bust: 36″ · Recommended for Body Bust 32″–33″ with modest comfort ease"}
-                  {size === "M" && "Garment Bust: 38″ · Recommended for Body Bust 34″–35″ with modest comfort ease"}
-                  {size === "L" && "Garment Bust: 40″ · Recommended for Body Bust 36″–37″ with modest comfort ease"}
-                  {size === "XL" && "Garment Bust: 42″ · Recommended for Body Bust 38″–39″ with modest comfort ease"}
-                  {size === "XXL" && "Garment Bust: 44″ · Recommended for Body Bust 40″–41″ with modest comfort ease"}
-                  {!size && "Select a size to view garment bust & body recommendations"}
-                </p>
-                <p className="mt-2 text-xs leading-5 text-muted-foreground">{product.modelNote}</p>
+                {guideCategory === "women" ? (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {size && WOMEN_BUST[size]
+                      ? `Garment ${WOMEN_BUST[size]} · includes 3–4″ modest ease over body bust`
+                      : "Select a size to see garment measurements"}
+                  </p>
+                ) : null}
+                {product.modelNote ? <p className="mt-2 text-xs leading-5 text-muted-foreground">{product.modelNote}</p> : null}
               </div>
             ) : (
               <Specifications product={product} />
@@ -516,6 +518,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   {added ? <><Check /> Added{size ? ` · Size ${size}` : ""}</> : <><ShoppingBag /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}</>}
                 </Button>
               </div>
+              <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5"><CircleCheck className="size-3.5 text-success" /> Dispatched in 24–48 hours</span>
+                <span className="inline-flex items-center gap-1.5"><CircleCheck className="size-3.5 text-success" /> {product.kind === "apparel" ? "7-day doorstep size exchange" : "Cash on delivery available"}</span>
+              </p>
               <Button variant="outline" size="lg" className="mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-3 text-left" asChild>
                 <a href={`https://wa.me/919800000000?text=${whatsAppText}`} target="_blank" rel="noreferrer">
                   <MessageCircle />
@@ -534,9 +540,19 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       <section className="border-y border-border bg-secondary/30">
         <PageContainer className="py-10 lg:py-14">
           <div className="grid gap-3 md:grid-cols-3">
-            <TrustItem icon={ShieldCheck} title="100% Non-Transparent" copy="Pure cotton with attached breathable inner lining." />
-            <TrustItem icon={Leaf} title="100% Cambric Cotton" copy="Pre-washed, soft on sensitive skin, and tested for colorfastness." />
-            <TrustItem icon={CircleCheck} title="Hassle-Free 7-Day Exchange" copy="Easy doorstep size exchange if the fit isn't right." />
+            {product.kind === "apparel" ? (
+              <>
+                <TrustItem icon={ShieldCheck} title="Modest, opaque cuts" copy="Non-transparent fabrics with generous tailoring margins." />
+                <TrustItem icon={Leaf} title="Quality-checked fabric" copy="Each batch is sample-tested for feel, colourfastness and stitching." />
+                <TrustItem icon={CircleCheck} title="7-day doorstep size exchange" copy="Easy reverse pickup if the fit isn't right." />
+              </>
+            ) : (
+              <>
+                <TrustItem icon={ShieldCheck} title="Hand-vetted quality" copy="Every product is sample-tested before it reaches our shelves." />
+                <TrustItem icon={Leaf} title="Honest materials" copy="Full specifications listed below — no surprises on arrival." />
+                <TrustItem icon={CircleCheck} title="Dispatched in 24–48 hours" copy="Free shipping on orders of ₹999 and above." />
+              </>
+            )}
           </div>
         </PageContainer>
       </section>
@@ -545,41 +561,36 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         <h2 className="font-display text-3xl">Product details &amp; declarations</h2>
         <Accordion type="multiple" className="mt-6 border-t border-border">
           <AccordionItem value="fabric">
-            <AccordionTrigger className="text-left font-semibold hover:no-underline">Fabric, Modesty Cut &amp; Care Details</AccordionTrigger>
+            <AccordionTrigger className="text-left font-semibold hover:no-underline">
+              {product.kind === "apparel" ? "Fabric, fit & care" : "Specifications & what's in the box"}
+            </AccordionTrigger>
             <AccordionContent className="space-y-4 pr-6 leading-6 text-muted-foreground">
-              {product.kind === "apparel" ? (
-                <div className="space-y-3 text-xs leading-5 sm:text-sm sm:leading-6">
-                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                    <span className="font-semibold text-foreground">Fabric &amp; Weave:</span>
-                    <span>Pure 60s Cambric Cotton (Top &amp; Bottom), Lightweight Pure Cotton Malmal (Dupatta). Pre-washed and colorfast.</span>
+              <div className="space-y-2 text-xs leading-5 sm:text-sm sm:leading-6">
+                {product.specifications.map(([label, value]) => (
+                  <div key={label} className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">{label}:</span>
+                    <span>{value}</span>
                   </div>
-                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                    <span className="font-semibold text-foreground">Inner Lining:</span>
-                    <span>Attached pure breathable cotton voil inner lining across the torso; sleeves kept unlined for cool summer breathability. Guaranteed 100% non-transparent.</span>
-                  </div>
-                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                    <span className="font-semibold text-foreground">Modesty Cut:</span>
-                    <span>Modest 6.5″ scoop neck with modesty placket stay; full 21″ sleeve length with tailored cuffs; side slits reinforced at 18″.</span>
-                  </div>
-                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                    <span className="font-semibold text-foreground">Tailoring Margins:</span>
-                    <span>2-inch internal seam margins included on both sides for effortless custom sizing adjustments.</span>
-                  </div>
-                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                    <span className="font-semibold text-foreground">Care Instructions:</span>
-                    <span>Gentle machine or hand wash in cold water with mild liquid detergent. Line dry in shade to protect natural botanical dyes. Medium steam iron.</span>
-                  </div>
+                ))}
+                <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                  <span className="font-semibold text-foreground">Package contents:</span>
+                  <span>{product.netQuantity}</span>
                 </div>
-              ) : (
-                <div className="space-y-2 text-xs leading-5 sm:text-sm sm:leading-6">
-                  {product.specifications.map(([label, value]) => (
-                    <div key={label} className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
-                      <span className="font-semibold text-foreground">{label}:</span>
-                      <span>{value}</span>
+                {product.kind === "apparel" ? (
+                  <>
+                    {product.modelNote ? (
+                      <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                        <span className="font-semibold text-foreground">Fit reference:</span>
+                        <span>{product.modelNote}</span>
+                      </div>
+                    ) : null}
+                    <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                      <span className="font-semibold text-foreground">Care:</span>
+                      <span>Gentle cold wash with mild detergent. Dry in shade. Medium steam iron.</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                  </>
+                ) : null}
+              </div>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="statutory">
@@ -589,7 +600,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 <Declaration label="Generic Name" value={product.genericName} />
                 <Declaration label="Net Quantity" value={product.netQuantity} />
                 <Declaration label="Maximum Retail Price (MRP)" value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`} />
-                <Declaration label="Unit Sale Price (USP)" value={`₹${product.price.toLocaleString("en-IN")}.00 per Set`} />
+                <Declaration label="Unit Sale Price (USP)" value={`₹${product.price.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`} />
                 <Declaration label="Country of Origin" value={product.countryOfOrigin} />
                 <Declaration label="Consumer Care" value="support@sukoonhouse.in | +91 98XXX XXXXX" />
               </dl>
@@ -661,15 +672,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <div className="mt-5">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold text-foreground">Select Size:</p>
-                <SizeGuideDialog
-                  defaultCategory={
-                    product.category.toLowerCase().includes("men")
-                      ? "men"
-                      : product.category.toLowerCase().includes("child")
-                        ? "children"
-                        : "women"
-                  }
-                />
+                <SizeGuideDialog defaultCategory={guideCategory} />
               </div>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {product.sizes.map((option) => (
@@ -685,8 +688,14 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     onClick={() => handleSelectSizeAndAdd(option.name)}
                   >
                     <span className="text-sm font-bold">{option.name}</span>
-                    <span className="text-[0.65rem] text-muted-foreground">
-                      {option.name === "S" ? "Bust 36″" : option.name === "M" ? "Bust 38″" : option.name === "L" ? "Bust 40″" : option.name === "XL" ? "Bust 42″" : "Bust 44″"}
+                    <span className="text-[0.65rem] text-muted-foreground no-underline">
+                      {option.stock === "sold-out"
+                        ? "Sold out"
+                        : option.stock === "low"
+                          ? "Only 2 left"
+                          : guideCategory === "women"
+                            ? (WOMEN_BUST[option.name] ?? "In stock")
+                            : "In stock"}
                     </span>
                   </Button>
                 ))}
