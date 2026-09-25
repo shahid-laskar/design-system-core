@@ -681,7 +681,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     variant="outline"
                     className={cn(
                       "flex h-14 flex-col items-center justify-center rounded-sm border p-1",
-                      option.stock === "sold-out" && "cursor-not-allowed opacity-40 line-through",
+                      option.stock === "sold-out" && "cursor-not-allowed border-dashed bg-muted/60 text-muted-foreground disabled:opacity-100 [&>span:first-child]:line-through",
                       size === option.name && "border-primary bg-primary/10 font-semibold text-primary",
                     )}
                     disabled={option.stock === "sold-out"}
@@ -709,6 +709,22 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       )}
     </div>
   );
+}
+
+const WOMEN_BUST: Partial<Record<SizeName, string>> = {
+  S: "Bust 36″",
+  M: "Bust 38″",
+  L: "Bust 40″",
+  XL: "Bust 42″",
+  XXL: "Bust 44″",
+};
+
+function sizeGuideCategory(product: ProductDetail): "women" | "men" | "children" {
+  const text = [product.category, ...product.categoryTrail].join(" ").toLowerCase();
+  if (/\bwomen/.test(text)) return "women";
+  if (/child|kid|boy|girl/.test(text)) return "children";
+  if (/\bmen\b|\bmen's|\bmens\b/.test(text)) return "men";
+  return "women";
 }
 
 function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: SizeName }) {
