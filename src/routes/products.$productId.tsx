@@ -1124,6 +1124,8 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
     };
   }, [product.id]);
 
+  // Sample reviews describe apparel fit, so only show them on apparel products.
+  const samples = product.kind === "apparel" ? sampleReviews : [];
   const allReviews = useMemo(() => {
     const formattedLive = liveReviews.map((lr) => ({
       id: lr.id,
@@ -1151,7 +1153,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
     }));
 
     return [...formattedLive, ...samples];
-  }, [liveReviews]);
+  }, [liveReviews, samples]);
 
   const filteredReviews = useMemo(() => {
     if (selectedFilter === "all") return allReviews;
