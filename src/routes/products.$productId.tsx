@@ -1150,7 +1150,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
       apparelAttributes: lr.apparel_attributes,
     }));
 
-    return [...formattedLive, ...sampleReviews];
+    return [...formattedLive, ...samples];
   }, [liveReviews]);
 
   const filteredReviews = useMemo(() => {
@@ -1206,7 +1206,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
   }
 
   const displayRating = stats?.average_rating ? stats.average_rating.toFixed(1) : product.rating;
-  const displayCount = (stats?.review_count || 0) + sampleReviews.length;
+  const displayCount = (stats?.review_count || 0) + samples.length;
   const trueToSizePct = stats?.apparel_attributes?.true_to_size_percentage || 88;
   const opacityPct = stats?.apparel_attributes?.opacity_guarantee_percentage || 97;
 
@@ -1266,7 +1266,8 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
             </div>
           </div>
 
-          {/* Column 2: Structured Sentiment Bars */}
+          {/* Column 2: Structured Sentiment Bars (apparel only) */}
+          {product.kind === "apparel" && (
           <div className="rounded-sm border border-border bg-card p-6">
             <h3 className="text-sm font-semibold text-foreground">Verified Customer Sentiment</h3>
             <p className="mt-1 text-xs text-muted-foreground">Aggregated feedback on fit, modesty opacity, and fabric durability.</p>
@@ -1303,7 +1304,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
               <div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-medium text-foreground">Fabric Softness &amp; Breathability</span>
-                  <span className="font-semibold text-primary">95% Soft Cambric Weave</span>
+                  <span className="font-semibold text-primary">95% Soft &amp; Breathable</span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
                   <div className="h-full rounded-full bg-primary" style={{ width: "95%" }} />
@@ -1321,6 +1322,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
               </div>
             </div>
           </div>
+          )}
         </div>
 
         {/* Real Customer Photos Carousel */}
