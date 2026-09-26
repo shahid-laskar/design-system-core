@@ -73,8 +73,16 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   else if (catName.includes("Gifts")) pillar = "Gifts";
 
   const firstVariant = p.variants?.[0];
-  const calculatedPrice = firstVariant?.calculated_price?.calculated_amount ?? 1499;
-  const mrp = Number((p.metadata?.["mrp"] as number) || (p.metadata?.["original_price"] as number) || Math.round(calculatedPrice * 1.2));
+  const calculatedPrice = firstVariant?.calculated_price?.calculated_amount ?? 0;
+
+  // Never invent a discount. An MRP is only shown when the backend actually
+  // supplies one (product metadata, or a Medusa original_amount above the
+  // calculated amount because a price list is active).
+  const metadataMrp = Number(
+    (p.metadata?.["mrp"] as number) ?? (p.metadata?.["original_price"] as number) ?? 0
+  );
+  const originalAmount = firstVariant?.calculated_price?.original_amount ?? 0;
+  const mrpCandidate = metadataMrp || originalAmount;
 
   const sizeOption = p.options?.find((o) => o.title.toLowerCase() === "size");
   const sizes = sizeOption?.values?.map((v) => v.value as Size) || undefined;
@@ -86,18 +94,27 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     image = curated?.gallery?.[0]?.src || "/images/product-modest-set.jpg";
   }
 
+  // Ratings and review counts are never fabricated — absent means 0, and the
+  // UI omits the rating row entirely.
+  const rating = Number(p.metadata?.["rating"] ?? 0);
+  const reviews = Number(p.metadata?.["reviews"] ?? 0);
+
   return {
     id: p.handle || p.id,
     pillar,
     subcategory: p.categories?.[0]?.name || "Essentials",
     name: p.title,
     price: calculatedPrice,
-    mrp: mrp > calculatedPrice ? mrp : undefined,
-    note: (p.metadata?.["fabric"] as string) || (p.metadata?.["opacity"] as string) || "Pure quality",
+    mrp: mrpCandidate > calculatedPrice ? mrpCandidate : undefined,
+    note:
+      (p.metadata?.["fabric"] as string) ||
+      (p.metadata?.["opacity"] as string) ||
+      p.subtitle ||
+      "",
     materials: [(p.metadata?.["fabric"] as string) || "Pure Cotton"],
     sizes,
-    rating: Number((p.metadata?.["rating"] as string) || 4.8),
-    reviews: Number((p.metadata?.["reviews"] as number) || 32),
+    rating,
+    reviews,
     inStock,
     festive: Boolean(p.metadata?.["festive"]),
     badge: (p.metadata?.["badge"] as string) || undefined,
