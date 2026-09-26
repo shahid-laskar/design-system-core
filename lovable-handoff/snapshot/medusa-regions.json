@@ -1,0 +1,30 @@
+{
+  "regions": [
+    {
+      "id": "reg_01M39BTQNHGNKDQHSQP2KFJXF9",
+      "name": "India",
+      "currency_code": "inr",
+      "created_at": "2026-09-24T09:27:01.060Z",
+      "updated_at": "2026-09-24T09:27:01.060Z",
+      "deleted_at": null,
+      "metadata": null,
+      "countries": [
+        {
+          "iso_2": "in",
+          "iso_3": "ind",
+          "num_code": "356",
+          "name": "INDIA",
+          "display_name": "India",
+          "region_id": "reg_01M39BTQNHGNKDQHSQP2KFJXF9",
+          "metadata": null,
+          "created_at": "2026-09-24T09:18:50.554Z",
+          "updated_at": "2026-09-24T09:27:01.061Z",
+          "deleted_at": null
+        }
+      ]
+    }
+  ],
+  "count": 1,
+  "offset": 0,
+  "limit": 100
+}
