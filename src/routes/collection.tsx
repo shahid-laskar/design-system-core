@@ -31,6 +31,10 @@ import imgChild from "@/assets/product-child-set.jpg";
 import imgModest from "@/assets/product-modest-set.jpg";
 import imgMenKurta from "@/assets/product-men-kurta.jpg";
 import imgBundle from "@/assets/product-bundle.jpg";
+import imgWSalwar from "@/assets/women-salwar.jpg";
+import imgWKurta from "@/assets/women-kurta.jpg";
+import imgWHijab from "@/assets/women-hijab-abaya.jpg";
+import imgWDress from "@/assets/women-dress.jpg";
 
 export const Route = createFileRoute("/collection")({
   validateSearch: (search: Record<string, unknown>): {
@@ -144,7 +148,7 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     badge: "New",
-    image: imgModest,
+    image: imgWSalwar,
   },
   {
     id: 2,
@@ -158,7 +162,7 @@ const products: Product[] = [
     rating: 4.7,
     reviews: 112,
     inStock: true,
-    image: imgModest,
+    image: imgWKurta,
   },
   {
     id: 3,
@@ -171,7 +175,7 @@ const products: Product[] = [
     rating: 4.9,
     reviews: 208,
     inStock: true,
-    image: imgModest,
+    image: imgWHijab,
   },
   {
     id: 4,
@@ -186,7 +190,7 @@ const products: Product[] = [
     rating: 4.8,
     reviews: 47,
     inStock: true,
-    image: imgModest,
+    image: imgWHijab,
   },
   {
     id: 5,
@@ -201,7 +205,7 @@ const products: Product[] = [
     reviews: 21,
     inStock: false,
     festive: true,
-    image: imgModest,
+    image: imgWDress,
   },
   {
     id: 6,
