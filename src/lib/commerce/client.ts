@@ -1,6 +1,7 @@
 /**
  * Sukoon House Commerce Client (Medusa.js v2 Store API)
  */
+import { hasConfiguredBackend, resolveSnapshot } from "./snapshot";
 
 export const MEDUSA_BACKEND_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_MEDUSA_BACKEND_URL) ||
