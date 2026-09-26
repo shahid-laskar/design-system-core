@@ -1,0 +1,2 @@
+- [x] Warm Indian Jewel palette (from palette sheet) applied to colour tokens
+- [x] Product card restyle (vibrant, bestseller/discount badges, rating)
