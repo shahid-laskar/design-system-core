@@ -1,6 +1,7 @@
 /**
  * Sukoon House Commerce Client (Medusa.js v2 Store API)
  */
+import { hasConfiguredBackend, resolveSnapshot } from "./snapshot";
 
 export const MEDUSA_BACKEND_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_MEDUSA_BACKEND_URL) ||
@@ -54,6 +55,15 @@ export async function fetchMedusa<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const isRead = !options.method || options.method.toUpperCase() === "GET";
+
+  // Without a configured backend, serve reads straight from the snapshot
+  // fixtures instead of attempting a request that cannot succeed.
+  if (isRead && !hasConfiguredBackend()) {
+    const snapshot = resolveSnapshot<T>(path);
+    if (snapshot) return snapshot;
+  }
+
   const url = `${MEDUSA_BACKEND_URL}${path}`;
   const headers = new Headers(options.headers || {});
   headers.set("x-publishable-api-key", MEDUSA_PUBLISHABLE_KEY);
@@ -79,6 +89,12 @@ export async function fetchMedusa<T>(
 
     return response.json();
   } catch (err: any) {
+    // Live backend unreachable — fall back to the snapshot for reads so the
+    // storefront stays browsable instead of erroring out.
+    if (isRead) {
+      const snapshot = resolveSnapshot<T>(path);
+      if (snapshot) return snapshot;
+    }
     if (err?.message?.includes("Failed to fetch") || err?.name === "TypeError") {
       throw new Error(
         `Unable to connect to commerce server at ${MEDUSA_BACKEND_URL}. Please check your connection.`

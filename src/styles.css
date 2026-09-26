@@ -357,6 +357,51 @@
   }
 }
 
+/* Editorial section label: number + name on one hairline-separated row. */
+@utility section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow-wide);
+
+  &::after {
+    content: "";
+    height: 1px;
+    flex: 1 1 auto;
+    background-color: var(--color-border);
+  }
+}
+
+/* Soft warm wash used behind editorial blocks. */
+@utility wash-warm {
+  background-image: linear-gradient(
+    160deg,
+    var(--color-blush-cream) 0%,
+    var(--color-background) 58%,
+    var(--color-background) 100%
+  );
+}
+
+/* Scroll-reveal: hidden until the element is marked visible. */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 700ms var(--motion-ease),
+    transform 700ms var(--motion-ease);
+
+  &[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -365,5 +410,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* Never leave revealed content hidden when motion is reduced. */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
