@@ -411,4 +411,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Never leave revealed content hidden when motion is reduced. */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
