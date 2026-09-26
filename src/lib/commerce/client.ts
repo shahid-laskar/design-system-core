@@ -113,22 +113,31 @@ export async function getStoreProducts(params?: {
   limit?: number;
   offset?: number;
 }): Promise<{ products: MedusaStoreProduct[]; count: number }> {
-  const query = new URLSearchParams();
-  const regionId = params?.regionId || (await getDefaultRegionId());
-  query.set("region_id", regionId);
-  query.set(
-    "fields",
-    "*categories,*variants,*variants.options,*variants.calculated_price,*images"
-  );
-  if (params?.categoryId) query.set("category_id", params.categoryId);
-  if (params?.handle) query.set("handle[]", params.handle);
-  if (params?.limit) query.set("limit", params.limit.toString());
-  if (params?.offset) query.set("offset", params.offset.toString());
+  const { snapshotProducts } = await import("./snapshot-fallback");
+  try {
+    const query = new URLSearchParams();
+    const regionId = params?.regionId || (await getDefaultRegionId());
+    query.set("region_id", regionId);
+    query.set(
+      "fields",
+      "*categories,*variants,*variants.options,*variants.calculated_price,*images"
+    );
+    if (params?.categoryId) query.set("category_id", params.categoryId);
+    if (params?.handle) query.set("handle[]", params.handle);
+    if (params?.limit) query.set("limit", params.limit.toString());
+    if (params?.offset) query.set("offset", params.offset.toString());
 
-  return fetchMedusa<{ products: MedusaStoreProduct[]; count: number }>(
-    `/store/products?${query.toString()}`
-  );
+    const res = await fetchMedusa<{ products: MedusaStoreProduct[]; count: number }>(
+      `/store/products?${query.toString()}`
+    );
+    if (res.products && res.products.length > 0) return res;
+    return snapshotProducts(params);
+  } catch {
+    // Remote backend unavailable — serve the canonical local snapshot instead.
+    return snapshotProducts(params);
+  }
 }
+
 
 export const PRODUCT_HANDLE_ALIASES: Record<string, string> = {
   // Salwar suit
