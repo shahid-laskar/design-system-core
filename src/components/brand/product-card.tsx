@@ -116,7 +116,7 @@ export function ProductCard({
         >
           <Heart className={cn("size-4", saved && "fill-current text-berry")} />
         </Button>
-        <div className="pointer-events-none absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
           <Button variant="secondary" className="w-full bg-background/95 text-foreground" asChild>
             <Link to={targetHref}>
               <Eye className="mr-1.5 size-4" /> {isApparel ? "Select size" : "Quick view"}
