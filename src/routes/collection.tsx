@@ -28,7 +28,6 @@ import {
 import { cn } from "@/lib/utils";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
 import imgChild from "@/assets/product-child-set.jpg";
-import imgModest from "@/assets/product-modest-set.jpg";
 import imgMenKurta from "@/assets/product-men-kurta.jpg";
 import imgBundle from "@/assets/product-bundle.jpg";
 import imgWSalwar from "@/assets/women-salwar.jpg";
