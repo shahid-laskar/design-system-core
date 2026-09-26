@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import prayerSet from "@/assets/product-prayer-set.jpg";
 import childSet from "@/assets/product-child-set.jpg";
+import modestSet from "@/assets/product-modest-set.jpg";
+import menKurta from "@/assets/product-men-kurta.jpg";
 import familyRhythm from "@/assets/editorial-family-rhythm.jpg";
 import homeCalm from "@/assets/editorial-home-calm.jpg";
 import { EditorialCard } from "@/components/brand/editorial-card";
@@ -61,23 +63,23 @@ function DesignSystemPage() {
   const [notice, setNotice] = useState(true);
   return (
     <div>
-      <section className="bg-secondary/45">
+      <section className="border-b border-border bg-blush-cream">
         <PageContainer className="py-16 sm:py-24 lg:py-28">
           <div className="grid items-end gap-12 lg:grid-cols-[1.3fr_0.7fr]">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-pillar-women-accent">
                 Foundation / 01
               </p>
               <h1 className="mt-5 max-w-4xl font-display text-5xl leading-[0.94] sm:text-7xl lg:text-8xl">
-                Made for the rhythm of Muslim family life.
+                Warm Indian Jewel.
               </h1>
             </div>
             <div className="border-l border-border pl-6">
               <p className="text-base leading-7 text-muted-foreground">
-                A warm, editorial system balancing commerce with care. Quiet enough for reflection,
-                clear enough for everyday decisions.
+                Indian colour, Muslim warmth, modern commerce. Seven considered pillars balancing
+                craft and dignity.
               </p>
-              <p className="eyebrow mt-6">Sukoon House · System v1.0</p>
+              <p className="eyebrow mt-6">Sukoon House · Colour Palette v2.0</p>
             </div>
           </div>
         </PageContainer>
@@ -88,26 +90,106 @@ function DesignSystemPage() {
           <SectionHeading
             index="01"
             eyebrow="Foundations"
-            title="Material, not ornamental."
-            copy="Chalk and ink form the quiet base. Olive grounds the experience; clay brings warmth and mineral blue adds a measured point of contrast."
+            title="The Reference Colour System."
+            copy="Warm Ivory grounds the canvas (70%). Deep Emerald powers primary brand actions (15%), Peacock Teal accents secondary elements (10%), with Mango, Berry, Coral, and Blush Cream articulating the category pillars."
           />
-          <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
+          <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border bg-border sm:grid-cols-4 lg:grid-cols-8">
             {[
-              ["Chalk", "bg-background", "Ground"],
-              ["Ink", "bg-foreground", "Type"],
-              ["Olive", "bg-primary", "Action"],
-              ["Clay", "bg-clay", "Warmth"],
-              ["Mineral", "bg-mineral", "Accent"],
-              ["Linen", "bg-secondary", "Surface"],
-            ].map(([name, color, role]) => (
+              ["Warm Ivory", "bg-warm-ivory", "#FFF8EE", "Main Canvas 70%"],
+              ["Deep Emerald", "bg-emerald", "#176B4D", "Primary CTAs 15%"],
+              ["Peacock Teal", "bg-teal", "#087E8B", "Secondary 10%"],
+              ["Mango", "bg-mango", "#F4A62A", "Energy Banners 5%"],
+              ["Berry", "bg-berry", "#C83E67", "Women's Accents"],
+              ["Coral", "bg-coral", "#E96B52", "Warm CTAs / Offers"],
+              ["Blush Cream", "bg-blush-cream", "#FCEDEA", "Soft Backgrounds"],
+              ["Charcoal Ink", "bg-charcoal-ink", "#252321", "Text & Headings"],
+            ].map(([name, color, hex, role]) => (
               <div key={name} className="bg-card">
-                <div className={`aspect-square ${color}`} />
-                <div className="p-4">
-                  <p className="text-sm font-semibold">{name}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{role}</p>
+                <div className={`aspect-square border-b border-border/50 ${color}`} />
+                <div className="p-3">
+                  <p className="text-xs font-semibold leading-tight">{name}</p>
+                  <p className="mt-0.5 text-[0.6875rem] font-mono text-muted-foreground">{hex}</p>
+                  <p className="mt-1 text-[0.65rem] text-muted-foreground line-clamp-1">{role}</p>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12">
+            <h3 className="eyebrow text-foreground mb-4">Category Colour Mapping</h3>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {[
+                {
+                  pillar: "Women",
+                  accent: "Berry (#C83E67)",
+                  secondary: "Coral (#E96B52)",
+                  bg: "Soft Berry / Blush (#FCEDEA)",
+                  bgClass: "bg-pillar-women-bg",
+                  accentClass: "text-pillar-women-accent",
+                  badgeClass: "bg-pillar-women-accent",
+                  role: "Eyebrows, Save badges, CTAs",
+                },
+                {
+                  pillar: "Men",
+                  accent: "Peacock Teal (#087E8B)",
+                  secondary: "Indigo (#1E3A5F)",
+                  bg: "Soft Teal (#E6F4F5)",
+                  bgClass: "bg-pillar-men-bg",
+                  accentClass: "text-pillar-men-accent",
+                  badgeClass: "bg-pillar-men-accent",
+                  role: "Eyebrows, men's headers, tags",
+                },
+                {
+                  pillar: "Kids",
+                  accent: "Mango (#F4A62A)",
+                  secondary: "Turquoise (#2EC4B6)",
+                  bg: "Soft Mango (#FEF7EA)",
+                  bgClass: "bg-pillar-kids-bg",
+                  accentClass: "text-pillar-kids-accent",
+                  badgeClass: "bg-pillar-kids-accent",
+                  role: "Eyebrows, stars, kids' CTAs",
+                },
+                {
+                  pillar: "Prayer & Home",
+                  accent: "Deep Emerald (#176B4D)",
+                  secondary: "Sage (#4A7C59)",
+                  bg: "Soft Emerald (#E8F4EE)",
+                  bgClass: "bg-pillar-prayer-bg",
+                  accentClass: "text-pillar-prayer-accent",
+                  badgeClass: "bg-pillar-prayer-accent",
+                  role: "Primary brand buttons, headers",
+                },
+                {
+                  pillar: "Gifts",
+                  accent: "Coral (#E96B52)",
+                  secondary: "Marigold (#F4A62A)",
+                  bg: "Soft Coral / Marigold (#FFF2EB)",
+                  bgClass: "bg-pillar-gifts-bg",
+                  accentClass: "text-pillar-gifts-accent",
+                  badgeClass: "bg-pillar-gifts-accent",
+                  role: "Occasion tags, gift hampers, promo",
+                },
+              ].map((item) => (
+                <div
+                  key={item.pillar}
+                  className={`rounded-lg border border-border p-4 ${item.bgClass}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`text-xs font-bold uppercase tracking-wider ${item.accentClass}`}
+                    >
+                      {item.pillar}
+                    </span>
+                    <span className={`size-3 rounded-full ${item.badgeClass}`} />
+                  </div>
+                  <p className="mt-3 text-xs font-semibold">{item.accent}</p>
+                  <p className="mt-1 text-[0.7rem] text-muted-foreground">{item.secondary}</p>
+                  <p className="mt-2 text-[0.68rem] text-muted-foreground border-t border-border/40 pt-2">
+                    {item.role}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="mt-16 grid gap-12 lg:grid-cols-2">
             <div>
@@ -300,39 +382,50 @@ function DesignSystemPage() {
           />
           <div className="mt-12 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             <ProductCard
+              pillar="women"
+              image={modestSet}
+              imageAlt="Pure Cambric Cotton Salwar Suit Set"
+              category="Women's Ethnic"
+              name="Pure Cambric Cotton Salwar Suit Set"
+              price="₹1,499"
+              previousPrice="₹1,699"
+              savings="₹200"
+              note="Sage Green · 3-Piece Stitched Set"
+              badge="Bestseller"
+            />
+            <ProductCard
+              pillar="men"
+              image={menKurta}
+              imageAlt="Classic Friday Handloom Cotton Kurta"
+              category="Men's Apparel"
+              name="Classic Friday Handloom Kurta"
+              price="₹899"
+              previousPrice="₹999"
+              savings="₹100"
+              note="Soft White · 100% Long-Staple Cotton"
+              badge="Essential"
+            />
+            <ProductCard
+              pillar="kids"
+              image={childSet}
+              imageAlt="Children's magnetic salah habit board with wooden tokens"
+              category="Children & Tarbiyah"
+              name="My Daily Salah Habit Board"
+              price="₹899"
+              note="A3 Magnetic Board · 35 Wooden Tokens"
+              badge="Loved"
+            />
+            <ProductCard
+              pillar="prayer"
               image={prayerSet}
-              imageAlt="Folded olive prayer mat and wooden book stand in a sunlit room"
-              category="Home & prayer"
-              name="The Stillness Set"
-              price="₹3,499"
-              note="Olive · Linen blend · 2 pieces"
+              imageAlt="Ergonomic Memory Foam Prayer Mat"
+              category="Prayer & Worship"
+              name="Ergonomic Memory Foam Prayer Mat"
+              price="₹1,299"
+              previousPrice="₹1,599"
+              savings="₹300"
+              note="Olive Velvet · 20mm Orthopedic Foam"
               badge="New"
-            />
-            <ProductCard
-              image={childSet}
-              imageAlt="Muted wooden stacking toy and cotton blanket on a shelf"
-              category="Little ones"
-              name="First Forms Set"
-              price="₹1,999"
-              previousPrice="₹2,299"
-              note="Clay mix · FSC beech · Ages 1+"
-              badge="Bundle"
-            />
-            <ProductCard
-              image={prayerSet}
-              imageAlt="Olive textile and oak stand in a warm interior"
-              category="Home"
-              name="Everyday Prayer Mat"
-              price="₹2,299"
-              note="Olive · Also in chalk and clay"
-            />
-            <ProductCard
-              image={childSet}
-              imageAlt="Wooden toy with neutral muslin blanket"
-              category="Little ones"
-              name="Muslin & Timber Pair"
-              price="₹1,799"
-              note="Mineral mix · GOTS cotton"
             />
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-border py-5 text-sm">

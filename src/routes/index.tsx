@@ -1,12 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Check,
-  IndianRupee,
-  RefreshCcw,
-  ShieldCheck,
-  Shirt,
-} from "lucide-react";
+import { ArrowRight, Check, IndianRupee, RefreshCcw, ShieldCheck, Shirt } from "lucide-react";
 import { ProductCard } from "@/components/brand/product-card";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { Button } from "@/components/ui/button";
@@ -84,6 +77,7 @@ const products = [
     note: "Sage Green · 3-Piece Stitched Set (Kurta, Pants, Dupatta) · Breathable Cambric Cotton",
     badge: "Bestseller",
     href: "/products/pure-cambric-cotton-salwar-suit-set",
+    pillar: "Women",
   },
   {
     image: productMenKurta,
@@ -96,6 +90,7 @@ const products = [
     note: "Soft White · 100% Long-Staple Cotton · Mandarin Collar",
     badge: "Essential",
     href: "/products/classic-friday-handloom-cotton-kurta",
+    pillar: "Men",
   },
   {
     image: productPrayerSet,
@@ -108,6 +103,7 @@ const products = [
     note: "Olive Velvet · 20mm Orthopedic Foam · Anti-Slip Base",
     badge: "Knee Relief",
     href: "/products/ergonomic-memory-foam-prayer-mat",
+    pillar: "Prayer",
   },
   {
     image: productChildSet,
@@ -120,6 +116,7 @@ const products = [
     note: "A3 Magnetic Board · 35 Wooden Tokens · Dry-Erase Pen",
     badge: "Parent Favorite",
     href: "/products/my-daily-salah-magnetic-habit-board",
+    pillar: "Children",
   },
 ];
 
@@ -180,10 +177,10 @@ function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-border bg-secondary/50">
+      <section className="border-b border-border bg-blush-cream">
         <PageContainer className="grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
           <div>
-            <p className="eyebrow-wide text-muted-foreground">
+            <p className="eyebrow-wide text-pillar-women-accent font-bold">
               Curated for everyday Muslim living
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.04] sm:text-6xl lg:text-7xl">
@@ -194,12 +191,21 @@ function HomePage() {
               prayer mats, and home accents. Good quality, honest prices, in one convenient store.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button size="lg" asChild>
+              <Button
+                size="lg"
+                className="bg-pillar-women-accent text-white hover:bg-pillar-women-accent/90"
+                asChild
+              >
                 <Link to="/collection" search={{ category: "women" }}>
                   Shop Women's Ethnic <ArrowRight />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" asChild>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-border bg-card/80 hover:bg-card"
+                asChild
+              >
                 <Link to="/collection">Browse Family Essentials</Link>
               </Button>
             </div>
@@ -270,8 +276,8 @@ function HomePage() {
                 What families reach for first.
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
-                A balanced edit across the home — for her, for him, for prayer, and for little
-                ones. Honest everyday prices, nothing over ₹1,499.
+                A balanced edit across the home — for her, for him, for prayer, and for little ones.
+                Honest everyday prices, nothing over ₹1,499.
               </p>
             </div>
             <Button variant="outline" asChild>
@@ -314,7 +320,7 @@ function HomePage() {
       </section>
 
       {/* Occasion banner */}
-      <section className="border-b border-border bg-secondary/50">
+      <section className="border-b border-border bg-blush-cream">
         <PageContainer className="py-14 text-center lg:py-16">
           <h2 className="mx-auto max-w-2xl font-display text-3xl leading-tight sm:text-4xl">
             Preparing for Jummah, Eid, or a Family Gathering?

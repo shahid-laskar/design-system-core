@@ -82,9 +82,9 @@ export function SiteShell({ children }: SiteShellProps) {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
-      <p className="border-b border-border bg-secondary/40 px-4 py-2.5 text-center text-xs font-medium leading-5 text-muted-foreground">
-        Thoughtful essentials for prayer, home, and family · Free shipping on orders over ₹999 ·
-        COD &amp; Easy 7-Day Size Exchanges
+      <p className="border-b border-border/80 bg-background px-4 py-2.5 text-center text-xs font-medium leading-5 text-foreground/85">
+        Thoughtful essentials for prayer, home, and family · Free shipping on orders over ₹999 · COD
+        &amp; Easy 7-Day Size Exchanges
       </p>
       <header className="border-b border-border bg-background">
         <PageContainer className="grid h-18 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
@@ -99,9 +99,14 @@ export function SiteShell({ children }: SiteShellProps) {
                 <SheetTitle>
                   <BrandMark />
                 </SheetTitle>
-                <SheetDescription>Shop thoughtfully for every part of family life.</SheetDescription>
+                <SheetDescription>
+                  Shop thoughtfully for every part of family life.
+                </SheetDescription>
               </SheetHeader>
-              <nav className="flex flex-1 flex-col overflow-y-auto px-6 pb-7" aria-label="Mobile navigation">
+              <nav
+                className="flex flex-1 flex-col overflow-y-auto px-6 pb-7"
+                aria-label="Mobile navigation"
+              >
                 <Accordion type="single" collapsible className="w-full">
                   {pillars.map((pillar) => (
                     <AccordionItem key={pillar.category} value={pillar.category}>
@@ -169,7 +174,10 @@ export function SiteShell({ children }: SiteShellProps) {
             <BrandMark />
           </Link>
 
-          <nav className="hidden min-w-0 items-center justify-center gap-4 lg:flex xl:gap-6" aria-label="Primary navigation">
+          <nav
+            className="hidden min-w-0 items-center justify-center gap-4 lg:flex xl:gap-6"
+            aria-label="Primary navigation"
+          >
             {pillars.map((pillar) => (
               <Link
                 key={pillar.category}
@@ -207,7 +215,13 @@ export function SiteShell({ children }: SiteShellProps) {
             <Button variant="ghost" size="icon" aria-label="Search">
               <Search />
             </Button>
-            <Button variant="ghost" size="icon" aria-label={`Shopping bag, ${itemCount} items`} className="relative" onClick={() => setIsOpen(true)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={`Shopping bag, ${itemCount} items`}
+              className="relative"
+              onClick={() => setIsOpen(true)}
+            >
               <ShoppingBag />
               {itemCount > 0 ? (
                 <span className="absolute right-1.5 top-1.5 flex size-4 items-center justify-center rounded-full bg-clay text-[0.6rem] font-bold text-clay-foreground">
@@ -228,8 +242,8 @@ export function SiteShell({ children }: SiteShellProps) {
           <div>
             <BrandMark className="text-primary-foreground" />
             <p className="mt-5 max-w-sm text-sm leading-6 text-primary-foreground/75">
-              Curated essentials for the modern Muslim home and family. Thoughtful materials,
-              modest cuts, and fair everyday prices.
+              Curated essentials for the modern Muslim home and family. Thoughtful materials, modest
+              cuts, and fair everyday prices.
             </p>
           </div>
           <FooterColumn
@@ -256,11 +270,17 @@ export function SiteShell({ children }: SiteShellProps) {
               ].map((label) => (
                 <li key={label}>
                   {label.includes("WhatsApp") ? (
-                    <a href="https://wa.me/919800000000" className="transition-colors hover:text-primary-foreground hover:underline">
+                    <a
+                      href="https://wa.me/919800000000"
+                      className="transition-colors hover:text-primary-foreground hover:underline"
+                    >
                       {label}
                     </a>
                   ) : (
-                    <Link to="/collection" className="transition-colors hover:text-primary-foreground hover:underline">
+                    <Link
+                      to="/collection"
+                      className="transition-colors hover:text-primary-foreground hover:underline"
+                    >
                       {label}
                     </Link>
                   )}
@@ -271,7 +291,11 @@ export function SiteShell({ children }: SiteShellProps) {
           <div>
             <h2 className="eyebrow text-primary-foreground/60">Trust &amp; compliance</h2>
             <ul className="mt-5 space-y-3 text-sm text-primary-foreground/80">
-              {["GSTIN Registered", "Legal Metrology (LMPC) Compliant", "Secure UPI/Card Payments"].map((label) => (
+              {[
+                "GSTIN Registered",
+                "Legal Metrology (LMPC) Compliant",
+                "Secure UPI/Card Payments",
+              ].map((label) => (
                 <li key={label} className="flex items-start gap-2">
                   <ShieldCheck className="mt-0.5 size-4 shrink-0" />
                   <span>{label}</span>
@@ -289,14 +313,17 @@ export function SiteShell({ children }: SiteShellProps) {
                   placeholder="Your email"
                   className="min-w-0 border-primary-foreground/30 bg-primary-foreground/5 text-primary-foreground placeholder:text-primary-foreground/60"
                 />
-                <Button type="submit" variant="secondary">Join</Button>
+                <Button type="submit" variant="secondary">
+                  Join
+                </Button>
               </div>
             </form>
           </div>
         </PageContainer>
         <div className="border-t border-primary-foreground/15">
           <PageContainer className="py-5 text-xs leading-5 text-primary-foreground/60">
-            © 2026 Sukoon Lifestyle Private Limited. All rights reserved. Handcrafted &amp; Curated in India.
+            © 2026 Sukoon Lifestyle Private Limited. All rights reserved. Handcrafted &amp; Curated
+            in India.
           </PageContainer>
         </div>
       </footer>

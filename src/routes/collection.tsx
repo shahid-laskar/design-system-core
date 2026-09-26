@@ -36,7 +36,9 @@ import imgWHijab from "@/assets/women-hijab-abaya.jpg";
 import imgWDress from "@/assets/women-dress.jpg";
 
 export const Route = createFileRoute("/collection")({
-  validateSearch: (search: Record<string, unknown>): {
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): {
     category?: string | undefined;
     occasion?: string | undefined;
   } => ({
@@ -97,6 +99,63 @@ const pillars: Array<{ id: "All" | Pillar; label: string }> = [
   { id: "Home", label: "Home & Ambiance" },
   { id: "Gifts", label: "Milestone Gifts" },
 ];
+
+const pillarTheme: Record<
+  "All" | Pillar,
+  {
+    bgClass: string;
+    activeButtonClass: string;
+    eyebrowText: string;
+  }
+> = {
+  All: {
+    bgClass: "bg-warm-ivory",
+    activeButtonClass: "bg-primary text-primary-foreground border-primary hover:bg-primary/90",
+    eyebrowText: "The collection",
+  },
+  Women: {
+    bgClass: "bg-pillar-women-bg",
+    activeButtonClass:
+      "bg-pillar-women-accent text-white border-pillar-women-accent hover:bg-pillar-women-accent/90",
+    eyebrowText: "Women's collection",
+  },
+  Men: {
+    bgClass: "bg-pillar-men-bg",
+    activeButtonClass:
+      "bg-pillar-men-accent text-white border-pillar-men-accent hover:bg-pillar-men-accent/90",
+    eyebrowText: "Men's collection",
+  },
+  Children: {
+    bgClass: "bg-pillar-kids-bg",
+    activeButtonClass:
+      "bg-pillar-kids-accent text-white border-pillar-kids-accent hover:bg-pillar-kids-accent/90",
+    eyebrowText: "Children's collection",
+  },
+  Learning: {
+    bgClass: "bg-pillar-kids-bg",
+    activeButtonClass:
+      "bg-pillar-kids-accent text-white border-pillar-kids-accent hover:bg-pillar-kids-accent/90",
+    eyebrowText: "Learning & tarbiyah",
+  },
+  Prayer: {
+    bgClass: "bg-pillar-prayer-bg",
+    activeButtonClass:
+      "bg-pillar-prayer-accent text-white border-pillar-prayer-accent hover:bg-pillar-prayer-accent/90",
+    eyebrowText: "Prayer & worship",
+  },
+  Home: {
+    bgClass: "bg-pillar-prayer-bg",
+    activeButtonClass:
+      "bg-pillar-prayer-accent text-white border-pillar-prayer-accent hover:bg-pillar-prayer-accent/90",
+    eyebrowText: "Home & ambiance",
+  },
+  Gifts: {
+    bgClass: "bg-pillar-gifts-bg",
+    activeButtonClass:
+      "bg-pillar-gifts-accent text-white border-pillar-gifts-accent hover:bg-pillar-gifts-accent/90",
+    eyebrowText: "Milestone gifts",
+  },
+};
 
 const subcategories: Record<Pillar, string[]> = {
   Women: [
@@ -520,9 +579,7 @@ function CollectionPage() {
   const allProducts = useMemo(() => {
     if (liveProducts && liveProducts.length > 0) {
       const liveNames = new Set(liveProducts.map((p) => p.name.toLowerCase()));
-      const fallbackProducts = products.filter(
-        (p) => !liveNames.has(p.name.toLowerCase())
-      );
+      const fallbackProducts = products.filter((p) => !liveNames.has(p.name.toLowerCase()));
       return [...liveProducts, ...fallbackProducts] as Product[];
     }
     return products;
@@ -556,7 +613,19 @@ function CollectionPage() {
     if (sort === "rating")
       return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     return r;
-  }, [allProducts, pillar, sub, selSizes, band, selMaterials, under999, inStockOnly, festive, sort, searchQuery]);
+  }, [
+    allProducts,
+    pillar,
+    sub,
+    selSizes,
+    band,
+    selMaterials,
+    under999,
+    inStockOnly,
+    festive,
+    sort,
+    searchQuery,
+  ]);
 
   const touch = () => setVisible(PAGE);
   const choosePillar = (p: "All" | Pillar) => {
@@ -727,28 +796,40 @@ function CollectionPage() {
 
   return (
     <>
-      <section className="border-b border-border bg-secondary/40">
+      <section
+        className={cn(
+          "border-b border-border transition-colors duration-300 ease-in-out",
+          pillarTheme[pillar].bgClass,
+        )}
+      >
         <PageContainer className="section-space">
           <SectionHeading
             index="01"
-            eyebrow="The collection"
+            eyebrow={pillarTheme[pillar].eyebrowText}
             title="Objects for a more considered rhythm."
             copy="Seven pillars for dressing, praying, learning, and gathering — honest materials, quiet forms, and only what earns its place."
           />
           <div className="mt-10 overflow-x-auto pb-1">
             <div className="flex min-w-max gap-2" role="tablist" aria-label="Product pillars">
-              {pillars.map((p) => (
-                <Button
-                  key={p.id}
-                  size="sm"
-                  variant={pillar === p.id ? "default" : "outline"}
-                  role="tab"
-                  aria-selected={pillar === p.id}
-                  onClick={() => choosePillar(p.id)}
-                >
-                  {p.label}
-                </Button>
-              ))}
+              {pillars.map((p) => {
+                const isSelected = pillar === p.id;
+                return (
+                  <Button
+                    key={p.id}
+                    size="sm"
+                    variant={isSelected ? "default" : "outline"}
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => choosePillar(p.id)}
+                    className={cn(
+                      isSelected && pillarTheme[p.id].activeButtonClass,
+                      !isSelected && "bg-card/70 hover:bg-card border-border",
+                    )}
+                  >
+                    {p.label}
+                  </Button>
+                );
+              })}
             </div>
           </div>
           {pillar !== "All" ? (
@@ -756,6 +837,7 @@ function CollectionPage() {
               <div className="flex min-w-max gap-2" aria-label="Subcategories">
                 <Chip
                   active={!sub}
+                  activeClass={pillarTheme[pillar].activeButtonClass}
                   onClick={() => {
                     setSub(null);
                     touch();
@@ -767,6 +849,7 @@ function CollectionPage() {
                   <Chip
                     key={s}
                     active={sub === s}
+                    activeClass={pillarTheme[pillar].activeButtonClass}
                     onClick={() => {
                       setSub(sub === s ? null : s);
                       touch();
@@ -902,6 +985,7 @@ function CollectionPage() {
                   {shown.map((p) => (
                     <ProductCard
                       key={p.id}
+                      pillar={p.pillar}
                       image={p.image}
                       imageAlt={p.name}
                       category={p.subcategory}
@@ -942,10 +1026,12 @@ function Chip({
   active,
   onClick,
   children,
+  activeClass,
 }: {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
+  activeClass?: string;
 }) {
   return (
     <button
@@ -955,8 +1041,8 @@ function Chip({
       className={cn(
         "min-h-9 shrink-0 rounded-full border px-3.5 text-sm transition-colors duration-brand-fast ease-brand",
         active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-muted text-muted-foreground hover:text-foreground",
+          ? (activeClass ?? "border-primary bg-primary text-primary-foreground")
+          : "border-border bg-card/80 text-muted-foreground hover:text-foreground",
       )}
     >
       {children}
