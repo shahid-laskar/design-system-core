@@ -223,10 +223,18 @@ export async function getStoreProductByHandle(
 export async function getStoreCategories(): Promise<{
   product_categories: MedusaStoreCategory[];
 }> {
-  return fetchMedusa<{ product_categories: MedusaStoreCategory[] }>(
-    "/store/product-categories?fields=*category_children"
-  );
+  try {
+    const res = await fetchMedusa<{ product_categories: MedusaStoreCategory[] }>(
+      "/store/product-categories?fields=*category_children"
+    );
+    if (res.product_categories?.length) return res;
+  } catch {
+    // fall through to snapshot
+  }
+  const { SNAPSHOT_CATEGORIES } = await import("./snapshot-fallback");
+  return { product_categories: SNAPSHOT_CATEGORIES };
 }
+
 
 // -------------------------------------------------------------
 // Milestone D: Product Reviews API
