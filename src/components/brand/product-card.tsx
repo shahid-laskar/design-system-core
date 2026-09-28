@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Eye, Heart, Plus, Star } from "lucide-react";
+import { Check, Eye, Heart, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/brand/design-primitives";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
+
+export type SizeStock = "in" | "low" | "out";
 
 type ProductCardProps = {
   image: string;
@@ -19,11 +21,24 @@ type ProductCardProps = {
   badge?: string | undefined;
   href?: string | undefined;
   sizes?: string[] | undefined;
+  sizeStock?: Record<string, SizeStock> | undefined;
   rating?: number | undefined;
   reviewCount?: number | undefined;
   inStock?: boolean | undefined;
   pillar?: string | undefined;
 };
+
+export function deriveSizeStock(
+  sizes: string[] | undefined,
+  inStock = true,
+): Record<string, SizeStock> {
+  const map: Record<string, SizeStock> = {};
+  for (const size of sizes ?? []) {
+    map[size] = !inStock ? "out" : size === "XXL" ? "out" : size === "XL" ? "low" : "in";
+  }
+  return map;
+}
+
 
 export type PillarKey = "women" | "men" | "kids" | "prayer" | "gifts";
 
