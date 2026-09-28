@@ -286,6 +286,37 @@ function CheckoutPage() {
         <h1 className="display-section mt-2 text-3xl md:text-4xl">Complete Your Order</h1>
       </header>
 
+      {/* Step Indicator */}
+      <div className="mb-8 flex items-center gap-0">
+        {[
+          { n: 1, label: 'Shipping' },
+          { n: 2, label: 'Payment' },
+          { n: 3, label: 'Review' },
+        ].map((step, idx) => (
+          <div key={step.n} className="flex items-center">
+            <div className="flex items-center gap-2">
+              <span className={cn(
+                'flex size-7 items-center justify-center rounded-full text-xs font-bold',
+                step.n === 1
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground'
+              )}>
+                {step.n}
+              </span>
+              <span className={cn(
+                'text-sm font-medium',
+                step.n === 1 ? 'text-foreground' : 'text-muted-foreground'
+              )}>
+                {step.label}
+              </span>
+            </div>
+            {idx < 2 && (
+              <div className="mx-3 h-px w-8 bg-border sm:w-16" />
+            )}
+          </div>
+        ))}
+      </div>
+
       {error ? (
         <div className="mb-6 rounded-md bg-destructive/10 p-4 text-sm font-medium text-destructive">
           {error}
@@ -425,6 +456,16 @@ function CheckoutPage() {
                     required
                   />
                 </div>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  id="save-address"
+                  type="checkbox"
+                  className="size-4 accent-primary cursor-pointer rounded"
+                />
+                <label htmlFor="save-address" className="text-sm text-muted-foreground cursor-pointer">
+                  Save this address for future orders
+                </label>
               </div>
             </div>
           </section>

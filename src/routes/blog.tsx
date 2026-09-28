@@ -92,7 +92,7 @@ function BlogIndexPage() {
     };
   }, []);
 
-  const categories = ["All", "Fabric Care & Craft", "Home & Tarbiyah", "Reflections"];
+  const categories = ['All', 'Modesty', 'Home', 'Family', 'Occasions', 'Faith', 'Gifting'];
 
   const filteredPosts = posts.filter((post) => {
     if (selectedCategory === "All") return true;
@@ -105,10 +105,10 @@ function BlogIndexPage() {
       <section className="border-b border-border bg-card/50 py-16 sm:py-24">
         <PageContainer>
           <div className="max-w-2xl">
-            <Eyebrow>Sukoon Journal</Eyebrow>
-            <h1 className="display-section mt-3">Stories, Craft &amp; Mindful Living</h1>
+            <Eyebrow>The Sukoon Journal</Eyebrow>
+            <h1 className="display-section mt-3">The Sukoon Journal: Stories, guides and inspiration for a more meaningful everyday life.</h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-              Considered thoughts on modesty, purposeful routines, family tarbiyah, and durable Indian textile traditions.
+              Stories, guides and inspiration for modest living, home, family tarbiyah, and durable Indian textile traditions.
             </p>
           </div>
 

@@ -1,6 +1,6 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown, Menu, Search, ShieldCheck, ShoppingBag, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, Search, ShieldCheck, ShoppingBag, X, Heart, User, Grid2X2, Home } from "lucide-react";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -91,6 +91,21 @@ export function SiteShell({ children }: SiteShellProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [searchAdded, setSearchAdded] = useState<string | null>(null);
+
+  const [tickerIndex, setTickerIndex] = useState(0);
+  const tickerItems = useMemo(() => [
+    "Free shipping on orders above ₹999",
+    "7-day easy exchange",
+    "Dispatch in 24–48 hours",
+  ], []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % tickerItems.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [tickerItems.length]);
+
   const searchResults = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return [];
@@ -130,10 +145,18 @@ export function SiteShell({ children }: SiteShellProps) {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
-      <p className="border-b border-border/80 bg-background px-4 py-2.5 text-center text-xs font-medium leading-5 text-foreground/85">
-        Thoughtful essentials for prayer, home, and family · Free shipping on orders over ₹999 · COD
-        &amp; Easy 7-Day Size Exchanges
-      </p>
+      <div className="relative flex h-10 items-center justify-center overflow-hidden border-b border-border/80 bg-warm-ivory px-4 text-center text-xs font-medium leading-5 text-foreground/85">
+        {tickerItems.map((item, index) => (
+          <div
+            key={item}
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
+              index === tickerIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
       <header className="border-b border-border bg-background">
         <PageContainer className="grid h-18 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5">
           <Sheet>
@@ -263,6 +286,11 @@ export function SiteShell({ children }: SiteShellProps) {
             <Button variant="ghost" size="icon" aria-label="Search" onClick={openSearch}>
               <Search />
             </Button>
+            <Button variant="ghost" size="icon" aria-label="Wishlist" asChild>
+              <Link to="/collection">
+                <Heart />
+              </Link>
+            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -276,6 +304,11 @@ export function SiteShell({ children }: SiteShellProps) {
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="Account" asChild>
+              <Link to="/collection">
+                <User />
+              </Link>
             </Button>
           </div>
         </PageContainer>
@@ -322,10 +355,12 @@ export function SiteShell({ children }: SiteShellProps) {
                 <p className="eyebrow text-foreground">Popular searches</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {[
-                    "Pure Cambric Cotton",
-                    "Friday Handloom Kurta",
-                    "Orthopedic Prayer Mat",
-                    "Eid Hamper",
+                    "Salwar suit",
+                    "Abaya",
+                    "Prayer mat",
+                    "Kids kurta",
+                    "Eid collection",
+                    "Gift hamper",
                   ].map((term) => (
                     <button
                       key={term}
@@ -491,6 +526,60 @@ export function SiteShell({ children }: SiteShellProps) {
           </PageContainer>
         </div>
       </footer>
+
+      <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-5 border-t border-border bg-background/95 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur lg:hidden">
+        <Link
+          to="/"
+          className="flex flex-col items-center gap-0.5 text-[0.6rem] font-medium text-muted-foreground"
+          activeProps={{ className: "!text-primary" }}
+          activeOptions={{ exact: true }}
+        >
+          <Home className="size-5" />
+          <span>Home</span>
+        </Link>
+        <Link
+          to="/collection"
+          className="flex flex-col items-center gap-0.5 text-[0.6rem] font-medium text-muted-foreground"
+          activeProps={{ className: "!text-primary" }}
+        >
+          <Grid2X2 className="size-5" />
+          <span>Categories</span>
+        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            setQuery("");
+            setSearchOpen(true);
+          }}
+          className="flex flex-col items-center gap-0.5 text-[0.6rem] font-medium text-muted-foreground"
+        >
+          <Search className="size-5" />
+          <span>Search</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="flex flex-col items-center gap-0.5 text-[0.6rem] font-medium text-muted-foreground"
+        >
+          <div className="relative">
+            <ShoppingBag className="size-5" />
+            {itemCount > 0 ? (
+              <span className="absolute -right-2 -top-1 flex size-3.5 items-center justify-center rounded-full bg-clay text-[0.55rem] font-bold text-clay-foreground">
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            ) : null}
+          </div>
+          <span>Cart</span>
+        </button>
+        <Link
+          to="/collection"
+          className="flex flex-col items-center gap-0.5 text-[0.6rem] font-medium text-muted-foreground"
+          activeProps={{ className: "!text-primary" }}
+        >
+          <User className="size-5" />
+          <span>Account</span>
+        </Link>
+      </nav>
     </div>
   );
 }

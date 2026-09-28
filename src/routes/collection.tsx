@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Grid2X2, ListFilter, PackageOpen, Search, Rows3, X } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Grid2X2, ListFilter, PackageOpen, Search, Rows3, X, ChevronRight } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
@@ -609,6 +609,16 @@ const snapshotProducts: Product[] = SNAPSHOT_PRODUCTS.map(mapMedusaToCollectionP
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 const PAGE = 8;
 
+// Map pillar to hero content
+const pillarHeroContent: Record<string, { title: string; mood: string; subtitle: string; image: string }> = {
+  Women: { title: 'Salwar Suits', mood: 'Graceful. Modest. Timeless.', subtitle: 'Beautiful salwar suits for everyday wear, festive occasions and special moments.', image: imgWSalwar },
+  Men: { title: "Men's Collection", mood: 'Sharp. Elegant. Comfortable.', subtitle: 'Handloom kurtas, pathani sets and everyday essentials for the modern Muslim man.', image: imgMenKurta },
+  Children: { title: "Children's Collection", mood: 'Joyful. Tarbiyah-led. Everyday.', subtitle: 'Cotton sets, habit boards and learning tools for little ones.', image: imgChild },
+  Prayer: { title: 'Prayer Essentials', mood: 'Sacred. Serene. Purposeful.', subtitle: 'Memory foam mats, rehals and tasbihs for a peaceful prayer routine.', image: imgPrayer },
+  Home: { title: 'Home & Ambiance', mood: 'Calm. Curated. Meaningful.', subtitle: 'Bakhoor burners, wall art and attars to scent and decor your space.', image: imgBundle },
+  Gifts: { title: 'Meaningful Gifts', mood: 'Thoughtful. Timeless. Heartfelt.', subtitle: 'Milestone gift boxes and hampers for every occasion.', image: imgGifts },
+};
+
 function CollectionPage() {
   const search = Route.useSearch();
   const initialPillar = useMemo(() => {
@@ -763,18 +773,35 @@ function CollectionPage() {
     <div className="space-y-8">
       <fieldset>
         <legend className="eyebrow mb-4 text-foreground">Category</legend>
-        <Select value={pillar} onValueChange={(v) => choosePillar(v as "All" | Pillar)}>
-          <SelectTrigger aria-label="Category">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {pillars.map((p) => (
-              <SelectItem key={p.id} value={p.id}>
-                {p.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="space-y-2">
+          {pillars.map((p) => {
+            const count = allProducts.filter((x) => (p.id === "All" ? true : x.pillar === p.id)).length;
+            const active = pillar === p.id;
+            return (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => choosePillar(p.id as "All" | Pillar)}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition-colors",
+                  active
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "hover:bg-muted text-foreground",
+                )}
+              >
+                <span>{p.label}</span>
+                <span
+                  className={cn(
+                    "text-xs",
+                    active ? "text-primary-foreground/80" : "text-muted-foreground",
+                  )}
+                >
+                  ({count})
+                </span>
+              </button>
+            );
+          })}
+        </div>
         {pillar !== "All" ? (
           <Select
             value={sub ?? "all"}
@@ -890,6 +917,25 @@ function CollectionPage() {
 
   return (
     <main id="main-content">
+      {pillar !== 'All' && pillarHeroContent[pillar] && (
+        <section className="relative overflow-hidden border-b border-border bg-warm-ivory">
+          <div className="relative">
+            <img src={pillarHeroContent[pillar].image} alt={pillar} className="h-48 sm:h-64 w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
+            <PageContainer className="absolute inset-0 flex flex-col justify-end pb-8">
+              {/* breadcrumb */}
+              <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                <Link to="/">Home</Link>
+                <ChevronRight className="size-3" />
+                <span>{pillar}</span>
+              </nav>
+              <p className="text-xs font-semibold text-primary/80 mb-1">{pillarHeroContent[pillar].mood}</p>
+              <h1 className="font-display text-4xl sm:text-5xl text-foreground">{pillarHeroContent[pillar].title}</h1>
+              <p className="mt-2 max-w-md text-sm text-muted-foreground">{pillarHeroContent[pillar].subtitle}</p>
+            </PageContainer>
+          </div>
+        </section>
+      )}
       <section
         className={cn(
           "border-b border-border transition-colors duration-300 ease-in-out",
@@ -971,6 +1017,31 @@ function CollectionPage() {
 
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur lg:static lg:border-0 lg:bg-transparent">
         <PageContainer className="py-3 lg:pt-10 lg:pb-0">
+          {pillar !== 'All' && subcategories[pillar as Pillar] && (
+            <div className="mb-4 flex gap-2 overflow-x-auto pb-1 pt-1">
+              <button
+                onClick={() => { setSub(null); touch(); }}
+                className={cn(
+                  'shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors',
+                  !sub ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card/80 text-muted-foreground hover:text-foreground'
+                )}
+              >
+                All
+              </button>
+              {subcategories[pillar as Pillar].map((s) => (
+                <button
+                  key={s}
+                  onClick={() => { setSub(s); touch(); }}
+                  className={cn(
+                    'shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors',
+                    sub === s ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card/80 text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:border-b lg:border-border lg:pb-5">
             <div className="flex items-center gap-3 flex-1 max-w-sm">
               <div className="relative w-full">

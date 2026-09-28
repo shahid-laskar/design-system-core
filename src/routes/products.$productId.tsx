@@ -268,25 +268,51 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             aria-label="Product gallery"
             className="min-w-0 lg:sticky lg:top-5 lg:self-start"
           >
-            <div className="hidden overflow-hidden rounded-sm bg-muted lg:block">
-              <button
-                type="button"
-                className="block size-full cursor-zoom-in"
-                onClick={() => setZoomOpen(true)}
-                aria-label="Open product image zoom"
-              >
-                <img
-                  key={selectedImage}
-                  src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
-                  alt={product.gallery[selectedImage]?.alt ?? product.name}
-                  className={cn(
-                    "aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500",
-                    product.gallery[selectedImage]?.position ?? "object-center",
-                  )}
-                  width={1000}
-                  height={1250}
-                />
-              </button>
+            {/* Desktop Gallery */}
+            <div className="hidden lg:flex gap-3">
+              {/* Vertical thumbnail strip */}
+              <div className="flex flex-col gap-2">
+                {product.gallery.slice(0, 5).map((image, index) => (
+                  <button
+                    key={image.alt}
+                    type="button"
+                    onClick={() => setSelectedImage(index)}
+                    aria-label={`View image ${index + 1}`}
+                    aria-pressed={selectedImage === index}
+                    className={cn(
+                      'w-16 shrink-0 overflow-hidden rounded-sm ring-offset-1 transition-all sm:w-20',
+                      selectedImage === index ? 'ring-2 ring-primary' : 'ring-1 ring-border hover:ring-primary/50'
+                    )}
+                  >
+                    <img
+                      src={image.src}
+                      alt=""
+                      className={cn('aspect-square w-full object-cover', image.position)}
+                    />
+                  </button>
+                ))}
+              </div>
+              {/* Main large image */}
+              <div className="flex-1 overflow-hidden rounded-sm bg-muted">
+                <button
+                  type="button"
+                  className="block size-full cursor-zoom-in"
+                  onClick={() => setZoomOpen(true)}
+                  aria-label="Open product image zoom"
+                >
+                  <img
+                    key={selectedImage}
+                    src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
+                    alt={product.gallery[selectedImage]?.alt ?? product.name}
+                    className={cn(
+                      'aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500',
+                      product.gallery[selectedImage]?.position ?? 'object-center'
+                    )}
+                    width={1000}
+                    height={1250}
+                  />
+                </button>
+              </div>
             </div>
 
             <div
@@ -315,34 +341,6 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     selectedImage === index ? "bg-primary" : "bg-border",
                   )}
                 />
-              ))}
-            </div>
-
-            <div
-              className="mt-3 hidden grid-cols-3 gap-3 lg:grid"
-              role="list"
-              aria-label="Choose product image"
-            >
-              {product.gallery.map((image, index) => (
-                <Button
-                  key={image.alt}
-                  variant="ghost"
-                  className={cn(
-                    "h-auto overflow-hidden rounded-sm p-0 ring-offset-2",
-                    selectedImage === index && "ring-2 ring-primary",
-                  )}
-                  onClick={() => setSelectedImage(index)}
-                  aria-label={`View image ${index + 1}`}
-                  aria-pressed={selectedImage === index}
-                >
-                  <span className="aspect-square w-full overflow-hidden">
-                    <img
-                      src={image.src}
-                      alt=""
-                      className={cn("size-full object-cover", image.position)}
-                    />
-                  </span>
-                </Button>
               ))}
             </div>
           </section>
@@ -681,6 +679,46 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               </div>
             </AccordionContent>
           </AccordionItem>
+          {product.kind === 'apparel' && (
+            <>
+              <AccordionItem value="modesty">
+                <AccordionTrigger className="text-left font-semibold hover:no-underline">
+                  Modesty Assurance
+                </AccordionTrigger>
+                <AccordionContent className="space-y-3 pr-6 leading-6 text-muted-foreground">
+                  <p>
+                    This product is made with 100% opaque fabric and is designed for comfortable, modest wear.
+                  </p>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> Attached pure cotton voil lining across the torso — no separate slip needed.</li>
+                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> 100% opacity checked against direct backlight on every fabric batch.</li>
+                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> 2-inch inner tailoring margins for adjustments.</li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="size-fit">
+                <AccordionTrigger className="text-left font-semibold hover:no-underline">
+                  Size & Fit
+                </AccordionTrigger>
+                <AccordionContent className="space-y-3 pr-6 text-sm leading-6 text-muted-foreground">
+                  <p>Model measurements and fit guidance for this style.</p>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Fit Type:</span>
+                    <span>Regular fit with generous modest ease allowance</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Chest Ease:</span>
+                    <span>3–4 inches additional ease over body measurements for comfortable modest coverage</span>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
+                    <span className="font-semibold text-foreground">Length:</span>
+                    <span>Full-length kurta to knee or below for modest coverage</span>
+                  </div>
+                  <p className="text-xs">Refer to the Size Guide for exact garment measurements by size.</p>
+                </AccordionContent>
+              </AccordionItem>
+            </>
+          )}
           <AccordionItem value="statutory">
             <AccordionTrigger className="text-left font-semibold hover:no-underline">
               Statutory Declarations (Legal Metrology / LMPC)
