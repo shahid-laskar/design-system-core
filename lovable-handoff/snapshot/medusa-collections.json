@@ -9,17 +9,17 @@
       "updated_at": "2026-09-24T09:27:30.490Z"
     },
     {
-      "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
-      "title": "Everyday Essentials",
-      "handle": "everyday",
+      "id": "pcol_01M39BVMDXAH2FXWBHTGVRDVNX",
+      "title": "Jummah Essentials",
+      "handle": "jummah",
       "external_id": null,
       "created_at": "2026-09-24T09:27:30.490Z",
       "updated_at": "2026-09-24T09:27:30.490Z"
     },
     {
-      "id": "pcol_01M39BVMDXAH2FXWBHTGVRDVNX",
-      "title": "Jummah Essentials",
-      "handle": "jummah",
+      "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+      "title": "Everyday Essentials",
+      "handle": "everyday",
       "external_id": null,
       "created_at": "2026-09-24T09:27:30.490Z",
       "updated_at": "2026-09-24T09:27:30.490Z"
@@ -27,5 +27,5 @@
   ],
   "count": 3,
   "offset": 0,
-  "limit": 100
+  "limit": 50
 }

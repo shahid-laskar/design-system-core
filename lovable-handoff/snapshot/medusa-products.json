@@ -8,7 +8,7 @@
       "handle": "blue-floral-salwar-suit",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-modest-set.jpg",
+      "thumbnail": "/images/salwar-suit-berry.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -20,7 +20,7 @@
       "mid_code": null,
       "material": null,
       "created_at": "2026-09-24T09:27:30.574Z",
-      "updated_at": "2026-09-24T09:27:30.574Z",
+      "updated_at": "2026-09-28T08:36:38.173Z",
       "variants": [
         {
           "id": "variant_01M39BVMWQ7VP4KFZMR5XTWNWQ",
@@ -490,23 +490,33 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M39BVMG4H7RPW144E4RWH3Y2",
-          "url": "/images/product-modest-set.jpg",
+          "id": "img_01M3KJKVGS9DT3XQM7PCD4W84V",
+          "url": "/images/salwar-suit-berry.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-          "created_at": "2026-09-24T09:27:30.576Z",
-          "updated_at": "2026-09-24T09:27:30.576Z",
+          "created_at": "2026-09-28T08:37:59.962Z",
+          "updated_at": "2026-09-28T08:37:59.962Z",
           "deleted_at": null
         },
         {
-          "id": "img_01M39BVMG5ZBG54PNDA49ADX50",
-          "url": "/images/editorial-home-calm.jpg",
+          "id": "img_01M3KJKVGSF3TJD95ERP8YB69M",
+          "url": "/images/salwar-fabric-detail.jpg",
           "metadata": null,
           "rank": 1,
           "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-          "created_at": "2026-09-24T09:27:30.577Z",
-          "updated_at": "2026-09-24T09:27:30.577Z",
+          "created_at": "2026-09-28T08:37:59.962Z",
+          "updated_at": "2026-09-28T08:37:59.962Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKVGSR1Y5BJXP36KTCF7J",
+          "url": "/images/editorial-home-calm.jpg",
+          "metadata": null,
+          "rank": 2,
+          "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
+          "created_at": "2026-09-28T08:37:59.962Z",
+          "updated_at": "2026-09-28T08:37:59.962Z",
           "deleted_at": null
         }
       ],
@@ -534,11 +544,11 @@
       "id": "prod_01M39BVN8359W3KST442XB9JMS",
       "title": "Pure Cambric Cotton Salwar Suit Set",
       "subtitle": null,
-      "description": "A breathable three-piece salwar suit in pure 60s cambric cotton, fully lined with soft cotton voil for guaranteed everyday modesty.",
+      "description": "A breathable three-piece salwar suit in pure 60s cambric cotton featuring an attached opaque cotton voil lining, semi-elasticated pants, and pure malmal dupatta. Designed with 2-inch inner tailoring margins for modest comfort.",
       "handle": "pure-cambric-cotton-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-modest-set.jpg",
+      "thumbnail": "/images/salwar-suit-sage.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -550,105 +560,8 @@
       "mid_code": null,
       "material": null,
       "created_at": "2026-09-24T09:27:31.343Z",
-      "updated_at": "2026-09-24T09:27:31.343Z",
+      "updated_at": "2026-09-28T08:36:37.885Z",
       "variants": [
-        {
-          "id": "variant_01M39BVNJ5EV67PG3WVZCF41CQ",
-          "title": "M / Sage Green",
-          "sku": "SH-WCS-014-SG-M",
-          "barcode": null,
-          "ean": null,
-          "upc": null,
-          "allow_backorder": false,
-          "manage_inventory": true,
-          "hs_code": null,
-          "origin_country": null,
-          "mid_code": null,
-          "material": null,
-          "weight": null,
-          "length": null,
-          "height": null,
-          "width": null,
-          "metadata": null,
-          "variant_rank": 0,
-          "thumbnail": null,
-          "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
-          "created_at": "2026-09-24T09:27:31.656Z",
-          "updated_at": "2026-09-24T09:27:31.656Z",
-          "deleted_at": null,
-          "options": [
-            {
-              "id": "optval_01M39BVN8BR26C8YPH966MVA92",
-              "value": "M",
-              "rank": null,
-              "metadata": null,
-              "option_id": "opt_01M39BVN84TYS4GGYQE5V47Q63",
-              "option": {
-                "id": "opt_01M39BVN84TYS4GGYQE5V47Q63",
-                "title": "Size",
-                "is_exclusive": true,
-                "metadata": null,
-                "created_at": "2026-09-24T09:27:31.343Z",
-                "updated_at": "2026-09-24T09:27:31.343Z",
-                "deleted_at": null
-              },
-              "created_at": "2026-09-24T09:27:31.344Z",
-              "updated_at": "2026-09-24T09:27:31.344Z",
-              "deleted_at": null
-            },
-            {
-              "id": "optval_01M39BVN8DXBM9G1SW6PQZSJXB",
-              "value": "Sage Green",
-              "rank": null,
-              "metadata": null,
-              "option_id": "opt_01M39BVN84WX7DHX8CE2ZQEV2W",
-              "option": {
-                "id": "opt_01M39BVN84WX7DHX8CE2ZQEV2W",
-                "title": "Colour",
-                "is_exclusive": true,
-                "metadata": null,
-                "created_at": "2026-09-24T09:27:31.344Z",
-                "updated_at": "2026-09-24T09:27:31.344Z",
-                "deleted_at": null
-              },
-              "created_at": "2026-09-24T09:27:31.344Z",
-              "updated_at": "2026-09-24T09:27:31.344Z",
-              "deleted_at": null
-            }
-          ],
-          "calculated_price": {
-            "id": "pset_01M39BVNNVXS6D0599R2Y34Y30",
-            "is_calculated_price_price_list": false,
-            "is_calculated_price_tax_inclusive": false,
-            "calculated_amount": 1499,
-            "raw_calculated_amount": {
-              "value": "1499",
-              "precision": 20
-            },
-            "is_original_price_price_list": false,
-            "is_original_price_tax_inclusive": false,
-            "original_amount": 1499,
-            "raw_original_amount": {
-              "value": "1499",
-              "precision": 20
-            },
-            "currency_code": "inr",
-            "calculated_price": {
-              "id": "price_01M39BVNNV9BN7DXTQP4MW20X1",
-              "price_list_id": null,
-              "price_list_type": null,
-              "min_quantity": null,
-              "max_quantity": null
-            },
-            "original_price": {
-              "id": "price_01M39BVNNV9BN7DXTQP4MW20X1",
-              "price_list_id": null,
-              "price_list_type": null,
-              "min_quantity": null,
-              "max_quantity": null
-            }
-          }
-        },
         {
           "id": "variant_01M39BVNJ5XX6D1542CV9147KG",
           "title": "S / Sage Green",
@@ -739,6 +652,103 @@
             },
             "original_price": {
               "id": "price_01M39BVNNT84J0WS2ZHMHH8H46",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M39BVNJ5EV67PG3WVZCF41CQ",
+          "title": "M / Sage Green",
+          "sku": "SH-WCS-014-SG-M",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
+          "created_at": "2026-09-24T09:27:31.656Z",
+          "updated_at": "2026-09-24T09:27:31.656Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M39BVN8BR26C8YPH966MVA92",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M39BVN84TYS4GGYQE5V47Q63",
+              "option": {
+                "id": "opt_01M39BVN84TYS4GGYQE5V47Q63",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-24T09:27:31.343Z",
+                "updated_at": "2026-09-24T09:27:31.343Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-24T09:27:31.344Z",
+              "updated_at": "2026-09-24T09:27:31.344Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M39BVN8DXBM9G1SW6PQZSJXB",
+              "value": "Sage Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M39BVN84WX7DHX8CE2ZQEV2W",
+              "option": {
+                "id": "opt_01M39BVN84WX7DHX8CE2ZQEV2W",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-24T09:27:31.344Z",
+                "updated_at": "2026-09-24T09:27:31.344Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-24T09:27:31.344Z",
+              "updated_at": "2026-09-24T09:27:31.344Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M39BVNNVXS6D0599R2Y34Y30",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1499,
+            "raw_calculated_amount": {
+              "value": "1499",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1499,
+            "raw_original_amount": {
+              "value": "1499",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M39BVNNV9BN7DXTQP4MW20X1",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M39BVNNV9BN7DXTQP4MW20X1",
               "price_list_id": null,
               "price_list_type": null,
               "min_quantity": null,
@@ -1127,13 +1137,33 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M39BVN8734SWXAWBX1TQH48M",
-          "url": "/images/product-modest-set.jpg",
+          "id": "img_01M3KJKVC1JSENT21MFQ1XP8QH",
+          "url": "/images/salwar-suit-sage.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
-          "created_at": "2026-09-24T09:27:31.344Z",
-          "updated_at": "2026-09-24T09:27:31.344Z",
+          "created_at": "2026-09-28T08:37:59.812Z",
+          "updated_at": "2026-09-28T08:37:59.812Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKVC2BM2D472438K10J0V",
+          "url": "/images/salwar-fabric-detail.jpg",
+          "metadata": null,
+          "rank": 1,
+          "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
+          "created_at": "2026-09-28T08:37:59.813Z",
+          "updated_at": "2026-09-28T08:37:59.813Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKVC2EQ05HVM1H3HZ52TK",
+          "url": "/images/editorial-home-calm.jpg",
+          "metadata": null,
+          "rank": 2,
+          "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
+          "created_at": "2026-09-28T08:37:59.814Z",
+          "updated_at": "2026-09-28T08:37:59.814Z",
           "deleted_at": null
         }
       ],
@@ -1161,11 +1191,11 @@
       "id": "prod_01M39BVNYXFD09GYC6W2K3GB2S",
       "title": "The Stillness Prayer Mat & Rehal Set",
       "subtitle": null,
-      "description": "A softly woven linen-cotton prayer mat with 15mm orthopaedic memory foam and solid beech folding rehal, made for quiet daily devotion.",
+      "description": "A softly woven linen-cotton prayer mat with 20mm orthopaedic memory foam and solid beech folding rehal, made for quiet daily devotion.",
       "handle": "the-stillness-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-prayer-set.jpg",
+      "thumbnail": "/images/prayer-mat-set.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1177,7 +1207,7 @@
       "mid_code": null,
       "material": null,
       "created_at": "2026-09-24T09:27:32.066Z",
-      "updated_at": "2026-09-24T09:27:32.066Z",
+      "updated_at": "2026-09-28T08:36:40.724Z",
       "variants": [
         {
           "id": "variant_01M39BVP4M55FNB5D8BZKMRCY3",
@@ -1462,13 +1492,13 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M39BVNYY60DNMY4KST70PTJH",
-          "url": "/images/product-prayer-set.jpg",
+          "id": "img_01M3KJKWA2YVCBYNEGF3TQ10VE",
+          "url": "/images/prayer-mat-set.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVNYXFD09GYC6W2K3GB2S",
-          "created_at": "2026-09-24T09:27:32.066Z",
-          "updated_at": "2026-09-24T09:27:32.066Z",
+          "created_at": "2026-09-28T08:38:00.771Z",
+          "updated_at": "2026-09-28T08:38:00.771Z",
           "deleted_at": null
         }
       ],
@@ -1496,11 +1526,11 @@
       "id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
       "title": "Classic Friday Handloom Cotton Kurta",
       "subtitle": null,
-      "description": "Pure breathable handloom cotton kurta with relaxed fit and deep pockets, ideal for Friday prayers and daily wear.",
+      "description": "Pure breathable handloom cotton kurta with relaxed fit, mandarin collar, coconut buttons, and deep pockets. Ideal for Friday prayers and daily wear.",
       "handle": "classic-friday-cotton-kurta",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-men-kurta.jpg",
+      "thumbnail": "/images/men-kurta-ivory.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1512,7 +1542,7 @@
       "mid_code": null,
       "material": null,
       "created_at": "2026-09-24T09:27:32.806Z",
-      "updated_at": "2026-09-24T09:27:32.806Z",
+      "updated_at": "2026-09-28T08:36:40.608Z",
       "variants": [
         {
           "id": "variant_01M39BVPWZDVPT88HD4TWYFP00",
@@ -1885,13 +1915,23 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M39BVPP0131EGXGQEG84BGCB",
-          "url": "/images/product-men-kurta.jpg",
+          "id": "img_01M3KJKW6G38P5N194V2M8ZWG4",
+          "url": "/images/men-kurta-ivory.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
-          "created_at": "2026-09-24T09:27:32.807Z",
-          "updated_at": "2026-09-24T09:27:32.811Z",
+          "created_at": "2026-09-28T08:38:00.658Z",
+          "updated_at": "2026-09-28T08:38:00.658Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKW6HVEAWAKHERVX7XDCE",
+          "url": "/images/men-kurta-detail.jpg",
+          "metadata": null,
+          "rank": 1,
+          "product_id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
+          "created_at": "2026-09-28T08:38:00.658Z",
+          "updated_at": "2026-09-28T08:38:00.658Z",
           "deleted_at": null
         }
       ],
@@ -1917,13 +1957,13 @@
     },
     {
       "id": "prod_01M39BVQAJCSJBNSDJZDZWDR64",
-      "title": "First Forms Wooden Learning Set",
+      "title": "My Daily Salah Wooden Magnetic Habit Board",
       "subtitle": null,
-      "description": "Natural beechwood tactile forms and organic cotton wrap for calm, low-noise sensory learning and tarbiyah.",
+      "description": "Natural beechwood and birch habit tracker with 35 magnetic tokens to encourage children in daily prayer habits and tarbiyah routines.",
       "handle": "first-forms-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-child-set.jpg",
+      "thumbnail": "/images/children-habit-board.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1935,7 +1975,7 @@
       "mid_code": null,
       "material": null,
       "created_at": "2026-09-24T09:27:33.461Z",
-      "updated_at": "2026-09-24T09:27:33.461Z",
+      "updated_at": "2026-09-28T08:36:41.253Z",
       "variants": [
         {
           "id": "variant_01M39BVQH7VEASV2PK62072VE8",
@@ -2044,13 +2084,13 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M39BVQAK3J13687N0BZCKD0T",
-          "url": "/images/product-child-set.jpg",
+          "id": "img_01M3KJKWGR001H4KJY00YZEXAA",
+          "url": "/images/children-habit-board.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVQAJCSJBNSDJZDZWDR64",
-          "created_at": "2026-09-24T09:27:33.461Z",
-          "updated_at": "2026-09-24T09:27:33.461Z",
+          "created_at": "2026-09-28T08:38:00.985Z",
+          "updated_at": "2026-09-28T08:38:00.985Z",
           "deleted_at": null
         }
       ],
@@ -2073,9 +2113,3179 @@
           "deleted_at": null
         }
       ]
+    },
+    {
+      "id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+      "title": "Emerald Paisley Cambric Salwar Suit Set",
+      "subtitle": null,
+      "description": "Vibrant jewel-tone emerald green cambric cotton salwar suit with detailed zari embroidery along the neckline, matching pants, and lightweight printed dupatta.",
+      "handle": "emerald-paisley-cambric-salwar-suit",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/salwar-suit-emerald.jpg",
+      "collection_id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:38.275Z",
+      "updated_at": "2026-09-28T08:36:38.275Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHC4M8FYTT4HMTSWT02Y0",
+          "title": "S / Emerald Green",
+          "sku": "SH-WCS-002-EM-S",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:36:38.680Z",
+          "updated_at": "2026-09-28T08:36:38.680Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHBQZ9Y58ZKS0QJ2ES806",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "option": {
+                "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "option": {
+                "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHC9AAN8TJRW8FXF35VTZ",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1599,
+            "raw_calculated_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1599,
+            "raw_original_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHC9ATKE8406JBSG4JADG",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHC9ATKE8406JBSG4JADG",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHC4NWQ19AVJKY1AKV8QK",
+          "title": "M / Emerald Green",
+          "sku": "SH-WCS-002-EM-M",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:36:38.681Z",
+          "updated_at": "2026-09-28T08:36:38.681Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHBR00FP1DCKXAWV0HXT7",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "option": {
+                "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "option": {
+                "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHC9BGJG6C2HW5E32DWG6",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1599,
+            "raw_calculated_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1599,
+            "raw_original_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHC9ABZZANC5RACDYSS2V",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHC9ABZZANC5RACDYSS2V",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHC4NSS4KAMR7VYHH5SH6",
+          "title": "L / Emerald Green",
+          "sku": "SH-WCS-002-EM-L",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:36:38.681Z",
+          "updated_at": "2026-09-28T08:36:38.681Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHBR0AZCFXBZVRMAJ3XNY",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "option": {
+                "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "option": {
+                "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHC9B0ADT102D5EKDX508",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1599,
+            "raw_calculated_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1599,
+            "raw_original_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHC9BVPYS971A6WZ63G9H",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHC9BVPYS971A6WZ63G9H",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHC4P2ZP02PJ4HYEQSAWT",
+          "title": "XL / Emerald Green",
+          "sku": "SH-WCS-002-EM-XL",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:36:38.681Z",
+          "updated_at": "2026-09-28T08:36:38.681Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHBR0KGZGGFPS4J9MPHPG",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "option": {
+                "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "option": {
+                "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHC9BYM51BAF9QA4H82B1",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1599,
+            "raw_calculated_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1599,
+            "raw_original_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHC9B5HBPGW4SR00MQJ32",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHC9B5HBPGW4SR00MQJ32",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHC4QW7EHN1397GFC9P76",
+          "title": "XXL / Emerald Green",
+          "sku": "SH-WCS-002-EM-XXL",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:36:38.681Z",
+          "updated_at": "2026-09-28T08:36:38.681Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHBR1DF2JDS8KPZTZ6PNC",
+              "value": "XXL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "option": {
+                "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "option": {
+                "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:38.276Z",
+                "updated_at": "2026-09-28T08:36:38.276Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHC9CH34WY7NB2HB2GDNN",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1599,
+            "raw_calculated_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1599,
+            "raw_original_amount": {
+              "value": "1599",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHC9CR2H7VM70Y0EB4HBV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHC9CR2H7VM70Y0EB4HBV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+        "title": "Festive & Eid 2026",
+        "handle": "festive",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+          "title": "Size",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:38.276Z",
+          "updated_at": "2026-09-28T08:36:38.276Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHBQZ9Y58ZKS0QJ2ES806",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR00FP1DCKXAWV0HXT7",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR0AZCFXBZVRMAJ3XNY",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR0KGZGGFPS4J9MPHPG",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHBR1DF2JDS8KPZTZ6PNC",
+              "value": "XXL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQP3RAVN96M534XHYGP",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ]
+        },
+        {
+          "id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+          "title": "Colour",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:38.276Z",
+          "updated_at": "2026-09-28T08:36:38.276Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHBR16V82NPEWS8DAC9ES",
+              "value": "Emerald Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHBQQJPDQ1WDRKS86PBP6",
+              "created_at": "2026-09-28T08:36:38.276Z",
+              "updated_at": "2026-09-28T08:36:38.276Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKVN6M29WVETW0B9WFA0F",
+          "url": "/images/salwar-suit-emerald.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:38:00.103Z",
+          "updated_at": "2026-09-28T08:38:00.103Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKVN6SX71KZBRNQMD1VXK",
+          "url": "/images/salwar-fabric-detail.jpg",
+          "metadata": null,
+          "rank": 1,
+          "product_id": "prod_01M3KJHBQPWYSVTK517A4Y199D",
+          "created_at": "2026-09-28T08:38:00.103Z",
+          "updated_at": "2026-09-28T08:38:00.103Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "name": "Women's Ethnic & Modest",
+          "description": "",
+          "handle": "women",
+          "mpath": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 4,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.390Z",
+          "updated_at": "2026-09-24T09:27:01.390Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+      "title": "Mustard & Coral Cotton Kurta Set",
+      "subtitle": null,
+      "description": "Comfortable everyday cotton kurta set featuring mustard floral motifs, delicate neckline embroidery, contrast coral pants, and lightweight dupatta.",
+      "handle": "everyday-block-print-cotton-kurta",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/kurta-set-mustard.jpg",
+      "collection_id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:39.119Z",
+      "updated_at": "2026-09-28T08:36:39.119Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHCPS4WYZT0EY1WHZH9DJ",
+          "title": "S / Mustard Yellow",
+          "sku": "SH-WKS-003-MC-S",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:36:39.259Z",
+          "updated_at": "2026-09-28T08:36:39.259Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCJAJY8BBSXJ1KM7W9M7",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "option": {
+                "id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJDP6B77XT5DNWMV7W8",
+              "value": "Mustard Yellow",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+              "option": {
+                "id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHCSC77EN2SJPK4N1CZD7",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1299,
+            "raw_calculated_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1299,
+            "raw_original_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHCSCSCW0351FPWC8MX9B",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHCSCSCW0351FPWC8MX9B",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHCPSPBZMHGX5A3547CQ1",
+          "title": "M / Mustard Yellow",
+          "sku": "SH-WKS-003-MC-M",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:36:39.259Z",
+          "updated_at": "2026-09-28T08:36:39.259Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCJB05J7K286YTVYPJ5S",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "option": {
+                "id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJDP6B77XT5DNWMV7W8",
+              "value": "Mustard Yellow",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+              "option": {
+                "id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHCSDKCEB9MQEYH1MY484",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1299,
+            "raw_calculated_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1299,
+            "raw_original_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHCSD37VWWNAAB073AFY9",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHCSD37VWWNAAB073AFY9",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHCPTVV16ARK4YXQENSM8",
+          "title": "L / Mustard Yellow",
+          "sku": "SH-WKS-003-MC-L",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:36:39.259Z",
+          "updated_at": "2026-09-28T08:36:39.259Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCJC779SN70N8PY4B1QJ",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "option": {
+                "id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJDP6B77XT5DNWMV7W8",
+              "value": "Mustard Yellow",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+              "option": {
+                "id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHCSDK000B48JQZ8YR6BY",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1299,
+            "raw_calculated_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1299,
+            "raw_original_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHCSDCCW9CJJCRS36X59G",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHCSDCCW9CJJCRS36X59G",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHCPTCG2FEC8SD1W33JYZ",
+          "title": "XL / Mustard Yellow",
+          "sku": "SH-WKS-003-MC-XL",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:36:39.259Z",
+          "updated_at": "2026-09-28T08:36:39.259Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCJCY72EWXNQTD8ESQGQ",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "option": {
+                "id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJDP6B77XT5DNWMV7W8",
+              "value": "Mustard Yellow",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+              "option": {
+                "id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.120Z",
+                "updated_at": "2026-09-28T08:36:39.120Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHCSEEM771Q8MKN35NS5V",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1299,
+            "raw_calculated_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1299,
+            "raw_original_amount": {
+              "value": "1299",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHCSE9MK4TZNSGNV89SQ9",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHCSE9MK4TZNSGNV89SQ9",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+        "title": "Everyday Essentials",
+        "handle": "everyday",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+          "title": "Colour",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:39.120Z",
+          "updated_at": "2026-09-28T08:36:39.120Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHCJDP6B77XT5DNWMV7W8",
+              "value": "Mustard Yellow",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7V4KTHYYJJFJGH031",
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ]
+        },
+        {
+          "id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+          "title": "Size",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:39.120Z",
+          "updated_at": "2026-09-28T08:36:39.120Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHCJAJY8BBSXJ1KM7W9M7",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJB05J7K286YTVYPJ5S",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJC779SN70N8PY4B1QJ",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCJCY72EWXNQTD8ESQGQ",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCJ7T361D4DP9RN3YVH4",
+              "created_at": "2026-09-28T08:36:39.120Z",
+              "updated_at": "2026-09-28T08:36:39.120Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKVS0H0DAV03FMQK438PH",
+          "url": "/images/kurta-set-mustard.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:38:00.226Z",
+          "updated_at": "2026-09-28T08:38:00.226Z",
+          "deleted_at": null
+        },
+        {
+          "id": "img_01M3KJKVS1Q81DXCT3SS3GQZG5",
+          "url": "/images/salwar-fabric-detail.jpg",
+          "metadata": null,
+          "rank": 1,
+          "product_id": "prod_01M3KJHCJ7BS4Z1KAP2X615HRN",
+          "created_at": "2026-09-28T08:38:00.226Z",
+          "updated_at": "2026-09-28T08:38:00.226Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "name": "Women's Ethnic & Modest",
+          "description": "",
+          "handle": "women",
+          "mpath": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 4,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.390Z",
+          "updated_at": "2026-09-24T09:27:01.390Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+      "title": "Dusty Rose Tiered Modest Dress",
+      "subtitle": null,
+      "description": "Flowing modest maxi dress crafted from soft jacquard textured fabric with multi-tiered silhouette, cuffed sleeves, and full cotton lining.",
+      "handle": "dusty-rose-tiered-modest-dress",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/modest-dress-rose.jpg",
+      "collection_id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:39.518Z",
+      "updated_at": "2026-09-28T08:36:39.518Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHD2QY25SM4Z73DSEFNWK",
+          "title": "S / Dusty Rose",
+          "sku": "SH-WDR-005-DR-S",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+          "created_at": "2026-09-28T08:36:39.640Z",
+          "updated_at": "2026-09-28T08:36:39.640Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCYW8F0AJ6VHY3MQZ41B",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "option": {
+                "id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.518Z",
+                "updated_at": "2026-09-28T08:36:39.518Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYXVVXRNWNREP8X5X28",
+              "value": "Dusty Rose",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+              "option": {
+                "id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.519Z",
+                "updated_at": "2026-09-28T08:36:39.519Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHD534SKHEGBT470RS5H6",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHD52J0ZTW7XHZP5WX1BF",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHD52J0ZTW7XHZP5WX1BF",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHD2QH5MAG6MZJ1V59RYY",
+          "title": "M / Dusty Rose",
+          "sku": "SH-WDR-005-DR-M",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+          "created_at": "2026-09-28T08:36:39.640Z",
+          "updated_at": "2026-09-28T08:36:39.640Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCYW1QMESTG08BQFXZS6",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "option": {
+                "id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.518Z",
+                "updated_at": "2026-09-28T08:36:39.518Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYXVVXRNWNREP8X5X28",
+              "value": "Dusty Rose",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+              "option": {
+                "id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.519Z",
+                "updated_at": "2026-09-28T08:36:39.519Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHD53WA4QT4MP2H5VNZNS",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHD53Z966KTKKHTKN26G5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHD53Z966KTKKHTKN26G5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHD2QMKMPHAC2NXY32Y19",
+          "title": "L / Dusty Rose",
+          "sku": "SH-WDR-005-DR-L",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+          "created_at": "2026-09-28T08:36:39.640Z",
+          "updated_at": "2026-09-28T08:36:39.640Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCYX7V465F87EHVSEXFY",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "option": {
+                "id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.518Z",
+                "updated_at": "2026-09-28T08:36:39.518Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYXVVXRNWNREP8X5X28",
+              "value": "Dusty Rose",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+              "option": {
+                "id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.519Z",
+                "updated_at": "2026-09-28T08:36:39.519Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHD54EC5Q9TC5BBMGWSXJ",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHD539HZ8JZEJX0M1E53P",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHD539HZ8JZEJX0M1E53P",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHD2RNG1Z7KW4D1K8CAJQ",
+          "title": "XL / Dusty Rose",
+          "sku": "SH-WDR-005-DR-XL",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+          "created_at": "2026-09-28T08:36:39.640Z",
+          "updated_at": "2026-09-28T08:36:39.640Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHCYXWWXGJMS00XTJE5MV",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "option": {
+                "id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.518Z",
+                "updated_at": "2026-09-28T08:36:39.518Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYXVVXRNWNREP8X5X28",
+              "value": "Dusty Rose",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+              "option": {
+                "id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.519Z",
+                "updated_at": "2026-09-28T08:36:39.519Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHD54TDD5CN9JPYGTY525",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHD54QXBQ30RB0F9K584D",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHD54QXBQ30RB0F9K584D",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+        "title": "Everyday Essentials",
+        "handle": "everyday",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+          "title": "Colour",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:39.519Z",
+          "updated_at": "2026-09-28T08:36:39.519Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHCYXVVXRNWNREP8X5X28",
+              "value": "Dusty Rose",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYT1KEEJBS03HHBT22Y",
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ]
+        },
+        {
+          "id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+          "title": "Size",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:39.518Z",
+          "updated_at": "2026-09-28T08:36:39.518Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHCYW8F0AJ6VHY3MQZ41B",
+              "value": "S",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYW1QMESTG08BQFXZS6",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYX7V465F87EHVSEXFY",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHCYXWWXGJMS00XTJE5MV",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHCYTW5SFENTQ6M69HJ0Q",
+              "created_at": "2026-09-28T08:36:39.519Z",
+              "updated_at": "2026-09-28T08:36:39.519Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKVWCM16VQJJM40PFDFQ1",
+          "url": "/images/modest-dress-rose.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHCYTMVXRKAR3ARAEF8TX",
+          "created_at": "2026-09-28T08:38:00.333Z",
+          "updated_at": "2026-09-28T08:38:00.333Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "name": "Women's Ethnic & Modest",
+          "description": "",
+          "handle": "women",
+          "mpath": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 4,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.390Z",
+          "updated_at": "2026-09-24T09:27:01.390Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHD9HAX3X6XSBV2E95PX5",
+      "title": "Micro-Modal Silk Daily Hijab",
+      "subtitle": null,
+      "description": "Ultra-soft modal silk hijab with a fluid drape that stays securely in place without pins or hair pulling.",
+      "handle": "micro-modal-silk-daily-hijab",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/daily-hijab-oat.jpg",
+      "collection_id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:39.862Z",
+      "updated_at": "2026-09-28T08:36:39.862Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHDDA42X2FZKERN6TE5KB",
+          "title": "Oat",
+          "sku": "SH-WHJ-003-OT",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHD9HAX3X6XSBV2E95PX5",
+          "created_at": "2026-09-28T08:36:39.980Z",
+          "updated_at": "2026-09-28T08:36:39.980Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHD9MTAWSV6KFRT2975A9",
+              "value": "Oat",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "option": {
+                "id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.862Z",
+                "updated_at": "2026-09-28T08:36:39.862Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDGBFYFM61NJBCYMBGH8",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 499,
+            "raw_calculated_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 499,
+            "raw_original_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDGBJ8JZ3A46MAGFS413",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDGBJ8JZ3A46MAGFS413",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHDDBY6M7306S05SMA2G7",
+          "title": "Sage Green",
+          "sku": "SH-WHJ-003-SG",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHD9HAX3X6XSBV2E95PX5",
+          "created_at": "2026-09-28T08:36:39.980Z",
+          "updated_at": "2026-09-28T08:36:39.980Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHD9N46WBJ1BNPMF1E79V",
+              "value": "Sage Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "option": {
+                "id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.862Z",
+                "updated_at": "2026-09-28T08:36:39.862Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDGB77TCNGQANBAW275V",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 499,
+            "raw_calculated_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 499,
+            "raw_original_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDGBP445B5NYWVD9WK05",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDGBP445B5NYWVD9WK05",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHDDB6MGJZECHY9699GXN",
+          "title": "Mocha",
+          "sku": "SH-WHJ-003-MC",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHD9HAX3X6XSBV2E95PX5",
+          "created_at": "2026-09-28T08:36:39.980Z",
+          "updated_at": "2026-09-28T08:36:39.980Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHD9N5S9129T08DNXNXHP",
+              "value": "Mocha",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "option": {
+                "id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+                "title": "Colour",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:39.862Z",
+                "updated_at": "2026-09-28T08:36:39.862Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDGCD2YK59WCSPFQCPMJ",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 499,
+            "raw_calculated_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 499,
+            "raw_original_amount": {
+              "value": "499",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDGC7986VPDC6MR6FSDD",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDGC7986VPDC6MR6FSDD",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+        "title": "Everyday Essentials",
+        "handle": "everyday",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+          "title": "Colour",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:39.862Z",
+          "updated_at": "2026-09-28T08:36:39.862Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHD9MTAWSV6KFRT2975A9",
+              "value": "Oat",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHD9N46WBJ1BNPMF1E79V",
+              "value": "Sage Green",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHD9N5S9129T08DNXNXHP",
+              "value": "Mocha",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHD9JJCVEY8NA1WJW8DC5",
+              "created_at": "2026-09-28T08:36:39.862Z",
+              "updated_at": "2026-09-28T08:36:39.862Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKVZEHZFM331GD0JEATW8",
+          "url": "/images/daily-hijab-oat.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHD9HAX3X6XSBV2E95PX5",
+          "created_at": "2026-09-28T08:38:00.431Z",
+          "updated_at": "2026-09-28T08:38:00.431Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "name": "Women's Ethnic & Modest",
+          "description": "",
+          "handle": "women",
+          "mpath": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 4,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.390Z",
+          "updated_at": "2026-09-24T09:27:01.390Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHDMDJWGQGJXJPRKE20EE",
+      "title": "Stone & Aubergine Everyday Nida Abaya",
+      "subtitle": null,
+      "description": "Korean-weave Nida abaya featuring a fluid A-line flare, contrast aubergine lapel trim, hidden side pockets, and snap button cuffs for wudhu convenience.",
+      "handle": "premium-nida-everyday-abaya",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/everyday-abaya-stone.jpg",
+      "collection_id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:40.208Z",
+      "updated_at": "2026-09-28T08:36:40.208Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHDRSNCVX0NRJDP6PDMKS",
+          "title": "M",
+          "sku": "SH-WAB-004-ST-M",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHDMDJWGQGJXJPRKE20EE",
+          "created_at": "2026-09-28T08:36:40.346Z",
+          "updated_at": "2026-09-28T08:36:40.346Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHDMFZWR4MJJ0TZW5Y5JW",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "option": {
+                "id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.208Z",
+                "updated_at": "2026-09-28T08:36:40.208Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDTZK4N0R97A6QAJXHS0",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDTY708PWAM966E4QK23",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDTY708PWAM966E4QK23",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHDRSV9P0Z4PHNK0DY4E5",
+          "title": "L",
+          "sku": "SH-WAB-004-ST-L",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHDMDJWGQGJXJPRKE20EE",
+          "created_at": "2026-09-28T08:36:40.346Z",
+          "updated_at": "2026-09-28T08:36:40.346Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHDMF3QHNZKPB8J6VEAW1",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "option": {
+                "id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.208Z",
+                "updated_at": "2026-09-28T08:36:40.208Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDTZWKT9W9EDY5BVQBV2",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDTZBR2PQHWX3SS5WSQR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDTZBR2PQHWX3SS5WSQR",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHDRTDKDBM974E5P2RCGR",
+          "title": "XL",
+          "sku": "SH-WAB-004-ST-XL",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHDMDJWGQGJXJPRKE20EE",
+          "created_at": "2026-09-28T08:36:40.346Z",
+          "updated_at": "2026-09-28T08:36:40.346Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHDMFZ5KQ2AA46M98FVS5",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "option": {
+                "id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.208Z",
+                "updated_at": "2026-09-28T08:36:40.208Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHDTZ40YF9S1S6E8B9758",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 1899,
+            "raw_calculated_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 1899,
+            "raw_original_amount": {
+              "value": "1899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHDTZ802CR4CYBMPGDVF3",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHDTZ802CR4CYBMPGDVF3",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDX55EM5ANDBVYBS0HT",
+        "title": "Everyday Essentials",
+        "handle": "everyday",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+          "title": "Size",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:40.208Z",
+          "updated_at": "2026-09-28T08:36:40.208Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHDMFZWR4MJJ0TZW5Y5JW",
+              "value": "M",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHDMF3QHNZKPB8J6VEAW1",
+              "value": "L",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHDMFZ5KQ2AA46M98FVS5",
+              "value": "XL",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHDMD2HR1Y053P9H28PWC",
+              "created_at": "2026-09-28T08:36:40.208Z",
+              "updated_at": "2026-09-28T08:36:40.208Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKW2N6Q749PMMH6DZ0XSJ",
+          "url": "/images/everyday-abaya-stone.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHDMDJWGQGJXJPRKE20EE",
+          "created_at": "2026-09-28T08:38:00.534Z",
+          "updated_at": "2026-09-28T08:38:00.534Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "name": "Women's Ethnic & Modest",
+          "description": "",
+          "handle": "women",
+          "mpath": "pcat_01M39BTQZPGTF9218CTRX38W9K",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 4,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.390Z",
+          "updated_at": "2026-09-24T09:27:01.390Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+      "title": "Boys' Festive Handloom Cotton Kurta Set",
+      "subtitle": null,
+      "description": "Comfortable 100% cotton printed kurta with white pyjama for boys. Features modest round neckline with embroidery and soft elasticated waistband.",
+      "handle": "boys-festive-cotton-kurta-set",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/kids-kurta-mustard.jpg",
+      "collection_id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:40.789Z",
+      "updated_at": "2026-09-28T08:36:40.789Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHEAS06J74QNK6DWHF0HK",
+          "title": "3-4Y",
+          "sku": "SH-CBK-010-MU-3Y",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+          "created_at": "2026-09-28T08:36:40.927Z",
+          "updated_at": "2026-09-28T08:36:40.927Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHE6JD0MW8WAC3QE05QMX",
+              "value": "3-4Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "option": {
+                "id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.789Z",
+                "updated_at": "2026-09-28T08:36:40.789Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.789Z",
+              "updated_at": "2026-09-28T08:36:40.789Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHEETFH5DWXETV8TZSBHZ",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 899,
+            "raw_calculated_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 899,
+            "raw_original_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHEES0RXN67KV647RC53Y",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHEES0RXN67KV647RC53Y",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHEAVPKQD3NAS6ZWRXQ84",
+          "title": "5-6Y",
+          "sku": "SH-CBK-010-MU-5Y",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+          "created_at": "2026-09-28T08:36:40.927Z",
+          "updated_at": "2026-09-28T08:36:40.927Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHE6K5VBJ3FH7EPJTB6G2",
+              "value": "5-6Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "option": {
+                "id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.789Z",
+                "updated_at": "2026-09-28T08:36:40.789Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHEETRFYN7F11M3PW5JBW",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 899,
+            "raw_calculated_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 899,
+            "raw_original_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHEET7GHQQCZK3C6VBWK5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHEET7GHQQCZK3C6VBWK5",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHEAWSR7M6V4F9VYHEZ0P",
+          "title": "7-8Y",
+          "sku": "SH-CBK-010-MU-7Y",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+          "created_at": "2026-09-28T08:36:40.927Z",
+          "updated_at": "2026-09-28T08:36:40.927Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHE6KQVXMB7GSP5DCCS3S",
+              "value": "7-8Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "option": {
+                "id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.789Z",
+                "updated_at": "2026-09-28T08:36:40.789Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHEEV4N16Z47358AJYF9F",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 899,
+            "raw_calculated_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 899,
+            "raw_original_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHEETTQKJ6A5XMJFPCF4M",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHEETTQKJ6A5XMJFPCF4M",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        },
+        {
+          "id": "variant_01M3KJHEAXZRG9KMZ8RX2Q97M3",
+          "title": "9-10Y",
+          "sku": "SH-CBK-010-MU-9Y",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+          "created_at": "2026-09-28T08:36:40.927Z",
+          "updated_at": "2026-09-28T08:36:40.927Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHE6KDFX4V2H7012W6E1A",
+              "value": "9-10Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "option": {
+                "id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+                "title": "Size",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:40.789Z",
+                "updated_at": "2026-09-28T08:36:40.789Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHEEVY8NQPC0NR0FWV969",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 899,
+            "raw_calculated_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 899,
+            "raw_original_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHEEVYNZX0SNEZMYGCF4T",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHEEVYNZX0SNEZMYGCF4T",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+        "title": "Festive & Eid 2026",
+        "handle": "festive",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+          "title": "Size",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:40.789Z",
+          "updated_at": "2026-09-28T08:36:40.789Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHE6JD0MW8WAC3QE05QMX",
+              "value": "3-4Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "created_at": "2026-09-28T08:36:40.789Z",
+              "updated_at": "2026-09-28T08:36:40.789Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHE6K5VBJ3FH7EPJTB6G2",
+              "value": "5-6Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHE6KQVXMB7GSP5DCCS3S",
+              "value": "7-8Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            },
+            {
+              "id": "optval_01M3KJHE6KDFX4V2H7012W6E1A",
+              "value": "9-10Y",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHE6F8V5T5SRSBVWAW6XX",
+              "created_at": "2026-09-28T08:36:40.790Z",
+              "updated_at": "2026-09-28T08:36:40.790Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKWDDEKJGVQW5RCKDWVQ2",
+          "url": "/images/kids-kurta-mustard.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
+          "created_at": "2026-09-28T08:38:00.878Z",
+          "updated_at": "2026-09-28T08:38:00.878Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTQZZ2M6ZWPHRMW27F36S",
+          "name": "Children & Tarbiyah",
+          "description": "",
+          "handle": "children",
+          "mpath": "pcat_01M39BTQZZ2M6ZWPHRMW27F36S",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 6,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.391Z",
+          "updated_at": "2026-09-24T09:27:01.391Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHEPSRXV565E6EPWZ0SVV",
+      "title": "Cast Brass Charcoal Bakhoor Burner",
+      "subtitle": null,
+      "description": "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice lid for fragrant home ambiance and peaceful gathering.",
+      "handle": "cast-brass-charcoal-bakhoor-burner",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/brass-bakhoor-burner.jpg",
+      "collection_id": "pcol_01M39BVMDXAH2FXWBHTGVRDVNX",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:41.309Z",
+      "updated_at": "2026-09-28T08:36:41.309Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHETX5GR515A3BMVJV9M2",
+          "title": "Antique Brass",
+          "sku": "SH-HBB-022-BR",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHEPSRXV565E6EPWZ0SVV",
+          "created_at": "2026-09-28T08:36:41.437Z",
+          "updated_at": "2026-09-28T08:36:41.437Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHEPWF56049B0FEC2BGPF",
+              "value": "Antique Brass",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHEPS767C190PZTF4TBFJ",
+              "option": {
+                "id": "opt_01M3KJHEPS767C190PZTF4TBFJ",
+                "title": "Finish",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:41.309Z",
+                "updated_at": "2026-09-28T08:36:41.309Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:41.309Z",
+              "updated_at": "2026-09-28T08:36:41.309Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHEWHGTZ9YS7RGMWEK5GA",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 899,
+            "raw_calculated_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 899,
+            "raw_original_amount": {
+              "value": "899",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHEWH9YMAT2NFKSZVW1AA",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHEWH9YMAT2NFKSZVW1AA",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDXAH2FXWBHTGVRDVNX",
+        "title": "Jummah Essentials",
+        "handle": "jummah",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHEPS767C190PZTF4TBFJ",
+          "title": "Finish",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:41.309Z",
+          "updated_at": "2026-09-28T08:36:41.309Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHEPWF56049B0FEC2BGPF",
+              "value": "Antique Brass",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHEPS767C190PZTF4TBFJ",
+              "created_at": "2026-09-28T08:36:41.309Z",
+              "updated_at": "2026-09-28T08:36:41.309Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKWKXJDD62313YD3WDFB7",
+          "url": "/images/brass-bakhoor-burner.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHEPSRXV565E6EPWZ0SVV",
+          "created_at": "2026-09-28T08:38:01.087Z",
+          "updated_at": "2026-09-28T08:38:01.087Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTR0CCTCTRQNH1YJ3WN3Z",
+          "name": "Home & Ambiance",
+          "description": "",
+          "handle": "home",
+          "mpath": "pcat_01M39BTR0CCTCTRQNH1YJ3WN3Z",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 9,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.392Z",
+          "updated_at": "2026-09-24T09:27:01.392Z",
+          "deleted_at": null
+        }
+      ]
+    },
+    {
+      "id": "prod_01M3KJHF0NA1TWA9ZRDTHE8SJX",
+      "title": "The Serene Prayer Sanctuary Gift Box",
+      "subtitle": null,
+      "description": "Curated milestone gift set featuring 20mm orthopaedic memory foam prayer mat, solid beech wood rehal, 99-bead natural stone tasbih, and 12ml non-alcoholic attar in presentation box.",
+      "handle": "the-serene-prayer-sanctuary-gift-box",
+      "is_giftcard": false,
+      "discountable": true,
+      "thumbnail": "/images/serene-gift-box.jpg",
+      "collection_id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+      "type_id": null,
+      "weight": null,
+      "length": null,
+      "height": null,
+      "width": null,
+      "hs_code": null,
+      "origin_country": null,
+      "mid_code": null,
+      "material": null,
+      "created_at": "2026-09-28T08:36:41.624Z",
+      "updated_at": "2026-09-28T08:36:41.624Z",
+      "variants": [
+        {
+          "id": "variant_01M3KJHF51QH0RMK4005E14R7K",
+          "title": "Deluxe Presentation Box",
+          "sku": "SH-GBX-025-PR",
+          "barcode": null,
+          "ean": null,
+          "upc": null,
+          "allow_backorder": false,
+          "manage_inventory": true,
+          "hs_code": null,
+          "origin_country": null,
+          "mid_code": null,
+          "material": null,
+          "weight": null,
+          "length": null,
+          "height": null,
+          "width": null,
+          "metadata": null,
+          "variant_rank": 0,
+          "thumbnail": null,
+          "product_id": "prod_01M3KJHF0NA1TWA9ZRDTHE8SJX",
+          "created_at": "2026-09-28T08:36:41.761Z",
+          "updated_at": "2026-09-28T08:36:41.761Z",
+          "deleted_at": null,
+          "options": [
+            {
+              "id": "optval_01M3KJHF0RV5RH88XK1EF1X4BT",
+              "value": "Deluxe Presentation Box",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHF0N97JHJP28DVBPKNEQ",
+              "option": {
+                "id": "opt_01M3KJHF0N97JHJP28DVBPKNEQ",
+                "title": "Edition",
+                "is_exclusive": true,
+                "metadata": null,
+                "created_at": "2026-09-28T08:36:41.625Z",
+                "updated_at": "2026-09-28T08:36:41.625Z",
+                "deleted_at": null
+              },
+              "created_at": "2026-09-28T08:36:41.625Z",
+              "updated_at": "2026-09-28T08:36:41.625Z",
+              "deleted_at": null
+            }
+          ],
+          "calculated_price": {
+            "id": "pset_01M3KJHF6Q1M1CD5QRY4F0ZR50",
+            "is_calculated_price_price_list": false,
+            "is_calculated_price_tax_inclusive": false,
+            "calculated_amount": 2499,
+            "raw_calculated_amount": {
+              "value": "2499",
+              "precision": 20
+            },
+            "is_original_price_price_list": false,
+            "is_original_price_tax_inclusive": false,
+            "original_amount": 2499,
+            "raw_original_amount": {
+              "value": "2499",
+              "precision": 20
+            },
+            "currency_code": "inr",
+            "calculated_price": {
+              "id": "price_01M3KJHF6P8BDGDYM8QMWETECV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            },
+            "original_price": {
+              "id": "price_01M3KJHF6P8BDGDYM8QMWETECV",
+              "price_list_id": null,
+              "price_list_type": null,
+              "min_quantity": null,
+              "max_quantity": null
+            }
+          }
+        }
+      ],
+      "type": null,
+      "collection": {
+        "id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
+        "title": "Festive & Eid 2026",
+        "handle": "festive",
+        "external_id": null,
+        "metadata": null,
+        "created_at": "2026-09-24T09:27:30.490Z",
+        "updated_at": "2026-09-24T09:27:30.490Z",
+        "deleted_at": null
+      },
+      "options": [
+        {
+          "id": "opt_01M3KJHF0N97JHJP28DVBPKNEQ",
+          "title": "Edition",
+          "is_exclusive": true,
+          "metadata": null,
+          "created_at": "2026-09-28T08:36:41.625Z",
+          "updated_at": "2026-09-28T08:36:41.625Z",
+          "deleted_at": null,
+          "values": [
+            {
+              "id": "optval_01M3KJHF0RV5RH88XK1EF1X4BT",
+              "value": "Deluxe Presentation Box",
+              "rank": null,
+              "metadata": null,
+              "option_id": "opt_01M3KJHF0N97JHJP28DVBPKNEQ",
+              "created_at": "2026-09-28T08:36:41.625Z",
+              "updated_at": "2026-09-28T08:36:41.625Z",
+              "deleted_at": null
+            }
+          ]
+        }
+      ],
+      "tags": [],
+      "images": [
+        {
+          "id": "img_01M3KJKWQMW718YXR39G5HYMTV",
+          "url": "/images/serene-gift-box.jpg",
+          "metadata": null,
+          "rank": 0,
+          "product_id": "prod_01M3KJHF0NA1TWA9ZRDTHE8SJX",
+          "created_at": "2026-09-28T08:38:01.206Z",
+          "updated_at": "2026-09-28T08:38:01.206Z",
+          "deleted_at": null
+        }
+      ],
+      "categories": [
+        {
+          "id": "pcat_01M39BTR0DK1VJSDAQ4KC8649P",
+          "name": "Milestone Gifts",
+          "description": "",
+          "handle": "gifts",
+          "mpath": "pcat_01M39BTR0DK1VJSDAQ4KC8649P",
+          "is_active": true,
+          "is_internal": false,
+          "rank": 10,
+          "external_id": null,
+          "metadata": null,
+          "parent_category_id": null,
+          "parent_category": null,
+          "created_at": "2026-09-24T09:27:01.392Z",
+          "updated_at": "2026-09-24T09:27:01.392Z",
+          "deleted_at": null
+        }
+      ]
     }
   ],
-  "count": 5,
+  "count": 13,
   "offset": 0,
-  "limit": 100
+  "limit": 50
 }
