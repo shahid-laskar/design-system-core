@@ -970,7 +970,19 @@ function CollectionPage() {
             >
               Festive Ready
             </Chip>
+            <Chip
+              active={selMaterials.includes("Pure Cotton")}
+              onClick={() => toggle<Material>("Pure Cotton", selMaterials, setSelMaterials)}
+            >
+              Pure Cotton
+            </Chip>
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
+            <span className="font-semibold text-foreground">{filtered.length}</span> pieces · Free
+            express shipping over ₹999
+          </p>
+
         </PageContainer>
       </div>
 
