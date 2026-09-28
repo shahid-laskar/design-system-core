@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Eye, Heart, Plus, Star } from "lucide-react";
+import { Check, Eye, Heart, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/brand/design-primitives";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
+
+export type SizeStock = "in" | "low" | "out";
 
 type ProductCardProps = {
   image: string;
@@ -19,11 +21,24 @@ type ProductCardProps = {
   badge?: string | undefined;
   href?: string | undefined;
   sizes?: string[] | undefined;
+  sizeStock?: Record<string, SizeStock> | undefined;
   rating?: number | undefined;
   reviewCount?: number | undefined;
   inStock?: boolean | undefined;
   pillar?: string | undefined;
 };
+
+export function deriveSizeStock(
+  sizes: string[] | undefined,
+  inStock = true,
+): Record<string, SizeStock> {
+  const map: Record<string, SizeStock> = {};
+  for (const size of sizes ?? []) {
+    map[size] = !inStock ? "out" : size === "XXL" ? "out" : size === "XL" ? "low" : "in";
+  }
+  return map;
+}
+
 
 export type PillarKey = "women" | "men" | "kids" | "prayer" | "gifts";
 
@@ -157,6 +172,7 @@ export function ProductCard({
   badge,
   href,
   sizes,
+  sizeStock,
   rating,
   reviewCount,
   inStock = true,
@@ -164,7 +180,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const { addItem, setIsOpen } = useCart();
   const [saved, setSaved] = useState(false);
-  const [added, setAdded] = useState(false);
+  const [added, setAdded] = useState<string | null>(null);
 
   const pillarKey = resolvePillarKey(pillar, category, name);
   const currentPillar = pillarStyles[pillarKey];
@@ -176,18 +192,15 @@ export function ProductCard({
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")}`;
   const isApparel = Boolean(sizes?.length);
+  const stockMap = sizeStock ?? deriveSizeStock(sizes, inStock);
 
-  const handleAdd = (e: React.MouseEvent) => {
-    if (isApparel) return;
-    e.preventDefault();
-    e.stopPropagation();
-
+  const quickAdd = (size?: string) => {
     const numericPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 999;
     const numericOriginalPrice = previousPrice
       ? parseInt(previousPrice.replace(/[^0-9]/g, ""), 10)
       : numericPrice;
 
-    addItem({
+    void addItem({
       id: targetHref.replace("/products/", ""),
       name,
       category,
@@ -195,15 +208,24 @@ export function ProductCard({
       originalPrice: numericOriginalPrice,
       image,
       quantity: 1,
+      ...(size ? { size } : {}),
     });
 
-    setAdded(true);
+    setAdded(size ?? "added");
     setIsOpen(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => setAdded(null), 2000);
+  };
+
+  const handleAdd = (e: React.MouseEvent) => {
+    if (isApparel) return;
+    e.preventDefault();
+    e.stopPropagation();
+    quickAdd();
   };
 
   return (
-    <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-shadow duration-brand-fast ease-brand hover:shadow-lifted">
+    <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-all duration-brand-fast ease-brand hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-lifted">
+
       <div className="media-frame relative aspect-[4/5]">
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
           <img
@@ -283,21 +305,69 @@ export function ProductCard({
           ) : null}
         </div>
         {isApparel ? (
-          <p className="mt-2 text-xs text-muted-foreground">Sizes: {sizes!.join(", ")}</p>
-        ) : null}
+          <div className="mt-3">
+            <p className="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
+              {added ? "Added to basket" : "Pick a size to add"}
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {sizes!.map((size) => {
+                const status = stockMap[size] ?? "in";
+                const soldOut = status === "out" || !inStock;
+                const isAdded = added === size;
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    disabled={soldOut}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      quickAdd(size);
+                    }}
+                    title={
+                      soldOut
+                        ? `Size ${size} sold out`
+                        : status === "low"
+                          ? `Only 2 left in size ${size}`
+                          : `Add size ${size} to basket`
+                    }
+                    aria-label={
+                      soldOut ? `Size ${size} sold out` : `Add size ${size} to basket`
+                    }
+                    className={cn(
+                      "relative inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-2 text-xs font-semibold transition-colors duration-brand-fast ease-brand",
+                      soldOut
+                        ? "cursor-not-allowed border-dashed border-border text-muted-foreground/60 line-through"
+                        : isAdded
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-background hover:border-primary hover:bg-primary/10",
+                      status === "low" && !soldOut && !isAdded && "border-mango/70",
+                    )}
+                  >
+                    {isAdded ? <Check className="size-3.5" /> : size}
+                  </button>
+                );
+              })}
+            </div>
+            {sizes!.some((s) => (stockMap[s] ?? "in") === "low") && inStock ? (
+              <p className="mt-1.5 text-[0.7rem] font-medium text-mango-foreground">
+                Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
+              </p>
+            ) : null}
+            <Button variant="outline" size="sm" className="mt-3 w-full min-w-0 px-2 text-xs" asChild>
+              <Link to={targetHref} className="truncate">
+                View details
+              </Link>
+            </Button>
 
-        {isApparel ? (
-          <Button className="mt-4 w-full" disabled={!inStock} asChild>
-            <Link to={targetHref}>
-              <Plus className="mr-1 size-4" /> {inStock ? "Select size & buy" : "Out of stock"}
-            </Link>
-          </Button>
+          </div>
         ) : (
           <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
-            <Plus className="mr-1 size-4" />{" "}
-            {inStock ? (added ? "Added to bag!" : "Add to bag") : "Notify me"}
+            {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}{" "}
+            {inStock ? (added ? "Added ✓" : "Add to basket") : "Notify me"}
           </Button>
         )}
+
       </div>
     </article>
   );

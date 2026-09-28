@@ -155,14 +155,15 @@ export function CartDrawer() {
               <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground"><Truck className="size-4 shrink-0 text-primary" /> Express Delivery: 2–4 Business Days</p>
               <div className="flex items-baseline justify-between border-t border-border pt-3 text-base font-bold"><span>Total</span><span>{formatPrice(total)}</span></div>
             </div>
-            <Button className="mt-4 w-full" size="lg" asChild disabled={items.length === 0}>
+            <Button className="mt-4 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight" size="lg" asChild disabled={items.length === 0}>
               <Link to="/checkout" onClick={() => setIsOpen(false)}>
                 Proceed to Instant Checkout (UPI / Cards / COD)
               </Link>
             </Button>
-            <Button variant="outline" className="mt-2 w-full" asChild disabled={items.length === 0}>
-              <a href={`https://wa.me/919800000000?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle /> Order via WhatsApp (Personal Sizing Help)</a>
+            <Button variant="outline" className="mt-2 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight" asChild disabled={items.length === 0}>
+              <a href={`https://wa.me/919800000000?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle className="shrink-0" /> Order via WhatsApp (Personal Sizing Help)</a>
             </Button>
+
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-4 text-muted-foreground"><ShieldCheck className="size-4 shrink-0" /> 100% Secure Checkout · Encrypted UPI &amp; Cards · 7-Day Doorstep Size Exchanges</p>
           </div>
         </SheetContent>

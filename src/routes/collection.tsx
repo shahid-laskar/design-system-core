@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/select";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
 import { cn } from "@/lib/utils";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
 import imgChild from "@/assets/product-child-set.jpg";
@@ -910,14 +912,23 @@ function CollectionPage() {
                     ) : null}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[88vw] overflow-y-auto">
-                  <SheetHeader className="mb-8 text-left">
+                <SheetContent side="left" className="flex w-[88vw] flex-col p-0">
+                  <SheetHeader className="border-b border-border p-6 text-left">
                     <SheetTitle className="font-display text-2xl">Refine the collection</SheetTitle>
                     <SheetDescription>Choose only what matters to you.</SheetDescription>
                   </SheetHeader>
-                  {filters}
+                  <div className="flex-1 overflow-y-auto p-6">{filters}</div>
+                  <div className="sticky bottom-0 flex gap-2 border-t border-border bg-background p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                    <Button variant="outline" className="flex-1" onClick={resetFilters}>
+                      Reset all
+                    </Button>
+                    <SheetClose asChild>
+                      <Button className="flex-[1.5]">View {filtered.length} products</Button>
+                    </SheetClose>
+                  </div>
                 </SheetContent>
               </Sheet>
+
               <Select value={sort} onValueChange={setSort}>
                 <SelectTrigger className="w-36 sm:w-48" aria-label="Sort products">
                   <SelectValue />
@@ -959,7 +970,19 @@ function CollectionPage() {
             >
               Festive Ready
             </Chip>
+            <Chip
+              active={selMaterials.includes("Pure Cotton")}
+              onClick={() => toggle<Material>("Pure Cotton", selMaterials, setSelMaterials)}
+            >
+              Pure Cotton
+            </Chip>
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
+            <span className="font-semibold text-foreground">{filtered.length}</span> pieces · Free
+            express shipping over ₹999
+          </p>
+
         </PageContainer>
       </div>
 
@@ -981,7 +1004,7 @@ function CollectionPage() {
               />
             ) : (
               <>
-                <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 2xl:grid-cols-4">
                   {shown.map((p) => (
                     <ProductCard
                       key={p.id}
