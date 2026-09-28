@@ -350,7 +350,7 @@ export function ProductCard({
               })}
             </div>
             {sizes!.some((s) => (stockMap[s] ?? "in") === "low") && inStock ? (
-              <p className="mt-1.5 text-[0.7rem] font-medium text-mango-foreground/90">
+              <p className="mt-1.5 text-[0.7rem] font-medium text-mango-foreground">
                 Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
               </p>
             ) : null}
