@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { BrassBadge } from "@/components/brand/ornament";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
-import productModestSet from "@/assets/product-modest-set.jpg";
-import productMenKurta from "@/assets/product-men-kurta.jpg";
-import productChildSet from "@/assets/product-child-set.jpg";
+const productModestSet = "/images/salwar-suit-sage.jpg";
+const productMenKurta = "/images/men-kurta-ivory.jpg";
+const productChildSet = "/images/kids-kurta-mustard.jpg";
 
 type Member = {
   role: string;
@@ -32,7 +32,7 @@ const members: Member[] = [
     price: 1499,
     mrp: 1799,
     image: productModestSet,
-    imageAlt: "Three-piece cambric cotton salwar suit set folded on linen",
+    imageAlt: "Sage cambric cotton salwar suit set showing full garment silhouette",
     sizes: ["S", "M", "L", "XL", "XXL"],
     soldOut: ["XXL"],
     sizeNote: "Kurta length 44\" in Size M",
@@ -45,7 +45,7 @@ const members: Member[] = [
     price: 899,
     mrp: 1099,
     image: productMenKurta,
-    imageAlt: "Handloom cotton kurta with mandarin collar",
+    imageAlt: "Ivory handloom cotton kurta worn full-length with mandarin collar",
     sizes: ["M", "L", "XL", "XXL"],
     sizeNote: "Kurta length 42\" in Size L",
   },
@@ -57,7 +57,7 @@ const members: Member[] = [
     price: 799,
     mrp: 999,
     image: productChildSet,
-    imageAlt: "Children's festive cotton kurta and pajama set",
+    imageAlt: "Boys' mustard festive cotton kurta set worn with pajama pants",
     sizes: ["S", "M", "L"],
     sizeNote: "S 2–4 yrs · M 5–7 yrs · L 8–10 yrs",
   },

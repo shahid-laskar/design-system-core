@@ -8,23 +8,23 @@ import { PageContainer } from "@/components/brand/design-primitives";
 import { PromiseTicker } from "@/components/brand/promise-ticker";
 import { FamilyEnsemble } from "@/components/brand/family-ensemble";
 import { OpacityTester } from "@/components/brand/opacity-tester";
-import { MehrabArch } from "@/components/brand/ornament";
+import { Reveal } from "@/components/brand/reveal";
 import {
   useCommerceProducts,
   mapMedusaToCollectionProduct,
   type CollectionProduct,
 } from "@/lib/commerce/use-commerce";
-import { SNAPSHOT_PRODUCTS, snapshotHandlesForCollection } from "@/lib/commerce/snapshot-fallback";
+import { SNAPSHOT_PRODUCTS } from "@/lib/commerce/snapshot-fallback";
 import { cn } from "@/lib/utils";
 
-import heroHome from "@/assets/hero-home.jpg";
-import productMenKurta from "@/assets/product-men-kurta.jpg";
-import productPrayerSet from "@/assets/product-prayer-set.jpg";
-import productChildSet from "@/assets/product-child-set.jpg";
-import womenSalwar from "@/assets/women-salwar.jpg";
+import heroFamily from "@/assets/editorial-family-rhythm.jpg";
+import occasionEid from "@/assets/occasion-eid.jpg";
+import occasionRamadan from "@/assets/occasion-ramadan.jpg";
+import occasionJummah from "@/assets/occasion-jummah.jpg";
 import pillarGifts from "@/assets/pillar-gifts.jpg";
 import editorialHomeCalm from "@/assets/editorial-home-calm.jpg";
 import editorialFamilyRhythm from "@/assets/editorial-family-rhythm.jpg";
+import productPrayerSet from "@/assets/product-prayer-set.jpg";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -48,129 +48,110 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-type PillarTile = {
+type CategoryEntrance = {
   handle: string;
   title: string;
   subtitle: string;
   image: string;
   imageAlt: string;
-  accentText: string;
-  accentBorder: string;
-  accentBg: string;
+  tone: string;
+  span?: string;
 };
 
-const pillarTiles: PillarTile[] = [
+const categoryEntrances: CategoryEntrance[] = [
   {
     handle: "women",
     title: "Women",
-    subtitle: "Cambric sets, kurtas, hijabs",
-    image: womenSalwar,
-    imageAlt: "Sage cambric cotton salwar set folded on linen",
-    accentText: "text-pillar-women-accent",
-    accentBorder: "group-hover:border-pillar-women-accent",
-    accentBg: "bg-pillar-women-accent",
+    subtitle: "Cambric sets, kurtas & abayas",
+    image: "/images/salwar-suit-berry.jpg",
+    imageAlt: "Woman wearing berry floral cambric salwar suit with draped dupatta",
+    tone: "from-berry/80 via-berry/20 to-transparent",
+    span: "md:col-span-2 md:row-span-2",
   },
   {
     handle: "men",
     title: "Men",
-    subtitle: "Friday kurtas, pathanis",
+    subtitle: "Friday kurtas & pathanis",
     image: "/images/men-kurta-ivory.jpg",
-    imageAlt: "Handloom cotton kurta with mandarin collar",
-    accentText: "text-pillar-men-accent",
-    accentBorder: "group-hover:border-pillar-men-accent",
-    accentBg: "bg-pillar-men-accent",
+    imageAlt: "Man wearing ivory handloom cotton kurta",
+    tone: "from-teal/80 via-teal/15 to-transparent",
+    span: "md:col-span-2",
   },
   {
     handle: "children",
     title: "Children",
-    subtitle: "Festive sets, everyday cottons",
+    subtitle: "Festive cottons & tarbiyah",
     image: "/images/kids-kurta-mustard.jpg",
-    imageAlt: "Children's cotton set with wooden toys",
-    accentText: "text-pillar-kids-accent",
-    accentBorder: "group-hover:border-pillar-kids-accent",
-    accentBg: "bg-pillar-kids-accent",
+    imageAlt: "Boy wearing mustard festive cotton kurta set",
+    tone: "from-mango/85 via-mango/25 to-transparent",
   },
   {
     handle: "prayer",
     title: "Prayer",
-    subtitle: "Memory foam mats, rehals",
+    subtitle: "Mats, rehals & attars",
     image: productPrayerSet,
-    imageAlt: "Olive prayer mat with a wooden Quran stand",
-    accentText: "text-pillar-prayer-accent",
-    accentBorder: "group-hover:border-pillar-prayer-accent",
-    accentBg: "bg-pillar-prayer-accent",
-  },
-  {
-    handle: "learning",
-    title: "Learning",
-    subtitle: "Habit boards, storybooks",
-    image: productChildSet,
-    imageAlt: "Wooden learning set and Islamic storybooks",
-    accentText: "text-pillar-kids-accent",
-    accentBorder: "group-hover:border-pillar-kids-accent",
-    accentBg: "bg-pillar-kids-accent",
+    imageAlt: "Olive prayer mat with wooden Quran stand",
+    tone: "from-emerald/85 via-emerald/20 to-transparent",
   },
   {
     handle: "home",
     title: "Home",
-    subtitle: "Bakhoor, attars, wall art",
+    subtitle: "Bakhoor, attars & calm corners",
     image: editorialHomeCalm,
-    imageAlt: "A calm home corner with warm textiles",
-    accentText: "text-pillar-prayer-accent",
-    accentBorder: "group-hover:border-pillar-prayer-accent",
-    accentBg: "bg-pillar-prayer-accent",
+    imageAlt: "Calm home corner with warm textiles",
+    tone: "from-emerald/70 via-charcoal-ink/20 to-transparent",
   },
   {
     handle: "gifts",
     title: "Gifts",
     subtitle: "Milestone boxes & hampers",
     image: pillarGifts,
-    imageAlt: "A gift hamper of prayer and home essentials",
-    accentText: "text-pillar-gifts-accent",
-    accentBorder: "group-hover:border-pillar-gifts-accent",
-    accentBg: "bg-pillar-gifts-accent",
+    imageAlt: "Gift hamper of prayer and home essentials",
+    tone: "from-coral/80 via-coral/20 to-transparent",
   },
 ];
 
-const occasionTabs = [
+const occasionStories = [
   {
-    id: "all",
-    label: "All",
-    copy: "Explore all our collections.",
+    id: "eid",
+    title: "Eid Edit",
+    copy: "Coordinated festive looks for the whole household.",
+    image: occasionEid,
+    accent: "bg-mango text-mango-foreground",
   },
   {
-    id: "women",
-    label: "Women",
-    copy: "Cambric sets, kurtas, and more.",
+    id: "ramadan",
+    title: "Ramadan Essentials",
+    copy: "Quiet pieces for long nights and soft mornings.",
+    image: occasionRamadan,
+    accent: "bg-emerald text-emerald-foreground",
   },
   {
-    id: "men",
-    label: "Men",
-    copy: "Friday kurtas and pathanis.",
-  },
-  {
-    id: "kids",
-    label: "Kids",
-    copy: "Festive sets and everyday cottons.",
-  },
-  {
-    id: "prayer",
-    label: "Prayer",
-    copy: "Quiet Friday pieces — mats and attars.",
-  },
-  {
-    id: "home",
-    label: "Home",
-    copy: "Bakhoor, attars, and wall art.",
+    id: "jummah",
+    title: "Jummah Collection",
+    copy: "Fresh kurtas, mats, and Friday fragrance.",
+    image: occasionJummah,
+    accent: "bg-teal text-teal-foreground",
   },
   {
     id: "gifts",
-    label: "Gifts",
-    copy: "Milestone boxes & hampers.",
+    title: "Gifts for Loved Ones",
+    copy: "Thoughtful boxes for nikah, new homes, and Eid.",
+    image: pillarGifts,
+    accent: "bg-coral text-coral-foreground",
   },
 ] as const;
 
-/** Canonical snapshot catalogue fallback */
+const occasionTabs = [
+  { id: "all", label: "All", copy: "Curated across the household." },
+  { id: "women", label: "Women", copy: "Cambric sets, kurtas, and more." },
+  { id: "men", label: "Men", copy: "Friday kurtas and pathanis." },
+  { id: "kids", label: "Kids", copy: "Festive sets and everyday cottons." },
+  { id: "prayer", label: "Prayer", copy: "Quiet Friday pieces — mats and attars." },
+  { id: "home", label: "Home", copy: "Bakhoor, attars, and wall art." },
+  { id: "gifts", label: "Gifts", copy: "Milestone boxes & hampers." },
+] as const;
+
 const snapshotCatalogue: CollectionProduct[] = SNAPSHOT_PRODUCTS.map(mapMedusaToCollectionProduct);
 
 const assurances = [
@@ -194,12 +175,6 @@ const assurances = [
     title: "Tailoring-friendly margins",
     detail: "Apparel details call out the extra 2-inch inner margin where the catalog provides it.",
   },
-];
-
-const heroAssurances = [
-  "Free express shipping over ₹999",
-  "7-day hassle-free size exchanges",
-  "Cash on delivery available",
 ];
 
 const modestyCommitments = [
@@ -244,10 +219,10 @@ function HomePage() {
 
   const occasionProducts = useMemo(() => {
     if (occasion === "all") {
-      return catalogue.slice(0, 4);
+      return catalogue.slice(0, 6);
     }
     const picked = catalogue.filter((p) => p.pillar.toLowerCase() === occasion.toLowerCase());
-    return (picked.length > 0 ? picked : catalogue).slice(0, 4);
+    return (picked.length > 0 ? picked : catalogue).slice(0, 6);
   }, [catalogue, occasion]);
 
   const prayerProducts = useMemo(
@@ -255,16 +230,27 @@ function HomePage() {
     [catalogue],
   );
   const under999Products = useMemo(
-    () => catalogue.filter((p) => p.price < 999).slice(0, 4),
+    () => catalogue.filter((p) => p.price < 999).slice(0, 6),
     [catalogue],
   );
   const newArrivals = useMemo(
     () =>
       [...catalogue]
         .sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""))
-        .slice(0, 5),
+        .slice(0, 6),
     [catalogue],
   );
+
+  const featuredLook = useMemo(() => {
+    const women = catalogue.filter((p) => p.pillar === "Women");
+    return {
+      lead:
+        women.find((p) => p.handle.includes("floral") || p.handle.includes("berry")) ??
+        women[0] ??
+        catalogue[0]!,
+      side: women.filter((p) => !(p.handle.includes("floral") || p.handle.includes("berry"))).slice(0, 2),
+    };
+  }, [catalogue]);
 
   const cambric = useMemo(
     () =>
@@ -276,86 +262,252 @@ function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border bg-warm-ivory">
-        <MehrabArch className="pointer-events-none absolute -right-16 -top-12 h-[520px] w-[380px] opacity-[0.06] text-primary" />
-        <PageContainer className="relative grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
-          <div>
-            <p className="eyebrow-wide font-bold text-pillar-women-accent">
-              Curated for everyday Muslim family life
-            </p>
-            <h1 className="mt-5 font-display text-5xl leading-[1.04] sm:text-6xl lg:text-7xl">
-              Thoughtful Ethnic Wear &amp; Daily Essentials for Modern Muslim Families
+      {/* Full-bleed family hero — imagery first on every viewport */}
+      <section className="relative isolate min-h-[92svh] overflow-hidden bg-charcoal-ink text-white">
+        <img
+          src={heroFamily}
+          alt="Muslim family sharing a bright morning meal in modest everyday dress"
+          width={1600}
+          height={1200}
+          className="absolute inset-0 size-full object-cover object-[center_30%]"
+          fetchPriority="high"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-t from-charcoal-ink/90 via-charcoal-ink/45 to-charcoal-ink/15"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-r from-charcoal-ink/55 via-transparent to-transparent"
+        />
+        <PageContainer className="relative flex min-h-[92svh] flex-col justify-end gap-6 pb-10 pt-28 sm:pb-14 lg:justify-center lg:pb-24 lg:pt-32">
+          <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-3 duration-700">
+            <p className="eyebrow-wide text-mango">Sukoon House</p>
+            <h1 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
+              Modest fashion &amp; daily essentials for modern Muslim families
             </h1>
-            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
-              Hand-vetted cambric cotton suits, orthopedic prayer mats, and children's tarbiyah
-              tools. Guaranteed modesty, accessible pricing, delivered across India.
+            <p className="mt-4 max-w-md text-sm leading-6 text-white/85 sm:text-base sm:leading-7">
+              Worn cambric suits, Friday kurtas, prayer corners, and gifts — one trusted store for
+              the whole household.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button size="lg" className="bg-pillar-women-accent hover:bg-pillar-women-accent/90 text-white border-pillar-women-accent" asChild>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Button
+                size="lg"
+                className="border-berry bg-berry text-berry-foreground hover:bg-berry/90"
+                asChild
+              >
                 <Link to="/collection" search={{ category: "women" }}>
                   Shop Women <ArrowRight />
                 </Link>
               </Button>
-              <Button size="lg" asChild>
-                <Link to="/collection">
-                  Shop The Family
-                </Link>
+              <Button
+                size="lg"
+                className="border-emerald bg-emerald text-emerald-foreground hover:bg-emerald/90"
+                asChild
+              >
+                <Link to="/collection">Shop The Family</Link>
               </Button>
             </div>
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-              {heroAssurances.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Check className="size-3.5 text-primary" aria-hidden />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5 flex flex-wrap gap-2" aria-label="Quick departments">
-              {pillarTiles.slice(0, 5).map((tile) => (
-                <Link
-                  key={tile.handle}
-                  to="/collection"
-                  search={{ category: tile.handle }}
-                  className="rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs font-semibold transition-colors hover:border-primary hover:text-primary"
-                >
-                  {tile.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="relative">
-            <div className="media-frame aspect-[4/3]">
-              <img
-                src={heroHome}
-                alt="A calm family living space with everyday essentials arranged in soft daylight"
-                width={1600}
-                height={1200}
-                className="size-full object-cover"
-              />
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">
-              Everyday pieces, photographed in a family home at first light.
-            </p>
           </div>
         </PageContainer>
       </section>
 
-      {/* Ambient Promise Ribbon */}
       <PromiseTicker />
 
-      <section className="border-t border-border bg-card/35" aria-labelledby="new-arrivals">
+      {/* Asymmetric category visual entrances */}
+      <section aria-labelledby="family-pillars" className="bg-warm-ivory">
+        <PageContainer className="section-space">
+          <Reveal>
+            <p className="eyebrow-wide text-teal">Shop the household</p>
+            <h2 id="family-pillars" className="mt-3 max-w-2xl font-display text-4xl sm:text-5xl">
+              Enter by who you are dressing today.
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid auto-rows-[11rem] grid-cols-2 gap-3 md:auto-rows-[14rem] md:grid-cols-4 md:gap-4 lg:auto-rows-[16rem]">
+            {categoryEntrances.map((tile, index) => (
+              <Reveal key={tile.handle} delay={index * 60} className={cn(tile.span)}>
+                <Link
+                  to="/collection"
+                  search={{ category: tile.handle }}
+                  className="group relative block size-full overflow-hidden rounded-md"
+                >
+                  <img
+                    src={tile.image}
+                    alt={tile.imageAlt}
+                    width={800}
+                    height={1000}
+                    loading="lazy"
+                    className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.04]"
+                  />
+                  <div
+                    aria-hidden
+                    className={cn(
+                      "absolute inset-0 bg-gradient-to-t transition-opacity duration-brand-fast",
+                      tile.tone,
+                    )}
+                  />
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-white sm:p-5">
+                    <h3 className="font-display text-xl sm:text-2xl">{tile.title}</h3>
+                    <p className="mt-1 text-xs text-white/80 sm:text-sm">{tile.subtitle}</p>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </PageContainer>
+      </section>
+
+      {/* Editorial curated showcase — not another 4-card grid */}
+      <section className="border-y border-border bg-blush-cream/50" aria-labelledby="lookbook">
         <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow-wide text-muted-foreground">01b · Fresh from the catalogue</p>
+              <p className="eyebrow-wide text-berry">Lookbook · Women</p>
+              <h2 id="lookbook" className="mt-3 font-display text-4xl sm:text-5xl">
+                Silhouette first. Desire follows.
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+                Flagship apparel shown as worn garments — drape, length, and colour as you will
+                actually see them.
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link to="/collection" search={{ category: "women" }}>
+                Shop women <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="mt-10 grid gap-4 lg:grid-cols-[1.4fr_1fr] lg:gap-6">
+            <Link
+              to="/products/$productId"
+              params={{ productId: featuredLook.lead.handle }}
+              className="group relative overflow-hidden rounded-md"
+            >
+              <div className="media-frame aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]">
+                <img
+                  src={featuredLook.lead.image}
+                  alt={featuredLook.lead.name}
+                  width={1200}
+                  height={1500}
+                  className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal-ink/80 to-transparent p-5 text-white sm:p-7">
+                <p className="eyebrow-wide text-mango">{featuredLook.lead.subcategory}</p>
+                <h3 className="mt-2 font-display text-2xl sm:text-3xl">{featuredLook.lead.name}</h3>
+                <p className="mt-2 text-sm text-white/80">
+                  {inr(featuredLook.lead.price)}
+                  {featuredLook.lead.mrp ? (
+                    <span className="ml-2 line-through opacity-70">{inr(featuredLook.lead.mrp)}</span>
+                  ) : null}
+                </p>
+              </div>
+            </Link>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {(featuredLook.side.length > 0
+                ? featuredLook.side
+                : newArrivals.slice(1, 3)
+              ).map((product) => (
+                <Link
+                  key={product.handle}
+                  to="/products/$productId"
+                  params={{ productId: product.handle }}
+                  className="group grid grid-cols-[0.9fr_1.1fr] overflow-hidden rounded-md border border-border bg-card"
+                >
+                  <div className="media-frame aspect-[4/5]">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      width={600}
+                      height={750}
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-4 sm:p-5">
+                    <p className="eyebrow-wide text-berry">{product.subcategory}</p>
+                    <h3 className="mt-2 font-display text-xl leading-snug">{product.name}</h3>
+                    <p className="mt-2 text-sm font-semibold">{inr(product.price)}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </PageContainer>
+      </section>
+
+      {/* Full-width occasion campaign */}
+      <section aria-labelledby="occasions-heading" className="bg-charcoal-ink text-white">
+        <div className="grid lg:grid-cols-2">
+          <div className="relative min-h-[22rem] overflow-hidden lg:min-h-[32rem]">
+            <img
+              src={occasionEid}
+              alt="Warm Eid table set with dates, brass, and festive textiles"
+              className="absolute inset-0 size-full object-cover"
+              loading="lazy"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-r from-charcoal-ink/30 to-transparent lg:bg-gradient-to-l"
+            />
+          </div>
+          <PageContainer className="flex flex-col justify-center py-14 lg:py-20">
+            <p className="eyebrow-wide text-mango">Occasion edit</p>
+            <h2 id="occasions-heading" className="mt-3 font-display text-4xl sm:text-5xl">
+              Celebrate with colour, not beige silence.
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-6 text-white/75">
+              Eid tables, Ramadan nights, Friday mornings — shop moments that feel like home.
+            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {occasionStories.map((story) => (
+                <Link
+                  key={story.id}
+                  to="/collection"
+                  search={{ occasion: story.id }}
+                  className="group overflow-hidden rounded-md border border-white/15 bg-white/5"
+                >
+                  <div className="relative aspect-[16/10]">
+                    <img
+                      src={story.image}
+                      alt={story.title}
+                      className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <span
+                      className={cn(
+                        "inline-flex rounded-sm px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider",
+                        story.accent,
+                      )}
+                    >
+                      {story.title}
+                    </span>
+                    <p className="mt-2 text-xs leading-5 text-white/70">{story.copy}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </PageContainer>
+        </div>
+      </section>
+
+      {/* New arrivals as product rail */}
+      <section className="bg-warm-ivory" aria-labelledby="new-arrivals">
+        <PageContainer className="section-space">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow-wide text-coral">Fresh from the catalogue</p>
               <h2 id="new-arrivals" className="mt-3 font-display text-4xl sm:text-5xl">
                 New Arrivals
               </h2>
             </div>
             <Link
               to="/collection"
-              className="text-sm font-semibold text-primary underline underline-offset-4"
+              className="text-sm font-semibold text-berry underline underline-offset-4"
             >
               View all arrivals
             </Link>
@@ -389,120 +541,15 @@ function HomePage() {
         </PageContainer>
       </section>
 
-      {/* Category circular cards */}
-      <section aria-labelledby="family-pillars">
-        <PageContainer className="pt-12 lg:pt-16">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="eyebrow-wide text-muted-foreground">01 · Shop for the family</p>
-              <h2 id="family-pillars" className="mt-3 font-display text-4xl sm:text-5xl">
-                Seven shelves, one household.
-              </h2>
-            </div>
-            <Button variant="outline" asChild>
-              <Link to="/collection">Browse everything</Link>
-            </Button>
-          </div>
-          <div className="mt-10 flex gap-4 overflow-x-auto snap-x pb-3 md:grid md:grid-cols-6 md:gap-6 md:overflow-visible md:snap-none md:pb-0">
-            {pillarTiles.filter(t => t.handle !== 'learning').slice(0, 6).map((tile) => (
-              <Link
-                key={tile.handle}
-                to="/collection"
-                search={{ category: tile.handle }}
-                className="group min-w-[120px] shrink-0 snap-start text-center"
-              >
-                <div
-                  className={cn(
-                    "relative overflow-hidden rounded-full aspect-square border-2 border-transparent transition-all duration-brand-fast ease-brand mx-auto max-w-[160px]",
-                    tile.accentBorder,
-                  )}
-                >
-                  <img
-                    src={tile.image}
-                    alt={tile.imageAlt}
-                    width={400}
-                    height={400}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.03]"
-                  />
-                  <div
-                    aria-hidden
-                    className={cn(
-                      "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-brand-fast ease-brand group-hover:opacity-15",
-                      tile.accentBg,
-                    )}
-                  />
-                </div>
-                <h3
-                  className={cn(
-                    "mt-4 font-display text-lg leading-snug transition-colors",
-                    `group-hover:${tile.accentText}`,
-                  )}
-                >
-                  {tile.title}
-                </h3>
-                <p className="mt-1 text-xs leading-5 text-muted-foreground">{tile.subtitle}</p>
-              </Link>
-            ))}
-          </div>
-        </PageContainer>
-      </section>
-
-      {/* Shop by occasion banner section */}
-      <section aria-labelledby="occasions-heading">
+      {/* Trending — horizontal rail with jewel tab accents */}
+      <section id="shop" className="scroll-mt-24 border-t border-border bg-card/40">
         <PageContainer className="section-space">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 id="occasions-heading" className="font-display text-4xl sm:text-5xl">Shop by Occasion</h2>
-            <Link to="/collection" className="text-sm font-semibold text-primary underline underline-offset-4">View all →</Link>
-          </div>
-          <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <Link to="/collection" search={{ occasion: "eid" }} className="relative aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer">
-              <img src={editorialFamilyRhythm} alt="Eid Edit" className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-white font-display text-xl font-semibold">Eid Edit</h3>
-                <p className="text-white/70 text-sm mt-1">Celebrate in style</p>
-              </div>
-            </Link>
-            <Link to="/collection" search={{ occasion: "ramadan" }} className="relative aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer">
-              <img src={editorialHomeCalm} alt="Ramadan Essentials" className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-white font-display text-xl font-semibold">Ramadan Essentials</h3>
-                <p className="text-white/70 text-sm mt-1">Faith in Everyday</p>
-              </div>
-            </Link>
-            <Link to="/collection" search={{ occasion: "jummah" }} className="relative aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer">
-              <img src={productPrayerSet} alt="Jummah Collection" className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-white font-display text-xl font-semibold">Jummah Collection</h3>
-                <p className="text-white/70 text-sm mt-1">Stay Refreshed</p>
-              </div>
-            </Link>
-            <Link to="/collection" search={{ occasion: "gifts" }} className="relative aspect-[4/3] overflow-hidden rounded-lg group cursor-pointer">
-              <img src={pillarGifts} alt="Gifts for Loved Ones" className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-white font-display text-xl font-semibold">Gifts for Loved Ones</h3>
-                <p className="text-white/70 text-sm mt-1">Thoughtful &amp; Timeless</p>
-              </div>
-            </Link>
-          </div>
-        </PageContainer>
-      </section>
-
-      {/* Trending and festive shelf */}
-      <section id="shop" className="scroll-mt-24">
-        <PageContainer className="section-space">
-          <p className="eyebrow-wide text-muted-foreground">02 · Trending now &amp; festive edit</p>
-          <h2 className="mt-3 font-display text-4xl sm:text-5xl">
-            Trending Now
-          </h2>
+          <p className="eyebrow-wide text-teal">Trending now</p>
+          <h2 className="mt-3 font-display text-4xl sm:text-5xl">Pieces families are choosing</h2>
           <div
             className="mt-8 flex gap-2 overflow-x-auto pb-1"
             role="tablist"
-            aria-label="Occasions"
+            aria-label="Shop by pillar"
           >
             {occasionTabs.map((tab) => {
               const active = occasion === tab.id;
@@ -514,10 +561,10 @@ function HomePage() {
                   aria-selected={active}
                   onClick={() => setOccasion(tab.id)}
                   className={cn(
-                    "min-h-10 shrink-0 rounded-full border px-4 text-sm transition-colors duration-brand-fast ease-brand",
+                    "min-h-10 shrink-0 rounded-md border px-4 text-sm font-semibold transition-colors duration-brand-fast ease-brand",
                     active
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card/80 text-muted-foreground hover:text-foreground",
+                      ? "border-berry bg-berry text-berry-foreground"
+                      : "border-border bg-background text-muted-foreground hover:border-teal hover:text-teal",
                   )}
                 >
                   {tab.label}
@@ -528,93 +575,103 @@ function HomePage() {
           <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
             {occasionTabs.find((t) => t.id === occasion)?.copy}
           </p>
-
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 flex snap-x gap-4 overflow-x-auto pb-3">
             {occasionProducts.map((product) => (
-              <ProductCard
+              <div
                 key={`${occasion}-${product.handle}`}
-                pillar={product.pillar}
-                image={product.image}
-                hoverImage={product.hoverImage}
-                imageAlt={product.name}
-                category={product.subcategory}
-                name={product.name}
-                price={inr(product.price)}
-                previousPrice={product.mrp ? inr(product.mrp) : undefined}
-                savings={product.mrp ? inr(product.mrp - product.price) : undefined}
-                note={product.note}
-                badge={product.badge}
-                sizes={product.sizes}
-                sizeStock={product.sizeStock}
-                rating={product.rating}
-                reviewCount={product.reviews}
-                inStock={product.inStock}
-                href={`/products/${product.handle}`}
-              />
+                className="w-[15rem] shrink-0 snap-start sm:w-[18rem]"
+              >
+                <ProductCard
+                  pillar={product.pillar}
+                  image={product.image}
+                  hoverImage={product.hoverImage}
+                  imageAlt={product.name}
+                  category={product.subcategory}
+                  name={product.name}
+                  price={inr(product.price)}
+                  previousPrice={product.mrp ? inr(product.mrp) : undefined}
+                  savings={product.mrp ? inr(product.mrp - product.price) : undefined}
+                  note={product.note}
+                  badge={product.badge}
+                  sizes={product.sizes}
+                  sizeStock={product.sizeStock}
+                  rating={product.rating}
+                  reviewCount={product.reviews}
+                  inStock={product.inStock}
+                  href={`/products/${product.handle}`}
+                />
+              </div>
             ))}
           </div>
         </PageContainer>
       </section>
 
-      <section className="border-t border-border bg-warm-ivory" aria-labelledby="under-999">
+      {/* Mango value rail */}
+      <section
+        className="border-y border-border bg-mango/15"
+        aria-labelledby="under-999"
+      >
         <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow-wide text-muted-foreground">03 · Everyday value</p>
+              <p className="eyebrow-wide text-mango-foreground/80">Everyday value</p>
               <h2 id="under-999" className="mt-3 font-display text-4xl sm:text-5xl">
                 Under ₹999 Essentials
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-                Accessible pieces for everyday family rhythms, with the same clear material and fit
+                Accessible pieces for everyday family rhythms — same clear material and fit
                 information.
               </p>
             </div>
-            <Button variant="outline" asChild>
+            <Button className="bg-mango text-mango-foreground hover:bg-mango/90" asChild>
               <Link to="/collection" search={{ category: "all" }}>
                 Shop under ₹999 <ArrowRight />
               </Link>
             </Button>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 flex snap-x gap-4 overflow-x-auto pb-3">
             {under999Products.map((product) => (
-              <ProductCard
+              <div
                 key={`under-999-${product.handle}`}
-                pillar={product.pillar}
-                image={product.image}
-                hoverImage={product.hoverImage}
-                imageAlt={product.name}
-                category={product.subcategory}
-                name={product.name}
-                price={inr(product.price)}
-                previousPrice={product.mrp ? inr(product.mrp) : undefined}
-                savings={product.mrp ? inr(product.mrp - product.price) : undefined}
-                note={product.note}
-                badge={product.badge}
-                sizes={product.sizes}
-                sizeStock={product.sizeStock}
-                inStock={product.inStock}
-                href={`/products/${product.handle}`}
-              />
+                className="w-[15rem] shrink-0 snap-start sm:w-[18rem]"
+              >
+                <ProductCard
+                  pillar={product.pillar}
+                  image={product.image}
+                  hoverImage={product.hoverImage}
+                  imageAlt={product.name}
+                  category={product.subcategory}
+                  name={product.name}
+                  price={inr(product.price)}
+                  previousPrice={product.mrp ? inr(product.mrp) : undefined}
+                  savings={product.mrp ? inr(product.mrp - product.price) : undefined}
+                  note={product.note}
+                  badge={product.badge}
+                  sizes={product.sizes}
+                  sizeStock={product.sizeStock}
+                  inStock={product.inStock}
+                  href={`/products/${product.handle}`}
+                />
+              </div>
             ))}
           </div>
         </PageContainer>
       </section>
 
-      {/* Interactive Family Coordinate */}
       <section className="border-t border-border bg-card/40">
         <PageContainer className="section-space">
           <FamilyEnsemble />
         </PageContainer>
       </section>
 
-      {/* Flagship cambric showcase & Opacity Guarantee */}
-      <section className="border-y border-border bg-blush-cream/30">
+      {/* Berry / blush flagship cambric moment */}
+      <section className="border-y border-border bg-blush">
         <PageContainer className="section-space">
           <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <div className="media-frame aspect-[4/3] lg:aspect-[4/5]">
               <img
-                src={cambric.image ?? womenSalwar}
-                alt="Pure cambric cotton three-piece salwar set in sage green"
+                src={cambric.image || "/images/salwar-suit-sage.jpg"}
+                alt="Pure cambric cotton three-piece salwar set showing full silhouette"
                 width={1200}
                 height={1500}
                 loading="lazy"
@@ -622,9 +679,7 @@ function HomePage() {
               />
             </div>
             <div>
-              <p className="eyebrow-wide font-bold text-pillar-women-accent">
-                03 · The Cambric Cotton Flagship
-              </p>
+              <p className="eyebrow-wide font-bold text-berry">The Cambric Cotton Flagship</p>
               <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
                 The three-piece set families keep re-ordering.
               </h2>
@@ -635,10 +690,7 @@ function HomePage() {
               <ul className="mt-6 space-y-3">
                 {modestyCommitments.map((item) => (
                   <li key={item} className="flex gap-3 text-sm leading-6">
-                    <ShieldCheck
-                      className="mt-0.5 size-4 shrink-0 text-pillar-women-accent"
-                      aria-hidden
-                    />
+                    <ShieldCheck className="mt-0.5 size-4 shrink-0 text-berry" aria-hidden />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -650,7 +702,7 @@ function HomePage() {
                     {inr(cambric.mrp)}
                   </span>
                 ) : null}
-                <Button size="lg" asChild>
+                <Button size="lg" className="bg-berry text-berry-foreground hover:bg-berry/90" asChild>
                   <Link to="/products/$productId" params={{ productId: cambric.handle }}>
                     View the set <ArrowRight />
                   </Link>
@@ -659,20 +711,18 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="mt-16 border-t border-border pt-16">
+          <div className="mt-16 border-t border-border/60 pt-16">
             <OpacityTester />
           </div>
         </PageContainer>
       </section>
 
-      {/* Prayer sanctuary */}
-      <section aria-labelledby="prayer-sanctuary">
+      {/* Emerald prayer sanctuary */}
+      <section aria-labelledby="prayer-sanctuary" className="bg-pillar-prayer-bg">
         <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow-wide font-bold text-pillar-prayer-accent">
-                04 · The Prayer Sanctuary
-              </p>
+              <p className="eyebrow-wide font-bold text-emerald">The Prayer Sanctuary</p>
               <h2 id="prayer-sanctuary" className="mt-3 font-display text-4xl sm:text-5xl">
                 A quiet corner, properly kept.
               </h2>
@@ -681,7 +731,10 @@ function HomePage() {
                 botanical attars for Friday mornings.
               </p>
             </div>
-            <Button variant="outline" asChild>
+            <Button
+              className="bg-emerald text-emerald-foreground hover:bg-emerald/90"
+              asChild
+            >
               <Link to="/collection" search={{ category: "prayer" }}>
                 Explore prayer &amp; worship
               </Link>
@@ -711,36 +764,44 @@ function HomePage() {
         </PageContainer>
       </section>
 
-      {/* Family trust & assurances */}
       <section
         id="assurance"
-        className="scroll-mt-24 border-y border-border bg-primary text-primary-foreground"
+        className="scroll-mt-24 border-y border-border bg-teal text-teal-foreground"
       >
         <PageContainer className="section-space">
-          <p className="eyebrow-wide text-primary-foreground/60">05 · Why families shop with us</p>
+          <p className="eyebrow-wide text-teal-foreground/70">Why families shop with us</p>
           <h2 className="mt-3 max-w-2xl font-display text-4xl leading-tight sm:text-5xl">
             Made properly, priced honestly, for the whole family.
           </h2>
           <ul className="mt-12 grid gap-8 sm:grid-cols-2">
             {assurances.map(({ icon: Icon, title, detail }) => (
               <li key={title} className="flex gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-primary-foreground/10">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-sm bg-teal-foreground/10">
                   <Icon className="size-4" />
                 </span>
                 <div>
                   <p className="text-sm font-semibold">{title}</p>
-                  <p className="mt-1 text-sm text-primary-foreground/70">{detail}</p>
+                  <p className="mt-1 text-sm text-teal-foreground/75">{detail}</p>
                 </div>
               </li>
             ))}
           </ul>
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-xs text-teal-foreground/80">
+            {["Free express shipping over ₹999", "7-day hassle-free size exchanges", "Cash on delivery available"].map(
+              (item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <Check className="size-3.5" aria-hidden />
+                  {item}
+                </li>
+              ),
+            )}
+          </ul>
         </PageContainer>
       </section>
 
-      {/* Journal */}
-      <section id="journal" className="scroll-mt-24">
+      <section id="journal" className="scroll-mt-24 bg-warm-ivory">
         <PageContainer className="section-space">
-          <p className="eyebrow-wide text-muted-foreground">06 · The journal</p>
+          <p className="eyebrow-wide text-muted-foreground">The journal</p>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl">
             Ideas with a place in real life.
           </h2>

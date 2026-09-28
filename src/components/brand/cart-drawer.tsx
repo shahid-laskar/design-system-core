@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
-import productChild from "@/assets/product-child-set.jpg";
-import productModest from "@/assets/product-modest-set.jpg";
+const productChild = "/images/children-habit-board.jpg";
+const productModest = "/images/daily-hijab-oat.jpg";
 import { useCart, FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_PRICE } from "@/lib/cart-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

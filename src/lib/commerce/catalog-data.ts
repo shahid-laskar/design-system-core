@@ -510,10 +510,11 @@ const SLUG_ALIASES: Record<string, string> = {
 };
 
 /**
- * Resolves ANY slug or product ID to its authentic ProductDetail.
+ * Looks up a catalog product by slug/handle/alias without inventing a fallback.
+ * Returns null when the handle is unknown — safe for image preference logic.
  */
-export function resolveProductBySlug(slug: string): ProductDetail {
-  if (!slug) return MASTER_CATALOG["pure-cambric-cotton-set"];
+export function findCatalogProduct(slug: string): ProductDetail | null {
+  if (!slug) return null;
 
   const clean = slug
     .toLowerCase()
@@ -521,23 +522,27 @@ export function resolveProductBySlug(slug: string): ProductDetail {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-  // 1. Direct hit
   if (MASTER_CATALOG[clean]) {
     return MASTER_CATALOG[clean];
   }
 
-  // 2. Alias hit
-  if (SLUG_ALIASES[clean] && MASTER_CATALOG[SLUG_ALIASES[clean]]) {
-    return MASTER_CATALOG[SLUG_ALIASES[clean]];
+  const aliased = SLUG_ALIASES[clean];
+  if (aliased && MASTER_CATALOG[aliased]) {
+    return MASTER_CATALOG[aliased];
   }
 
-  // 3. Partial match
   const keys = Object.keys(MASTER_CATALOG);
   const foundKey = keys.find((k) => clean.includes(k) || k.includes(clean));
   if (foundKey) {
     return MASTER_CATALOG[foundKey];
   }
 
-  // 4. Fallback default
-  return MASTER_CATALOG["pure-cambric-cotton-set"];
+  return null;
+}
+
+/**
+ * Resolves ANY slug or product ID to its authentic ProductDetail.
+ */
+export function resolveProductBySlug(slug: string): ProductDetail {
+  return findCatalogProduct(slug) ?? MASTER_CATALOG["pure-cambric-cotton-set"];
 }

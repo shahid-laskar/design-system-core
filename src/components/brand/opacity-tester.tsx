@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Lightbulb, Ruler, ShieldCheck, Sun, Wind } from "lucide-react";
 import { cn } from "@/lib/utils";
-import productModestSet from "@/assets/product-modest-set.jpg";
+const productModestSet = "/images/salwar-suit-sage.jpg";
 
 const modes = [
   { id: "daylight", label: "Daylight normal", icon: Sun },

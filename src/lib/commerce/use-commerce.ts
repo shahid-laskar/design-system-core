@@ -5,7 +5,23 @@ import {
   getStoreProducts,
   MedusaStoreProduct,
 } from "./client";
-import { resolveProductBySlug } from "./catalog-data";
+import { findCatalogProduct } from "./catalog-data";
+
+/** Folded-fabric / placeholder assets that must never lead apparel merchandising. */
+const WEAK_CATALOG_IMAGE_MARKERS = [
+  "product-modest-set",
+  "product-men-kurta",
+  "product-child-set",
+  "women-hijab-abaya",
+  "unsplash.com",
+  "placeholder",
+];
+
+function isWeakCatalogImage(url?: string | null): boolean {
+  if (!url) return true;
+  const lower = url.toLowerCase();
+  return WEAK_CATALOG_IMAGE_MARKERS.some((marker) => lower.includes(marker));
+}
 
 export type Pillar = "Women" | "Men" | "Children" | "Prayer" | "Learning" | "Home" | "Gifts";
 export type Size = "S" | "M" | "L" | "XL" | "XXL";
@@ -138,15 +154,20 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     },
     {},
   );
-  const curated = resolveProductBySlug(p.handle);
-  let image = p.images?.[0]?.url || p.thumbnail;
-  if (!image || image.includes("unsplash.com") || image.includes("placeholder")) {
-    image = curated?.gallery?.[0]?.src || "/images/product-modest-set.jpg";
-  }
+  const curated = findCatalogProduct(p.handle);
+  const medusaPrimary = p.images?.[0]?.url || p.thumbnail;
+  const curatedPrimary = curated?.gallery?.[0]?.src;
+  const curatedHover = curated?.gallery?.[1]?.src;
+
+  // Prefer curated worn/silhouette photography whenever Medusa still serves weak assets.
+  let image =
+    curatedPrimary && isWeakCatalogImage(medusaPrimary)
+      ? curatedPrimary
+      : medusaPrimary || curatedPrimary || "/images/salwar-suit-sage.jpg";
 
   let hoverImage = p.images?.[1]?.url;
-  if (!hoverImage && curated?.gallery && curated.gallery.length > 1) {
-    hoverImage = curated.gallery[1]?.src;
+  if (!hoverImage || isWeakCatalogImage(hoverImage)) {
+    hoverImage = curatedHover;
   }
 
   // Ratings and review counts are never fabricated — absent means 0, and the
@@ -236,26 +257,28 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   });
 
   const categoryName = p.categories?.[0]?.name || "Women's Ethnic & Modest";
-  const curated = resolveProductBySlug(p.handle);
-  const hasValidImages =
-    p.images &&
-    p.images.length > 0 &&
-    !p.images[0].url.includes("unsplash.com") &&
-    !p.images[0].url.includes("placeholder");
+  const curated = findCatalogProduct(p.handle);
+  const medusaImages = p.images ?? [];
+  const medusaPrimaryWeak =
+    medusaImages.length === 0 || isWeakCatalogImage(medusaImages[0]?.url || p.thumbnail);
 
-  const gallery = hasValidImages
-    ? p.images!.map((img) => ({
-        src: img.url,
-        alt: p.title,
-        position: "object-center" as const,
-      }))
-    : (curated?.gallery ?? [
-        {
-          src: p.thumbnail || "/images/product-modest-set.jpg",
-          alt: p.title,
-          position: "object-center" as const,
-        },
-      ]);
+  // Prefer curated worn/silhouette galleries whenever Medusa still serves weak assets.
+  const gallery =
+    curated?.gallery && medusaPrimaryWeak
+      ? curated.gallery
+      : medusaImages.length > 0 && !medusaPrimaryWeak
+        ? medusaImages.map((img) => ({
+            src: img.url,
+            alt: p.title,
+            position: "object-center" as const,
+          }))
+        : (curated?.gallery ?? [
+            {
+              src: p.thumbnail || "/images/salwar-suit-sage.jpg",
+              alt: p.title,
+              position: "object-center" as const,
+            },
+          ]);
 
   const rawTrail =
     curated?.categoryTrail && curated.categoryTrail.length > 0

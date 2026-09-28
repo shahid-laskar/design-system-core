@@ -24,9 +24,9 @@ import {
 } from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
-import productChild from "@/assets/product-child-set.jpg";
-import productModest from "@/assets/product-modest-set.jpg";
-import productPrayer from "@/assets/product-prayer-set.jpg";
+const productChild = "/images/children-habit-board.jpg";
+const productModest = "/images/daily-hijab-oat.jpg";
+const productPrayer = "/images/prayer-mat-set.jpg";
 import { PageContainer } from "@/components/brand/design-primitives";
 import { SizeGuideDialog } from "@/components/brand/size-guide-dialog";
 import { OpacityTester } from "@/components/brand/opacity-tester";

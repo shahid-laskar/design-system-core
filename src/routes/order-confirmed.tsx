@@ -168,7 +168,7 @@ function OrderConfirmedPage() {
                 <div key={item.id} className="py-4 flex items-center gap-4">
                   <div className="relative size-16 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
                     <img
-                      src={item.thumbnail || "/images/product-modest-set.jpg"}
+                      src={item.thumbnail || "/images/salwar-suit-sage.jpg"}
                       alt={item.title}
                       className="size-full object-cover"
                     />

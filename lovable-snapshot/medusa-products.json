@@ -8,7 +8,7 @@
       "handle": "blue-floral-salwar-suit",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-modest-set.jpg",
+      "thumbnail": "/images/salwar-suit-berry.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -491,7 +491,7 @@
       "images": [
         {
           "id": "img_01M39BVMG4H7RPW144E4RWH3Y2",
-          "url": "/images/product-modest-set.jpg",
+          "url": "/images/salwar-suit-berry.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
@@ -538,7 +538,7 @@
       "handle": "pure-cambric-cotton-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-modest-set.jpg",
+      "thumbnail": "/images/salwar-suit-sage.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1128,7 +1128,7 @@
       "images": [
         {
           "id": "img_01M39BVN8734SWXAWBX1TQH48M",
-          "url": "/images/product-modest-set.jpg",
+          "url": "/images/salwar-suit-sage.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVN8359W3KST442XB9JMS",
@@ -1165,7 +1165,7 @@
       "handle": "the-stillness-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-prayer-set.jpg",
+      "thumbnail": "/images/prayer-mat-set.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1463,7 +1463,7 @@
       "images": [
         {
           "id": "img_01M39BVNYY60DNMY4KST70PTJH",
-          "url": "/images/product-prayer-set.jpg",
+          "url": "/images/prayer-mat-set.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVNYXFD09GYC6W2K3GB2S",
@@ -1500,7 +1500,7 @@
       "handle": "classic-friday-cotton-kurta",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-men-kurta.jpg",
+      "thumbnail": "/images/men-kurta-ivory.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1886,7 +1886,7 @@
       "images": [
         {
           "id": "img_01M39BVPP0131EGXGQEG84BGCB",
-          "url": "/images/product-men-kurta.jpg",
+          "url": "/images/men-kurta-ivory.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
@@ -1923,7 +1923,7 @@
       "handle": "first-forms-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/product-child-set.jpg",
+      "thumbnail": "/images/children-habit-board.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -2045,7 +2045,7 @@
       "images": [
         {
           "id": "img_01M39BVQAK3J13687N0BZCKD0T",
-          "url": "/images/product-child-set.jpg",
+          "url": "/images/children-habit-board.jpg",
           "metadata": null,
           "rank": 0,
           "product_id": "prod_01M39BVQAJCSJBNSDJZDZWDR64",

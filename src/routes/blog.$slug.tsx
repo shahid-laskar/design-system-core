@@ -10,7 +10,7 @@ import {
 } from "@/lib/commerce/client";
 import { ProductCard } from "@/components/brand/product-card";
 import imgEditorial from "@/assets/editorial-home-calm.jpg";
-import imgModest from "@/assets/product-modest-set.jpg";
+const imgModest = "/images/salwar-suit-sage.jpg";
 
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ params }) => ({

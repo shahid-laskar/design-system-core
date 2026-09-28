@@ -8,7 +8,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import productModest from "@/assets/product-modest-set.jpg";
 import {
   addLineItemToMedusaCart,
   getMedusaCart,

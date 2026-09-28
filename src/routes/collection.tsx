@@ -34,15 +34,8 @@ import {
 
 import { cn } from "@/lib/utils";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
-import imgChild from "@/assets/product-child-set.jpg";
-import imgMenKurta from "@/assets/product-men-kurta.jpg";
-import imgBundle from "@/assets/product-bundle.jpg";
-import imgWSalwar from "@/assets/women-salwar.jpg";
-import imgWKurta from "@/assets/women-kurta.jpg";
-import imgWHijab from "@/assets/women-hijab-abaya.jpg";
-import imgWDress from "@/assets/women-dress.jpg";
-import imgModestSet from "@/assets/product-modest-set.jpg";
 import imgGifts from "@/assets/pillar-gifts.jpg";
+import editorialHomeCalm from "@/assets/editorial-home-calm.jpg";
 
 export const Route = createFileRoute("/collection")({
   validateSearch: (
@@ -221,11 +214,11 @@ const PAGE = 8;
 
 // Map pillar to hero content
 const pillarHeroContent: Record<string, { title: string; mood: string; subtitle: string; image: string }> = {
-  Women: { title: 'Salwar Suits', mood: 'Graceful. Modest. Timeless.', subtitle: 'Beautiful salwar suits for everyday wear, festive occasions and special moments.', image: imgWSalwar },
+  Women: { title: 'Salwar Suits', mood: 'Graceful. Modest. Timeless.', subtitle: 'Beautiful salwar suits for everyday wear, festive occasions and special moments.', image: "/images/salwar-suit-berry.jpg" },
   Men: { title: "Men's Collection", mood: 'Sharp. Elegant. Comfortable.', subtitle: 'Handloom kurtas, pathani sets and everyday essentials for the modern Muslim man.', image: "/images/men-kurta-ivory.jpg" },
   Children: { title: "Children's Collection", mood: 'Joyful. Tarbiyah-led. Everyday.', subtitle: 'Cotton sets, habit boards and learning tools for little ones.', image: "/images/kids-kurta-mustard.jpg" },
   Prayer: { title: 'Prayer Essentials', mood: 'Sacred. Serene. Purposeful.', subtitle: 'Memory foam mats, rehals and tasbihs for a peaceful prayer routine.', image: imgPrayer },
-  Home: { title: 'Home & Ambiance', mood: 'Calm. Curated. Meaningful.', subtitle: 'Bakhoor burners, wall art and attars to scent and decor your space.', image: imgBundle },
+  Home: { title: 'Home & Ambiance', mood: 'Calm. Curated. Meaningful.', subtitle: 'Bakhoor burners, wall art and attars to scent and decor your space.', image: editorialHomeCalm },
   Gifts: { title: 'Meaningful Gifts', mood: 'Thoughtful. Timeless. Heartfelt.', subtitle: 'Milestone gift boxes and hampers for every occasion.', image: imgGifts },
 };
 

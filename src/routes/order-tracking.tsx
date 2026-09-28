@@ -377,7 +377,7 @@ function OrderTrackingPage() {
                   <div key={item.id} className="py-3 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <img
-                        src={item.thumbnail || "/images/product-modest-set.jpg"}
+                        src={item.thumbnail || "/images/salwar-suit-sage.jpg"}
                         alt={item.title}
                         className="size-14 rounded object-cover border border-border"
                       />
