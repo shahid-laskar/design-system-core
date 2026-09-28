@@ -56,6 +56,8 @@ export type ProductDetail = {
     title: string;
     sku: string;
     options?: Record<string, string>;
+    price?: number;
+    originalPrice?: number;
   }>;
 };
 
@@ -235,6 +237,8 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
       title: v.title,
       sku: v.sku,
       options: v.options,
+      price: v.calculated_price?.calculated_amount,
+      originalPrice: v.calculated_price?.original_amount,
     })),
   };
 }

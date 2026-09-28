@@ -111,13 +111,36 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const addResetRef = useRef<number | undefined>(undefined);
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
-  const savings = product.mrp - product.price;
-  const discount = product.mrp > 0 ? Math.round((savings / product.mrp) * 100) : 0;
+  const selectedVariant = useMemo(() => {
+    if (!product.variants?.length) return undefined;
+    const matches = (variant: NonNullable<ProductDetail["variants"]>[number], value: string) =>
+      variant.title.toLowerCase().includes(value.toLowerCase()) ||
+      Object.values(variant.options ?? {}).some(
+        (option) => option.toLowerCase() === value.toLowerCase(),
+      );
+    return (
+      product.variants.find(
+        (variant) =>
+          (!size || matches(variant, size)) &&
+          (color === "Default" || matches(variant, color)),
+      ) ??
+      product.variants.find((variant) => (size ? matches(variant, size) : true)) ??
+      product.variants.find((variant) => (color === "Default" ? true : matches(variant, color))) ??
+      product.variants[0]
+    );
+  }, [color, product.variants, size]);
+  const displayPrice = selectedVariant?.price ?? product.price;
+  const displayMrp = selectedVariant?.originalPrice && selectedVariant.originalPrice > displayPrice
+    ? selectedVariant.originalPrice
+    : product.mrp;
+  const displaySku = selectedVariant?.sku ?? product.sku;
+  const savings = displayMrp - displayPrice;
+  const discount = displayMrp > 0 ? Math.round((savings / displayMrp) * 100) : 0;
   const guideCategory = sizeGuideCategory(product);
-  const orderTotal = product.price * quantity;
+  const orderTotal = displayPrice * quantity;
   const freeShipping = orderTotal >= 999;
   const whatsAppText = encodeURIComponent(
-    `Hello Sukoon House, I would like to order ${product.name} (SKU: ${product.sku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
+    `Hello Sukoon House, I would like to order ${product.name} (SKU: ${displaySku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
   );
 
   function addToBasket() {
@@ -143,8 +166,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-      price: product.price,
-      originalPrice: product.mrp,
+       price: displayPrice,
+       originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size,
       color,
@@ -186,8 +209,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-      price: product.price,
-      originalPrice: product.mrp,
+       price: displayPrice,
+       originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size: chosenSize,
       color,
