@@ -354,9 +354,12 @@ export function ProductCard({
                 Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
               </p>
             ) : null}
-            <Button variant="outline" className="mt-3 w-full" asChild>
-              <Link to={targetHref}>View details &amp; size guide</Link>
+            <Button variant="outline" size="sm" className="mt-3 w-full min-w-0 px-2 text-xs" asChild>
+              <Link to={targetHref} className="truncate">
+                View details
+              </Link>
             </Button>
+
           </div>
         ) : (
           <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
