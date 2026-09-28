@@ -287,13 +287,53 @@ export function ProductCard({
         >
           <Heart className={cn("size-4", saved && "fill-current text-berry")} />
         </Button>
-        <div className="pointer-events-none absolute inset-x-3 bottom-3 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-          <Button variant="secondary" className="w-full bg-background/95 text-foreground" asChild>
-            <Link to={targetHref}>
-              <Eye className="mr-1.5 size-4" /> {isApparel ? "Select size" : "Quick view"}
-            </Link>
-          </Button>
-        </div>
+        {isApparel && sizes?.length ? (
+          <div className="pointer-events-none absolute inset-x-2.5 bottom-2.5 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+            <div className="rounded-md border border-border/80 bg-background/95 p-2 shadow-lifted backdrop-blur-sm">
+              <p className="mb-1 text-center text-[0.62rem] font-bold uppercase tracking-eyebrow text-muted-foreground">
+                Quick Add Size
+              </p>
+              <div className="flex flex-wrap justify-center gap-1">
+                {sizes.map((sz) => {
+                  const status = stockMap[sz] ?? "in";
+                  const soldOut = status === "out" || !inStock;
+                  const isAdded = added === sz;
+                  return (
+                    <button
+                      key={`hover-${sz}`}
+                      type="button"
+                      disabled={soldOut}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        quickAdd(sz);
+                      }}
+                      className={cn(
+                        "inline-flex h-7 min-w-7 items-center justify-center rounded-sm text-xs font-semibold transition-colors",
+                        soldOut
+                          ? "cursor-not-allowed border-dashed text-muted-foreground/40 line-through"
+                          : isAdded
+                            ? "bg-primary text-primary-foreground"
+                            : "border border-border bg-card hover:border-primary hover:bg-primary/10",
+                      )}
+                      aria-label={`Add size ${sz}`}
+                    >
+                      {isAdded ? <Check className="size-3" /> : sz}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="pointer-events-none absolute inset-x-3 bottom-3 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+            <Button variant="secondary" className="w-full bg-background/95 text-foreground" asChild>
+              <Link to={targetHref}>
+                <Eye className="mr-1.5 size-4" /> Quick view
+              </Link>
+            </Button>
+          </div>
+        )}
       </div>
       <div className="px-1 pb-1 pt-3">
         <Eyebrow

@@ -36,6 +36,8 @@ import imgWSalwar from "@/assets/women-salwar.jpg";
 import imgWKurta from "@/assets/women-kurta.jpg";
 import imgWHijab from "@/assets/women-hijab-abaya.jpg";
 import imgWDress from "@/assets/women-dress.jpg";
+import imgModestSet from "@/assets/product-modest-set.jpg";
+import imgGifts from "@/assets/pillar-gifts.jpg";
 
 export const Route = createFileRoute("/collection")({
   validateSearch: (
@@ -88,18 +90,19 @@ type Product = {
   festive?: boolean;
   badge?: string;
   image: string;
+  hoverImage?: string;
   handle?: string;
 };
 
-const pillars: Array<{ id: "All" | Pillar; label: string }> = [
-  { id: "All", label: "All Products" },
-  { id: "Women", label: "Women's Ethnic & Modest" },
-  { id: "Men", label: "Men's Apparel" },
-  { id: "Children", label: "Children & Tarbiyah" },
-  { id: "Prayer", label: "Prayer & Worship" },
-  { id: "Learning", label: "Learning & Books" },
-  { id: "Home", label: "Home & Ambiance" },
-  { id: "Gifts", label: "Milestone Gifts" },
+const pillars: Array<{ id: "All" | Pillar; label: string; handle: string }> = [
+  { id: "All", label: "All Products", handle: "all" },
+  { id: "Women", label: "Women's Ethnic & Modest", handle: "women" },
+  { id: "Men", label: "Men's Apparel", handle: "men" },
+  { id: "Children", label: "Children & Tarbiyah", handle: "children" },
+  { id: "Prayer", label: "Prayer & Worship", handle: "prayer" },
+  { id: "Learning", label: "Learning & Books", handle: "learning" },
+  { id: "Home", label: "Home & Ambiance", handle: "home" },
+  { id: "Gifts", label: "Milestone Gifts", handle: "gifts" },
 ];
 
 const pillarTheme: Record<
@@ -107,54 +110,63 @@ const pillarTheme: Record<
   {
     bgClass: string;
     activeButtonClass: string;
+    badgeClass: string;
     eyebrowText: string;
   }
 > = {
   All: {
     bgClass: "bg-warm-ivory",
     activeButtonClass: "bg-primary text-primary-foreground border-primary hover:bg-primary/90",
+    badgeClass: "bg-primary text-primary-foreground",
     eyebrowText: "The collection",
   },
   Women: {
     bgClass: "bg-pillar-women-bg",
     activeButtonClass:
       "bg-pillar-women-accent text-white border-pillar-women-accent hover:bg-pillar-women-accent/90",
+    badgeClass: "bg-pillar-women-accent text-white",
     eyebrowText: "Women's collection",
   },
   Men: {
     bgClass: "bg-pillar-men-bg",
     activeButtonClass:
       "bg-pillar-men-accent text-white border-pillar-men-accent hover:bg-pillar-men-accent/90",
+    badgeClass: "bg-pillar-men-accent text-white",
     eyebrowText: "Men's collection",
   },
   Children: {
     bgClass: "bg-pillar-kids-bg",
     activeButtonClass:
       "bg-pillar-kids-accent text-white border-pillar-kids-accent hover:bg-pillar-kids-accent/90",
+    badgeClass: "bg-pillar-kids-accent text-white",
     eyebrowText: "Children's collection",
   },
   Learning: {
     bgClass: "bg-pillar-kids-bg",
     activeButtonClass:
       "bg-pillar-kids-accent text-white border-pillar-kids-accent hover:bg-pillar-kids-accent/90",
+    badgeClass: "bg-pillar-kids-accent text-white",
     eyebrowText: "Learning & tarbiyah",
   },
   Prayer: {
     bgClass: "bg-pillar-prayer-bg",
     activeButtonClass:
       "bg-pillar-prayer-accent text-white border-pillar-prayer-accent hover:bg-pillar-prayer-accent/90",
+    badgeClass: "bg-pillar-prayer-accent text-white",
     eyebrowText: "Prayer & worship",
   },
   Home: {
     bgClass: "bg-pillar-prayer-bg",
     activeButtonClass:
       "bg-pillar-prayer-accent text-white border-pillar-prayer-accent hover:bg-pillar-prayer-accent/90",
+    badgeClass: "bg-pillar-prayer-accent text-white",
     eyebrowText: "Home & ambiance",
   },
   Gifts: {
     bgClass: "bg-pillar-gifts-bg",
     activeButtonClass:
       "bg-pillar-gifts-accent text-white border-pillar-gifts-accent hover:bg-pillar-gifts-accent/90",
+    badgeClass: "bg-pillar-gifts-accent text-white",
     eyebrowText: "Milestone gifts",
   },
 };
@@ -209,6 +221,8 @@ const products: Product[] = [
     festive: true,
     badge: "New",
     image: imgWSalwar,
+    hoverImage: imgModestSet,
+    handle: "pure-cambric-cotton-salwar-suit-set",
   },
   {
     id: 2,
@@ -223,6 +237,8 @@ const products: Product[] = [
     reviews: 112,
     inStock: true,
     image: imgWKurta,
+    hoverImage: imgWSalwar,
+    handle: "everyday-block-print-cotton-kurta",
   },
   {
     id: 3,
@@ -236,6 +252,8 @@ const products: Product[] = [
     reviews: 208,
     inStock: true,
     image: imgWHijab,
+    hoverImage: imgWDress,
+    handle: "micro-modal-silk-daily-hijab",
   },
   {
     id: 4,
@@ -251,6 +269,8 @@ const products: Product[] = [
     reviews: 47,
     inStock: true,
     image: imgWHijab,
+    hoverImage: imgWSalwar,
+    handle: "premium-nida-everyday-abaya",
   },
   {
     id: 5,
@@ -266,6 +286,8 @@ const products: Product[] = [
     inStock: false,
     festive: true,
     image: imgWDress,
+    hoverImage: imgWKurta,
+    handle: "chanderi-tiered-modest-dress",
   },
   {
     id: 6,
@@ -280,6 +302,8 @@ const products: Product[] = [
     reviews: 93,
     inStock: true,
     image: imgMenKurta,
+    hoverImage: imgMenKurta,
+    handle: "classic-friday-cotton-kurta",
   },
   {
     id: 7,
@@ -296,6 +320,8 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     image: imgMenKurta,
+    hoverImage: imgMenKurta,
+    handle: "raw-silk-texture-pathani-set",
   },
   {
     id: 8,
@@ -311,6 +337,8 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     image: imgMenKurta,
+    hoverImage: imgMenKurta,
+    handle: "raw-silk-texture-pathani-set",
   },
   {
     id: 9,
@@ -324,6 +352,8 @@ const products: Product[] = [
     reviews: 76,
     inStock: true,
     image: imgBundle,
+    hoverImage: imgPrayer,
+    handle: "pocket-travel-musalla",
   },
   {
     id: 10,
@@ -340,6 +370,8 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "boys-festive-cotton-kurta-set",
   },
   {
     id: 11,
@@ -355,6 +387,8 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "girls-floral-anarkali-set",
   },
   {
     id: 12,
@@ -369,6 +403,8 @@ const products: Product[] = [
     inStock: true,
     badge: "Loved",
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "first-forms-set",
   },
   {
     id: 13,
@@ -382,6 +418,8 @@ const products: Product[] = [
     reviews: 67,
     inStock: true,
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "first-forms-set",
   },
   {
     id: 14,
@@ -396,6 +434,8 @@ const products: Product[] = [
     reviews: 241,
     inStock: true,
     image: imgPrayer,
+    hoverImage: imgBundle,
+    handle: "the-stillness-set",
   },
   {
     id: 15,
@@ -409,6 +449,8 @@ const products: Product[] = [
     reviews: 88,
     inStock: true,
     image: imgPrayer,
+    hoverImage: imgBundle,
+    handle: "the-stillness-set",
   },
   {
     id: 16,
@@ -422,6 +464,8 @@ const products: Product[] = [
     reviews: 73,
     inStock: true,
     image: imgPrayer,
+    hoverImage: imgBundle,
+    handle: "the-stillness-set",
   },
   {
     id: 17,
@@ -435,6 +479,8 @@ const products: Product[] = [
     reviews: 55,
     inStock: false,
     image: imgPrayer,
+    hoverImage: imgBundle,
+    handle: "the-stillness-set",
   },
   {
     id: 18,
@@ -448,6 +494,8 @@ const products: Product[] = [
     reviews: 134,
     inStock: true,
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "first-forms-set",
   },
   {
     id: 19,
@@ -461,6 +509,8 @@ const products: Product[] = [
     reviews: 98,
     inStock: true,
     image: imgChild,
+    hoverImage: imgChild,
+    handle: "first-forms-set",
   },
   {
     id: 20,
@@ -475,6 +525,8 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     image: imgBundle,
+    hoverImage: imgGifts,
+    handle: "cast-brass-charcoal-bakhoor-burner",
   },
   {
     id: 21,
@@ -488,6 +540,8 @@ const products: Product[] = [
     reviews: 26,
     inStock: true,
     image: imgBundle,
+    hoverImage: imgGifts,
+    handle: "cast-brass-charcoal-bakhoor-burner",
   },
   {
     id: 22,
@@ -501,6 +555,8 @@ const products: Product[] = [
     reviews: 61,
     inStock: true,
     image: imgBundle,
+    hoverImage: imgGifts,
+    handle: "cast-brass-charcoal-bakhoor-burner",
   },
   {
     id: 23,
@@ -516,7 +572,9 @@ const products: Product[] = [
     inStock: true,
     festive: true,
     badge: "Gift",
-    image: imgBundle,
+    image: imgGifts,
+    hoverImage: imgBundle,
+    handle: "the-serene-prayer-sanctuary-gift-box",
   },
   {
     id: 24,
@@ -532,6 +590,8 @@ const products: Product[] = [
     festive: true,
     badge: "Gift",
     image: imgBundle,
+    hoverImage: imgGifts,
+    handle: "the-serene-prayer-sanctuary-gift-box",
   },
 ];
 
@@ -542,7 +602,13 @@ function CollectionPage() {
   const search = Route.useSearch();
   const initialPillar = useMemo(() => {
     if (!search.category) return "All";
-    const match = pillars.find((p) => p.id.toLowerCase() === search.category?.toLowerCase());
+    const cat = search.category.toLowerCase();
+    const match = pillars.find(
+      (p) =>
+        p.id.toLowerCase() === cat ||
+        p.handle.toLowerCase() === cat ||
+        p.label.toLowerCase() === cat,
+    );
     return match ? (match.id as "All" | Pillar) : "All";
   }, [search.category]);
 
@@ -560,7 +626,13 @@ function CollectionPage() {
 
   useEffect(() => {
     if (search.category) {
-      const match = pillars.find((p) => p.id.toLowerCase() === search.category?.toLowerCase());
+      const cat = search.category.toLowerCase();
+      const match = pillars.find(
+        (p) =>
+          p.id.toLowerCase() === cat ||
+          p.handle.toLowerCase() === cat ||
+          p.label.toLowerCase() === cat,
+      );
       if (match) {
         setPillar(match.id as "All" | Pillar);
         setSub(null);
@@ -805,12 +877,23 @@ function CollectionPage() {
         )}
       >
         <PageContainer className="section-space">
-          <SectionHeading
-            index="01"
-            eyebrow={pillarTheme[pillar].eyebrowText}
-            title="Objects for a more considered rhythm."
-            copy="Seven pillars for dressing, praying, learning, and gathering — honest materials, quiet forms, and only what earns its place."
-          />
+          <div className="grid gap-4 border-t border-border pt-6 md:grid-cols-[1fr_2fr] md:gap-12">
+            <div className="eyebrow flex gap-3 text-muted-foreground">
+              <span>01</span>
+              <span>{pillarTheme[pillar].eyebrowText}</span>
+            </div>
+            <div>
+              <h1 className="display-section">
+                {pillar === "All"
+                  ? "Objects for a more considered rhythm."
+                  : pillars.find((p) => p.id === pillar)?.label}
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                Seven pillars for dressing, praying, learning, and gathering — honest materials,
+                quiet forms, and only what earns its place.
+              </p>
+            </div>
+          </div>
           <div className="mt-10 overflow-x-auto pb-1">
             <div className="flex min-w-max gap-2" role="tablist" aria-label="Product pillars">
               {pillars.map((p) => {
@@ -938,7 +1021,25 @@ function CollectionPage() {
               </Select>
             </div>
           </div>
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 lg:mt-5">
+          <div className="mt-3 flex flex-wrap items-center gap-2 overflow-x-auto pb-1 lg:mt-5">
+            {pillar !== "All" && (
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold shadow-xs transition-colors",
+                  pillarTheme[pillar].badgeClass,
+                )}
+              >
+                {pillars.find((p) => p.id === pillar)?.label}
+                <button
+                  type="button"
+                  onClick={() => choosePillar("All")}
+                  className="ml-1 rounded-full p-0.5 hover:bg-black/20"
+                  aria-label="Remove category filter"
+                >
+                  <X className="size-3" />
+                </button>
+              </span>
+            )}
             <Chip
               active={under999}
               onClick={() => {
@@ -1006,6 +1107,7 @@ function CollectionPage() {
                       key={p.id}
                       pillar={p.pillar}
                       image={p.image}
+                      hoverImage={p.hoverImage}
                       imageAlt={p.name}
                       category={p.subcategory}
                       name={p.name}

@@ -42,6 +42,7 @@ export type CollectionProduct = {
   festive?: boolean;
   badge?: string;
   image: string;
+  hoverImage?: string;
   handle: string;
 };
 
@@ -111,6 +112,11 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     image = curated?.gallery?.[0]?.src || "/images/product-modest-set.jpg";
   }
 
+  let hoverImage = p.images?.[1]?.url;
+  if (!hoverImage && curated?.gallery && curated.gallery.length > 1) {
+    hoverImage = curated.gallery[1]?.src;
+  }
+
   // Ratings and review counts are never fabricated — absent means 0, and the
   // UI omits the rating row entirely.
   const rating = Number(p.metadata?.["rating"] ?? 0);
@@ -136,6 +142,7 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     festive: Boolean(p.metadata?.["festive"]),
     badge: (p.metadata?.["badge"] as string) || undefined,
     image,
+    hoverImage,
     handle: p.handle,
   };
 }

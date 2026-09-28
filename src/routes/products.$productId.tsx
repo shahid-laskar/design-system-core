@@ -28,6 +28,7 @@ import productModest from "@/assets/product-modest-set.jpg";
 import productPrayer from "@/assets/product-prayer-set.jpg";
 import { PageContainer } from "@/components/brand/design-primitives";
 import { SizeGuideDialog } from "@/components/brand/size-guide-dialog";
+import { OpacityTester } from "@/components/brand/opacity-tester";
 import {
   Accordion,
   AccordionContent,
@@ -684,6 +685,24 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         </Accordion>
       </PageContainer>
 
+      {product.kind === "apparel" || Boolean(product.sizes?.length) ? (
+        <section className="border-t border-border bg-blush-cream/30 py-12 lg:py-16">
+          <PageContainer>
+            <div className="mb-8">
+              <p className="eyebrow font-bold text-pillar-women-accent">Fabric Transparency Proof</p>
+              <h2 className="mt-2 font-display text-3xl sm:text-4xl">
+                100% Opacity Tested &amp; Guaranteed
+              </h2>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
+                Every cambric cotton piece features an attached opaque cotton voil lining.
+                Test our daylight versus backlight opacity live below.
+              </p>
+            </div>
+            <OpacityTester />
+          </PageContainer>
+        </section>
+      ) : null}
+
       <CrossSellEnsemble product={product} />
 
       <ProductReviewHub product={product} />
@@ -818,18 +837,18 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
 
 function ModestyGuarantee() {
   const promises = [
-    "Attached 100% pure cotton voil lining — no separate inner slip needed",
-    "Zero-transparency guarantee verified against bright backlight",
-    "2-inch inner tailoring margins for easy local sizing adjustments",
+    "Attached pure cotton voil lining across the torso — no separate inner slip needed",
+    "Non-transparent fabric testing: 100% opacity checked against direct backlight",
+    "2-inch generous inner tailoring margins for easy local alteration & perfect fit",
     "Modest comfort ease with 3–4″ room over standard body measurements",
   ];
 
   return (
-    <aside className="mt-5 rounded-sm border border-primary/20 bg-secondary/35 p-4 sm:p-5">
+    <aside className="mt-5 rounded-md border border-primary/20 bg-secondary/15 p-4 sm:p-5">
       <div className="flex items-start gap-3">
         <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
         <div>
-          <h2 className="font-display text-xl">Sukoon Modesty Guarantee</h2>
+          <h2 className="font-display text-xl text-foreground">Sukoon Modesty Guarantee</h2>
           <ul className="mt-3 grid gap-2 text-xs leading-5 text-muted-foreground sm:text-sm">
             {promises.map((promise) => (
               <li key={promise} className="flex items-start gap-2">
@@ -952,6 +971,10 @@ function PincodeChecker() {
             </span>
           </p>
           <p className="flex items-center gap-1.5 text-muted-foreground">
+            <PackageCheck className="size-3.5 shrink-0 text-primary" />
+            <span>Dispatched within 24–48 hours from our Surat/Delhi hub</span>
+          </p>
+          <p className="flex items-center gap-1.5 text-muted-foreground">
             <CircleCheck className="size-3.5 shrink-0 text-success" />
             <span>Cash on Delivery (COD) Available</span>
           </p>
@@ -962,7 +985,7 @@ function PincodeChecker() {
         </div>
       ) : (
         <p className="mt-2 text-[0.7rem] text-muted-foreground">
-          Enter your delivery pincode to check dispatch timelines &amp; COD availability.
+          Enter your delivery pincode to check dispatch timelines (24–48h dispatch) &amp; COD availability.
         </p>
       )}
     </div>
