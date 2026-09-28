@@ -351,12 +351,12 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <div className="mt-5 border-y border-border py-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                 <span className="font-display text-4xl">
-                  ₹{product.price.toLocaleString("en-IN")}
+                  ₹{displayPrice.toLocaleString("en-IN")}
                 </span>
                 {savings > 0 ? (
                   <>
                     <span className="text-sm text-muted-foreground line-through">
-                      MRP ₹{product.mrp.toLocaleString("en-IN")}
+                      MRP ₹{displayMrp.toLocaleString("en-IN")}
                     </span>
                     <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">
                       {discount}% off · Save ₹{savings.toLocaleString("en-IN")}
@@ -372,6 +372,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               </p>
             </div>
             <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
+
+            {product.kind === "apparel" ? <ModestyGuarantee /> : null}
 
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -651,11 +653,11 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 <Declaration label="Net Quantity" value={product.netQuantity} />
                 <Declaration
                   label="Maximum Retail Price (MRP)"
-                  value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`}
+                  value={`₹${displayMrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`}
                 />
                 <Declaration
                   label="Unit Sale Price (USP)"
-                  value={`₹${product.price.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`}
+                  value={`₹${displayPrice.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`}
                 />
                 <Declaration label="Country of Origin" value={product.countryOfOrigin} />
                 <Declaration
@@ -686,7 +688,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       <ProductReviewHub product={product} />
 
       {/* Mobile Persistent Bottom Dock */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-lifted backdrop-blur lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lifted backdrop-blur lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">
@@ -732,7 +734,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     {product.name}
                   </SheetTitle>
                   <SheetDescription className="mt-0.5 text-xs text-muted-foreground">
-                    ₹{product.price.toLocaleString("en-IN")} · Choose size to add to basket
+                    ₹{displayPrice.toLocaleString("en-IN")} · Choose size to add to basket
                   </SheetDescription>
                 </div>
               </div>

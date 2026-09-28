@@ -29,7 +29,9 @@ export type MedusaStoreProduct = {
     title: string;
     sku: string;
     manage_inventory: boolean;
-    options: Record<string, string>;
+    options:
+      | Record<string, string>
+      | Array<{ value?: string; option?: { title?: string } }>;
     calculated_price?: {
       calculated_amount: number;
       original_amount: number;
