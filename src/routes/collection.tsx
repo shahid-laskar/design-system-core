@@ -697,7 +697,7 @@ function CollectionPage() {
                     </SheetDescription>
                   </SheetHeader>
                   <div className="flex-1 overflow-y-auto p-5">{filters}</div>
-                  <div className="sticky bottom-0 flex gap-2 border-t border-border bg-background p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                  <div className="sticky bottom-0 flex gap-2 border-t border-border bg-background p-4 pb-[max(1rem,calc(var(--mobile-bottom-nav-h)+env(safe-area-inset-bottom)))]">
                     <Button variant="outline" className="flex-1" onClick={resetFilters}>
                       Clear
                     </Button>
@@ -833,7 +833,7 @@ function CollectionPage() {
         </PageContainer>
       </div>
 
-      <PageContainer className="pb-20 pt-8">
+      <PageContainer className="pt-8 pb-6">
         <div className="grid items-start gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]">
           <aside className="hidden lg:sticky lg:top-24 lg:block" aria-label="Product filters">
             <p className="eyebrow mb-5 text-foreground">Refine</p>

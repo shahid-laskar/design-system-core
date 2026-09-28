@@ -123,6 +123,14 @@
   --color-overlay: var(--overlay);
   --shadow-soft: 0 16px 45px -28px color-mix(in oklab, var(--foreground) 28%, transparent);
   --shadow-lifted: 0 24px 70px -36px color-mix(in oklab, var(--foreground) 38%, transparent);
+  --z-sticky: 30;
+  --z-header: 40;
+  --z-purchase-dock: 45;
+  --z-bottom-nav: 50;
+  --z-drawer: 60;
+  --z-modal: 70;
+  --mobile-bottom-nav-h: 3.75rem;
+  --mobile-purchase-dock-h: 4.5rem;
 }
 
 :root {
@@ -431,6 +439,64 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Reserve space for the fixed mobile bottom navigation. */
+@utility shell-main {
+  padding-bottom: calc(var(--mobile-bottom-nav-h) + env(safe-area-inset-bottom, 0px));
+
+  @media (min-width: 64rem) {
+    padding-bottom: 0;
+  }
+}
+
+/* PDP purchase dock sits above the bottom nav — never covers it. */
+@utility purchase-dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(var(--mobile-bottom-nav-h) + env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-purchase-dock);
+}
+
+@utility purchase-dock-spacer {
+  padding-bottom: calc(
+    var(--mobile-bottom-nav-h) + var(--mobile-purchase-dock-h) + env(safe-area-inset-bottom, 0px)
+  );
+
+  @media (min-width: 64rem) {
+    padding-bottom: 0;
+  }
+}
+
+@utility bottom-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-bottom-nav);
+  height: calc(var(--mobile-bottom-nav-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@keyframes ticker-fade {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  18%,
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(-0.35rem);
+  }
+}
+
+@utility ticker-item-active {
+  animation: ticker-fade 4s var(--motion-ease) both;
 }
 
 

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowLeft,
-  CheckCircle2,
   CreditCard,
   Lock,
   Package,
@@ -11,7 +10,7 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
+import { Eyebrow, PageContainer } from "@/components/brand/design-primitives";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -256,63 +255,86 @@ function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <PageContainer className="py-20 text-center">
-        <Package className="mx-auto size-12 text-muted-foreground" />
-        <h1 className="mt-4 font-display text-3xl font-semibold text-foreground">
-          Your basket is empty
+      <PageContainer className="py-14 text-center sm:py-20">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-blush-cream text-primary">
+          <Package className="size-7" />
+        </div>
+        <h1 className="mt-5 font-display text-3xl font-medium text-foreground sm:text-4xl">
+          Nothing to check out yet
         </h1>
-        <p className="mt-2 text-muted-foreground">
-          Explore our collection of modest essentials for family life.
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+          Add something lovely to your basket, then return here for calm, secure checkout.
         </p>
-        <Button className="mt-6" asChild>
-          <Link to="/collection">Browse The Collection</Link>
-        </Button>
+        <div className="mt-7 flex flex-wrap justify-center gap-2">
+          <Button asChild>
+            <Link to="/collection">Browse the collection</Link>
+          </Button>
+          {(
+            [
+              ["Women", "women"],
+              ["Men", "men"],
+              ["Kids", "children"],
+              ["Gifts", "gifts"],
+            ] as const
+          ).map(([label, category]) => (
+            <Button key={category} variant="outline" asChild>
+              <Link to="/collection" search={{ category }}>
+                {label}
+              </Link>
+            </Button>
+          ))}
+        </div>
       </PageContainer>
     );
   }
 
   return (
-    <PageContainer className="py-10 md:py-16">
-      <div className="mb-6 flex items-center gap-2">
+    <PageContainer className="py-8 md:py-12">
+      <div className="mb-5 flex items-center gap-2">
         <Button variant="ghost" size="sm" asChild className="gap-1.5 text-muted-foreground">
           <Link to="/collection">
-            <ArrowLeft className="size-4" /> Back to store
+            <ArrowLeft className="size-4" /> Continue shopping
           </Link>
         </Button>
       </div>
 
-      <header className="mb-8">
-        <Eyebrow className="text-primary">100% Encrypted &amp; Secure Checkout</Eyebrow>
-        <h1 className="display-section mt-2 text-3xl md:text-4xl">Complete Your Order</h1>
+      <header className="mb-6 border-b border-border pb-6">
+        <Eyebrow className="text-primary">Secure checkout</Eyebrow>
+        <h1 className="mt-2 font-display text-3xl md:text-4xl">Complete your order</h1>
+        <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+          Review what you are buying, where it will arrive, how you will pay, then confirm.
+        </p>
       </header>
 
-      {/* Step Indicator */}
-      <div className="mb-8 flex items-center gap-0">
+      {/* Progress */}
+      <div className="mb-8 flex flex-wrap items-center gap-x-0 gap-y-2" aria-label="Checkout progress">
         {[
-          { n: 1, label: 'Shipping' },
-          { n: 2, label: 'Payment' },
-          { n: 3, label: 'Review' },
+          { n: 1, label: "Details" },
+          { n: 2, label: "Delivery" },
+          { n: 3, label: "Payment" },
         ].map((step, idx) => (
           <div key={step.n} className="flex items-center">
             <div className="flex items-center gap-2">
-              <span className={cn(
-                'flex size-7 items-center justify-center rounded-full text-xs font-bold',
-                step.n === 1
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground'
-              )}>
+              <span
+                className={cn(
+                  "flex size-7 items-center justify-center rounded-full text-xs font-bold",
+                  step.n === 1
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground",
+                )}
+              >
                 {step.n}
               </span>
-              <span className={cn(
-                'text-sm font-medium',
-                step.n === 1 ? 'text-foreground' : 'text-muted-foreground'
-              )}>
+              <span
+                className={cn(
+                  "text-sm font-medium",
+                  step.n === 1 ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
                 {step.label}
               </span>
             </div>
-            {idx < 2 && (
-              <div className="mx-3 h-px w-8 bg-border sm:w-16" />
-            )}
+            {idx < 2 && <div className="mx-3 h-px w-6 bg-border sm:w-12" />}
           </div>
         ))}
       </div>
@@ -323,14 +345,14 @@ function CheckoutPage() {
         </div>
       ) : null}
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
         {/* Left Column: Form */}
-        <form onSubmit={handleCheckout} className="space-y-8 lg:col-span-7">
+        <form onSubmit={handleCheckout} className="space-y-7 lg:col-span-7">
           {/* Section 1: Contact Details */}
-          <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
-            <h2 className="font-display text-xl font-semibold">1. Contact Information</h2>
+          <section className="border-b border-border pb-7">
+            <h2 className="font-display text-xl font-medium">1. Contact</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              We'll send order tracking &amp; delivery updates via Email and WhatsApp.
+              Order updates arrive by email and WhatsApp.
             </p>
 
             <div className="mt-4 space-y-4">
@@ -368,10 +390,10 @@ function CheckoutPage() {
           </section>
 
           {/* Section 2: Delivery Address */}
-          <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
-            <h2 className="font-display text-xl font-semibold">2. Delivery Address</h2>
+          <section className="border-b border-border pb-7">
+            <h2 className="font-display text-xl font-medium">2. Delivery</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              All deliveries are handled via trusted courier networks across India.
+              Where should we send this order?
             </p>
 
             <div className="mt-4 space-y-4">
@@ -471,10 +493,10 @@ function CheckoutPage() {
           </section>
 
           {/* Section 3: Payment Method */}
-          <section className="rounded-lg border border-border bg-card p-6 shadow-sm">
-            <h2 className="font-display text-xl font-semibold">3. Payment Method</h2>
+          <section className="pb-2">
+            <h2 className="font-display text-xl font-medium">3. Payment</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Select your preferred mode of payment.
+              Choose how you would like to pay.
             </p>
 
             <div className="mt-4 space-y-3">
@@ -559,10 +581,10 @@ function CheckoutPage() {
 
         {/* Right Column: Order Summary */}
         <aside className="lg:col-span-5">
-          <div className="sticky top-24 rounded-lg border border-border bg-card p-6 shadow-sm">
-            <h2 className="font-display text-xl font-semibold">Order Summary</h2>
+          <div className="sticky top-28 border border-border bg-blush-cream/30 p-5 sm:p-6">
+            <h2 className="font-display text-xl font-medium">What you are buying</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              {items.reduce((count, i) => count + i.quantity, 0)} items in your basket
+              {items.reduce((count, i) => count + i.quantity, 0)} items · Total due below
             </p>
 
             <div className="mt-4 divide-y divide-border">

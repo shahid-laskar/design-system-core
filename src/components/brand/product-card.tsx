@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Check, Heart, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CommerceImage } from "@/components/brand/commerce-image";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
 
@@ -229,7 +230,7 @@ export function ProductCard({
     <article className="group min-w-0">
       <div className={cn("media-frame relative aspect-[4/5]", currentPillar.bgClass)}>
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
-          <img
+          <CommerceImage
             src={image}
             alt={imageAlt}
             width={1200}
@@ -241,7 +242,7 @@ export function ProductCard({
             )}
           />
           {hoverImage ? (
-            <img
+            <CommerceImage
               src={hoverImage}
               alt=""
               aria-hidden

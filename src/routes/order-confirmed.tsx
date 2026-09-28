@@ -63,21 +63,21 @@ function OrderConfirmedPage() {
   const orderNumber = display_id || order?.display_id?.toString() || "1";
 
   return (
-    <PageContainer className="py-12 md:py-20 max-w-4xl mx-auto">
+    <PageContainer className="py-12 md:py-16 max-w-4xl mx-auto">
       {/* Success Banner */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center justify-center size-20 rounded-full bg-emerald-500/10 text-emerald-600 mb-6">
+        <div className="inline-flex items-center justify-center size-20 rounded-full bg-primary/10 text-primary mb-6">
           <CheckCircle2 className="size-10" />
         </div>
-        <Eyebrow className="text-emerald-700 font-semibold tracking-wider">
-          ALHAMDULILLAH • ORDER RECEIVED
+        <Eyebrow className="text-primary font-semibold tracking-wider">
+          Order received
         </Eyebrow>
-        <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground">
+        <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-foreground">
           Thank you for your order
         </h1>
-        <p className="mt-3 text-base text-muted-foreground max-w-lg mx-auto">
-          We have received your order and are preparing your modest wardrobe essentials with care.
-          A confirmation update has been sent to your email.
+        <p className="mt-3 text-base text-muted-foreground max-w-lg mx-auto leading-7">
+          We are preparing your pieces with care. A confirmation has been sent to your email, and
+          WhatsApp updates will follow once the courier is booked.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -227,7 +227,7 @@ function OrderConfirmedPage() {
       )}
 
       {/* Concierge & Actions */}
-      <div className="mt-10 rounded-xl bg-muted/40 p-6 border border-border text-center md:flex md:items-center md:justify-between md:text-left">
+      <div className="mt-10 border border-border bg-blush-cream/40 p-6 text-center md:flex md:items-center md:justify-between md:text-left">
         <div>
           <h3 className="text-sm font-medium text-foreground">Sukoon Concierge Support</h3>
           <p className="text-xs text-muted-foreground mt-1">
