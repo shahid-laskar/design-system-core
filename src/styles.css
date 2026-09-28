@@ -82,6 +82,9 @@
   --color-mango-foreground: var(--mango-foreground);
   --color-blush: var(--blush);
   --color-blush-foreground: var(--blush-foreground);
+  --color-brass: var(--brass);
+  --color-brass-foreground: var(--brass-foreground);
+
   --color-warm-ivory: var(--warm-ivory);
   --color-blush-cream: var(--blush-cream);
   --color-charcoal-ink: var(--charcoal-ink);
@@ -159,6 +162,9 @@
   --mango-foreground: oklch(0.258 0.005 67.6);
   --blush: oklch(0.957 0.017 31.1);
   --blush-foreground: oklch(0.258 0.005 67.6);
+  --brass: oklch(0.696 0.126 84.5);
+  --brass-foreground: oklch(0.258 0.005 67.6);
+
   --success: oklch(0.52 0.105 146);
   --success-foreground: oklch(0.98 0.01 145);
   --warning: oklch(0.783 0.156 72.7);
