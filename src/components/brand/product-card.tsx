@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, Eye, Heart, Plus, Star } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Check, Heart, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Eyebrow } from "@/components/brand/design-primitives";
 import { useCart } from "@/lib/cart-context";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +10,6 @@ export type SizeStock = "in" | "low" | "out";
 type ProductCardProps = {
   image: string;
   hoverImage?: string | undefined;
-
   imageAlt: string;
   category: string;
   name: string;
@@ -28,6 +25,7 @@ type ProductCardProps = {
   reviewCount?: number | undefined;
   inStock?: boolean | undefined;
   pillar?: string | undefined;
+  colors?: Array<{ name: string; swatch: string }> | undefined;
 };
 
 export function deriveSizeStock(
@@ -166,7 +164,6 @@ export function ProductCard({
   hoverImage,
   imageAlt,
   category,
-
   name,
   price,
   previousPrice,
@@ -180,6 +177,7 @@ export function ProductCard({
   reviewCount,
   inStock = true,
   pillar,
+  colors,
 }: ProductCardProps) {
   const { addItem, setIsOpen } = useCart();
   const [saved, setSaved] = useState(false);
@@ -196,9 +194,10 @@ export function ProductCard({
       .replace(/(^-|-$)/g, "")}`;
   const isApparel = Boolean(sizes?.length);
   const stockMap = sizeStock ?? deriveSizeStock(sizes, inStock);
+  const visibleColors = (colors ?? []).filter((c) => c.name !== "Default").slice(0, 4);
 
   const quickAdd = (size?: string) => {
-    const numericPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 999;
+    const numericPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 0;
     const numericOriginalPrice = previousPrice
       ? parseInt(previousPrice.replace(/[^0-9]/g, ""), 10)
       : numericPrice;
@@ -227,8 +226,8 @@ export function ProductCard({
   };
 
   return (
-    <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-all duration-brand-fast ease-brand hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-lifted">
-      <div className="media-frame relative aspect-[4/5]">
+    <article className="group min-w-0">
+      <div className={cn("media-frame relative aspect-[4/5]", currentPillar.bgClass)}>
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
           <img
             src={image}
@@ -237,7 +236,7 @@ export function ProductCard({
             height={1504}
             loading="lazy"
             className={cn(
-              "size-full object-cover transition-all duration-brand-slow ease-brand group-hover:scale-[1.025]",
+              "size-full object-cover transition-all duration-brand-slow ease-brand group-hover:scale-[1.03]",
               hoverImage && "group-hover:opacity-0",
             )}
           />
@@ -249,7 +248,7 @@ export function ProductCard({
               width={1200}
               height={1504}
               loading="lazy"
-              className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-brand-slow ease-brand group-hover:scale-[1.025] group-hover:opacity-100"
+              className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-brand-slow ease-brand group-hover:scale-[1.03] group-hover:opacity-100"
             />
           ) : null}
         </Link>
@@ -257,7 +256,7 @@ export function ProductCard({
         {badge ? (
           <span
             className={cn(
-              "absolute left-3 top-3 rounded-sm px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wider shadow-xs transition-colors",
+              "absolute left-3 top-3 rounded-sm px-2 py-1 text-[0.65rem] font-bold uppercase tracking-wider",
               currentPillar.badgeClass,
             )}
           >
@@ -265,15 +264,15 @@ export function ProductCard({
           </span>
         ) : null}
         {!inStock ? (
-          <span className="absolute bottom-3 left-3 rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
+          <span className="absolute bottom-3 left-3 bg-charcoal-ink/80 px-2.5 py-1 text-xs text-white">
             Out of stock
           </span>
         ) : null}
-        <Button
-          variant="secondary"
-          size="icon"
+
+        <button
+          type="button"
           className={cn(
-            "absolute right-3 top-3 rounded-full bg-background/95 text-foreground transition-colors hover:bg-background",
+            "absolute right-3 top-3 flex size-9 items-center justify-center rounded-full bg-background/90 text-foreground transition-colors hover:bg-background",
             saved && "text-berry",
           )}
           aria-label={saved ? `Remove ${name} from saved` : `Save ${name}`}
@@ -284,65 +283,63 @@ export function ProductCard({
           }}
         >
           <Heart className={cn("size-4", saved && "fill-current text-berry")} />
-        </Button>
+        </button>
+
         {isApparel && sizes?.length ? (
-          <div className="pointer-events-none absolute inset-x-2.5 bottom-2.5 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-            <div className="rounded-md border border-border/80 bg-background/95 p-2 shadow-lifted backdrop-blur-sm">
-              <p className="mb-1 text-center text-[0.62rem] font-bold uppercase tracking-eyebrow text-muted-foreground">
-                Quick Add Size
-              </p>
-              <div className="flex flex-wrap justify-center gap-1">
-                {sizes.map((sz) => {
-                  const status = stockMap[sz] ?? "in";
-                  const soldOut = status === "out" || !inStock;
-                  const isAdded = added === sz;
-                  return (
-                    <button
-                      key={`hover-${sz}`}
-                      type="button"
-                      disabled={soldOut}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        quickAdd(sz);
-                      }}
-                      className={cn(
-                        "inline-flex h-7 min-w-7 items-center justify-center rounded-sm text-xs font-semibold transition-colors",
-                        soldOut
-                          ? "cursor-not-allowed border-dashed text-muted-foreground/40 line-through"
-                          : isAdded
-                            ? "bg-primary text-primary-foreground"
-                            : "border border-border bg-card hover:border-primary hover:bg-primary/10",
-                      )}
-                      aria-label={`Add size ${sz}`}
-                    >
-                      {isAdded ? <Check className="size-3" /> : sz}
-                    </button>
-                  );
-                })}
-              </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-2 bg-gradient-to-t from-charcoal-ink/70 to-transparent p-3 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:hover)]:block">
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {sizes.map((sz) => {
+                const status = stockMap[sz] ?? "in";
+                const soldOut = status === "out" || !inStock;
+                const isAdded = added === sz;
+                return (
+                  <button
+                    key={`hover-${sz}`}
+                    type="button"
+                    disabled={soldOut}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      quickAdd(sz);
+                    }}
+                    className={cn(
+                      "inline-flex h-8 min-w-8 items-center justify-center bg-background text-xs font-semibold transition-colors",
+                      soldOut
+                        ? "cursor-not-allowed text-muted-foreground/40 line-through"
+                        : isAdded
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-primary hover:text-primary-foreground",
+                    )}
+                    aria-label={soldOut ? `Size ${sz} sold out` : `Quick add size ${sz}`}
+                  >
+                    {isAdded ? <Check className="size-3" /> : sz}
+                  </button>
+                );
+              })}
             </div>
           </div>
-        ) : (
-          <div className="pointer-events-none absolute inset-x-3 bottom-3 hidden [@media(hover:hover)]:block translate-y-2 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-            <Button variant="secondary" className="w-full bg-background/95 text-foreground" asChild>
-              <Link to={targetHref}>
-                <Eye className="mr-1.5 size-4" /> Quick view
-              </Link>
-            </Button>
-          </div>
-        )}
+        ) : null}
       </div>
-      <div className="px-1 pb-1 pt-3">
-        <Eyebrow
-          className={cn("font-bold tracking-eyebrow transition-colors", currentPillar.eyebrowClass)}
-        >
-          {category}
-        </Eyebrow>
+
+      <div className="pt-3">
+        <p className={cn("eyebrow", currentPillar.eyebrowClass)}>{category}</p>
         <Link to={targetHref} className="mt-1.5 block transition-colors hover:text-primary">
-          <h3 className="text-base font-semibold leading-snug">{name}</h3>
+          <h3 className="font-display text-lg leading-snug sm:text-xl">{name}</h3>
         </Link>
-        <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{note}</p>
+        {note ? <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">{note}</p> : null}
+
+        {visibleColors.length > 0 ? (
+          <div className="mt-2.5 flex items-center gap-1.5" aria-label="Available colours">
+            {visibleColors.map((c) => (
+              <span
+                key={c.name}
+                title={c.name}
+                className={cn("size-3.5 rounded-full border border-border/80", c.swatch)}
+              />
+            ))}
+          </div>
+        ) : null}
+
         {rating ? (
           <div className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
             <Star className="size-3.5 fill-current text-mango" aria-hidden />
@@ -350,23 +347,20 @@ export function ProductCard({
             {reviewCount ? <span>({reviewCount})</span> : null}
           </div>
         ) : null}
-        <div className="mt-2 flex flex-wrap items-center gap-2">
+
+        <div className="mt-2 flex flex-wrap items-baseline gap-2">
           <span className="text-lg font-bold">{price}</span>
           {previousPrice ? (
             <span className="text-sm text-muted-foreground line-through">{previousPrice}</span>
           ) : null}
           {savings ? (
-            <span className="rounded-sm bg-berry px-1.5 py-0.5 text-[0.7rem] font-bold text-berry-foreground">
-              Save {savings}
-            </span>
+            <span className="text-[0.7rem] font-bold text-berry">Save {savings}</span>
           ) : null}
         </div>
+
         {isApparel ? (
-          <div className="mt-3">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
-              {added ? "Added to basket" : "Pick a size to add"}
-            </p>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
+          <div className="mt-3 [@media(hover:hover)]:hidden">
+            <div className="flex flex-wrap gap-1.5">
               {sizes!.map((size) => {
                 const status = stockMap[size] ?? "in";
                 const soldOut = status === "out" || !inStock;
@@ -381,22 +375,14 @@ export function ProductCard({
                       e.stopPropagation();
                       quickAdd(size);
                     }}
-                    title={
-                      soldOut
-                        ? `Size ${size} sold out`
-                        : status === "low"
-                          ? `Only 2 left in size ${size}`
-                          : `Add size ${size} to basket`
-                    }
-                    aria-label={soldOut ? `Size ${size} sold out` : `Add size ${size} to basket`}
+                    aria-label={soldOut ? `Size ${size} sold out` : `Add size ${size}`}
                     className={cn(
-                      "relative inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-2 text-xs font-semibold transition-colors duration-brand-fast ease-brand",
+                      "inline-flex min-h-9 min-w-9 items-center justify-center border px-2 text-xs font-semibold transition-colors",
                       soldOut
                         ? "cursor-not-allowed border-dashed border-border text-muted-foreground/60 line-through"
                         : isAdded
                           ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-background hover:border-primary hover:bg-primary/10",
-                      status === "low" && !soldOut && !isAdded && "border-mango/70",
+                          : "border-border bg-background hover:border-primary",
                     )}
                   >
                     {isAdded ? <Check className="size-3.5" /> : size}
@@ -404,26 +390,11 @@ export function ProductCard({
                 );
               })}
             </div>
-            {sizes!.some((s) => (stockMap[s] ?? "in") === "low") && inStock ? (
-              <p className="mt-1.5 text-[0.7rem] font-medium text-mango-foreground">
-                Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
-              </p>
-            ) : null}
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-3 w-full min-w-0 px-2 text-xs"
-              asChild
-            >
-              <Link to={targetHref} className="truncate">
-                View details
-              </Link>
-            </Button>
           </div>
         ) : (
-          <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
+          <Button className="mt-3 w-full" disabled={!inStock} onClick={handleAdd}>
             {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}{" "}
-            {inStock ? (added ? "Added ✓" : "Add to basket") : "Notify me"}
+            {inStock ? (added ? "Added" : "Add to basket") : "Notify me"}
           </Button>
         )}
       </div>

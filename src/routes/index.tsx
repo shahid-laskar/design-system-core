@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils";
 import heroFamily from "@/assets/editorial-family-rhythm.jpg";
 import occasionEid from "@/assets/occasion-eid.jpg";
 import occasionRamadan from "@/assets/occasion-ramadan.jpg";
-import occasionJummah from "@/assets/occasion-jummah.jpg";
 import pillarGifts from "@/assets/pillar-gifts.jpg";
 import editorialHomeCalm from "@/assets/editorial-home-calm.jpg";
 import editorialFamilyRhythm from "@/assets/editorial-family-rhythm.jpg";
@@ -130,7 +129,7 @@ const occasionStories = [
     id: "jummah",
     title: "Jummah Collection",
     copy: "Fresh kurtas, mats, and Friday fragrance.",
-    image: occasionJummah,
+    image: "/images/men-kurta-ivory.jpg",
     accent: "bg-teal text-teal-foreground",
   },
   {
@@ -533,6 +532,7 @@ function HomePage() {
                   sizes={product.sizes}
                   sizeStock={product.sizeStock}
                   inStock={product.inStock}
+                  colors={product.colors}
                   href={`/products/${product.handle}`}
                 />
               </div>
@@ -598,6 +598,7 @@ function HomePage() {
                   rating={product.rating}
                   reviewCount={product.reviews}
                   inStock={product.inStock}
+                  colors={product.colors}
                   href={`/products/${product.handle}`}
                 />
               </div>
@@ -650,6 +651,7 @@ function HomePage() {
                   sizes={product.sizes}
                   sizeStock={product.sizeStock}
                   inStock={product.inStock}
+                  colors={product.colors}
                   href={`/products/${product.handle}`}
                 />
               </div>
@@ -757,6 +759,7 @@ function HomePage() {
                 rating={product.rating}
                 reviewCount={product.reviews}
                 inStock={product.inStock}
+                  colors={product.colors}
                 href={`/products/${product.handle}`}
               />
             ))}

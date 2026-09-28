@@ -60,6 +60,7 @@ export type CollectionProduct = {
   handle: string;
   createdAt?: string;
   sizeStock?: Record<string, "in" | "low" | "out">;
+  colors?: Array<{ name: string; swatch: string }>;
 };
 
 export type ProductDetail = {
@@ -175,16 +176,30 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   const rating = Number(p.metadata?.["rating"] ?? 0);
   const reviews = Number(p.metadata?.["reviews"] ?? 0);
 
+  const subcategory =
+    curated?.categoryTrail?.[1] ||
+    curated?.categoryTrail?.[0] ||
+    p.categories?.[0]?.name ||
+    "Essentials";
+
+  const materialsFromMeta = (p.metadata?.["fabric"] as string) || undefined;
+  const materials = materialsFromMeta
+    ? [materialsFromMeta]
+    : (curated?.specifications
+        ?.filter(([label]) => /fabric|material|top fabric/i.test(label))
+        .map(([, value]) => value.split("(")[0]!.trim())
+        .filter(Boolean) ?? ["Pure Cotton"]);
+
   return {
     id: p.handle || p.id,
     pillar,
-    subcategory: p.categories?.[0]?.name || "Essentials",
+    subcategory,
     name: p.title,
     price: calculatedPrice,
     mrp: mrpCandidate > calculatedPrice ? mrpCandidate : undefined,
     note:
       (p.metadata?.["fabric"] as string) || (p.metadata?.["opacity"] as string) || p.subtitle || "",
-    materials: [(p.metadata?.["fabric"] as string) || "Pure Cotton"],
+    materials,
     sizes,
     rating,
     reviews,
@@ -196,6 +211,7 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     handle: p.handle,
     createdAt: p.created_at,
     sizeStock,
+    colors: curated?.colors,
   };
 }
 
@@ -212,22 +228,28 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   const metadataMrp = Number(p.metadata?.["mrp"] ?? 0);
   const originalAmount = firstVariant?.calculated_price?.original_amount ?? price;
   const mrp = Math.max(price, metadataMrp || originalAmount);
+  const curated = findCatalogProduct(p.handle);
 
   const colorOption = p.options?.find(
     (o) => o.title.toLowerCase() === "colour" || o.title.toLowerCase() === "color",
   );
-  const colors = colorOption?.values?.map((v) => {
-    const val = v.value.toLowerCase();
-    const swatch =
-      val.includes("sage") || val.includes("green") || val.includes("olive")
-        ? "bg-primary"
-        : val.includes("blue")
-          ? "bg-mineral"
-          : val.includes("sand") || val.includes("oat")
-            ? "bg-secondary"
-            : "bg-clay";
-    return { name: v.value, swatch };
-  }) || [{ name: "Default", swatch: "bg-primary" }];
+  const colors =
+    colorOption?.values?.map((v) => {
+      const val = v.value.toLowerCase();
+      const swatch =
+        val.includes("sage") || val.includes("green") || val.includes("olive") || val.includes("emerald")
+          ? "bg-primary"
+          : val.includes("blue") || val.includes("berry") || val.includes("maroon")
+            ? "bg-berry"
+            : val.includes("sand") || val.includes("oat") || val.includes("ivory")
+              ? "bg-secondary"
+              : val.includes("mustard") || val.includes("mango") || val.includes("rose")
+                ? "bg-clay"
+                : "bg-mineral";
+      return { name: v.value, swatch };
+    }) ||
+    curated?.colors ||
+    [{ name: "Default", swatch: "bg-primary" }];
 
   const sizeOption = p.options?.find((o) => o.title.toLowerCase() === "size");
   const sizes = sizeOption?.values?.map((v) => {
@@ -257,7 +279,6 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   });
 
   const categoryName = p.categories?.[0]?.name || "Women's Ethnic & Modest";
-  const curated = findCatalogProduct(p.handle);
   const medusaImages = p.images ?? [];
   const medusaPrimaryWeak =
     medusaImages.length === 0 || isWeakCatalogImage(medusaImages[0]?.url || p.thumbnail);

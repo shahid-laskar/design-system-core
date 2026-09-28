@@ -1,7 +1,14 @@
 import { useMemo, useRef, useState, useEffect, type KeyboardEvent, type UIEvent } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useCommerceProduct, type ProductDetail } from "@/lib/commerce/use-commerce";
+import {
+  useCommerceProduct,
+  useCommerceProducts,
+  mapMedusaToCollectionProduct,
+  type ProductDetail,
+} from "@/lib/commerce/use-commerce";
 import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
+import { SNAPSHOT_PRODUCTS } from "@/lib/commerce/snapshot-fallback";
+import { ProductCard } from "@/components/brand/product-card";
 import {
   Camera,
   Check,
@@ -23,10 +30,6 @@ import {
   Zap,
 } from "lucide-react";
 
-import editorialHome from "@/assets/editorial-home-calm.jpg";
-const productChild = "/images/children-habit-board.jpg";
-const productModest = "/images/daily-hijab-oat.jpg";
-const productPrayer = "/images/prayer-mat-set.jpg";
 import { PageContainer } from "@/components/brand/design-primitives";
 import { SizeGuideDialog } from "@/components/brand/size-guide-dialog";
 import { OpacityTester } from "@/components/brand/opacity-tester";
@@ -104,6 +107,14 @@ function ProductPage() {
 function ProductExperience({ product }: { product: ProductDetail }) {
   const { addItem, setIsOpen } = useCart();
   const navigate = useNavigate();
+  const gallery = useMemo(() => {
+    const seen = new Set<string>();
+    return product.gallery.filter((image) => {
+      if (!image.src || seen.has(image.src)) return false;
+      seen.add(image.src);
+      return true;
+    });
+  }, [product.gallery]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]?.name ?? "Default");
   const firstAvailableSize = product.sizes?.find((size) => size.stock !== "sold-out")?.name;
@@ -172,7 +183,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       category: product.category,
       price: displayPrice,
       originalPrice: displayMrp,
-      image: product.gallery[0]?.src ?? "",
+      image: gallery[0]?.src ?? "",
       size,
       color,
       quantity,
@@ -224,7 +235,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       category: product.category,
       price: displayPrice,
       originalPrice: displayMrp,
-      image: product.gallery[0]?.src ?? "",
+      image: gallery[0]?.src ?? "",
       size: chosenSize,
       color,
       quantity,
@@ -272,7 +283,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <div className="hidden lg:flex gap-3">
               {/* Vertical thumbnail strip */}
               <div className="flex flex-col gap-2">
-                {product.gallery.slice(0, 5).map((image, index) => (
+                {gallery.slice(0, 5).map((image, index) => (
                   <button
                     key={image.alt}
                     type="button"
@@ -302,11 +313,11 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 >
                   <img
                     key={selectedImage}
-                    src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
-                    alt={product.gallery[selectedImage]?.alt ?? product.name}
+                    src={gallery[selectedImage]?.src ?? gallery[0]?.src}
+                    alt={gallery[selectedImage]?.alt ?? product.name}
                     className={cn(
                       'aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500',
-                      product.gallery[selectedImage]?.position ?? 'object-center'
+                      gallery[selectedImage]?.position ?? 'object-center'
                     )}
                     width={1000}
                     height={1250}
@@ -319,7 +330,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted lg:hidden"
               onScroll={handleGalleryScroll}
             >
-              {product.gallery.map((image) => (
+              {gallery.map((image) => (
                 <div key={image.alt} className="aspect-[4/5] w-full shrink-0 snap-center">
                   <img
                     src={image.src}
@@ -333,7 +344,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             </div>
 
             <div className="mt-3 flex justify-center gap-2 lg:hidden" aria-label="Image pagination">
-              {product.gallery.map((image, index) => (
+              {gallery.map((image, index) => (
                 <span
                   key={image.alt}
                   className={cn(
@@ -347,15 +358,12 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
           <section className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center rounded-full border border-border bg-secondary/45 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-primary">
-                {product.category}
-              </div>
-              {product.kind === "apparel" && (
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-3 py-1 text-[0.68rem] font-semibold text-primary">
-                  <ShieldCheck className="size-3.5 shrink-0 text-primary" />
-                  <span>100% Non-Transparent · Attached Cotton Inner</span>
-                </div>
-              )}
+              <p className="eyebrow text-berry">{product.category}</p>
+              {product.kind === "apparel" ? (
+                <span className="inline-flex items-center gap-1 text-[0.68rem] font-semibold text-emerald">
+                  <ShieldCheck className="size-3.5" /> Opaque · lined
+                </span>
+              ) : null}
             </div>
             <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
             {product.rating && product.reviewCount > 0 ? (
@@ -399,33 +407,51 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                 <p className="text-sm font-semibold">
-                  Color: <span className="font-normal">{color}</span>
+                  Colour: <span className="font-normal">{color}</span>
                 </p>
-                <span className="text-xs text-muted-foreground">
-                  {product.colors.length} colours
-                </span>
+                {product.colors.length > 1 ? (
+                  <span className="text-xs text-muted-foreground">
+                    {product.colors.length} options
+                  </span>
+                ) : null}
               </div>
-              <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Colour">
+              <div className="mt-3 flex flex-wrap gap-3" role="radiogroup" aria-label="Colour">
                 {product.colors.map((option) => (
-                  <Button
+                  <button
                     key={option.name}
-                    variant="outline"
-                    className={cn(
-                      "h-11 px-3",
-                      color === option.name && "border-primary ring-1 ring-primary",
-                    )}
-                    onClick={() => setColor(option.name)}
+                    type="button"
                     role="radio"
                     aria-checked={color === option.name}
+                    aria-label={option.name}
+                    onClick={() => setColor(option.name)}
+                    className={cn(
+                      "group flex flex-col items-center gap-1.5",
+                    )}
                   >
                     <span
                       className={cn(
-                        "size-4 shrink-0 rounded-full border border-border",
-                        option.swatch,
+                        "flex size-10 items-center justify-center rounded-full border-2 transition-colors",
+                        color === option.name
+                          ? "border-foreground"
+                          : "border-transparent group-hover:border-border",
                       )}
-                    />
-                    {option.name}
-                  </Button>
+                    >
+                      <span
+                        className={cn(
+                          "size-8 rounded-full border border-black/10",
+                          option.swatch,
+                        )}
+                      />
+                    </span>
+                    <span
+                      className={cn(
+                        "text-[0.65rem] font-medium",
+                        color === option.name ? "text-foreground" : "text-muted-foreground",
+                      )}
+                    >
+                      {option.name}
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -460,7 +486,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                         disabled={soldOut}
                         role="radio"
                         aria-checked={size === option.name}
-                        aria-label={`${option.name}, ${soldOut ? "sold out" : option.stock === "low" ? "only 2 left" : "in stock"}`}
+                        aria-label={`${option.name}, ${soldOut ? "sold out" : option.stock === "low" ? "low stock" : "in stock"}`}
                       >
                         <span className={cn("text-sm", soldOut && "line-through")}>
                           {option.name}
@@ -476,7 +502,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                                 : "text-warning-foreground",
                             )}
                           >
-                            2 left
+                            Low
                           </span>
                         ) : null}
                       </Button>
@@ -588,8 +614,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <DialogDescription>Detailed view of {product.name}</DialogDescription>
           </DialogHeader>
           <img
-            src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
-            alt={product.gallery[selectedImage]?.alt ?? product.name}
+            src={gallery[selectedImage]?.src ?? gallery[0]?.src}
+            alt={gallery[selectedImage]?.alt ?? product.name}
             className="max-h-[82vh] w-full object-contain"
           />
         </DialogContent>
@@ -835,7 +861,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <SheetHeader className="text-left">
               <div className="flex items-center gap-3">
                 <img
-                  src={product.gallery[0]?.src}
+                  src={gallery[0]?.src}
                   alt={product.name}
                   className="size-14 shrink-0 rounded-sm bg-muted object-cover"
                 />
@@ -875,7 +901,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                       {option.stock === "sold-out"
                         ? "Sold out"
                         : option.stock === "low"
-                          ? "Only 2 left"
+                          ? "Low stock"
                           : guideCategory === "women"
                             ? (WOMEN_BUST[option.name] ?? "In stock")
                             : "In stock"}
@@ -915,39 +941,27 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
   if (stock === "low")
     return (
       <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-warning-foreground">
-        <Zap className="size-4 fill-warning text-warning" /> Only 2 left in size {size}
+        <Zap className="size-4 fill-warning text-warning" /> Low stock in size {size}
       </p>
     );
+  if (stock === "sold-out") return null;
   return (
     <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success">
-      <CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours
+      <CircleCheck className="size-4" /> In stock — dispatched within 24–48 hours
     </p>
   );
 }
 
 function ModestyGuarantee() {
-  const promises = [
-    "Attached pure cotton voil lining across the torso — no separate inner slip needed",
-    "Non-transparent fabric testing: 100% opacity checked against direct backlight",
-    "2-inch generous inner tailoring margins for easy local alteration & perfect fit",
-    "Modest comfort ease with 3–4″ room over standard body measurements",
-  ];
-
   return (
-    <aside className="mt-5 rounded-md border border-primary/20 bg-secondary/15 p-4 sm:p-5">
-      <div className="flex items-start gap-3">
-        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
-        <div>
-          <h2 className="font-display text-xl text-foreground">Sukoon Modesty Guarantee</h2>
-          <ul className="mt-3 grid gap-2 text-xs leading-5 text-muted-foreground sm:text-sm">
-            {promises.map((promise) => (
-              <li key={promise} className="flex items-start gap-2">
-                <CircleCheck className="mt-0.5 size-3.5 shrink-0 text-success" />
-                <span>{promise}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <aside className="mt-5 flex items-start gap-3 border-y border-border py-4">
+      <ShieldCheck className="mt-0.5 size-4 shrink-0 text-berry" />
+      <div>
+        <p className="text-sm font-semibold">Modesty assurance</p>
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          Opaque fabric with attached cotton voil lining, backlight-checked, and 2″ inner
+          tailoring margins. Full details in the accordion below.
+        </p>
       </div>
     </aside>
   );
@@ -1010,12 +1024,12 @@ function PincodeChecker() {
   }
 
   return (
-    <div className="border-t border-border py-4">
-      <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
-        <MapPin className="size-3.5 text-primary" />
-        <span>Delivery &amp; Serviceability Check</span>
+    <div className="border-t border-border py-5">
+      <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+        <MapPin className="size-3.5 text-teal" />
+        <span>Delivery to your door</span>
       </div>
-      <div className="mt-2.5 flex max-w-xs gap-2">
+      <div className="mt-3 flex max-w-sm gap-2">
         <input
           type="text"
           inputMode="numeric"
@@ -1035,14 +1049,12 @@ function PincodeChecker() {
             }
           }}
           onKeyDown={handleKeyDown}
-          placeholder="Enter 6-digit Pincode"
-          className="h-9 w-full rounded-sm border border-input bg-background px-3 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+          placeholder="6-digit pincode"
+          className="h-11 w-full border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <Button
           type="button"
-          variant="outline"
-          size="sm"
-          className="h-9 shrink-0 px-3 text-xs"
+          className="h-11 shrink-0 px-4"
           onClick={handleCheck}
           disabled={pincode.length !== 6}
         >
@@ -1051,32 +1063,30 @@ function PincodeChecker() {
       </div>
 
       {checkedPincode && checkedPincode.length === 6 ? (
-        <div className="mt-3 space-y-1.5 rounded-sm bg-secondary/35 p-3 text-xs">
+        <div className="mt-3 space-y-2 border border-teal/20 bg-pillar-men-bg p-3 text-xs">
           <p className="flex items-center gap-1.5 font-medium text-foreground">
-            <Truck className="size-3.5 shrink-0 text-primary" />
+            <Truck className="size-3.5 shrink-0 text-teal" />
             <span>
-              Delivery to <strong className="font-semibold">{checkedPincode}</strong> by{" "}
-              <strong className="font-semibold text-primary">{estimatedDateStr}</strong> (Express
-              Air)
+              Delivery to <strong>{checkedPincode}</strong> by{" "}
+              <strong className="text-teal">{estimatedDateStr}</strong>
             </span>
           </p>
           <p className="flex items-center gap-1.5 text-muted-foreground">
-            <PackageCheck className="size-3.5 shrink-0 text-primary" />
-            <span>Dispatched within 24–48 hours from our Surat/Delhi hub</span>
+            <PackageCheck className="size-3.5 shrink-0 text-teal" />
+            Dispatched within 24–48 hours
           </p>
           <p className="flex items-center gap-1.5 text-muted-foreground">
             <CircleCheck className="size-3.5 shrink-0 text-success" />
-            <span>Cash on Delivery (COD) Available</span>
+            Cash on delivery available
           </p>
           <p className="flex items-center gap-1.5 text-muted-foreground">
-            <RotateCcw className="size-3.5 shrink-0 text-primary" />
-            <span>Free 7-Day Doorstep Size Exchange with Reverse Courier Pickup</span>
+            <RotateCcw className="size-3.5 shrink-0 text-teal" />
+            7-day doorstep size exchange
           </p>
         </div>
       ) : (
         <p className="mt-2 text-[0.7rem] text-muted-foreground">
-          Enter your delivery pincode to check dispatch timelines (24–48h dispatch) &amp; COD
-          availability.
+          Check dispatch timelines and COD for your pincode.
         </p>
       )}
     </div>
@@ -1084,43 +1094,18 @@ function PincodeChecker() {
 }
 
 function DispatchCountdown() {
-  const [seconds, setSeconds] = useState(3 * 60 * 60);
-
-  useEffect(() => {
-    const timer = window.setInterval(
-      () => setSeconds((value) => (value > 0 ? value - 1 : 3 * 60 * 60)),
-      1000,
-    );
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const hours = Math.floor(seconds / 3600)
-    .toString()
-    .padStart(2, "0");
-  const minutes = Math.floor((seconds % 3600) / 60)
-    .toString()
-    .padStart(2, "0");
-  const displaySeconds = (seconds % 60).toString().padStart(2, "0");
-
   return (
     <div className="border-b border-border py-4">
-      <div className="flex items-center gap-2 text-xs font-semibold text-primary">
-        <Clock className="size-3.5" /> Dispatch window
-        <span className="ml-auto rounded-full bg-primary/10 px-2 py-1 font-mono text-[0.68rem]">
-          {hours}:{minutes}:{displaySeconds}
-        </span>
+      <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
+        <Clock className="size-3.5 text-primary" /> Dispatch &amp; carriers
       </div>
-      <p className="mt-2 text-[0.7rem] text-muted-foreground">
-        Orders placed in this window are prepared for same-day dispatch; delivery estimates are
-        shown after pincode check.
+      <p className="mt-2 text-[0.7rem] leading-5 text-muted-foreground">
+        Orders are prepared within 24–48 hours. Delivery estimates appear after you check your
+        pincode above.
       </p>
-      <div className="mt-2 flex items-center gap-2 text-[0.68rem] text-muted-foreground">
-        <span className="rounded-full bg-[#1682c4]/10 px-2 py-1 font-semibold text-[#1682c4]">
-          BlueDart Air
-        </span>
-        <span className="rounded-full bg-[#e66b35]/10 px-2 py-1 font-semibold text-[#c65322]">
-          Delhivery
-        </span>
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-[0.68rem] text-muted-foreground">
+        <span className="border border-border px-2 py-1 font-semibold">BlueDart Air</span>
+        <span className="border border-border px-2 py-1 font-semibold">Delhivery</span>
       </div>
     </div>
   );
@@ -1192,188 +1177,89 @@ function Declaration({ label, value }: { label: string; value: string }) {
 }
 
 function CrossSellEnsemble({ product }: { product: ProductDetail }) {
-  const { addItem, setIsOpen } = useCart();
-  const [bundleAdded, setBundleAdded] = useState(false);
-  const [addedItemIds, setAddedItemIds] = useState<Record<string, boolean>>({});
+  const { data: liveProducts } = useCommerceProducts();
 
-  const companions = useMemo(() => {
-    if (product.kind === "apparel") {
-      return [
-        {
-          id: "matching-daily-hijab",
-          name: "Matching Micro-Modal Silk Daily Hijab (Sage)",
-          category: "Hijabs & Scarves",
-          price: 499,
-          image: productModest,
-          color: "Sage Green",
-          note: "Featherlight, breathable drape with subtle sheen.",
-        },
-        {
-          id: "magnetic-pins-set",
-          name: "Snag-Free Matte Magnetic Hijab Pins (Set of 4)",
-          category: "Modesty Accessories",
-          price: 199,
-          image: productChild,
-          note: "Ultra-strong neodymium magnets that protect fine fabrics.",
-        },
-      ];
-    }
-    return [
-      {
-        id: "solid-beech-rehal",
-        name: "Solid Beechwood Folding Rehal",
-        category: "Prayer Companions",
-        price: 899,
-        image: productPrayer,
-        note: "Hand-finished FSC-certified timber with non-toxic wax.",
-      },
-      {
-        id: "olive-jade-tasbih",
-        name: "Handcrafted 33-Bead Natural Olive Jade Tasbih",
-        category: "Tasbihs",
-        price: 499,
-        image: editorialHome,
-        note: "Natural mineral beads strung on braided silk cord.",
-      },
+  const related = useMemo(() => {
+    const catalogue =
+      liveProducts && liveProducts.length > 0
+        ? liveProducts
+        : SNAPSHOT_PRODUCTS.map(mapMedusaToCollectionProduct);
+
+    const currentHandle = product.handle || product.id;
+    const others = catalogue.filter((p) => p.handle !== currentHandle);
+    const sameCategory = others.filter(
+      (p) =>
+        product.categoryTrail.some((trail) => p.subcategory === trail || p.pillar === trail) ||
+        product.category.toLowerCase().includes(p.pillar.toLowerCase()) ||
+        p.subcategory === product.categoryTrail[1],
+    );
+    const pool = sameCategory.length >= 2 ? sameCategory : others;
+    // Prefer different products each time by mixing apparel/non-apparel diversity first.
+    const preferred = [
+      ...pool.filter((p) => p.pillar === (product.categoryTrail[0]?.includes("Men") ? "Men" : product.categoryTrail[0]?.includes("Children") ? "Children" : product.kind === "apparel" ? "Women" : p.pillar)),
+      ...pool,
     ];
-  }, [product.kind]);
+    const seen = new Set<string>();
+    return preferred
+      .filter((p) => {
+        if (seen.has(p.handle)) return false;
+        seen.add(p.handle);
+        return true;
+      })
+      .slice(0, 4);
+  }, [liveProducts, product]);
 
-  const bundleTotal = companions.reduce((acc, c) => acc + c.price, 0);
+  if (related.length === 0) return null;
 
-  function handleAddSingle(item: (typeof companions)[number]) {
-    addItem({
-      id: item.id,
-      name: item.name,
-      category: item.category,
-      price: item.price,
-      originalPrice: item.price,
-      image: item.image,
-      ...(item.color ? { color: item.color } : {}),
-      quantity: 1,
-    });
-    setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
-    setIsOpen(true);
-    setTimeout(() => {
-      setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
-    }, 2000);
-  }
-
-  function handleAddBundle() {
-    companions.forEach((item) => {
-      addItem({
-        id: item.id,
-        name: item.name,
-        category: item.category,
-        price: item.price,
-        originalPrice: item.price,
-        image: item.image,
-        ...(item.color ? { color: item.color } : {}),
-        quantity: 1,
-      });
-    });
-    setBundleAdded(true);
-    setIsOpen(true);
-    setTimeout(() => setBundleAdded(false), 2600);
-  }
+  const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+  const heading =
+    product.kind === "apparel" ? "More from this wardrobe" : "You may also like";
 
   return (
-    <section className="border-t border-border bg-secondary/25 py-12 lg:py-16">
+    <section className="border-t border-border bg-warm-ivory py-12 lg:py-16">
       <PageContainer>
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-primary">
-              Pair &amp; Elevate
-            </p>
-            <h2 className="font-display text-2xl sm:text-3xl">Complete Your Modest Ensemble</h2>
-            <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-              Handpicked companion pieces designed to coordinate seamlessly with this style.
+            <p className="eyebrow text-berry">Related</p>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">{heading}</h2>
+            <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+              Real catalogue pieces from the same family of the store — not invented fillers.
             </p>
           </div>
-          <div className="mt-4 sm:mt-0">
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handleAddBundle}
-              className="h-10 text-xs font-semibold sm:text-sm"
-            >
-              {bundleAdded ? (
-                <>
-                  <Check className="size-4" /> Added Both to Basket
-                </>
-              ) : (
-                <>
-                  <Plus className="size-4" /> Add Both Companions · ₹
-                  {bundleTotal.toLocaleString("en-IN")}
-                </>
-              )}
-            </Button>
-          </div>
+          <Button variant="outline" asChild>
+            <Link to="/collection">Browse collection</Link>
+          </Button>
         </div>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:gap-6">
-          {companions.map((comp) => (
-            <article
-              key={comp.id}
-              className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 rounded-sm border border-border bg-card p-4 transition-shadow hover:shadow-soft"
-            >
-              <div className="aspect-square overflow-hidden rounded-sm bg-muted">
-                <img src={comp.image} alt={comp.name} className="size-full object-cover" />
-              </div>
-              <div className="flex flex-col justify-between">
-                <div>
-                  <span className="text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
-                    {comp.category}
-                  </span>
-                  <h3 className="font-display text-base font-semibold leading-tight text-foreground">
-                    {comp.name}
-                  </h3>
-                  <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{comp.note}</p>
-                </div>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-sm font-bold text-foreground">
-                    ₹{comp.price.toLocaleString("en-IN")}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 px-2.5 text-xs font-semibold"
-                    onClick={() => handleAddSingle(comp)}
-                  >
-                    {addedItemIds[comp.id] ? (
-                      <>
-                        <Check className="size-3 text-success" /> Added
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="size-3" /> Quick Add
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </article>
+        <div className="mt-8 flex snap-x gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4">
+          {related.map((item) => (
+            <div key={item.handle} className="w-[15rem] shrink-0 snap-start sm:w-auto">
+              <ProductCard
+                pillar={item.pillar}
+                image={item.image}
+                hoverImage={item.hoverImage}
+                imageAlt={item.name}
+                category={item.subcategory}
+                name={item.name}
+                price={inr(item.price)}
+                previousPrice={item.mrp ? inr(item.mrp) : undefined}
+                savings={item.mrp ? inr(item.mrp - item.price) : undefined}
+                note={item.note}
+                badge={item.badge}
+                sizes={item.sizes}
+                sizeStock={item.sizeStock}
+                rating={item.rating || undefined}
+                reviewCount={item.reviews || undefined}
+                inStock={item.inStock}
+                colors={item.colors}
+                href={`/products/${item.handle}`}
+              />
+            </div>
           ))}
         </div>
       </PageContainer>
     </section>
   );
 }
-
-type ReviewItem = {
-  id: string;
-  apparelAttributes?: { fit?: string; opacity?: string };
-  author: string;
-  location: string;
-  verified: boolean;
-  rating: number;
-  date: string;
-  variant: string;
-  title: string;
-  body: string;
-  initialHelpful: number;
-  photo?: string;
-  tags: string[];
-};
 
 function ProductReviewHub({ product }: { product: ProductDetail }) {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");

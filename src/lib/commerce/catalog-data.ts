@@ -16,7 +16,6 @@ const imgChildKurta = "/images/kids-kurta-mustard.jpg";
 const imgHabitBoard = "/images/children-habit-board.jpg";
 const imgBakhoor = "/images/brass-bakhoor-burner.jpg";
 const imgGiftBox = "/images/serene-gift-box.jpg";
-const imgEditorial = "/images/editorial-home-calm.jpg";
 
 /**
  * Sukoon House Pilot Master Catalog
@@ -40,7 +39,6 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     gallery: [
       { src: imgSalwarSage, alt: "Sage green pure cambric cotton salwar suit set with dupatta", position: "object-center" },
       { src: imgSalwarDetail, alt: "Macro detail of pure 60s cambric cotton weave, embroidery and attached voil lining", position: "object-top" },
-      { src: imgEditorial, alt: "Pure cotton modest salwar suit in natural light setting", position: "object-center" },
     ],
     colors: [{ name: "Sage Green", swatch: "bg-primary" }],
     sizes: [
@@ -80,7 +78,6 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     gallery: [
       { src: imgSalwarBerry, alt: "Model wearing floral printed cambric cotton salwar suit with draped dupatta", position: "object-center" },
       { src: imgSalwarDetail, alt: "Fine thread embroidery and breathable cambric weave close-up", position: "object-top" },
-      { src: imgEditorial, alt: "Floral cambric suit in bright natural home interior", position: "object-center" },
     ],
     colors: [{ name: "Blue", swatch: "bg-mineral" }],
     sizes: [
