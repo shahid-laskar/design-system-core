@@ -172,6 +172,7 @@ export function ProductCard({
   badge,
   href,
   sizes,
+  sizeStock,
   rating,
   reviewCount,
   inStock = true,
@@ -179,7 +180,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const { addItem, setIsOpen } = useCart();
   const [saved, setSaved] = useState(false);
-  const [added, setAdded] = useState(false);
+  const [added, setAdded] = useState<string | null>(null);
 
   const pillarKey = resolvePillarKey(pillar, category, name);
   const currentPillar = pillarStyles[pillarKey];
@@ -191,18 +192,15 @@ export function ProductCard({
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "")}`;
   const isApparel = Boolean(sizes?.length);
+  const stockMap = sizeStock ?? deriveSizeStock(sizes, inStock);
 
-  const handleAdd = (e: React.MouseEvent) => {
-    if (isApparel) return;
-    e.preventDefault();
-    e.stopPropagation();
-
+  const quickAdd = (size?: string) => {
     const numericPrice = parseInt(price.replace(/[^0-9]/g, ""), 10) || 999;
     const numericOriginalPrice = previousPrice
       ? parseInt(previousPrice.replace(/[^0-9]/g, ""), 10)
       : numericPrice;
 
-    addItem({
+    void addItem({
       id: targetHref.replace("/products/", ""),
       name,
       category,
@@ -210,15 +208,24 @@ export function ProductCard({
       originalPrice: numericOriginalPrice,
       image,
       quantity: 1,
+      ...(size ? { size } : {}),
     });
 
-    setAdded(true);
+    setAdded(size ?? "added");
     setIsOpen(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => setAdded(null), 2000);
+  };
+
+  const handleAdd = (e: React.MouseEvent) => {
+    if (isApparel) return;
+    e.preventDefault();
+    e.stopPropagation();
+    quickAdd();
   };
 
   return (
-    <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-shadow duration-brand-fast ease-brand hover:shadow-lifted">
+    <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-all duration-brand-fast ease-brand hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-lifted">
+
       <div className="media-frame relative aspect-[4/5]">
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
           <img
