@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   Check,
@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   Trash2,
   Truck,
+  Tag,
 } from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
@@ -16,6 +17,8 @@ import productChild from "@/assets/product-child-set.jpg";
 import productModest from "@/assets/product-modest-set.jpg";
 import { useCart, FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_PRICE } from "@/lib/cart-context";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { validateStorePromotion } from "@/lib/commerce/client";
 import {
   Sheet,
   SheetContent,
@@ -47,6 +50,13 @@ const addOns = [
     price: 499,
     image: editorialHome,
   },
+  {
+    id: "sandalwood-tasbih",
+    name: "Natural Sandalwood Tasbih (33 beads)",
+    category: "Prayer companion",
+    price: 399,
+    image: editorialHome,
+  },
 ] as const;
 
 const formatPrice = (price: number) => `₹${price.toLocaleString("en-IN")}`;
@@ -54,13 +64,29 @@ const formatPrice = (price: number) => `₹${price.toLocaleString("en-IN")}`;
 export function CartDrawer() {
   const { items, subtotal, isOpen, setIsOpen, addItem, removeItem, updateQuantity } = useCart();
   const [addedIds, setAddedIds] = useState<string[]>([]);
-  const [checkoutReady, setCheckoutReady] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [couponMessage, setCouponMessage] = useState<string | null>(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const shippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD;
   const shipping = shippingUnlocked ? 0 : STANDARD_SHIPPING_PRICE;
-  const upiDiscount = 0;
-  const total = subtotal + shipping - upiDiscount;
+  const total = subtotal + shipping - couponDiscount;
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+  const recommendations = useMemo(() => {
+    const text = items
+      .map((item) => `${item.name} ${item.category}`)
+      .join(" ")
+      .toLowerCase();
+    const preferred =
+      text.includes("salwar") || text.includes("cambric")
+        ? ["matching-daily-hijab"]
+        : text.includes("kurta") || text.includes("jummah")
+          ? ["sandalwood-amber-attar"]
+          : text.includes("prayer") || text.includes("mat")
+            ? ["sandalwood-tasbih"]
+            : ["matching-daily-hijab", "daily-salah-habit-board", "sandalwood-amber-attar"];
+    return addOns.filter((item) => preferred.includes(item.id));
+  }, [items]);
   const message = encodeURIComponent(
     `Hello Sukoon House, I'd like to place this order:\n${items
       .map(
@@ -86,6 +112,20 @@ export function CartDrawer() {
     window.setTimeout(() => {
       setAddedIds((current) => current.filter((id) => id !== item.id));
     }, 1500);
+  }
+
+  async function applyCoupon() {
+    const code = coupon.trim();
+    if (!code) return;
+    setCouponMessage("Checking offer…");
+    try {
+      const result = await validateStorePromotion(code, subtotal);
+      setCouponDiscount(result.valid ? result.discount_amount : 0);
+      setCouponMessage(result.message);
+    } catch {
+      setCouponDiscount(0);
+      setCouponMessage("Offer codes are checked at checkout. Please try again there.");
+    }
   }
 
   return (
@@ -219,7 +259,7 @@ export function CartDrawer() {
                 Complete the Family Basket
               </h2>
               <div className="mt-3 divide-y divide-border">
-                {addOns.map((item) => (
+                {recommendations.map((item) => (
                   <div
                     key={item.id}
                     className="grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3 py-3"
@@ -253,6 +293,33 @@ export function CartDrawer() {
                 ))}
               </div>
             </section>
+
+            <section className="border-t border-border py-5" aria-label="Apply offer code">
+              <div className="flex items-center gap-2 text-sm font-semibold">
+                <Tag className="size-4 text-primary" /> Have an offer code?
+              </div>
+              <div className="mt-3 flex gap-2">
+                <Input
+                  value={coupon}
+                  onChange={(event) => setCoupon(event.target.value.toUpperCase())}
+                  placeholder="Enter coupon code"
+                  className="h-9 text-xs"
+                  aria-label="Coupon code"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9"
+                  onClick={applyCoupon}
+                >
+                  Apply
+                </Button>
+              </div>
+              {couponMessage ? (
+                <p className="mt-2 text-xs text-muted-foreground">{couponMessage}</p>
+              ) : null}
+            </section>
           </div>
 
           <div className="shrink-0 border-t border-border bg-background px-5 pb-5 pt-4 sm:px-6">
@@ -263,7 +330,11 @@ export function CartDrawer() {
                 value={shippingUnlocked ? "FREE · You saved ₹70" : formatPrice(shipping)}
                 highlight={shippingUnlocked}
               />
-              <SummaryLine label="Prepaid UPI discount" value="₹0" />
+              <SummaryLine
+                label="Offer discount"
+                value={couponDiscount ? `−${formatPrice(couponDiscount)}` : "₹0"}
+                highlight={couponDiscount > 0}
+              />
               <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground">
                 <Truck className="size-4 shrink-0 text-primary" /> Express Delivery: 2–4 Business
                 Days

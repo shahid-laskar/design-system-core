@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState, useEffect, type KeyboardEvent, type UIEvent } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCommerceProduct, type ProductDetail } from "@/lib/commerce/use-commerce";
 import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
 import {
@@ -7,6 +7,7 @@ import {
   Check,
   ChevronRight,
   CircleCheck,
+  Clock,
   Leaf,
   MapPin,
   MessageCircle,
@@ -102,6 +103,7 @@ function ProductPage() {
 
 function ProductExperience({ product }: { product: ProductDetail }) {
   const { addItem, setIsOpen } = useCart();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
   const [color, setColor] = useState(product.colors[0]?.name ?? "Default");
   const firstAvailableSize = product.sizes?.find((size) => size.stock !== "sold-out")?.name;
@@ -109,6 +111,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const addResetRef = useRef<number | undefined>(undefined);
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
@@ -186,6 +189,15 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     addToBasket();
   }
 
+  function buyNow() {
+    if (product.kind === "apparel" && product.sizes && !size) {
+      setSizeDrawerOpen(true);
+      return;
+    }
+    addToBasket();
+    navigate({ to: "/checkout" });
+  }
+
   function handleSelectSizeAndAdd(chosenSize: SizeName) {
     setSize(chosenSize);
     setSizeDrawerOpen(false);
@@ -257,17 +269,24 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             className="min-w-0 lg:sticky lg:top-5 lg:self-start"
           >
             <div className="hidden overflow-hidden rounded-sm bg-muted lg:block">
-              <img
-                key={selectedImage}
-                src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
-                alt={product.gallery[selectedImage]?.alt ?? product.name}
-                className={cn(
-                  "aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500",
-                  product.gallery[selectedImage]?.position ?? "object-center",
-                )}
-                width={1000}
-                height={1250}
-              />
+              <button
+                type="button"
+                className="block size-full cursor-zoom-in"
+                onClick={() => setZoomOpen(true)}
+                aria-label="Open product image zoom"
+              >
+                <img
+                  key={selectedImage}
+                  src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
+                  alt={product.gallery[selectedImage]?.alt ?? product.name}
+                  className={cn(
+                    "aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500",
+                    product.gallery[selectedImage]?.position ?? "object-center",
+                  )}
+                  width={1000}
+                  height={1250}
+                />
+              </button>
             </div>
 
             <div
@@ -559,9 +578,24 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <PincodeChecker />
 
             <ShippingMeter total={orderTotal} qualified={freeShipping} />
+            <DispatchCountdown />
           </section>
         </div>
       </PageContainer>
+
+      <Dialog open={zoomOpen} onOpenChange={setZoomOpen}>
+        <DialogContent className="max-w-4xl border-border bg-background/95 p-2 sm:p-4">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Product image zoom</DialogTitle>
+            <DialogDescription>Detailed view of {product.name}</DialogDescription>
+          </DialogHeader>
+          <img
+            src={product.gallery[selectedImage]?.src ?? product.gallery[0]?.src}
+            alt={product.gallery[selectedImage]?.alt ?? product.name}
+            className="max-h-[82vh] w-full object-contain"
+          />
+        </DialogContent>
+      </Dialog>
 
       <section className="border-y border-border bg-secondary/30">
         <PageContainer className="py-10 lg:py-14">
@@ -725,17 +759,31 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               {color} · Qty {quantity}
             </p>
           </div>
-          <Button size="lg" className="h-11 px-5 font-semibold" onClick={handleMobilePurchaseClick}>
-            {added ? (
-              <>
-                <Check className="size-4" /> Added{size ? ` · ${size}` : ""}
-              </>
-            ) : (
-              <>
-                <ShoppingBag className="size-4" /> Add to Basket
-              </>
-            )}
-          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              size="lg"
+              className="h-11 px-3 text-xs font-semibold"
+              onClick={handleMobilePurchaseClick}
+            >
+              {added ? (
+                <>
+                  <Check className="size-4" /> Added{size ? ` · ${size}` : ""}
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="size-4" /> Add to Basket
+                </>
+              )}
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-11 px-3 text-xs font-semibold"
+              onClick={buyNow}
+            >
+              Buy Now
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -993,6 +1041,49 @@ function PincodeChecker() {
           availability.
         </p>
       )}
+    </div>
+  );
+}
+
+function DispatchCountdown() {
+  const [seconds, setSeconds] = useState(3 * 60 * 60);
+
+  useEffect(() => {
+    const timer = window.setInterval(
+      () => setSeconds((value) => (value > 0 ? value - 1 : 3 * 60 * 60)),
+      1000,
+    );
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const hours = Math.floor(seconds / 3600)
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor((seconds % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const displaySeconds = (seconds % 60).toString().padStart(2, "0");
+
+  return (
+    <div className="border-b border-border py-4">
+      <div className="flex items-center gap-2 text-xs font-semibold text-primary">
+        <Clock className="size-3.5" /> Dispatch window
+        <span className="ml-auto rounded-full bg-primary/10 px-2 py-1 font-mono text-[0.68rem]">
+          {hours}:{minutes}:{displaySeconds}
+        </span>
+      </div>
+      <p className="mt-2 text-[0.7rem] text-muted-foreground">
+        Orders placed in this window are prepared for same-day dispatch; delivery estimates are
+        shown after pincode check.
+      </p>
+      <div className="mt-2 flex items-center gap-2 text-[0.68rem] text-muted-foreground">
+        <span className="rounded-full bg-[#1682c4]/10 px-2 py-1 font-semibold text-[#1682c4]">
+          BlueDart Air
+        </span>
+        <span className="rounded-full bg-[#e66b35]/10 px-2 py-1 font-semibold text-[#c65322]">
+          Delhivery
+        </span>
+      </div>
     </div>
   );
 }

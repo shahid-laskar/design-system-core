@@ -86,10 +86,11 @@ type SiteShellProps = {
 };
 
 export function SiteShell({ children }: SiteShellProps) {
-  const { itemCount, setIsOpen } = useCart();
+  const { itemCount, setIsOpen, addItem } = useCart();
   const { data: products } = useCommerceProducts();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [searchAdded, setSearchAdded] = useState<string | null>(null);
   const searchResults = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return [];
@@ -106,6 +107,25 @@ export function SiteShell({ children }: SiteShellProps) {
   function openSearch() {
     setQuery("");
     setSearchOpen(true);
+  }
+
+  async function addSearchProduct(
+    product: (typeof searchResults)[number],
+    event: React.MouseEvent,
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    await addItem({
+      id: product.handle,
+      name: product.name,
+      category: product.pillar,
+      price: product.price,
+      originalPrice: product.mrp ?? product.price,
+      image: product.image,
+    });
+    setSearchAdded(product.handle);
+    setIsOpen(true);
+    window.setTimeout(() => setSearchAdded(null), 1600);
   }
 
   return (
@@ -301,18 +321,21 @@ export function SiteShell({ children }: SiteShellProps) {
               <>
                 <p className="eyebrow text-foreground">Popular searches</p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {["Cambric Salwar", "Friday Kurta", "Memory Foam Mat", "Eid Gifts"].map(
-                    (term) => (
-                      <button
-                        key={term}
-                        type="button"
-                        onClick={() => setQuery(term)}
-                        className="rounded-full border border-border bg-card px-3.5 py-2 text-sm hover:border-primary hover:text-primary"
-                      >
-                        {term}
-                      </button>
-                    ),
-                  )}
+                  {[
+                    "Pure Cambric Cotton",
+                    "Friday Handloom Kurta",
+                    "Orthopedic Prayer Mat",
+                    "Eid Hamper",
+                  ].map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onClick={() => setQuery(term)}
+                      className="rounded-full border border-border bg-card px-3.5 py-2 text-sm hover:border-primary hover:text-primary"
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
                 <p className="eyebrow mt-7 text-foreground">Shop by department</p>
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -347,9 +370,25 @@ export function SiteShell({ children }: SiteShellProps) {
                         {product.pillar} · {product.note}
                       </span>
                     </span>
-                    <span className="text-sm font-bold">
-                      ₹{product.price.toLocaleString("en-IN")}
+                    <span className="text-right">
+                      <span className="block text-sm font-bold">
+                        ₹{product.price.toLocaleString("en-IN")}
+                      </span>
+                      {product.mrp && product.mrp > product.price ? (
+                        <span className="block text-[0.68rem] font-semibold text-success">
+                          Save ₹{(product.mrp - product.price).toLocaleString("en-IN")}
+                        </span>
+                      ) : null}
                     </span>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="shrink-0 px-2.5 text-xs"
+                      onClick={(event) => addSearchProduct(product, event)}
+                    >
+                      {searchAdded === product.handle ? "Added" : "Add"}
+                    </Button>
                   </Link>
                 ))}
               </div>

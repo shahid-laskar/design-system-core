@@ -237,6 +237,13 @@ function HomePage() {
     () => catalogue.filter((p) => p.price < 999).slice(0, 4),
     [catalogue],
   );
+  const newArrivals = useMemo(
+    () =>
+      [...catalogue]
+        .sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""))
+        .slice(0, 5),
+    [catalogue],
+  );
 
   const cambric = useMemo(
     () =>
@@ -288,6 +295,18 @@ function HomePage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-5 flex flex-wrap gap-2" aria-label="Quick departments">
+              {pillarTiles.slice(0, 5).map((tile) => (
+                <Link
+                  key={tile.handle}
+                  to="/collection"
+                  search={{ category: tile.handle }}
+                  className="rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs font-semibold transition-colors hover:border-primary hover:text-primary"
+                >
+                  {tile.title}
+                </Link>
+              ))}
+            </div>
           </div>
           <div className="relative">
             <div className="media-frame aspect-[4/3]">
@@ -308,6 +327,51 @@ function HomePage() {
 
       {/* Ambient Promise Ribbon */}
       <PromiseTicker />
+
+      <section className="border-t border-border bg-card/35" aria-labelledby="new-arrivals">
+        <PageContainer className="section-space">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow-wide text-muted-foreground">01b · Fresh from the catalogue</p>
+              <h2 id="new-arrivals" className="mt-3 font-display text-4xl sm:text-5xl">
+                New Arrivals
+              </h2>
+            </div>
+            <Link
+              to="/collection"
+              className="text-sm font-semibold text-primary underline underline-offset-4"
+            >
+              View all arrivals
+            </Link>
+          </div>
+          <div className="mt-8 flex snap-x gap-4 overflow-x-auto pb-3">
+            {newArrivals.map((product) => (
+              <div
+                key={`arrival-${product.handle}`}
+                className="w-[15rem] shrink-0 snap-start sm:w-[18rem]"
+              >
+                <ProductCard
+                  pillar={product.pillar}
+                  image={product.image}
+                  hoverImage={product.hoverImage}
+                  imageAlt={product.name}
+                  category={product.subcategory}
+                  name={product.name}
+                  price={inr(product.price)}
+                  previousPrice={product.mrp ? inr(product.mrp) : undefined}
+                  savings={product.mrp ? inr(product.mrp - product.price) : undefined}
+                  note={product.note}
+                  badge={product.badge}
+                  sizes={product.sizes}
+                  sizeStock={product.sizeStock}
+                  inStock={product.inStock}
+                  href={`/products/${product.handle}`}
+                />
+              </div>
+            ))}
+          </div>
+        </PageContainer>
+      </section>
 
       {/* 7-pillar row */}
       <section aria-labelledby="family-pillars">

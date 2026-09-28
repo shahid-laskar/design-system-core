@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ListFilter, PackageOpen, Search, X } from "lucide-react";
+import { Grid2X2, ListFilter, PackageOpen, Search, Rows3, X } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
@@ -633,6 +633,7 @@ function CollectionPage() {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [festive, setFestive] = useState(search.occasion === "festive");
   const [sort, setSort] = useState("featured");
+  const [mobileDensity, setMobileDensity] = useState<"two" | "one">("two");
   const [visible, setVisible] = useState(PAGE);
 
   useEffect(() => {
@@ -1135,6 +1136,50 @@ function CollectionPage() {
             <span className="font-semibold text-foreground">{filtered.length}</span> pieces · Free
             express shipping over ₹999
           </p>
+          <div
+            className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 lg:hidden"
+            aria-label="Quick filters"
+          >
+            <span className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
+              Quick filter
+            </span>
+            <Chip
+              active={under999}
+              onClick={() => {
+                setUnder999(!under999);
+                touch();
+              }}
+            >
+              Under ₹999
+            </Chip>
+            <Chip
+              active={inStockOnly}
+              onClick={() => {
+                setInStockOnly(!inStockOnly);
+                touch();
+              }}
+            >
+              In Stock
+            </Chip>
+            <Chip
+              active={festive}
+              onClick={() => {
+                setFestive(!festive);
+                touch();
+              }}
+            >
+              Festive
+            </Chip>
+            {(["S", "M", "L", "XL"] as Size[]).map((size) => (
+              <Chip
+                key={size}
+                active={selSizes.includes(size)}
+                onClick={() => toggle(size, selSizes, setSelSizes)}
+              >
+                {size}
+              </Chip>
+            ))}
+          </div>
         </PageContainer>
       </div>
 
@@ -1145,6 +1190,31 @@ function CollectionPage() {
             {filters}
           </aside>
           <div className="min-w-0">
+            <div className="mb-4 flex justify-end gap-1 lg:hidden" aria-label="Product density">
+              <span className="mr-2 self-center text-xs text-muted-foreground">View</span>
+              <Button
+                type="button"
+                variant={mobileDensity === "two" ? "default" : "outline"}
+                size="icon"
+                className="size-8"
+                onClick={() => setMobileDensity("two")}
+                aria-label="Two-column view"
+                aria-pressed={mobileDensity === "two"}
+              >
+                <Grid2X2 className="size-4" />
+              </Button>
+              <Button
+                type="button"
+                variant={mobileDensity === "one" ? "default" : "outline"}
+                size="icon"
+                className="size-8"
+                onClick={() => setMobileDensity("one")}
+                aria-label="One-column view"
+                aria-pressed={mobileDensity === "one"}
+              >
+                <Rows3 className="size-4" />
+              </Button>
+            </div>
             {filtered.length === 0 ? (
               <StatusState
                 icon={PackageOpen}
@@ -1156,7 +1226,12 @@ function CollectionPage() {
               />
             ) : (
               <>
-                <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 2xl:grid-cols-4">
+                <div
+                  className={cn(
+                    "grid gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 2xl:grid-cols-4",
+                    mobileDensity === "two" ? "grid-cols-2" : "grid-cols-1",
+                  )}
+                >
                   {shown.map((p) => (
                     <ProductCard
                       key={p.id}
