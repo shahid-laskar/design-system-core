@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/select";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
 import { cn } from "@/lib/utils";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
 import imgChild from "@/assets/product-child-set.jpg";
