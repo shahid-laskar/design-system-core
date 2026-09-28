@@ -783,8 +783,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
       <ProductReviewHub product={product} />
 
-      {/* Mobile Persistent Bottom Dock */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lifted backdrop-blur lg:hidden">
+      {/* Mobile Persistent Bottom Dock — sits above the global mobile bottom nav (z-50) */}
+      <div className="fixed inset-x-0 bottom-0 z-[51] border-t border-border bg-background/95 px-3 pt-3 pb-[max(4.5rem,calc(4rem+env(safe-area-inset-bottom)))] shadow-lifted backdrop-blur lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">

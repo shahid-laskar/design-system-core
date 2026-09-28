@@ -644,6 +644,7 @@ function CollectionPage() {
   const [festive, setFestive] = useState(search.occasion === "festive");
   const [sort, setSort] = useState("featured");
   const [mobileDensity, setMobileDensity] = useState<"two" | "one">("two");
+  // Use PAGE as initial visible count — same on both SSR and client to prevent hydration mismatch
   const [visible, setVisible] = useState(PAGE);
 
   useEffect(() => {
@@ -674,9 +675,19 @@ function CollectionPage() {
 
   const allProducts = useMemo(() => {
     if (liveProducts && liveProducts.length > 0) {
-      const liveNames = new Set(liveProducts.map((p) => p.name.toLowerCase()));
-      const fallbackProducts = products.filter((p) => !liveNames.has(p.name.toLowerCase()));
-      return [...liveProducts, ...fallbackProducts] as Product[];
+      const liveHandles = new Set(liveProducts.map((p) => p.handle ?? p.name.toLowerCase()));
+      const fallbackProducts = products.filter(
+        (p) => !liveHandles.has(p.handle ?? p.name.toLowerCase()),
+      );
+      // Deduplicate by handle to prevent duplicate React keys
+      const merged = [...liveProducts, ...fallbackProducts] as Product[];
+      const seen = new Set<string>();
+      return merged.filter((p) => {
+        const key = p.handle ?? String(p.id);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
     }
     return snapshotProducts.length > 0 ? snapshotProducts : products;
   }, [liveProducts]);
@@ -936,112 +947,29 @@ function CollectionPage() {
           </div>
         </section>
       )}
-      <section
-        className={cn(
-          "border-b border-border transition-colors duration-300 ease-in-out",
-          pillarTheme[pillar].bgClass,
-        )}
-      >
-        <PageContainer className="section-space">
-          <div className="grid gap-4 border-t border-border pt-6 md:grid-cols-[1fr_2fr] md:gap-12">
-            <div className="eyebrow flex gap-3 text-muted-foreground">
-              <span>01</span>
-              <span>{pillarTheme[pillar].eyebrowText}</span>
-            </div>
-            <div>
-              <h1 className="display-section">
-                {pillar === "All"
-                  ? "Objects for a more considered rhythm."
-                  : pillars.find((p) => p.id === pillar)?.label}
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                Seven pillars for dressing, praying, learning, and gathering — honest materials,
-                quiet forms, and only what earns its place.
-              </p>
-            </div>
-          </div>
-          <div className="mt-10 overflow-x-auto pb-1">
-            <div className="flex min-w-max gap-2" role="tablist" aria-label="Product pillars">
-              {pillars.map((p) => {
-                const isSelected = pillar === p.id;
-                return (
-                  <Button
-                    key={p.id}
-                    size="sm"
-                    variant={isSelected ? "default" : "outline"}
-                    role="tab"
-                    aria-selected={isSelected}
-                    onClick={() => choosePillar(p.id)}
-                    className={cn(
-                      isSelected && pillarTheme[p.id].activeButtonClass,
-                      !isSelected && "bg-card/70 hover:bg-card border-border",
-                    )}
-                  >
-                    {p.label}
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-          {pillar !== "All" ? (
-            <div className="mt-4 overflow-x-auto pb-1">
-              <div className="flex min-w-max gap-2" aria-label="Subcategories">
-                <Chip
-                  active={!sub}
-                  activeClass={pillarTheme[pillar].activeButtonClass}
-                  onClick={() => {
-                    setSub(null);
-                    touch();
-                  }}
-                >
-                  All {pillar}
-                </Chip>
-                {subcategories[pillar].map((s) => (
-                  <Chip
-                    key={s}
-                    active={sub === s}
-                    activeClass={pillarTheme[pillar].activeButtonClass}
-                    onClick={() => {
-                      setSub(sub === s ? null : s);
-                      touch();
-                    }}
-                  >
-                    {s}
-                  </Chip>
-                ))}
+      {pillar === "All" && (
+        <section className={cn("border-b border-border", pillarTheme["All"].bgClass)}>
+          <PageContainer className="py-8 lg:py-10">
+            <div className="grid gap-4 border-t border-border pt-6 md:grid-cols-[1fr_2fr] md:gap-12">
+              <div className="eyebrow flex gap-3 text-muted-foreground">
+                <span>01</span>
+                <span>{pillarTheme["All"].eyebrowText}</span>
+              </div>
+              <div>
+                <h1 className="display-section">Objects for a more considered rhythm.</h1>
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+                  Seven pillars for dressing, praying, learning, and gathering — honest materials,
+                  quiet forms, and only what earns its place.
+                </p>
               </div>
             </div>
-          ) : null}
-        </PageContainer>
-      </section>
+          </PageContainer>
+        </section>
+      )}
 
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur lg:static lg:border-0 lg:bg-transparent">
         <PageContainer className="py-3 lg:pt-10 lg:pb-0">
-          {pillar !== 'All' && subcategories[pillar as Pillar] && (
-            <div className="mb-4 flex gap-2 overflow-x-auto pb-1 pt-1">
-              <button
-                onClick={() => { setSub(null); touch(); }}
-                className={cn(
-                  'shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors',
-                  !sub ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card/80 text-muted-foreground hover:text-foreground'
-                )}
-              >
-                All
-              </button>
-              {subcategories[pillar as Pillar].map((s) => (
-                <button
-                  key={s}
-                  onClick={() => { setSub(s); touch(); }}
-                  className={cn(
-                    'shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors',
-                    sub === s ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card/80 text-muted-foreground hover:text-foreground'
-                  )}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
+
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:border-b lg:border-border lg:pb-5">
             <div className="flex items-center gap-3 flex-1 max-w-sm">
               <div className="relative w-full">
