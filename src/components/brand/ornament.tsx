@@ -62,7 +62,7 @@ export function JaliPattern({ className }: { className?: string }) {
   );
 }
 
-/** Small antique-brass pill used for festive and craft callouts. */
+/** Small craft/accent badge used for festive and craft callouts. */
 export function BrassBadge({
   children,
   className,
@@ -73,12 +73,14 @@ export function BrassBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-brass/50 bg-brass/12 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-brass-foreground",
+        "inline-flex items-center gap-1.5 rounded-full border border-mango/40 bg-mango/10 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-eyebrow text-foreground",
         className,
       )}
     >
-      <span className="size-1.5 rounded-full bg-brass" aria-hidden />
+      <span className="size-1.5 rounded-full bg-mango" aria-hidden />
       {children}
     </span>
   );
 }
+
+export const CraftBadge = BrassBadge;

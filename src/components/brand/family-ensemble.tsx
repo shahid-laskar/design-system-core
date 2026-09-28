@@ -157,7 +157,7 @@ export function FamilyEnsemble() {
               className={cn(
                 "inline-flex min-h-10 items-center gap-2.5 rounded-full border px-4 text-sm font-medium transition-colors duration-brand-fast ease-brand",
                 active
-                  ? "border-brass bg-brass/12 text-foreground"
+                  ? "border-primary bg-primary/10 text-foreground"
                   : "border-border bg-background text-muted-foreground hover:text-foreground",
               )}
             >
@@ -195,7 +195,7 @@ export function FamilyEnsemble() {
                 />
               </div>
             </Link>
-            <p className="eyebrow mt-3 font-bold text-brass-foreground">{member.role}</p>
+            <p className="eyebrow mt-3 font-bold text-pillar-women-accent">{member.role}</p>
             <Link
               to="/products/$productId"
               params={{ productId: member.handle }}

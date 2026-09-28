@@ -34,7 +34,7 @@ export function PromiseTicker({ className }: { className?: string }) {
                 className="flex items-center gap-6 whitespace-nowrap px-6 text-[0.72rem] font-semibold uppercase tracking-eyebrow-wide text-muted-foreground"
               >
                 {promise}
-                <span className="size-1 rotate-45 bg-brass" aria-hidden />
+                <span className="size-1 rotate-45 bg-emerald/60" aria-hidden />
               </li>
             ))}
           </ul>

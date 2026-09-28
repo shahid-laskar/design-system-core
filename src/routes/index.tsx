@@ -5,22 +5,26 @@ import { ProductCard } from "@/components/brand/product-card";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { Button } from "@/components/ui/button";
 import { PageContainer } from "@/components/brand/design-primitives";
-import { BrassBadge, JaliPattern, MehrabArch } from "@/components/brand/ornament";
 import { PromiseTicker } from "@/components/brand/promise-ticker";
 import { FamilyEnsemble } from "@/components/brand/family-ensemble";
 import { OpacityTester } from "@/components/brand/opacity-tester";
-import { useCommerceProducts, type CollectionProduct } from "@/lib/commerce/use-commerce";
-import { snapshotHandlesForCollection } from "@/lib/commerce/snapshot-fallback";
-import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
+import {
+  useCommerceProducts,
+  mapMedusaToCollectionProduct,
+  type CollectionProduct,
+} from "@/lib/commerce/use-commerce";
+import {
+  SNAPSHOT_PRODUCTS,
+  snapshotHandlesForCollection,
+} from "@/lib/commerce/snapshot-fallback";
 import { cn } from "@/lib/utils";
 
 import heroHome from "@/assets/hero-home.jpg";
-import productModestSet from "@/assets/product-modest-set.jpg";
 import productMenKurta from "@/assets/product-men-kurta.jpg";
 import productPrayerSet from "@/assets/product-prayer-set.jpg";
 import productChildSet from "@/assets/product-child-set.jpg";
-import productBundle from "@/assets/product-bundle.jpg";
-import womenKurta from "@/assets/women-kurta.jpg";
+import womenSalwar from "@/assets/women-salwar.jpg";
+import pillarGifts from "@/assets/pillar-gifts.jpg";
 import editorialHomeCalm from "@/assets/editorial-home-calm.jpg";
 import editorialFamilyRhythm from "@/assets/editorial-family-rhythm.jpg";
 
@@ -62,11 +66,11 @@ const pillarTiles: PillarTile[] = [
     handle: "women",
     title: "Women",
     subtitle: "Cambric sets, kurtas, hijabs",
-    image: productModestSet,
+    image: womenSalwar,
     imageAlt: "Sage cambric cotton salwar set folded on linen",
     accentText: "text-pillar-women-accent",
     accentBorder: "group-hover:border-pillar-women-accent",
-    accentBg: "bg-pillar-women-bg",
+    accentBg: "bg-pillar-women-accent",
   },
   {
     handle: "men",
@@ -76,7 +80,7 @@ const pillarTiles: PillarTile[] = [
     imageAlt: "Handloom cotton kurta with mandarin collar",
     accentText: "text-pillar-men-accent",
     accentBorder: "group-hover:border-pillar-men-accent",
-    accentBg: "bg-pillar-men-bg",
+    accentBg: "bg-pillar-men-accent",
   },
   {
     handle: "children",
@@ -86,7 +90,7 @@ const pillarTiles: PillarTile[] = [
     imageAlt: "Children's cotton set with wooden toys",
     accentText: "text-pillar-kids-accent",
     accentBorder: "group-hover:border-pillar-kids-accent",
-    accentBg: "bg-pillar-kids-bg",
+    accentBg: "bg-pillar-kids-accent",
   },
   {
     handle: "prayer",
@@ -96,7 +100,7 @@ const pillarTiles: PillarTile[] = [
     imageAlt: "Olive prayer mat with a wooden Quran stand",
     accentText: "text-pillar-prayer-accent",
     accentBorder: "group-hover:border-pillar-prayer-accent",
-    accentBg: "bg-pillar-prayer-bg",
+    accentBg: "bg-pillar-prayer-accent",
   },
   {
     handle: "learning",
@@ -106,7 +110,7 @@ const pillarTiles: PillarTile[] = [
     imageAlt: "Wooden learning set and Islamic storybooks",
     accentText: "text-pillar-kids-accent",
     accentBorder: "group-hover:border-pillar-kids-accent",
-    accentBg: "bg-pillar-kids-bg",
+    accentBg: "bg-pillar-kids-accent",
   },
   {
     handle: "home",
@@ -116,17 +120,17 @@ const pillarTiles: PillarTile[] = [
     imageAlt: "A calm home corner with warm textiles",
     accentText: "text-pillar-prayer-accent",
     accentBorder: "group-hover:border-pillar-prayer-accent",
-    accentBg: "bg-pillar-prayer-bg",
+    accentBg: "bg-pillar-prayer-accent",
   },
   {
     handle: "gifts",
     title: "Gifts",
     subtitle: "Milestone boxes & hampers",
-    image: productBundle,
+    image: pillarGifts,
     imageAlt: "A gift hamper of prayer and home essentials",
     accentText: "text-pillar-gifts-accent",
     accentBorder: "group-hover:border-pillar-gifts-accent",
-    accentBg: "bg-pillar-gifts-bg",
+    accentBg: "bg-pillar-gifts-accent",
   },
 ];
 
@@ -148,72 +152,8 @@ const occasionTabs = [
   },
 ] as const;
 
-const fallbackProducts: CollectionProduct[] = [
-  {
-    id: "pure-cambric-cotton-set",
-    handle: "pure-cambric-cotton-set",
-    pillar: "Women",
-    subcategory: "Salwar Suit Sets",
-    name: "Pure Cambric Cotton Salwar Suit Set",
-    price: 1499,
-    mrp: 1699,
-    note: "Sage Green · 3-piece stitched set · Attached cotton voil lining",
-    materials: ["Pure Cotton"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    rating: 4.9,
-    reviews: 38,
-    inStock: true,
-    festive: true,
-    badge: "Bestseller",
-    image: productModestSet,
-  },
-  {
-    id: "classic-friday-cotton-kurta",
-    handle: "classic-friday-cotton-kurta",
-    pillar: "Men",
-    subcategory: "Kurtas",
-    name: "Classic Friday Handloom Cotton Kurta",
-    price: 899,
-    mrp: 999,
-    note: "Soft white · 100% long-staple cotton · Mandarin collar",
-    materials: ["Pure Cotton"],
-    sizes: ["M", "L", "XL", "XXL"],
-    rating: 4.8,
-    reviews: 93,
-    inStock: true,
-    image: productMenKurta,
-  },
-  {
-    id: "the-stillness-set",
-    handle: "the-stillness-set",
-    pillar: "Prayer",
-    subcategory: "Memory Foam Mats",
-    name: "The Stillness Prayer Mat & Rehal Set",
-    price: 3499,
-    mrp: 3999,
-    note: "Olive velvet mat with bentwood rehal",
-    materials: ["Memory Foam", "Wood"],
-    rating: 4.9,
-    reviews: 44,
-    inStock: true,
-    image: productPrayerSet,
-  },
-  {
-    id: "first-forms-set",
-    handle: "first-forms-set",
-    pillar: "Children",
-    subcategory: "Learning Toys",
-    name: "First Forms Wooden Learning Set",
-    price: 1999,
-    mrp: 2299,
-    note: "Six pieces · Natural beech · Ages 2+",
-    materials: ["Wood"],
-    rating: 4.8,
-    reviews: 32,
-    inStock: true,
-    image: productChildSet,
-  },
-];
+/** Canonical snapshot catalogue fallback */
+const snapshotCatalogue: CollectionProduct[] = SNAPSHOT_PRODUCTS.map(mapMedusaToCollectionProduct);
 
 const assurances = [
   {
@@ -283,9 +223,9 @@ function HomePage() {
   const catalogue = useMemo<CollectionProduct[]>(() => {
     if (liveProducts && liveProducts.length > 0) {
       const seen = new Set(liveProducts.map((p) => p.handle));
-      return [...liveProducts, ...fallbackProducts.filter((p) => !seen.has(p.handle))];
+      return [...liveProducts, ...snapshotCatalogue.filter((p) => !seen.has(p.handle))];
     }
-    return fallbackProducts;
+    return snapshotCatalogue;
   }, [liveProducts]);
 
   const occasionProducts = useMemo(() => {
@@ -301,8 +241,9 @@ function HomePage() {
 
   const cambric = useMemo(
     () =>
+      catalogue.find((p) => p.handle === "pure-cambric-cotton-set") ??
       catalogue.find((p) => p.name.toLowerCase().includes("cambric")) ??
-      (fallbackProducts[0] as CollectionProduct),
+      snapshotCatalogue[0]!,
     [catalogue],
   );
 
@@ -316,16 +257,16 @@ function HomePage() {
               Curated for everyday Muslim family life
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.04] sm:text-6xl lg:text-7xl">
-              Thoughtful Living &amp; Clothing for the Muslim Family
+              Thoughtful Ethnic Wear &amp; Daily Essentials for Modern Muslim Families
             </h1>
             <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">
-              Cambric cotton salwar sets, handloom kurtas, children's tarbiyah, and a prayer
-              sanctuary for the home. Good quality, honest prices, one considered store.
+              Hand-vetted cambric cotton suits, orthopedic prayer mats, and children's tarbiyah
+              tools. Guaranteed modesty, accessible pricing, delivered across India.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button size="lg" asChild>
                 <Link to="/collection" search={{ category: "women" }}>
-                  Shop Women's Cambric Sets <ArrowRight />
+                  Explore Women's Cambric Suits <ArrowRight />
                 </Link>
               </Button>
               <Button
@@ -335,7 +276,7 @@ function HomePage() {
                 asChild
               >
                 <Link to="/collection" search={{ category: "prayer" }}>
-                  Explore The Prayer Sanctuary
+                  The Prayer Sanctuary
                 </Link>
               </Button>
             </div>
@@ -365,6 +306,9 @@ function HomePage() {
         </PageContainer>
       </section>
 
+      {/* Ambient Promise Ribbon */}
+      <PromiseTicker />
+
       {/* 7-pillar row */}
       <section aria-labelledby="family-pillars">
         <PageContainer className="pt-12 lg:pt-16">
@@ -389,7 +333,7 @@ function HomePage() {
               >
                 <div
                   className={cn(
-                    "media-frame relative aspect-[4/5] border border-transparent transition-colors duration-brand-fast ease-brand",
+                    "media-frame relative aspect-[4/5] border border-transparent transition-all duration-brand-fast ease-brand",
                     tile.accentBorder,
                   )}
                 >
@@ -400,6 +344,13 @@ function HomePage() {
                     height={1000}
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.03]"
+                  />
+                  <div
+                    aria-hidden
+                    className={cn(
+                      "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-brand-fast ease-brand group-hover:opacity-15",
+                      tile.accentBg,
+                    )}
                   />
                 </div>
                 <h3
@@ -473,49 +424,62 @@ function HomePage() {
         </PageContainer>
       </section>
 
-      {/* Flagship cambric showcase */}
-      <section className="border-y border-border bg-pillar-women-bg">
-        <PageContainer className="grid items-center gap-10 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:py-20">
-          <div className="media-frame aspect-[4/3] lg:aspect-[4/5]">
-            <img
-              src={cambric.image ?? womenKurta}
-              alt="Pure cambric cotton three-piece salwar set in sage green"
-              width={1200}
-              height={1500}
-              loading="lazy"
-              className="size-full object-cover"
-            />
-          </div>
-          <div>
-            <p className="eyebrow-wide font-bold text-pillar-women-accent">
-              03 · The Cambric Cotton flagship
-            </p>
-            <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
-              The three-piece set families keep re-ordering.
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-              Pure 60s cambric cotton kurta, matching pants and a soft malmal dupatta — cut for long
-              Indian summers and long days.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {modestyCommitments.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-6">
-                  <ShieldCheck className="mt-0.5 size-4 shrink-0 text-pillar-women-accent" aria-hidden />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <span className="font-display text-3xl">{inr(cambric.price)}</span>
-              {cambric.mrp ? (
-                <span className="text-sm text-muted-foreground line-through">{inr(cambric.mrp)}</span>
-              ) : null}
-              <Button size="lg" asChild>
-                <Link to="/products/$productId" params={{ productId: cambric.handle }}>
-                  View the set <ArrowRight />
-                </Link>
-              </Button>
+      {/* Interactive Family Coordinate */}
+      <section className="border-t border-border bg-card/40">
+        <PageContainer className="section-space">
+          <FamilyEnsemble />
+        </PageContainer>
+      </section>
+
+      {/* Flagship cambric showcase & Opacity Guarantee */}
+      <section className="border-y border-border bg-blush-cream/30">
+        <PageContainer className="section-space">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
+            <div className="media-frame aspect-[4/3] lg:aspect-[4/5]">
+              <img
+                src={cambric.image ?? womenSalwar}
+                alt="Pure cambric cotton three-piece salwar set in sage green"
+                width={1200}
+                height={1500}
+                loading="lazy"
+                className="size-full object-cover"
+              />
             </div>
+            <div>
+              <p className="eyebrow-wide font-bold text-pillar-women-accent">
+                03 · The Cambric Cotton Flagship
+              </p>
+              <h2 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
+                The three-piece set families keep re-ordering.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+                Pure 60s cambric cotton kurta, matching pants and a soft malmal dupatta — cut for long
+                Indian summers and long days.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {modestyCommitments.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-6">
+                    <ShieldCheck className="mt-0.5 size-4 shrink-0 text-pillar-women-accent" aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <span className="font-display text-3xl">{inr(cambric.price)}</span>
+                {cambric.mrp ? (
+                  <span className="text-sm text-muted-foreground line-through">{inr(cambric.mrp)}</span>
+                ) : null}
+                <Button size="lg" asChild>
+                  <Link to="/products/$productId" params={{ productId: cambric.handle }}>
+                    View the set <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 border-t border-border pt-16">
+            <OpacityTester />
           </div>
         </PageContainer>
       </section>

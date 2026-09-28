@@ -48,7 +48,7 @@ export function OpacityTester() {
             )}
             style={{
               background:
-                "radial-gradient(circle at 50% 45%, var(--color-mango) 0%, var(--color-brass) 38%, transparent 72%)",
+                "radial-gradient(circle at 50% 45%, var(--color-mango) 0%, var(--color-coral) 38%, transparent 72%)",
             }}
           />
           <img
@@ -94,7 +94,7 @@ export function OpacityTester() {
       </div>
 
       <div>
-        <p className="eyebrow-wide font-bold text-brass-foreground">Touch &amp; feel</p>
+        <p className="eyebrow-wide font-bold text-pillar-women-accent">Touch &amp; feel</p>
         <h3 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
           Hold a lamp behind it. Nothing shows through.
         </h3>
@@ -105,8 +105,8 @@ export function OpacityTester() {
         <ul className="mt-7 space-y-5">
           {proofs.map(({ icon: Icon, title, detail }) => (
             <li key={title} className="flex gap-4">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-brass/40 bg-brass/10">
-                <Icon className="size-4 text-brass-foreground" aria-hidden />
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-primary/20 bg-primary/10">
+                <Icon className="size-4 text-primary" aria-hidden />
               </span>
               <div>
                 <p className="text-sm font-semibold">{title}</p>
