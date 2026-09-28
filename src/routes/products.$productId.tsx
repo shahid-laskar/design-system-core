@@ -364,6 +364,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   </>
                 ) : null}
               </div>
+              <p className="mt-2 text-xs text-muted-foreground">SKU: {displaySku}</p>
               <p className="mt-2 text-xs text-muted-foreground">
                 Inclusive of all taxes ·{" "}
                 {freeShipping
@@ -812,6 +813,34 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
     <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success">
       <CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours
     </p>
+  );
+}
+
+function ModestyGuarantee() {
+  const promises = [
+    "Attached 100% pure cotton voil lining — no separate inner slip needed",
+    "Zero-transparency guarantee verified against bright backlight",
+    "2-inch inner tailoring margins for easy local sizing adjustments",
+    "Modest comfort ease with 3–4″ room over standard body measurements",
+  ];
+
+  return (
+    <aside className="mt-5 rounded-sm border border-primary/20 bg-secondary/35 p-4 sm:p-5">
+      <div className="flex items-start gap-3">
+        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
+        <div>
+          <h2 className="font-display text-xl">Sukoon Modesty Guarantee</h2>
+          <ul className="mt-3 grid gap-2 text-xs leading-5 text-muted-foreground sm:text-sm">
+            {promises.map((promise) => (
+              <li key={promise} className="flex items-start gap-2">
+                <CircleCheck className="mt-0.5 size-3.5 shrink-0 text-success" />
+                <span>{promise}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </aside>
   );
 }
 
