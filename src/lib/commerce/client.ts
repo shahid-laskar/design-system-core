@@ -17,6 +17,7 @@ export type MedusaStoreProduct = {
   id: string;
   title: string;
   handle: string;
+  created_at?: string;
   subtitle: string | null;
   description: string | null;
   thumbnail: string | null;
@@ -29,9 +30,9 @@ export type MedusaStoreProduct = {
     title: string;
     sku: string;
     manage_inventory: boolean;
-    options:
-      | Record<string, string>
-      | Array<{ value?: string; option?: { title?: string } }>;
+    allow_backorder?: boolean;
+    inventory_quantity?: number;
+    options: Record<string, string> | Array<{ value?: string; option?: { title?: string } }>;
     calculated_price?: {
       calculated_amount: number;
       original_amount: number;
@@ -53,10 +54,7 @@ export type MedusaStoreCategory = {
   category_children?: MedusaStoreCategory[];
 };
 
-export async function fetchMedusa<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
+export async function fetchMedusa<T>(path: string, options: RequestInit = {}): Promise<T> {
   const isRead = !options.method || options.method.toUpperCase() === "GET";
 
   // Without a configured backend, serve reads straight from the snapshot
@@ -99,7 +97,7 @@ export async function fetchMedusa<T>(
     }
     if (err?.message?.includes("Failed to fetch") || err?.name === "TypeError") {
       throw new Error(
-        `Unable to connect to commerce server at ${MEDUSA_BACKEND_URL}. Please check your connection.`
+        `Unable to connect to commerce server at ${MEDUSA_BACKEND_URL}. Please check your connection.`,
       );
     }
     throw err;
@@ -112,7 +110,7 @@ export async function getDefaultRegionId(): Promise<string> {
   if (cachedRegionId) return cachedRegionId;
   try {
     const res = await fetchMedusa<{ regions: Array<{ id: string; currency_code: string }> }>(
-      "/store/regions"
+      "/store/regions",
     );
     cachedRegionId = res.regions?.[0]?.id || "reg_01M39BTQNHGNKDQHSQP2KFJXF9";
     return cachedRegionId;
@@ -138,7 +136,7 @@ export async function getStoreProducts(params?: {
     query.set("region_id", regionId);
     query.set(
       "fields",
-      "*categories,*variants,*variants.options,*variants.calculated_price,*images"
+      "*categories,*variants,*variants.options,*variants.calculated_price,*images",
     );
     if (params?.categoryId) query.set("category_id", params.categoryId);
     if (params?.handle) query.set("handle[]", params.handle);
@@ -146,7 +144,7 @@ export async function getStoreProducts(params?: {
     if (params?.offset) query.set("offset", params.offset.toString());
 
     const res = await fetchMedusa<{ products: MedusaStoreProduct[]; count: number }>(
-      `/store/products?${query.toString()}`
+      `/store/products?${query.toString()}`,
     );
     if (res.products && res.products.length > 0) return res;
     return snapshotProducts(params);
@@ -155,7 +153,6 @@ export async function getStoreProducts(params?: {
     return snapshotProducts(params);
   }
 }
-
 
 export const PRODUCT_HANDLE_ALIASES: Record<string, string> = {
   // Salwar suit
@@ -188,11 +185,12 @@ export const PRODUCT_HANDLE_ALIASES: Record<string, string> = {
 /**
  * Fetch a single product by its handle/slug with alias support and resilient fallback.
  */
-export async function getStoreProductByHandle(
-  handle: string
-): Promise<MedusaStoreProduct | null> {
+export async function getStoreProductByHandle(handle: string): Promise<MedusaStoreProduct | null> {
   if (!handle) return null;
-  const cleanHandle = handle.toLowerCase().trim().replace(/^\/products\//, "");
+  const cleanHandle = handle
+    .toLowerCase()
+    .trim()
+    .replace(/^\/products\//, "");
   const canonical = PRODUCT_HANDLE_ALIASES[cleanHandle] || cleanHandle;
 
   // 1. Direct query with canonical handle
@@ -216,7 +214,10 @@ export async function getStoreProductByHandle(
       const match = all.products.find((p) => {
         const pHandle = p.handle.toLowerCase();
         const pTitle = p.title.toLowerCase();
-        const words = cleanHandle.replace(/[^a-z0-9]/g, " ").split(/\s+/).filter(Boolean);
+        const words = cleanHandle
+          .replace(/[^a-z0-9]/g, " ")
+          .split(/\s+/)
+          .filter(Boolean);
         return (
           pHandle === canonical ||
           pHandle === cleanHandle ||
@@ -243,7 +244,7 @@ export async function getStoreCategories(): Promise<{
 }> {
   try {
     const res = await fetchMedusa<{ product_categories: MedusaStoreCategory[] }>(
-      "/store/product-categories?fields=*category_children"
+      "/store/product-categories?fields=*category_children",
     );
     if (res.product_categories?.length) return res;
   } catch {
@@ -252,7 +253,6 @@ export async function getStoreCategories(): Promise<{
   const { SNAPSHOT_CATEGORIES } = await import("./snapshot-fallback");
   return { product_categories: SNAPSHOT_CATEGORIES };
 }
-
 
 // -------------------------------------------------------------
 // Milestone D: Product Reviews API
@@ -291,10 +291,10 @@ export type StoreReviewStats = {
 };
 
 export async function getStoreProductReviews(
-  productId: string
+  productId: string,
 ): Promise<{ reviews: StoreProductReview[]; stats: StoreReviewStats }> {
   return fetchMedusa<{ reviews: StoreProductReview[]; stats: StoreReviewStats }>(
-    `/store/products/${productId}/reviews`
+    `/store/products/${productId}/reviews`,
   );
 }
 
@@ -312,14 +312,14 @@ export async function createStoreProductReview(
       opacity?: "sheer" | "semi_opaque" | "opaque";
     };
     photos?: string[];
-  }
+  },
 ): Promise<{ message: string; review: StoreProductReview }> {
   return fetchMedusa<{ message: string; review: StoreProductReview }>(
     `/store/products/${productId}/reviews`,
     {
       method: "POST",
       body: JSON.stringify(data),
-    }
+    },
   );
 }
 
@@ -354,16 +354,14 @@ export async function getStoreBlogPosts(params?: {
   if (params?.category) query.set("category", params.category);
   if (params?.tag) query.set("tag", params.tag);
   const qStr = query.toString();
-  return fetchMedusa<{ posts: StoreBlogPost[] }>(
-    `/store/blog-posts${qStr ? `?${qStr}` : ""}`
-  );
+  return fetchMedusa<{ posts: StoreBlogPost[] }>(`/store/blog-posts${qStr ? `?${qStr}` : ""}`);
 }
 
 export async function getStoreBlogPostBySlug(
-  slug: string
+  slug: string,
 ): Promise<{ post: StoreBlogPost; related_products: MedusaStoreProduct[] }> {
   return fetchMedusa<{ post: StoreBlogPost; related_products: MedusaStoreProduct[] }>(
-    `/store/blog-posts/${slug}`
+    `/store/blog-posts/${slug}`,
   );
 }
 
@@ -378,7 +376,7 @@ export async function searchStoreProducts(
     min_price?: number;
     max_price?: number;
     sort?: string;
-  }
+  },
 ): Promise<{ products: MedusaStoreProduct[]; count: number; query: string }> {
   const query = new URLSearchParams({ q });
   if (filters?.category) query.set("category", filters.category);
@@ -387,7 +385,7 @@ export async function searchStoreProducts(
   if (filters?.sort) query.set("sort", filters.sort);
 
   return fetchMedusa<{ products: MedusaStoreProduct[]; count: number; query: string }>(
-    `/store/products/search?${query.toString()}`
+    `/store/products/search?${query.toString()}`,
   );
 }
 
@@ -407,11 +405,10 @@ export type PromotionValidationResult = {
 
 export async function validateStorePromotion(
   code: string,
-  subtotal: number
+  subtotal: number,
 ): Promise<PromotionValidationResult> {
   return fetchMedusa<PromotionValidationResult>("/store/promotions/validate", {
     method: "POST",
     body: JSON.stringify({ code, subtotal }),
   });
 }
-

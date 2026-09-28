@@ -4,7 +4,12 @@ import { ListFilter, PackageOpen, Search, X } from "lucide-react";
 import { Eyebrow, PageContainer, SectionHeading } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
-import { useCommerceProducts } from "@/lib/commerce/use-commerce";
+import {
+  mapMedusaToCollectionProduct,
+  useCommerceProducts,
+  type CollectionProduct,
+} from "@/lib/commerce/use-commerce";
+import { SNAPSHOT_PRODUCTS } from "@/lib/commerce/snapshot-fallback";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -92,6 +97,8 @@ type Product = {
   image: string;
   hoverImage?: string;
   handle?: string;
+  createdAt?: string;
+  sizeStock?: Record<string, "in" | "low" | "out">;
 };
 
 const pillars: Array<{ id: "All" | Pillar; label: string; handle: string }> = [
@@ -595,6 +602,10 @@ const products: Product[] = [
   },
 ];
 
+const snapshotProducts: Product[] = SNAPSHOT_PRODUCTS.map(mapMedusaToCollectionProduct).map(
+  (product: CollectionProduct) => product as Product,
+);
+
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 const PAGE = 8;
 
@@ -656,7 +667,7 @@ function CollectionPage() {
       const fallbackProducts = products.filter((p) => !liveNames.has(p.name.toLowerCase()));
       return [...liveProducts, ...fallbackProducts] as Product[];
     }
-    return products;
+    return snapshotProducts.length > 0 ? snapshotProducts : products;
   }, [liveProducts]);
 
   const apparelContext =
@@ -672,7 +683,8 @@ function CollectionPage() {
         (!sub || p.subcategory === sub) &&
         (selSizes.length === 0 || (p.sizes?.some((s) => selSizes.includes(s)) ?? false)) &&
         (!band || inBand(p.price, band)) &&
-        (selMaterials.length === 0 || p.materials.some((m) => selMaterials.includes(m as any))) &&
+        (selMaterials.length === 0 ||
+          p.materials.some((m) => selMaterials.some((selected) => selected === m))) &&
         (!under999 || p.price < 999) &&
         (!inStockOnly || p.inStock) &&
         (!festive || p.festive) &&
@@ -684,6 +696,13 @@ function CollectionPage() {
     );
     if (sort === "price-low") return [...r].sort((a, b) => a.price - b.price);
     if (sort === "price-high") return [...r].sort((a, b) => b.price - a.price);
+    if (sort === "newest") {
+      return [...r].sort((a, b) => {
+        const aDate = a.createdAt ? Date.parse(a.createdAt) : Number(a.id) || 0;
+        const bDate = b.createdAt ? Date.parse(b.createdAt) : Number(b.id) || 0;
+        return bDate - aDate;
+      });
+    }
     if (sort === "rating")
       return [...r].sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
     return r;
@@ -991,7 +1010,10 @@ function CollectionPage() {
                     ) : null}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="flex w-[88vw] flex-col p-0">
+                <SheetContent
+                  side="bottom"
+                  className="flex max-h-[88vh] w-full flex-col rounded-t-xl p-0"
+                >
                   <SheetHeader className="border-b border-border p-6 text-left">
                     <SheetTitle className="font-display text-2xl">Refine the collection</SheetTitle>
                     <SheetDescription>Choose only what matters to you.</SheetDescription>
@@ -1016,63 +1038,97 @@ function CollectionPage() {
                   <SelectItem value="featured">Featured</SelectItem>
                   <SelectItem value="price-low">Price: Low to High</SelectItem>
                   <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="newest">Newest Arrivals</SelectItem>
                   <SelectItem value="rating">Highest Rated</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-2 overflow-x-auto pb-1 lg:mt-5">
+            {searchQuery.trim() ? (
+              <RemovableChip
+                label={`Search: ${searchQuery}`}
+                onRemove={() => {
+                  setSearchQuery("");
+                  touch();
+                }}
+              />
+            ) : null}
             {pillar !== "All" && (
-              <span
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold shadow-xs transition-colors",
-                  pillarTheme[pillar].badgeClass,
-                )}
-              >
-                {pillars.find((p) => p.id === pillar)?.label}
-                <button
-                  type="button"
-                  onClick={() => choosePillar("All")}
-                  className="ml-1 rounded-full p-0.5 hover:bg-black/20"
-                  aria-label="Remove category filter"
-                >
-                  <X className="size-3" />
-                </button>
-              </span>
+              <RemovableChip
+                label={pillars.find((p) => p.id === pillar)?.label ?? pillar}
+                onRemove={() => choosePillar("All")}
+                className={pillarTheme[pillar].badgeClass}
+              />
             )}
-            <Chip
-              active={under999}
-              onClick={() => {
-                setUnder999(!under999);
-                touch();
-              }}
-            >
-              Under ₹999
-            </Chip>
-            <Chip
-              active={inStockOnly}
-              onClick={() => {
-                setInStockOnly(!inStockOnly);
-                touch();
-              }}
-            >
-              In Stock Only
-            </Chip>
-            <Chip
-              active={festive}
-              onClick={() => {
-                setFestive(!festive);
-                touch();
-              }}
-            >
-              Festive Ready
-            </Chip>
-            <Chip
-              active={selMaterials.includes("Pure Cotton")}
-              onClick={() => toggle<Material>("Pure Cotton", selMaterials, setSelMaterials)}
-            >
-              Pure Cotton
-            </Chip>
+            {sub ? (
+              <RemovableChip
+                label={sub}
+                onRemove={() => {
+                  setSub(null);
+                  touch();
+                }}
+              />
+            ) : null}
+            {band ? (
+              <RemovableChip
+                label={priceBands.find((item) => item.id === band)?.label ?? band}
+                onRemove={() => {
+                  setBand(null);
+                  touch();
+                }}
+              />
+            ) : null}
+            {selSizes.map((size) => (
+              <RemovableChip
+                key={size}
+                label={`Size: ${size}`}
+                onRemove={() => toggle(size, selSizes, setSelSizes)}
+              />
+            ))}
+            {under999 ? (
+              <RemovableChip
+                label="Under ₹999"
+                onRemove={() => {
+                  setUnder999(false);
+                  touch();
+                }}
+              />
+            ) : null}
+            {inStockOnly ? (
+              <RemovableChip
+                label="In stock"
+                onRemove={() => {
+                  setInStockOnly(false);
+                  touch();
+                }}
+              />
+            ) : null}
+            {festive ? (
+              <RemovableChip
+                label="Festive ready"
+                onRemove={() => {
+                  setFestive(false);
+                  touch();
+                }}
+              />
+            ) : null}
+            {selMaterials.map((material) => (
+              <RemovableChip
+                key={material}
+                label={material}
+                onRemove={() => toggle(material, selMaterials, setSelMaterials)}
+              />
+            ))}
+            {activeFilters > 0 ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="ml-1 text-xs font-semibold text-primary underline underline-offset-4"
+              >
+                Clear all
+              </button>
+            ) : null}
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
             Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
@@ -1116,6 +1172,7 @@ function CollectionPage() {
                       note={p.note}
                       badge={p.badge}
                       sizes={p.sizes}
+                      sizeStock={p.sizeStock}
                       rating={p.rating}
                       reviewCount={p.reviews}
                       inStock={p.inStock}
@@ -1164,5 +1221,34 @@ function Chip({
     >
       {children}
     </button>
+  );
+}
+
+function RemovableChip({
+  label,
+  onRemove,
+  className,
+}: {
+  label: string;
+  onRemove: () => void;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary",
+        className,
+      )}
+    >
+      {label}
+      <button
+        type="button"
+        onClick={onRemove}
+        className="rounded-full p-0.5 hover:bg-black/10"
+        aria-label={`Remove ${label} filter`}
+      >
+        <X className="size-3" />
+      </button>
+    </span>
   );
 }

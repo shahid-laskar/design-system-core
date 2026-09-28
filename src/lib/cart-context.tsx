@@ -84,13 +84,14 @@ function mapMedusaCartToItems(medusaCart: MedusaCart): CartItem[] {
     }
 
     return {
-      id: (item as any).product?.handle || item.product_id,
+      id: item.product_id,
       lineId: item.id,
       variantId: item.variant_id,
       name: item.product_title || item.title,
       category: "Sukoon Collection",
       price: item.unit_price,
-      originalPrice: Math.round(item.unit_price * 1.2),
+      // Cart lines do not carry an MRP. Keep the price factual in the drawer.
+      originalPrice: item.unit_price,
       image: item.thumbnail || "/placeholder.svg",
       size,
       color,

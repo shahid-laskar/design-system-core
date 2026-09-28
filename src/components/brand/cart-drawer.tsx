@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, MessageCircle, Minus, Plus, ShieldCheck, ShoppingBag, Trash2, Truck } from "lucide-react";
+import {
+  Check,
+  MessageCircle,
+  Minus,
+  Plus,
+  ShieldCheck,
+  ShoppingBag,
+  Trash2,
+  Truck,
+} from "lucide-react";
 
 import editorialHome from "@/assets/editorial-home-calm.jpg";
 import productChild from "@/assets/product-child-set.jpg";
@@ -54,8 +63,13 @@ export function CartDrawer() {
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
   const message = encodeURIComponent(
     `Hello Sukoon House, I'd like to place this order:\n${items
-      .map((item) => `• ${item.name}${item.size ? ` · Size ${item.size}` : ""}${item.color ? ` · ${item.color}` : ""} × ${item.quantity} — ${formatPrice(item.price * item.quantity)}`)
-      .join("\n")}\nSubtotal: ${formatPrice(subtotal)}\nDelivery: ${shippingUnlocked ? "Free" : formatPrice(shipping)}\nTotal: ${formatPrice(total)}. Please help me complete my order.`
+      .map(
+        (item) =>
+          `• ${item.name}${item.size ? ` · Size ${item.size}` : ""}${item.color ? ` · ${item.color}` : ""} × ${item.quantity} — ${formatPrice(item.price * item.quantity)}`,
+      )
+      .join(
+        "\n",
+      )}\nSubtotal: ${formatPrice(subtotal)}\nDelivery: ${shippingUnlocked ? "Free" : formatPrice(shipping)}\nTotal: ${formatPrice(total)}. Please help me complete my order.`,
   );
 
   function addCompanion(item: (typeof addOns)[number]) {
@@ -77,9 +91,17 @@ export function CartDrawer() {
   return (
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="right" className="flex w-full max-w-md flex-col gap-0 overflow-hidden border-l border-border bg-background p-0 sm:max-w-lg">
+        <SheetContent
+          side="right"
+          className="flex w-full max-w-md flex-col gap-0 overflow-hidden border-l border-border bg-background p-0 sm:max-w-lg"
+        >
           <SheetHeader className="shrink-0 border-b border-border px-5 py-5 text-left sm:px-6">
-            <SheetTitle className="font-display text-2xl">Your family basket <span className="font-body text-sm font-medium text-muted-foreground">({items.reduce((count, item) => count + item.quantity, 0)})</span></SheetTitle>
+            <SheetTitle className="font-display text-2xl">
+              Your family basket{" "}
+              <span className="font-body text-sm font-medium text-muted-foreground">
+                ({items.reduce((count, item) => count + item.quantity, 0)})
+              </span>
+            </SheetTitle>
             <SheetDescription>Thoughtful essentials, together.</SheetDescription>
           </SheetHeader>
 
@@ -90,10 +112,26 @@ export function CartDrawer() {
                   <Check className="size-4" aria-hidden /> Free Express Shipping unlocked!
                 </p>
               ) : (
-                <p className="text-sm font-semibold">Add {formatPrice(remaining)} more for FREE Express Shipping! <span className="font-normal text-muted-foreground">(Standard {formatPrice(STANDARD_SHIPPING_PRICE)} below {formatPrice(FREE_SHIPPING_THRESHOLD)})</span></p>
+                <p className="text-sm font-semibold">
+                  Add {formatPrice(remaining)} more for FREE Express Shipping!{" "}
+                  <span className="font-normal text-muted-foreground">
+                    (Standard {formatPrice(STANDARD_SHIPPING_PRICE)} below{" "}
+                    {formatPrice(FREE_SHIPPING_THRESHOLD)})
+                  </span>
+                </p>
               )}
-              <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label="Free shipping progress" aria-valuemin={0} aria-valuemax={FREE_SHIPPING_THRESHOLD} aria-valuenow={Math.min(subtotal, FREE_SHIPPING_THRESHOLD)}>
-                <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />
+              <div
+                className="mt-3 h-2 overflow-hidden rounded-full bg-muted"
+                role="progressbar"
+                aria-label="Free shipping progress"
+                aria-valuemin={0}
+                aria-valuemax={FREE_SHIPPING_THRESHOLD}
+                aria-valuenow={Math.min(subtotal, FREE_SHIPPING_THRESHOLD)}
+              >
+                <div
+                  className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </section>
 
@@ -101,45 +139,115 @@ export function CartDrawer() {
               {items.length === 0 ? (
                 <div className="py-10 text-center">
                   <ShoppingBag className="mx-auto size-8 text-muted-foreground" />
-                  <p className="mt-3 font-display text-xl">Your basket is ready for something lovely.</p>
+                  <p className="mt-3 font-display text-xl">
+                    Your basket is ready for something lovely.
+                  </p>
                 </div>
-              ) : items.map((item) => (
-                <article key={`${item.id}-${item.size ?? ""}-${item.color ?? ""}`} className="grid grid-cols-[4rem_minmax(0,1fr)_auto] gap-3 py-4">
-                  <img src={item.image} alt="" className="size-16 rounded-sm object-cover" />
-                  <div className="min-w-0">
-                    <p className="font-display text-base leading-5">{item.name}</p>
-                    {item.size || item.color ? <p className="mt-1 truncate text-xs text-muted-foreground">{[item.size ? `Size: ${item.size}` : null, item.color].filter(Boolean).join(" · ")}</p> : null}
-                    <div className="mt-2 flex items-baseline gap-2 text-sm">
-                      <span className="font-semibold">{formatPrice(item.price)}</span>
-                      {item.originalPrice > item.price ? <span className="text-xs text-muted-foreground line-through">{formatPrice(item.originalPrice)}</span> : null}
+              ) : (
+                items.map((item) => (
+                  <article
+                    key={`${item.id}-${item.size ?? ""}-${item.color ?? ""}`}
+                    className="grid grid-cols-[4rem_minmax(0,1fr)_auto] gap-3 py-4"
+                  >
+                    <img src={item.image} alt="" className="size-16 rounded-sm object-cover" />
+                    <div className="min-w-0">
+                      <p className="font-display text-base leading-5">{item.name}</p>
+                      {item.size || item.color ? (
+                        <p className="mt-1 truncate text-xs text-muted-foreground">
+                          {[item.size ? `Size: ${item.size}` : null, item.color]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      ) : null}
+                      <div className="mt-2 flex items-baseline gap-2 text-sm">
+                        <span className="font-semibold">{formatPrice(item.price)}</span>
+                        {item.originalPrice > item.price ? (
+                          <span className="text-xs text-muted-foreground line-through">
+                            {formatPrice(item.originalPrice)}
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="mt-2 inline-grid h-8 grid-cols-[2rem_2rem_2rem] items-center rounded-sm border border-input">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-8"
+                          aria-label={`Decrease ${item.name} quantity`}
+                          disabled={item.quantity <= 1}
+                          onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
+                        >
+                          <Minus className="size-3.5" />
+                        </Button>
+                        <span className="text-center text-xs font-semibold" aria-live="polite">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-8"
+                          aria-label={`Increase ${item.name} quantity`}
+                          onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
+                        >
+                          <Plus className="size-3.5" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="mt-2 inline-grid h-8 grid-cols-[2rem_2rem_2rem] items-center rounded-sm border border-input">
-                      <Button variant="ghost" size="icon" className="size-8" aria-label={`Decrease ${item.name} quantity`} disabled={item.quantity <= 1} onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}><Minus className="size-3.5" /></Button>
-                      <span className="text-center text-xs font-semibold" aria-live="polite">{item.quantity}</span>
-                      <Button variant="ghost" size="icon" className="size-8" aria-label={`Increase ${item.name} quantity`} onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}><Plus className="size-3.5" /></Button>
+                    <div className="flex flex-col items-end justify-between">
+                      <span className="text-sm font-semibold">
+                        {formatPrice(item.price * item.quantity)}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 text-muted-foreground hover:text-destructive"
+                        aria-label={`Remove ${item.name}`}
+                        onClick={() => removeItem(item.id, item.size)}
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
                     </div>
-                  </div>
-                  <div className="flex flex-col items-end justify-between">
-                    <span className="text-sm font-semibold">{formatPrice(item.price * item.quantity)}</span>
-                    <Button variant="ghost" size="icon" className="size-8 text-muted-foreground hover:text-destructive" aria-label={`Remove ${item.name}`} onClick={() => removeItem(item.id, item.size)}><Trash2 className="size-4" /></Button>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                ))
+              )}
             </section>
 
-            <section className="border-t border-border py-5" aria-labelledby="family-addons-heading">
-              <h2 id="family-addons-heading" className="font-display text-xl">Complete the Family Basket</h2>
+            <section
+              className="border-t border-border py-5"
+              aria-labelledby="family-addons-heading"
+            >
+              <h2 id="family-addons-heading" className="font-display text-xl">
+                Complete the Family Basket
+              </h2>
               <div className="mt-3 divide-y divide-border">
                 {addOns.map((item) => (
-                  <div key={item.id} className="grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3 py-3">
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3 py-3"
+                  >
                     <img src={item.image} alt="" className="size-11 rounded-sm object-cover" />
                     <div className="min-w-0">
-                      <p className="text-[0.68rem] font-semibold text-muted-foreground">{item.category}</p>
+                      <p className="text-[0.68rem] font-semibold text-muted-foreground">
+                        {item.category}
+                      </p>
                       <p className="line-clamp-2 text-xs font-semibold leading-4">{item.name}</p>
                       <p className="mt-1 text-xs">{formatPrice(item.price)}</p>
                     </div>
-                    <Button variant="outline" size="sm" className="h-8 gap-1 px-2.5" onClick={() => addCompanion(item)} aria-label={`Add ${item.name}`}>
-                      {addedIds.includes(item.id) ? <><Check className="size-3.5" /> Added</> : <><Plus className="size-3.5" /> Add</>}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 gap-1 px-2.5"
+                      onClick={() => addCompanion(item)}
+                      aria-label={`Add ${item.name}`}
+                    >
+                      {addedIds.includes(item.id) ? (
+                        <>
+                          <Check className="size-3.5" /> Added
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="size-3.5" /> Add
+                        </>
+                      )}
                     </Button>
                   </div>
                 ))}
@@ -150,21 +258,50 @@ export function CartDrawer() {
           <div className="shrink-0 border-t border-border bg-background px-5 pb-5 pt-4 sm:px-6">
             <div className="space-y-2 text-sm">
               <SummaryLine label="Subtotal" value={formatPrice(subtotal)} />
-              <SummaryLine label="Delivery" value={shippingUnlocked ? "FREE · You saved ₹70" : formatPrice(shipping)} highlight={shippingUnlocked} />
+              <SummaryLine
+                label="Delivery"
+                value={shippingUnlocked ? "FREE · You saved ₹70" : formatPrice(shipping)}
+                highlight={shippingUnlocked}
+              />
               <SummaryLine label="Prepaid UPI discount" value="₹0" />
-              <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground"><Truck className="size-4 shrink-0 text-primary" /> Express Delivery: 2–4 Business Days</p>
-              <div className="flex items-baseline justify-between border-t border-border pt-3 text-base font-bold"><span>Total</span><span>{formatPrice(total)}</span></div>
+              <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground">
+                <Truck className="size-4 shrink-0 text-primary" /> Express Delivery: 2–4 Business
+                Days
+              </p>
+              <div className="flex items-baseline justify-between border-t border-border pt-3 text-base font-bold">
+                <span>Total</span>
+                <span>{formatPrice(total)}</span>
+              </div>
             </div>
-            <Button className="mt-4 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight" size="lg" asChild disabled={items.length === 0}>
+            <Button
+              className="mt-4 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight"
+              size="lg"
+              asChild
+              disabled={items.length === 0}
+            >
               <Link to="/checkout" onClick={() => setIsOpen(false)}>
                 Proceed to Instant Checkout (UPI / Cards / COD)
               </Link>
             </Button>
-            <Button variant="outline" className="mt-2 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight" asChild disabled={items.length === 0}>
-              <a href={`https://wa.me/919800000000?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle className="shrink-0" /> Order via WhatsApp (Personal Sizing Help)</a>
+            <Button
+              variant="outline"
+              className="mt-2 h-auto w-full whitespace-normal py-3 text-center text-sm leading-tight"
+              asChild
+              disabled={items.length === 0}
+            >
+              <a
+                href={`https://wa.me/919800000000?text=${message}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MessageCircle className="shrink-0" /> Order via WhatsApp (Personal Sizing Help)
+              </a>
             </Button>
 
-            <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-4 text-muted-foreground"><ShieldCheck className="size-4 shrink-0" /> 100% Secure Checkout · Encrypted UPI &amp; Cards · 7-Day Doorstep Size Exchanges</p>
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-4 text-muted-foreground">
+              <ShieldCheck className="size-4 shrink-0" /> 100% Secure Checkout · Encrypted UPI &amp;
+              Cards · 7-Day Doorstep Size Exchanges
+            </p>
           </div>
         </SheetContent>
       </Sheet>
@@ -172,6 +309,19 @@ export function CartDrawer() {
   );
 }
 
-function SummaryLine({ label, value, highlight = false }: { label: string; value: string; highlight?: boolean }) {
-  return <div className="flex items-center justify-between gap-3"><span className="text-muted-foreground">{label}</span><span className={highlight ? "font-semibold text-success" : "font-medium"}>{value}</span></div>;
+function SummaryLine({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-muted-foreground">{label}</span>
+      <span className={highlight ? "font-semibold text-success" : "font-medium"}>{value}</span>
+    </div>
+  );
 }

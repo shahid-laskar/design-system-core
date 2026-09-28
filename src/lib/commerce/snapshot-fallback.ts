@@ -43,6 +43,7 @@ export const SNAPSHOT_PRODUCTS: MedusaStoreProduct[] = (
   id: p["id"],
   title: p["title"],
   handle: p["handle"],
+  created_at: p["created_at"],
   subtitle: p["subtitle"] ?? null,
   description: p["description"] ?? null,
   thumbnail: p["thumbnail"] ?? null,
@@ -69,6 +70,9 @@ export const SNAPSHOT_PRODUCTS: MedusaStoreProduct[] = (
     title: v["title"],
     sku: v["sku"],
     manage_inventory: Boolean(v["manage_inventory"]),
+    allow_backorder: Boolean(v["allow_backorder"]),
+    inventory_quantity:
+      typeof v["inventory_quantity"] === "number" ? v["inventory_quantity"] : undefined,
     options: normalizeVariantOptions(v["options"]),
     calculated_price: v["calculated_price"]
       ? {

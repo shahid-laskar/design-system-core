@@ -36,7 +36,7 @@ export function deriveSizeStock(
 ): Record<string, SizeStock> {
   const map: Record<string, SizeStock> = {};
   for (const size of sizes ?? []) {
-    map[size] = !inStock ? "out" : size === "XXL" ? "out" : size === "XL" ? "low" : "in";
+    map[size] = inStock ? "in" : "out";
   }
   return map;
 }

@@ -341,13 +341,15 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               )}
             </div>
             <h1 className="mt-4 font-display text-4xl leading-none sm:text-5xl">{product.name}</h1>
-            <a
-              href="#reviews"
-              className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary"
-            >
-              <Star className="size-4 fill-warning text-warning" /> {product.rating} ·{" "}
-              {product.reviewCount} reviews
-            </a>
+            {product.rating && product.reviewCount > 0 ? (
+              <a
+                href="#reviews"
+                className="mt-3 inline-flex items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 hover:decoration-primary"
+              >
+                <Star className="size-4 fill-warning text-warning" /> {product.rating} ·{" "}
+                {product.reviewCount} reviews
+              </a>
+            ) : null}
 
             <div className="mt-5 border-y border-border py-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -1244,50 +1246,6 @@ type ReviewItem = {
   tags: string[];
 };
 
-const sampleReviews: ReviewItem[] = [
-  {
-    id: "rev-1",
-    author: "Farhana K.",
-    location: "Bengaluru, Karnataka",
-    verified: true,
-    rating: 5,
-    date: "14 Sep 2026",
-    variant: "Purchased Size M · Sage Green",
-    title: "Finally a brand that understands modesty & cotton quality!",
-    body: "I was so hesitant to buy clothes online because so many kurtas end up see-through in the sun. This suit is 100% non-transparent thanks to the soft attached cotton lining. Cambric cotton feels breathable even in 32-degree weather. Size M fits with just the right amount of ease.",
-    initialHelpful: 24,
-    photo: productModest,
-    tags: ["photos", "5star", "fit", "verified"],
-  },
-  {
-    id: "rev-2",
-    author: "Amina S.",
-    location: "Hyderabad, Telangana",
-    verified: true,
-    rating: 5,
-    date: "09 Sep 2026",
-    variant: "Purchased Size XL · Sage Green",
-    title: "Perfect for Jummah and family gatherings",
-    body: "Beautiful finish on the neckline and the sleeves are genuinely full length (covers wrists properly). The malmal dupatta is lightweight and doesn't slip off the head constantly.",
-    initialHelpful: 19,
-    photo: editorialHome,
-    tags: ["photos", "5star", "fit", "verified"],
-  },
-  {
-    id: "rev-3",
-    author: "Zoya M.",
-    location: "Delhi NCR",
-    verified: true,
-    rating: 4,
-    date: "03 Sep 2026",
-    variant: "Purchased Size S · Sage Green",
-    title: "Very soft fabric, pants fit comfortably",
-    body: "The pants have elastic and pockets! Kurta length is modest (below knees). Deducted one star only because delivery took 4 days to East Delhi, but the product itself is exceptional.",
-    initialHelpful: 11,
-    tags: ["fit", "verified"],
-  },
-];
-
 function ProductReviewHub({ product }: { product: ProductDetail }) {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [liveReviews, setLiveReviews] = useState<StoreProductReview[]>([]);
@@ -1312,11 +1270,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
   );
   const [photoUrl, setPhotoUrl] = useState("");
 
-  const [helpfulMap, setHelpfulMap] = useState<Record<string, number>>({
-    "rev-1": 24,
-    "rev-2": 19,
-    "rev-3": 11,
-  });
+  const [helpfulMap, setHelpfulMap] = useState<Record<string, number>>({});
   const [votedMap, setVotedMap] = useState<Record<string, boolean>>({});
   const [activePhoto, setActivePhoto] = useState<{
     src: string;
@@ -1336,7 +1290,7 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
           if (res.stats) setStats(res.stats);
         }
       } catch {
-        // Fallback gracefully to offline sample reviews
+        // Reviews are optional; keep the product page usable when none exist.
       }
     }
     loadReviews();
@@ -1345,8 +1299,6 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
     };
   }, [product.id]);
 
-  // Sample reviews describe apparel fit, so only show them on apparel products.
-  const samples = product.kind === "apparel" ? sampleReviews : [];
   const allReviews = useMemo(() => {
     const formattedLive = liveReviews.map((lr) => ({
       id: lr.id,
@@ -1373,8 +1325,8 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
       apparelAttributes: lr.apparel_attributes,
     }));
 
-    return [...formattedLive, ...samples];
-  }, [liveReviews, samples]);
+    return formattedLive;
+  }, [liveReviews]);
 
   const filteredReviews = useMemo(() => {
     if (selectedFilter === "all") return allReviews;
@@ -1436,9 +1388,9 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
   }
 
   const displayRating = stats?.average_rating ? stats.average_rating.toFixed(1) : product.rating;
-  const displayCount = (stats?.review_count || 0) + samples.length;
-  const trueToSizePct = stats?.apparel_attributes?.true_to_size_percentage || 88;
-  const opacityPct = stats?.apparel_attributes?.opacity_guarantee_percentage || 97;
+  const displayCount = stats?.review_count || liveReviews.length;
+  const trueToSizePct = stats?.apparel_attributes?.true_to_size_percentage;
+  const opacityPct = stats?.apparel_attributes?.opacity_guarantee_percentage;
 
   return (
     <section id="reviews" className="border-t border-border bg-background py-12 lg:py-20">
@@ -1467,172 +1419,166 @@ function ProductReviewHub({ product }: { product: ProductDetail }) {
 
         {/* Top Grid: Rating Distribution + Sentiment Bars */}
         <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-12">
-          {/* Column 1: Overall Score & 5-Star Histogram */}
+          {/* Column 1: Real rating data only */}
           <div className="rounded-sm border border-border bg-card p-6">
-            <div className="flex items-baseline gap-3">
-              <span className="font-display text-5xl font-semibold text-foreground">
-                {displayRating}
-              </span>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1 text-warning">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="size-4 fill-current" />
+            {stats && displayCount > 0 ? (
+              <>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-display text-5xl font-semibold text-foreground">
+                    {displayRating}
+                  </span>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1 text-warning">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="size-4 fill-current" />
+                      ))}
+                    </div>
+                    <span className="mt-1 text-xs text-muted-foreground">
+                      Based on {displayCount} verified family ratings
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-6 space-y-2.5">
+                  {Object.entries(stats.rating_breakdown).map(([stars, count]) => (
+                    <div
+                      key={stars}
+                      className="grid grid-cols-[2.5rem_minmax(0,1fr)_3rem] items-center gap-3 text-xs"
+                    >
+                      <span className="font-medium text-muted-foreground">{stars} ★</span>
+                      <div className="h-2 overflow-hidden rounded-full bg-muted">
+                        <div
+                          className="h-full rounded-full bg-primary"
+                          style={{ width: `${(count / displayCount) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-right text-muted-foreground">{count}</span>
+                    </div>
                   ))}
                 </div>
-                <span className="mt-1 text-xs text-muted-foreground">
-                  Based on {displayCount} verified family ratings
-                </span>
+              </>
+            ) : (
+              <div className="py-5">
+                <p className="font-display text-2xl">No reviews yet</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Be the first verified customer to share an experience with this piece.
+                </p>
               </div>
-            </div>
-
-            <div className="mt-6 space-y-2.5">
-              {[
-                { stars: 5, pct: 84, count: 32 },
-                { stars: 4, pct: 13, count: 5 },
-                { stars: 3, pct: 3, count: 1 },
-                { stars: 2, pct: 0, count: 0 },
-                { stars: 1, pct: 0, count: 0 },
-              ].map(({ stars, pct, count }) => (
-                <div
-                  key={stars}
-                  className="grid grid-cols-[2.5rem_minmax(0,1fr)_3rem] items-center gap-3 text-xs"
-                >
-                  <span className="font-medium text-muted-foreground">{stars} ★</span>
-                  <div className="h-2 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
-                  </div>
-                  <span className="text-right text-muted-foreground">{count}</span>
-                </div>
-              ))}
-            </div>
+            )}
           </div>
 
           {/* Column 2: Structured Sentiment Bars (apparel only) */}
-          {product.kind === "apparel" && (
-            <div className="rounded-sm border border-border bg-card p-6">
-              <h3 className="text-sm font-semibold text-foreground">Verified Customer Sentiment</h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Aggregated feedback on fit, modesty opacity, and fabric durability.
-              </p>
+          {product.kind === "apparel" &&
+            stats &&
+            (trueToSizePct !== undefined || opacityPct !== undefined) && (
+              <div className="rounded-sm border border-border bg-card p-6">
+                <h3 className="text-sm font-semibold text-foreground">
+                  Verified Customer Sentiment
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Aggregated feedback on fit, modesty opacity, and fabric durability.
+                </p>
 
-              <div className="mt-5 space-y-4">
-                <div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
-                    <span className="font-semibold text-primary">
-                      {trueToSizePct}% True to size
-                    </span>
+                <div className="mt-5 space-y-4">
+                  <div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-medium text-foreground">Size &amp; Fit Accuracy</span>
+                      {trueToSizePct !== undefined ? (
+                        <span className="font-semibold text-primary">
+                          {trueToSizePct}% True to size
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
+                      {trueToSizePct !== undefined ? (
+                        <div
+                          className="h-full bg-primary"
+                          style={{ width: `${trueToSizePct}%` }}
+                          title={`True to size (${trueToSizePct}%)`}
+                        />
+                      ) : null}
+                    </div>
+                    <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
+                      <span>Runs tight</span>
+                      {trueToSizePct !== undefined ? (
+                        <span>True to size ({trueToSizePct}%)</span>
+                      ) : null}
+                      <span>Runs loose</span>
+                    </div>
                   </div>
-                  <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full bg-primary"
-                      style={{ width: `${trueToSizePct}%` }}
-                      title={`True to size (${trueToSizePct}%)`}
-                    />
-                    <div
-                      className="h-full bg-secondary"
-                      style={{ width: "8%" }}
-                      title="Runs loose (8%)"
-                    />
-                    <div
-                      className="h-full bg-border"
-                      style={{ width: "4%" }}
-                      title="Runs tight (4%)"
-                    />
-                  </div>
-                  <div className="mt-1 flex justify-between text-[0.68rem] text-muted-foreground">
-                    <span>Runs tight</span>
-                    <span>True to size ({trueToSizePct}%)</span>
-                    <span>Runs loose</span>
-                  </div>
-                </div>
 
-                <div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
-                    <span className="font-semibold text-success">
-                      {opacityPct}% 100% Non-Transparent
-                    </span>
-                  </div>
-                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-success"
-                      style={{ width: `${opacityPct}%` }}
-                    />
-                  </div>
-                  <p className="mt-1 text-[0.68rem] text-muted-foreground">
-                    Attached inner lining guarantees complete confidence in bright daylight.
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-foreground">
-                      Fabric Softness &amp; Breathability
-                    </span>
-                    <span className="font-semibold text-primary">95% Soft &amp; Breathable</span>
-                  </div>
-                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full rounded-full bg-primary" style={{ width: "95%" }} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-foreground">Colorfastness After Washing</span>
-                    <span className="font-semibold text-primary">92% Zero Bleed</span>
-                  </div>
-                  <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full rounded-full bg-primary" style={{ width: "92%" }} />
+                  <div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-medium text-foreground">Fabric Opacity / Modesty</span>
+                      {opacityPct !== undefined ? (
+                        <span className="font-semibold text-success">
+                          {opacityPct}% 100% Non-Transparent
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">
+                      {opacityPct !== undefined ? (
+                        <div
+                          className="h-full rounded-full bg-success"
+                          style={{ width: `${opacityPct}%` }}
+                        />
+                      ) : null}
+                    </div>
+                    <p className="mt-1 text-[0.68rem] text-muted-foreground">
+                      Attached inner lining guarantees complete confidence in bright daylight.
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
 
         {/* Real Customer Photos Carousel */}
-        <div className="mt-10">
-          <div className="flex items-center justify-between">
-            <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <Camera className="size-4 text-primary" />
-              <span>Customer Photos &amp; Everyday Styling (12)</span>
-            </h3>
-            <span className="text-xs text-muted-foreground">
-              Real home photos by verified buyers
-            </span>
-          </div>
+        {allReviews.some((review) => review.photo) ? (
+          <div className="mt-10">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                <Camera className="size-4 text-primary" />
+                <span>
+                  Customer Photos &amp; Everyday Styling (
+                  {allReviews.filter((review) => review.photo).length})
+                </span>
+              </h3>
+              <span className="text-xs text-muted-foreground">
+                Real home photos by verified buyers
+              </span>
+            </div>
 
-          <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none">
-            {allReviews
-              .filter((r) => r.photo)
-              .map((rev) => (
-                <button
-                  key={rev.id}
-                  type="button"
-                  onClick={() =>
-                    setActivePhoto({
-                      src: rev.photo!,
-                      author: rev.author,
-                      variant: rev.variant,
-                      title: rev.title,
-                    })
-                  }
-                  className="group relative aspect-[4/5] w-36 shrink-0 snap-start overflow-hidden rounded-sm border border-border bg-muted text-left focus:outline-none focus:ring-2 focus:ring-primary sm:w-44"
-                >
-                  <img
-                    src={rev.photo}
-                    alt={`Customer photo by ${rev.author}`}
-                    className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-2 text-white">
-                    <p className="truncate text-xs font-semibold">{rev.author}</p>
-                    <p className="truncate text-[0.68rem] text-white/80">{rev.variant}</p>
-                  </div>
-                </button>
-              ))}
+            <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scrollbar-none">
+              {allReviews
+                .filter((r) => r.photo)
+                .map((rev) => (
+                  <button
+                    key={rev.id}
+                    type="button"
+                    onClick={() =>
+                      setActivePhoto({
+                        src: rev.photo!,
+                        author: rev.author,
+                        variant: rev.variant,
+                        title: rev.title,
+                      })
+                    }
+                    className="group relative aspect-[4/5] w-36 shrink-0 snap-start overflow-hidden rounded-sm border border-border bg-muted text-left focus:outline-none focus:ring-2 focus:ring-primary sm:w-44"
+                  >
+                    <img
+                      src={rev.photo}
+                      alt={`Customer photo by ${rev.author}`}
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-2 text-white">
+                      <p className="truncate text-xs font-semibold">{rev.author}</p>
+                      <p className="truncate text-[0.68rem] text-white/80">{rev.variant}</p>
+                    </div>
+                  </button>
+                ))}
+            </div>
           </div>
-        </div>
+        ) : null}
 
         {/* Filter Pills */}
         <div className="mt-10 flex flex-wrap items-center gap-2 border-b border-border pb-4">

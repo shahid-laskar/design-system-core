@@ -156,26 +156,23 @@ const snapshotCatalogue: CollectionProduct[] = SNAPSHOT_PRODUCTS.map(mapMedusaTo
 const assurances = [
   {
     icon: Shirt,
-    title: "Honest everyday fabrics",
-    detail:
-      "100% breathable cottons, micro-modals and natural linen, tested for colour fastness and daily durability.",
+    title: "Doorstep size exchanges",
+    detail: "A 7-day doorstep exchange window for apparel when the fit needs adjusting.",
   },
   {
     icon: ShieldCheck,
-    title: "Verified modest cuts",
-    detail:
-      "Generous lengths, full sleeves, high necklines and attached opaque linings — nothing see-through.",
-  },
-  {
-    icon: RefreshCcw,
-    title: "7-day size exchanges",
-    detail: "If the fit isn't perfect, we arrange an easy reverse pickup at your doorstep.",
+    title: "Free delivery ≥ ₹999",
+    detail: "Express delivery is free when your family basket reaches the threshold.",
   },
   {
     icon: IndianRupee,
-    title: "Direct family value",
-    detail:
-      "Sourcing straight from makers lets us hold quality high and prices honest — free shipping over ₹999.",
+    title: "Cash on delivery",
+    detail: "Pay on delivery where serviceable, with checkout support when you need it.",
+  },
+  {
+    icon: RefreshCcw,
+    title: "Tailoring-friendly margins",
+    detail: "Apparel details call out the extra 2-inch inner margin where the catalog provides it.",
   },
 ];
 
@@ -234,6 +231,10 @@ function HomePage() {
 
   const prayerProducts = useMemo(
     () => catalogue.filter((p) => p.pillar === "Prayer" || p.pillar === "Home").slice(0, 3),
+    [catalogue],
+  );
+  const under999Products = useMemo(
+    () => catalogue.filter((p) => p.price < 999).slice(0, 4),
     [catalogue],
   );
 
@@ -367,10 +368,10 @@ function HomePage() {
         </PageContainer>
       </section>
 
-      {/* Curated occasions */}
+      {/* Trending and festive shelf */}
       <section id="shop" className="scroll-mt-24">
         <PageContainer className="section-space">
-          <p className="eyebrow-wide text-muted-foreground">02 · Curated occasions</p>
+          <p className="eyebrow-wide text-muted-foreground">02 · Trending now &amp; festive edit</p>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl">
             Shop the moment you're dressing for.
           </h2>
@@ -410,6 +411,7 @@ function HomePage() {
                 key={`${occasion}-${product.handle}`}
                 pillar={product.pillar}
                 image={product.image}
+                hoverImage={product.hoverImage}
                 imageAlt={product.name}
                 category={product.subcategory}
                 name={product.name}
@@ -419,8 +421,53 @@ function HomePage() {
                 note={product.note}
                 badge={product.badge}
                 sizes={product.sizes}
+                sizeStock={product.sizeStock}
                 rating={product.rating}
                 reviewCount={product.reviews}
+                inStock={product.inStock}
+                href={`/products/${product.handle}`}
+              />
+            ))}
+          </div>
+        </PageContainer>
+      </section>
+
+      <section className="border-t border-border bg-warm-ivory" aria-labelledby="under-999">
+        <PageContainer className="section-space">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow-wide text-muted-foreground">03 · Everyday value</p>
+              <h2 id="under-999" className="mt-3 font-display text-4xl sm:text-5xl">
+                Under ₹999 Essentials
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+                Accessible pieces for everyday family rhythms, with the same clear material and fit
+                information.
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link to="/collection" search={{ category: "all" }}>
+                Shop under ₹999 <ArrowRight />
+              </Link>
+            </Button>
+          </div>
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {under999Products.map((product) => (
+              <ProductCard
+                key={`under-999-${product.handle}`}
+                pillar={product.pillar}
+                image={product.image}
+                hoverImage={product.hoverImage}
+                imageAlt={product.name}
+                category={product.subcategory}
+                name={product.name}
+                price={inr(product.price)}
+                previousPrice={product.mrp ? inr(product.mrp) : undefined}
+                savings={product.mrp ? inr(product.mrp - product.price) : undefined}
+                note={product.note}
+                badge={product.badge}
+                sizes={product.sizes}
+                sizeStock={product.sizeStock}
                 inStock={product.inStock}
                 href={`/products/${product.handle}`}
               />

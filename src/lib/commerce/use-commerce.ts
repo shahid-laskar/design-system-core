@@ -42,6 +42,8 @@ export type CollectionProduct = {
   image: string;
   hoverImage?: string;
   handle: string;
+  createdAt?: string;
+  sizeStock?: Record<string, "in" | "low" | "out">;
 };
 
 export type ProductDetail = {
@@ -103,7 +105,39 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   const sizeOption = p.options?.find((o) => o.title.toLowerCase() === "size");
   const sizes = sizeOption?.values?.map((v) => v.value as Size) || undefined;
 
-  const inStock = p.variants?.some((v) => v.manage_inventory === false || true) ?? true;
+  const inStock =
+    p.variants?.some(
+      (v) =>
+        !v.manage_inventory ||
+        v.allow_backorder === true ||
+        v.inventory_quantity === undefined ||
+        v.inventory_quantity > 0,
+    ) ?? true;
+  const sizeStock = sizeOption?.values?.reduce<Record<string, "in" | "low" | "out">>(
+    (result, value) => {
+      const variants = (p.variants ?? []).filter((variant) =>
+        Object.values(variantOptionValues(variant.options)).some(
+          (option) => option === value.value,
+        ),
+      );
+      const stock = variants.reduce<"in" | "low" | "out">((current, variant) => {
+        if (
+          variant.inventory_quantity !== undefined &&
+          variant.inventory_quantity <= 0 &&
+          !variant.allow_backorder
+        ) {
+          return current === "in" ? "out" : current;
+        }
+        if (variant.inventory_quantity !== undefined && variant.inventory_quantity <= 2) {
+          return "low";
+        }
+        return "in";
+      }, "out");
+      result[value.value as Size] = stock;
+      return result;
+    },
+    {},
+  );
   const curated = resolveProductBySlug(p.handle);
   let image = p.images?.[0]?.url || p.thumbnail;
   if (!image || image.includes("unsplash.com") || image.includes("placeholder")) {
@@ -139,6 +173,8 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     image,
     hoverImage,
     handle: p.handle,
+    createdAt: p.created_at,
+    sizeStock,
   };
 }
 
@@ -152,7 +188,9 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
 
   const firstVariant = p.variants?.[0];
   const price = firstVariant?.calculated_price?.calculated_amount ?? 1499;
-  const mrp = Number((p.metadata?.["mrp"] as number) || Math.round(price * 1.2));
+  const metadataMrp = Number(p.metadata?.["mrp"] ?? 0);
+  const originalAmount = firstVariant?.calculated_price?.original_amount ?? price;
+  const mrp = Math.max(price, metadataMrp || originalAmount);
 
   const colorOption = p.options?.find(
     (o) => o.title.toLowerCase() === "colour" || o.title.toLowerCase() === "color",
@@ -181,10 +219,14 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     });
 
     let stockStatus: "in-stock" | "low" | "sold-out" = "in-stock";
-    if (variant?.sku?.includes("XL") && !variant?.sku?.includes("XXL")) {
-      stockStatus = "low";
-    } else if (variant?.sku?.includes("XXL")) {
+    if (
+      variant?.inventory_quantity !== undefined &&
+      variant.inventory_quantity <= 0 &&
+      !variant.allow_backorder
+    ) {
       stockStatus = "sold-out";
+    } else if (variant?.inventory_quantity !== undefined && variant.inventory_quantity <= 2) {
+      stockStatus = "low";
     }
 
     return {
@@ -230,8 +272,8 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     categoryTrail,
     price,
     mrp,
-    rating: (p.metadata?.["rating"] as string) || "4.9",
-    reviewCount: Number((p.metadata?.["reviews"] as number) || 28),
+    rating: p.metadata?.["rating"] ? String(p.metadata["rating"]) : "",
+    reviewCount: Number(p.metadata?.["reviews"] ?? 0),
     description: p.description || "",
     gallery,
     colors,

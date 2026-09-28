@@ -1,12 +1,13 @@
-import type { ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, Menu, Search, ShieldCheck, ShoppingBag } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, Search, ShieldCheck, ShoppingBag, X } from "lucide-react";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageContainer } from "@/components/brand/design-primitives";
 import { CartDrawer } from "@/components/brand/cart-drawer";
 import { useCart } from "@/lib/cart-context";
+import { useCommerceProducts } from "@/lib/commerce/use-commerce";
 import {
   Accordion,
   AccordionContent,
@@ -28,6 +29,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const pillars = [
   {
@@ -79,6 +87,26 @@ type SiteShellProps = {
 
 export function SiteShell({ children }: SiteShellProps) {
   const { itemCount, setIsOpen } = useCart();
+  const { data: products } = useCommerceProducts();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchResults = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return [];
+    return (products ?? [])
+      .filter((product) =>
+        [product.name, product.pillar, product.subcategory, product.note]
+          .join(" ")
+          .toLowerCase()
+          .includes(normalized),
+      )
+      .slice(0, 5);
+  }, [products, query]);
+
+  function openSearch() {
+    setQuery("");
+    setSearchOpen(true);
+  }
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
@@ -212,7 +240,7 @@ export function SiteShell({ children }: SiteShellProps) {
           </nav>
 
           <div className="flex items-center justify-self-end gap-1">
-            <Button variant="ghost" size="icon" aria-label="Search">
+            <Button variant="ghost" size="icon" aria-label="Search" onClick={openSearch}>
               <Search />
             </Button>
             <Button
@@ -236,6 +264,103 @@ export function SiteShell({ children }: SiteShellProps) {
       <main>{children}</main>
 
       <CartDrawer />
+
+      <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
+        <DialogContent className="top-[8%] max-w-2xl translate-y-0 gap-0 overflow-hidden p-0">
+          <DialogHeader className="border-b border-border px-5 py-5 text-left sm:px-7">
+            <DialogTitle className="font-display text-2xl">
+              Find something for the family
+            </DialogTitle>
+            <DialogDescription>
+              Search the live catalogue by product, department, or material.
+            </DialogDescription>
+            <div className="relative mt-4">
+              <Search className="absolute left-3 top-3 size-4 text-muted-foreground" />
+              <input
+                autoFocus
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Try cambric salwar, Friday kurta, prayer mat..."
+                className="h-11 w-full rounded-md border border-input bg-background pl-10 pr-10 text-sm outline-none ring-offset-background focus:ring-2 focus:ring-ring"
+                aria-label="Search products"
+              />
+              {query ? (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  className="absolute right-3 top-3 text-muted-foreground"
+                  aria-label="Clear search"
+                >
+                  <X className="size-4" />
+                </button>
+              ) : null}
+            </div>
+          </DialogHeader>
+          <div className="max-h-[65vh] overflow-y-auto px-5 py-5 sm:px-7">
+            {!query ? (
+              <>
+                <p className="eyebrow text-foreground">Popular searches</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {["Cambric Salwar", "Friday Kurta", "Memory Foam Mat", "Eid Gifts"].map(
+                    (term) => (
+                      <button
+                        key={term}
+                        type="button"
+                        onClick={() => setQuery(term)}
+                        className="rounded-full border border-border bg-card px-3.5 py-2 text-sm hover:border-primary hover:text-primary"
+                      >
+                        {term}
+                      </button>
+                    ),
+                  )}
+                </div>
+                <p className="eyebrow mt-7 text-foreground">Shop by department</p>
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {pillars.slice(0, 4).map((pillar) => (
+                    <Link
+                      key={pillar.category}
+                      to="/collection"
+                      search={{ category: pillar.category }}
+                      onClick={() => setSearchOpen(false)}
+                      className="rounded-md border border-border p-3 text-sm font-semibold hover:border-primary hover:text-primary"
+                    >
+                      {pillar.label}
+                      <ArrowRight className="ml-1 inline size-3.5" />
+                    </Link>
+                  ))}
+                </div>
+              </>
+            ) : searchResults.length > 0 ? (
+              <div className="divide-y divide-border">
+                {searchResults.map((product) => (
+                  <Link
+                    key={product.handle}
+                    to="/products/$productId"
+                    params={{ productId: product.handle }}
+                    onClick={() => setSearchOpen(false)}
+                    className="flex items-center gap-3 py-3 hover:text-primary"
+                  >
+                    <img src={product.image} alt="" className="size-14 rounded-sm object-cover" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-semibold">{product.name}</span>
+                      <span className="block text-xs text-muted-foreground">
+                        {product.pillar} · {product.note}
+                      </span>
+                    </span>
+                    <span className="text-sm font-bold">
+                      ₹{product.price.toLocaleString("en-IN")}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="py-8 text-center text-sm text-muted-foreground">
+                No pieces matched that search. Try a department or a shorter phrase.
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <footer className="border-t border-border bg-primary text-primary-foreground">
         <PageContainer className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-20">
