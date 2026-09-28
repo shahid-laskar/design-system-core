@@ -305,21 +305,66 @@ export function ProductCard({
           ) : null}
         </div>
         {isApparel ? (
-          <p className="mt-2 text-xs text-muted-foreground">Sizes: {sizes!.join(", ")}</p>
-        ) : null}
-
-        {isApparel ? (
-          <Button className="mt-4 w-full" disabled={!inStock} asChild>
-            <Link to={targetHref}>
-              <Plus className="mr-1 size-4" /> {inStock ? "Select size & buy" : "Out of stock"}
-            </Link>
-          </Button>
+          <div className="mt-3">
+            <p className="text-[0.7rem] font-semibold uppercase tracking-eyebrow text-muted-foreground">
+              {added ? "Added to basket" : "Pick a size to add"}
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {sizes!.map((size) => {
+                const status = stockMap[size] ?? "in";
+                const soldOut = status === "out" || !inStock;
+                const isAdded = added === size;
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    disabled={soldOut}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      quickAdd(size);
+                    }}
+                    title={
+                      soldOut
+                        ? `Size ${size} sold out`
+                        : status === "low"
+                          ? `Only 2 left in size ${size}`
+                          : `Add size ${size} to basket`
+                    }
+                    aria-label={
+                      soldOut ? `Size ${size} sold out` : `Add size ${size} to basket`
+                    }
+                    className={cn(
+                      "relative inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-2 text-xs font-semibold transition-colors duration-brand-fast ease-brand",
+                      soldOut
+                        ? "cursor-not-allowed border-dashed border-border text-muted-foreground/60 line-through"
+                        : isAdded
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-background hover:border-primary hover:bg-primary/10",
+                      status === "low" && !soldOut && !isAdded && "border-mango/70",
+                    )}
+                  >
+                    {isAdded ? <Check className="size-3.5" /> : size}
+                  </button>
+                );
+              })}
+            </div>
+            {sizes!.some((s) => (stockMap[s] ?? "in") === "low") && inStock ? (
+              <p className="mt-1.5 text-[0.7rem] font-medium text-mango-foreground/90">
+                Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
+              </p>
+            ) : null}
+            <Button variant="outline" className="mt-3 w-full" asChild>
+              <Link to={targetHref}>View details &amp; size guide</Link>
+            </Button>
+          </div>
         ) : (
           <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
-            <Plus className="mr-1 size-4" />{" "}
-            {inStock ? (added ? "Added to bag!" : "Add to bag") : "Notify me"}
+            {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}{" "}
+            {inStock ? (added ? "Added ✓" : "Add to basket") : "Notify me"}
           </Button>
         )}
+
       </div>
     </article>
   );
