@@ -11,6 +11,8 @@ export type SizeStock = "in" | "low" | "out";
 
 type ProductCardProps = {
   image: string;
+  hoverImage?: string | undefined;
+
   imageAlt: string;
   category: string;
   name: string;
@@ -162,8 +164,10 @@ export const pillarStyles: Record<
 
 export function ProductCard({
   image,
+  hoverImage,
   imageAlt,
   category,
+
   name,
   price,
   previousPrice,
@@ -234,9 +238,24 @@ export function ProductCard({
             width={1200}
             height={1504}
             loading="lazy"
-            className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.025]"
+            className={cn(
+              "size-full object-cover transition-all duration-brand-slow ease-brand group-hover:scale-[1.025]",
+              hoverImage && "group-hover:opacity-0",
+            )}
           />
+          {hoverImage ? (
+            <img
+              src={hoverImage}
+              alt=""
+              aria-hidden
+              width={1200}
+              height={1504}
+              loading="lazy"
+              className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-brand-slow ease-brand group-hover:scale-[1.025] group-hover:opacity-100"
+            />
+          ) : null}
         </Link>
+
         {badge ? (
           <span
             className={cn(
