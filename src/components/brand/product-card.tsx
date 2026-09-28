@@ -11,6 +11,8 @@ export type SizeStock = "in" | "low" | "out";
 
 type ProductCardProps = {
   image: string;
+  hoverImage?: string | undefined;
+
   imageAlt: string;
   category: string;
   name: string;
@@ -162,7 +164,8 @@ export const pillarStyles: Record<
 
 export function ProductCard({
   image,
-  imageAlt,
+  hoverImage,
+
   category,
   name,
   price,
