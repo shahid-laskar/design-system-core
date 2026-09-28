@@ -633,7 +633,7 @@ function CollectionPage() {
   const choosePillar = (p: "All" | Pillar) => {
     setPillar(p);
     setSub(null);
-    const hasApparel = p === "All" || products.some((x) => x.pillar === p && x.sizes);
+    const hasApparel = p === "All" || allProducts.some((x) => x.pillar === p && x.sizes);
     if (!hasApparel) setSelSizes([]);
     touch();
   };
@@ -797,7 +797,7 @@ function CollectionPage() {
   );
 
   return (
-    <>
+    <main id="main-content">
       <section
         className={cn(
           "border-b border-border transition-colors duration-300 ease-in-out",
@@ -1022,11 +1022,8 @@ function CollectionPage() {
                     />
                   ))}
                 </div>
-                {visible < filtered.length ? (
+                 {visible < filtered.length ? (
                   <div className="mt-14 border-t border-border pt-8 text-center">
-                    <p className="mb-4 text-sm text-muted-foreground">
-                      Showing {shown.length} of {filtered.length} products
-                    </p>
                     <Button variant="outline" onClick={() => setVisible((c) => c + PAGE)}>
                       Load more
                     </Button>
@@ -1037,7 +1034,7 @@ function CollectionPage() {
           </div>
         </div>
       </PageContainer>
-    </>
+    </main>
   );
 }
 

@@ -11,6 +11,21 @@ export type Pillar = "Women" | "Men" | "Children" | "Prayer" | "Learning" | "Hom
 export type Size = "S" | "M" | "L" | "XL" | "XXL";
 export type SizeName = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "3XL";
 
+function variantOptionValues(
+  options:
+    | Record<string, string>
+    | Array<{ value?: string; option?: { title?: string } }>
+    | undefined,
+) {
+  if (Array.isArray(options)) {
+    return options.reduce<Record<string, string>>((result, option) => {
+      if (option.option?.title && option.value) result[option.option.title] = option.value;
+      return result;
+    }, {});
+  }
+  return options ?? {};
+}
+
 export type CollectionProduct = {
   id: string | number;
   pillar: Pillar;
@@ -56,6 +71,8 @@ export type ProductDetail = {
     title: string;
     sku: string;
     options?: Record<string, string>;
+    price?: number;
+    originalPrice?: number;
   }>;
 };
 
@@ -157,7 +174,7 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     const variant = p.variants?.find((varItem) => {
       return (
         varItem.title?.includes(val) ||
-        Object.values(varItem.options || {}).includes(val)
+        Object.values(variantOptionValues(varItem.options)).includes(val)
       );
     });
 
@@ -234,7 +251,9 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
       id: v.id,
       title: v.title,
       sku: v.sku,
-      options: v.options,
+      options: variantOptionValues(v.options),
+      price: v.calculated_price?.calculated_amount,
+      originalPrice: v.calculated_price?.original_amount,
     })),
   };
 }

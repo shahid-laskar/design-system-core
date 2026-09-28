@@ -1,2 +1,6 @@
 - [x] Warm Indian Jewel palette (from palette sheet) applied to colour tokens
 - [x] Product card restyle (vibrant, bestseller/discount badges, rating)
+- [x] Collection category query parameters sync to the active family pillar
+- [x] Product detail variant selection updates SKU, price, MRP and cart values
+- [x] Apparel PDP modesty guarantee and safe-area mobile purchase dock
+- [x] Storefront typecheck and responsive interaction verification

@@ -111,13 +111,36 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const addResetRef = useRef<number | undefined>(undefined);
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
-  const savings = product.mrp - product.price;
-  const discount = product.mrp > 0 ? Math.round((savings / product.mrp) * 100) : 0;
+  const selectedVariant = useMemo(() => {
+    if (!product.variants?.length) return undefined;
+    const matches = (variant: NonNullable<ProductDetail["variants"]>[number], value: string) =>
+      variant.title.toLowerCase().includes(value.toLowerCase()) ||
+      Object.values(variant.options ?? {}).some(
+        (option) => option.toLowerCase() === value.toLowerCase(),
+      );
+    return (
+      product.variants.find(
+        (variant) =>
+          (!size || matches(variant, size)) &&
+          (color === "Default" || matches(variant, color)),
+      ) ??
+      product.variants.find((variant) => (size ? matches(variant, size) : true)) ??
+      product.variants.find((variant) => (color === "Default" ? true : matches(variant, color))) ??
+      product.variants[0]
+    );
+  }, [color, product.variants, size]);
+  const displayPrice = selectedVariant?.price ?? product.price;
+  const displayMrp = selectedVariant?.originalPrice && selectedVariant.originalPrice > displayPrice
+    ? selectedVariant.originalPrice
+    : product.mrp;
+  const displaySku = selectedVariant?.sku ?? product.sku;
+  const savings = displayMrp - displayPrice;
+  const discount = displayMrp > 0 ? Math.round((savings / displayMrp) * 100) : 0;
   const guideCategory = sizeGuideCategory(product);
-  const orderTotal = product.price * quantity;
+  const orderTotal = displayPrice * quantity;
   const freeShipping = orderTotal >= 999;
   const whatsAppText = encodeURIComponent(
-    `Hello Sukoon House, I would like to order ${product.name} (SKU: ${product.sku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
+    `Hello Sukoon House, I would like to order ${product.name} (SKU: ${displaySku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
   );
 
   function addToBasket() {
@@ -143,8 +166,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-      price: product.price,
-      originalPrice: product.mrp,
+       price: displayPrice,
+       originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size,
       color,
@@ -186,8 +209,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-      price: product.price,
-      originalPrice: product.mrp,
+       price: displayPrice,
+       originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size: chosenSize,
       color,
@@ -328,12 +351,12 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <div className="mt-5 border-y border-border py-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                 <span className="font-display text-4xl">
-                  ₹{product.price.toLocaleString("en-IN")}
+                  ₹{displayPrice.toLocaleString("en-IN")}
                 </span>
                 {savings > 0 ? (
                   <>
                     <span className="text-sm text-muted-foreground line-through">
-                      MRP ₹{product.mrp.toLocaleString("en-IN")}
+                      MRP ₹{displayMrp.toLocaleString("en-IN")}
                     </span>
                     <span className="rounded-full bg-success/12 px-2.5 py-1 text-xs font-bold text-success">
                       {discount}% off · Save ₹{savings.toLocaleString("en-IN")}
@@ -341,6 +364,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   </>
                 ) : null}
               </div>
+              <p className="mt-2 text-xs text-muted-foreground">SKU: {displaySku}</p>
               <p className="mt-2 text-xs text-muted-foreground">
                 Inclusive of all taxes ·{" "}
                 {freeShipping
@@ -349,6 +373,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               </p>
             </div>
             <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
+
+            {product.kind === "apparel" ? <ModestyGuarantee /> : null}
 
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -628,11 +654,11 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 <Declaration label="Net Quantity" value={product.netQuantity} />
                 <Declaration
                   label="Maximum Retail Price (MRP)"
-                  value={`₹${product.mrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`}
+                  value={`₹${displayMrp.toLocaleString("en-IN")}.00 (Inclusive of all taxes)`}
                 />
                 <Declaration
                   label="Unit Sale Price (USP)"
-                  value={`₹${product.price.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`}
+                  value={`₹${displayPrice.toLocaleString("en-IN")}.00 per ${product.netQuantity.toLowerCase().includes("set") ? "set" : "unit"}`}
                 />
                 <Declaration label="Country of Origin" value={product.countryOfOrigin} />
                 <Declaration
@@ -663,7 +689,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       <ProductReviewHub product={product} />
 
       {/* Mobile Persistent Bottom Dock */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-lifted backdrop-blur lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lifted backdrop-blur lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">
@@ -709,7 +735,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     {product.name}
                   </SheetTitle>
                   <SheetDescription className="mt-0.5 text-xs text-muted-foreground">
-                    ₹{product.price.toLocaleString("en-IN")} · Choose size to add to basket
+                    ₹{displayPrice.toLocaleString("en-IN")} · Choose size to add to basket
                   </SheetDescription>
                 </div>
               </div>
@@ -787,6 +813,34 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
     <p className="mt-3 flex items-center gap-2 text-xs font-semibold text-success">
       <CircleCheck className="size-4" /> In Stock — Dispatched within 24 hours
     </p>
+  );
+}
+
+function ModestyGuarantee() {
+  const promises = [
+    "Attached 100% pure cotton voil lining — no separate inner slip needed",
+    "Zero-transparency guarantee verified against bright backlight",
+    "2-inch inner tailoring margins for easy local sizing adjustments",
+    "Modest comfort ease with 3–4″ room over standard body measurements",
+  ];
+
+  return (
+    <aside className="mt-5 rounded-sm border border-primary/20 bg-secondary/35 p-4 sm:p-5">
+      <div className="flex items-start gap-3">
+        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" />
+        <div>
+          <h2 className="font-display text-xl">Sukoon Modesty Guarantee</h2>
+          <ul className="mt-3 grid gap-2 text-xs leading-5 text-muted-foreground sm:text-sm">
+            {promises.map((promise) => (
+              <li key={promise} className="flex items-start gap-2">
+                <CircleCheck className="mt-0.5 size-3.5 shrink-0 text-success" />
+                <span>{promise}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </aside>
   );
 }
 
