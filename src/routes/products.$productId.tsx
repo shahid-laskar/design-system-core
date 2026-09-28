@@ -431,6 +431,9 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
             {product.kind === "apparel" ? <ModestyGuarantee /> : null}
 
+            {/* A single-variant hard good (gift box, burner) has no real colour choice —
+                showing an apparel-style swatch picker labelled with the bundle name is noise. */}
+            {product.kind === "apparel" || product.colors.length > 1 ? (
             <div className="border-b border-border py-5">
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                 <p className="text-sm font-semibold">
