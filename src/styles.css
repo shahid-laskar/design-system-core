@@ -393,6 +393,33 @@
 }
 
 /* Scroll-reveal: hidden until the element is marked visible. */
+
+@keyframes marquee-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Continuous ambient ribbon: duplicate the content twice inside the track. */
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-slide 38s linear infinite;
+}
+
+@utility marquee-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 5rem,
+    black calc(100% - 5rem),
+    transparent 100%
+  );
+}
+
 @utility reveal {
   opacity: 0;
   transform: translateY(1.25rem);
