@@ -227,7 +227,7 @@ export function ProductCard({
   };
 
   return (
-    <article className="group min-w-0">
+    <article className="group flex h-full min-w-0 flex-col">
       <div className={cn("media-frame relative aspect-[4/5]", currentPillar.bgClass)}>
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
           <CommerceImage
@@ -237,7 +237,7 @@ export function ProductCard({
             height={1504}
             loading="lazy"
             className={cn(
-              "size-full object-cover transition-all duration-brand-slow ease-brand group-hover:scale-[1.03]",
+              "size-full object-cover object-[center_20%] transition-all duration-brand-slow ease-brand group-hover:scale-[1.03]",
               hoverImage && "group-hover:opacity-0",
             )}
           />
@@ -249,7 +249,7 @@ export function ProductCard({
               width={1200}
               height={1504}
               loading="lazy"
-              className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-brand-slow ease-brand group-hover:scale-[1.03] group-hover:opacity-100"
+              className="absolute inset-0 size-full object-cover object-[center_20%] opacity-0 transition-all duration-brand-slow ease-brand group-hover:scale-[1.03] group-hover:opacity-100"
             />
           ) : null}
         </Link>
@@ -286,8 +286,9 @@ export function ProductCard({
           <Heart className={cn("size-4", saved && "fill-current text-berry")} />
         </button>
 
-        {isApparel && sizes?.length ? (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-2 bg-gradient-to-t from-charcoal-ink/70 to-transparent p-3 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:hover)]:block">
+        {/* Shared hover action overlay — apparel sizes or hard-goods add */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-2 bg-gradient-to-t from-charcoal-ink/70 to-transparent p-3 opacity-0 transition-all duration-brand-fast ease-brand group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:hover)]:block">
+          {isApparel && sizes?.length ? (
             <div className="flex flex-wrap justify-center gap-1.5">
               {sizes.map((sz) => {
                 const status = stockMap[sz] ?? "in";
@@ -318,11 +319,21 @@ export function ProductCard({
                 );
               })}
             </div>
-          </div>
-        ) : null}
+          ) : (
+            <Button
+              size="sm"
+              className="mx-auto flex h-9 w-full max-w-[12rem]"
+              disabled={!inStock}
+              onClick={handleAdd}
+            >
+              {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}
+              {inStock ? (added ? "Added" : "Add to basket") : "Notify me"}
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div className="pt-3">
+      <div className="flex flex-1 flex-col pt-3">
         <p className={cn("eyebrow", currentPillar.eyebrowClass)}>{category}</p>
         <Link to={targetHref} className="mt-1.5 block transition-colors hover:text-primary">
           <h3 className="font-display text-lg leading-snug sm:text-xl">{name}</h3>
@@ -359,45 +370,52 @@ export function ProductCard({
           ) : null}
         </div>
 
-        {isApparel ? (
-          <div className="mt-3 [@media(hover:hover)]:hidden">
-            <div className="flex flex-wrap gap-1.5">
-              {sizes!.map((size) => {
-                const status = stockMap[size] ?? "in";
-                const soldOut = status === "out" || !inStock;
-                const isAdded = added === size;
-                return (
-                  <button
-                    key={size}
-                    type="button"
-                    disabled={soldOut}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      quickAdd(size);
-                    }}
-                    aria-label={soldOut ? `Size ${size} sold out` : `Add size ${size}`}
-                    className={cn(
-                      "inline-flex min-h-9 min-w-9 items-center justify-center border px-2 text-xs font-semibold transition-colors",
-                      soldOut
-                        ? "cursor-not-allowed border-dashed border-border text-muted-foreground/60 line-through"
-                        : isAdded
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-background hover:border-primary",
-                    )}
-                  >
-                    {isAdded ? <Check className="size-3.5" /> : size}
-                  </button>
-                );
-              })}
+        {/* Reserved action footprint — same height for apparel + hard goods */}
+        <div className="mt-auto flex min-h-11 items-end pt-3">
+          {isApparel ? (
+            <div className="w-full [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:pointer-events-none">
+              <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+                {sizes!.map((size) => {
+                  const status = stockMap[size] ?? "in";
+                  const soldOut = status === "out" || !inStock;
+                  const isAdded = added === size;
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      disabled={soldOut}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        quickAdd(size);
+                      }}
+                      aria-label={soldOut ? `Size ${size} sold out` : `Add size ${size}`}
+                      className={cn(
+                        "inline-flex h-9 min-w-9 shrink-0 items-center justify-center border px-2 text-xs font-semibold transition-colors",
+                        soldOut
+                          ? "cursor-not-allowed border-dashed border-border text-muted-foreground/60 line-through"
+                          : isAdded
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-background hover:border-primary",
+                      )}
+                    >
+                      {isAdded ? <Check className="size-3.5" /> : size}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ) : (
-          <Button className="mt-3 w-full" disabled={!inStock} onClick={handleAdd}>
-            {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}{" "}
-            {inStock ? (added ? "Added" : "Add to basket") : "Notify me"}
-          </Button>
-        )}
+          ) : (
+            <Button
+              className="h-9 w-full [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:pointer-events-none"
+              disabled={!inStock}
+              onClick={handleAdd}
+            >
+              {added ? <Check className="mr-1 size-4" /> : <Plus className="mr-1 size-4" />}{" "}
+              {inStock ? (added ? "Added" : "Add to basket") : "Notify me"}
+            </Button>
+          )}
+        </div>
       </div>
     </article>
   );

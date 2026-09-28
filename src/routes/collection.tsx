@@ -95,55 +95,71 @@ const pillars: Array<{ id: "All" | Pillar; label: string; short: string; handle:
 
 const pillarTheme: Record<
   "All" | Pillar,
-  { surface: string; accent: string; chip: string; eyebrow: string }
+  { surface: string; accent: string; chip: string; eyebrow: string; wash: string; rail: string }
 > = {
   All: {
     surface: "bg-warm-ivory",
     accent: "border-primary bg-primary text-primary-foreground",
     chip: "bg-primary text-primary-foreground",
     eyebrow: "The collection",
+    wash: "bg-warm-ivory",
+    rail: "border-border",
   },
   Women: {
     surface: "bg-pillar-women-bg",
     accent: "border-berry bg-berry text-berry-foreground",
     chip: "bg-berry text-berry-foreground",
     eyebrow: "Women",
+    wash: "bg-gradient-to-b from-pillar-women-bg via-background to-background",
+    rail: "border-berry/25",
   },
   Men: {
     surface: "bg-pillar-men-bg",
     accent: "border-teal bg-teal text-teal-foreground",
     chip: "bg-teal text-teal-foreground",
     eyebrow: "Men",
+    wash: "bg-gradient-to-b from-pillar-men-bg via-background to-background",
+    rail: "border-teal/25",
   },
   Children: {
     surface: "bg-pillar-kids-bg",
     accent: "border-mango bg-mango text-mango-foreground",
     chip: "bg-mango text-mango-foreground",
     eyebrow: "Children",
+    wash: "bg-gradient-to-b from-pillar-kids-bg via-background to-background",
+    rail: "border-mango/30",
   },
   Learning: {
     surface: "bg-pillar-kids-bg",
     accent: "border-mango bg-mango text-mango-foreground",
     chip: "bg-mango text-mango-foreground",
     eyebrow: "Learning",
+    wash: "bg-gradient-to-b from-pillar-kids-bg via-background to-background",
+    rail: "border-mango/30",
   },
   Prayer: {
     surface: "bg-pillar-prayer-bg",
     accent: "border-emerald bg-emerald text-emerald-foreground",
     chip: "bg-emerald text-emerald-foreground",
     eyebrow: "Prayer",
+    wash: "bg-gradient-to-b from-pillar-prayer-bg via-background to-background",
+    rail: "border-emerald/25",
   },
   Home: {
     surface: "bg-pillar-prayer-bg",
     accent: "border-emerald bg-emerald text-emerald-foreground",
     chip: "bg-emerald text-emerald-foreground",
     eyebrow: "Home",
+    wash: "bg-gradient-to-b from-pillar-prayer-bg/80 via-warm-ivory to-background",
+    rail: "border-emerald/20",
   },
   Gifts: {
     surface: "bg-pillar-gifts-bg",
     accent: "border-coral bg-coral text-coral-foreground",
     chip: "bg-coral text-coral-foreground",
     eyebrow: "Gifts",
+    wash: "bg-gradient-to-b from-pillar-gifts-bg via-background to-background",
+    rail: "border-coral/25",
   },
 };
 
@@ -452,34 +468,6 @@ function CollectionPage() {
 
   const filters = (
     <div className="space-y-8">
-      <fieldset>
-        <legend className="eyebrow mb-3 text-foreground">Shop</legend>
-        <div className="space-y-1">
-          {pillars.map((p) => {
-            const count = allProducts.filter((x) =>
-              p.id === "All" ? true : x.pillar === p.id,
-            ).length;
-            const active = pillar === p.id;
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => choosePillar(p.id as "All" | Pillar)}
-                className={cn(
-                  "flex w-full items-center justify-between px-3 py-2.5 text-left text-sm transition-colors",
-                  active ? cn(theme.accent, "font-semibold") : "hover:bg-muted/70",
-                )}
-              >
-                <span>{p.short}</span>
-                <span className={cn("text-xs", active ? "opacity-80" : "text-muted-foreground")}>
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </fieldset>
-
       {apparelContext ? (
         <fieldset>
           <legend className="eyebrow mb-3 text-foreground">Size</legend>
@@ -501,7 +489,7 @@ function CollectionPage() {
       {availableColors.length > 0 ? (
         <fieldset>
           <legend className="eyebrow mb-3 text-foreground">Colour</legend>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
             {availableColors.map((c) => {
               const active = selColors.includes(c.name);
               return (
@@ -512,12 +500,12 @@ function CollectionPage() {
                   title={c.name}
                   onClick={() => toggle(c.name, selColors, setSelColors)}
                   className={cn(
-                    "inline-flex items-center gap-2 border px-2.5 py-1.5 text-xs font-semibold transition-colors",
+                    "inline-flex shrink-0 items-center gap-2 border px-3 py-2 text-xs font-semibold transition-colors",
                     active ? theme.accent : "border-border bg-background hover:border-foreground/30",
                   )}
                 >
-                  <span className={cn("size-3.5 rounded-full border border-black/10", c.swatch)} />
-                  {c.name}
+                  <span className={cn("size-4 shrink-0 rounded-full border border-black/10", c.swatch)} />
+                  <span className="max-w-[9rem] truncate sm:max-w-none">{c.name}</span>
                 </button>
               );
             })}
@@ -588,10 +576,10 @@ function CollectionPage() {
   );
 
   return (
-    <main id="main-content">
+    <main id="main-content" className={cn("min-h-screen", theme.wash)}>
       {/* Compact category / occasion identity */}
       {(occasion || categoryHero) && (
-        <section className={cn("border-b border-border", theme.surface)}>
+        <section className={cn("border-b", theme.rail, theme.surface)}>
           <PageContainer className="py-5 sm:py-6">
             <div className="grid items-center gap-5 md:grid-cols-[7.5rem_minmax(0,1fr)] lg:grid-cols-[9rem_minmax(0,1fr)]">
               <div className="media-frame hidden aspect-square overflow-hidden md:block">
@@ -834,8 +822,14 @@ function CollectionPage() {
       </div>
 
       <PageContainer className="pt-8 pb-6">
-        <div className="grid items-start gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]">
-          <aside className="hidden lg:sticky lg:top-24 lg:block" aria-label="Product filters">
+        <div className="grid items-start gap-10 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
+          <aside
+            className={cn(
+              "hidden border-r pr-6 lg:sticky lg:top-24 lg:block",
+              theme.rail,
+            )}
+            aria-label="Product filters"
+          >
             <p className="eyebrow mb-5 text-foreground">Refine</p>
             {filters}
           </aside>
@@ -899,7 +893,7 @@ function CollectionPage() {
               <>
                 <div
                   className={cn(
-                    "grid gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3",
+                    "grid items-stretch gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3",
                     mobileDensity === "two" ? "grid-cols-2" : "grid-cols-1",
                   )}
                 >

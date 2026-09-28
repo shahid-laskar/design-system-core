@@ -124,6 +124,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const addResetRef = useRef<number | undefined>(undefined);
+  const galleryScrollerRef = useRef<HTMLDivElement | null>(null);
 
   const selectedSize = product.sizes?.find((option) => option.name === size);
   const selectedVariant = useMemo(() => {
@@ -250,6 +251,14 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     setSelectedImage(Math.round(event.currentTarget.scrollLeft / width));
   }
 
+  function goToGalleryImage(index: number) {
+    setSelectedImage(index);
+    const scroller = galleryScrollerRef.current;
+    if (scroller) {
+      scroller.scrollTo({ left: index * scroller.clientWidth, behavior: "smooth" });
+    }
+  }
+
   return (
     <div className="pb-[var(--mobile-purchase-dock-h)] lg:pb-0">
       <PageContainer className="py-4 sm:py-5">
@@ -282,29 +291,31 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             {/* Desktop Gallery */}
             <div className="hidden lg:flex gap-3">
               {/* Vertical thumbnail strip */}
-              <div className="flex flex-col gap-2">
-                {gallery.slice(0, 5).map((image, index) => (
+              <div className="flex max-h-[36rem] flex-col gap-2 overflow-y-auto pr-0.5">
+                {gallery.map((image, index) => (
                   <button
-                    key={image.alt}
+                    key={`${image.src}-${index}`}
                     type="button"
                     onClick={() => setSelectedImage(index)}
-                    aria-label={`View image ${index + 1}`}
+                    aria-label={`View image ${index + 1}: ${image.alt}`}
                     aria-pressed={selectedImage === index}
                     className={cn(
-                      'w-16 shrink-0 overflow-hidden rounded-sm ring-offset-1 transition-all sm:w-20',
-                      selectedImage === index ? 'ring-2 ring-primary' : 'ring-1 ring-border hover:ring-primary/50'
+                      "w-16 shrink-0 overflow-hidden rounded-sm ring-offset-1 transition-all sm:w-20",
+                      selectedImage === index
+                        ? "ring-2 ring-primary"
+                        : "ring-1 ring-border hover:ring-primary/50",
                     )}
                   >
                     <img
                       src={image.src}
                       alt=""
-                      className={cn('aspect-square w-full object-cover', image.position)}
+                      className={cn("aspect-[4/5] w-full object-cover", image.position)}
                     />
                   </button>
                 ))}
               </div>
               {/* Main large image */}
-              <div className="flex-1 overflow-hidden rounded-sm bg-muted">
+              <div className="relative flex-1 overflow-hidden rounded-sm bg-muted">
                 <button
                   type="button"
                   className="block size-full cursor-zoom-in"
@@ -316,37 +327,53 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     src={gallery[selectedImage]?.src ?? gallery[0]?.src}
                     alt={gallery[selectedImage]?.alt ?? product.name}
                     className={cn(
-                      'aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-110 motion-reduce:transition-none lg:transition-transform lg:duration-500',
-                      gallery[selectedImage]?.position ?? 'object-center'
+                      "aspect-[4/5] size-full animate-in object-cover fade-in duration-500 hover:scale-[1.04] motion-reduce:transition-none lg:transition-transform lg:duration-500",
+                      gallery[selectedImage]?.position ?? "object-[center_18%]",
                     )}
                     width={1000}
                     height={1250}
                   />
                 </button>
+                {gallery.length > 1 ? (
+                  <p className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[0.68rem] font-semibold text-foreground backdrop-blur-sm">
+                    {selectedImage + 1} / {gallery.length}
+                  </p>
+                ) : null}
               </div>
             </div>
 
-            <div
-              className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted lg:hidden"
-              onScroll={handleGalleryScroll}
-            >
-              {gallery.map((image) => (
-                <div key={image.alt} className="aspect-[4/5] w-full shrink-0 snap-center">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className={cn("size-full object-cover", image.position)}
-                    width={800}
-                    height={1000}
-                  />
-                </div>
-              ))}
+            <div className="relative lg:hidden">
+              <div
+                ref={galleryScrollerRef}
+                className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-muted"
+                onScroll={handleGalleryScroll}
+              >
+                {gallery.map((image, index) => (
+                  <div key={`${image.src}-${index}`} className="aspect-[4/5] w-full shrink-0 snap-center">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className={cn("size-full object-cover", image.position || "object-[center_18%]")}
+                      width={800}
+                      height={1000}
+                    />
+                  </div>
+                ))}
+              </div>
+              {gallery.length > 1 ? (
+                <p className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[0.68rem] font-semibold backdrop-blur-sm">
+                  {selectedImage + 1} / {gallery.length}
+                </p>
+              ) : null}
             </div>
 
             <div className="mt-3 flex justify-center gap-2 lg:hidden" aria-label="Image pagination">
               {gallery.map((image, index) => (
-                <span
-                  key={image.alt}
+                <button
+                  key={`${image.src}-dot-${index}`}
+                  type="button"
+                  aria-label={`Go to image ${index + 1}`}
+                  onClick={() => goToGalleryImage(index)}
                   className={cn(
                     "size-1.5 rounded-full transition-colors",
                     selectedImage === index ? "bg-primary" : "bg-border",
@@ -809,40 +836,42 @@ function ProductExperience({ product }: { product: ProductDetail }) {
 
       <ProductReviewHub product={product} />
 
-      {/* Mobile purchase dock — physically above bottom nav; never covers it */}
-      <div className="purchase-dock border-t border-border bg-background/95 px-3 py-3 shadow-lifted backdrop-blur lg:hidden">
-        <div className="mx-auto grid max-w-lg grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">
-              ₹{orderTotal.toLocaleString("en-IN")}{" "}
-              <span className="rounded-xs bg-secondary/60 px-1.5 py-0.5 text-xs font-normal text-primary">
-                {size ? `Size ${size}` : "Select Size"}
+      {/* Mobile purchase dock — above bottom nav; never truncates price at 320px */}
+      <div className="purchase-dock border-t border-border bg-background/95 px-2.5 py-2.5 shadow-lifted backdrop-blur sm:px-3 sm:py-3 lg:hidden">
+        <div className="mx-auto flex max-w-lg items-center gap-2 sm:gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold leading-tight tabular-nums">
+              <span className="whitespace-nowrap">₹{orderTotal.toLocaleString("en-IN")}</span>
+              <span className="ml-1.5 inline-block max-w-[6.5rem] truncate align-middle rounded-xs bg-secondary/60 px-1.5 py-0.5 text-[0.65rem] font-normal text-primary sm:max-w-none">
+                {size ? `Size ${size}` : "Select size"}
               </span>
             </p>
-            <p className="truncate text-[0.68rem] text-muted-foreground">
+            <p className="mt-0.5 truncate text-[0.65rem] text-muted-foreground sm:text-[0.68rem]">
               {color} · Qty {quantity}
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex shrink-0 gap-1.5 sm:gap-2">
             <Button
               size="lg"
-              className="h-11 px-3 text-xs font-semibold"
+              className="h-11 min-w-[5.5rem] px-2.5 text-[0.7rem] font-semibold sm:min-w-0 sm:px-3 sm:text-xs"
               onClick={handleMobilePurchaseClick}
             >
               {added ? (
                 <>
-                  <Check className="size-4" /> Added{size ? ` · ${size}` : ""}
+                  <Check className="size-4" />
+                  <span className="ml-1">Added</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="size-4" /> Add to Basket
+                  <ShoppingBag className="size-4" />
+                  <span className="ml-1">Add</span>
                 </>
               )}
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="h-11 px-3 text-xs font-semibold"
+              className="h-11 min-w-[4.75rem] px-2.5 text-[0.7rem] font-semibold sm:px-3 sm:text-xs"
               onClick={buyNow}
             >
               Buy Now

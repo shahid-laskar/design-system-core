@@ -110,7 +110,7 @@ function resolvePostImage(post: StoreBlogPost): string {
   if (cat.includes("home") || slug.includes("prayer") || slug.includes("corner")) return imgPrayer;
   if (cat.includes("occasion") || slug.includes("eid")) return imgEid;
   if (cat.includes("faith") || slug.includes("ramadan")) return imgRamadan;
-  if (cat.includes("family") || cat.includes("modesty")) return imgFamily;
+  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton")) return imgJournalCraft;
   return imgEditorial;
 }
 

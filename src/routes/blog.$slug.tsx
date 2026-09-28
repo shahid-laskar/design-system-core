@@ -12,10 +12,10 @@ import {
 import { useCommerceProducts } from "@/lib/commerce/use-commerce";
 
 import imgEditorial from "@/assets/editorial-home-calm.jpg";
-import imgFamily from "@/assets/editorial-family-rhythm.jpg";
 import imgEid from "@/assets/occasion-eid.jpg";
 import imgRamadan from "@/assets/occasion-ramadan.jpg";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
+const imgJournalCraft = "/images/journal-cambric-craft.jpg";
 
 export const Route = createFileRoute("/blog/$slug")({
   head: () => ({
@@ -36,7 +36,7 @@ function resolvePostImage(post: StoreBlogPost): string {
   if (cat.includes("home") || slug.includes("prayer") || slug.includes("corner")) return imgPrayer;
   if (cat.includes("occasion") || slug.includes("eid")) return imgEid;
   if (cat.includes("faith") || slug.includes("ramadan")) return imgRamadan;
-  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton")) return imgFamily;
+  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton")) return imgJournalCraft;
   return imgEditorial;
 }
 

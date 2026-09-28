@@ -261,38 +261,45 @@ function HomePage() {
 
   return (
     <>
-      {/* Full-bleed family hero — imagery first on every viewport */}
-      <section className="relative isolate min-h-[92svh] overflow-hidden bg-charcoal-ink text-white">
+      {/* Full-bleed family hero — warm & readable, not cinematic-dark */}
+      <section className="relative isolate min-h-[100svh] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white">
         <img
           src={heroFamily}
           alt="Muslim family sharing a bright morning meal in modest everyday dress"
           width={1600}
           height={1200}
-          className="absolute inset-0 size-full object-cover object-[center_30%]"
+          className="absolute inset-0 size-full object-cover object-[center_22%] sm:object-[center_28%] lg:object-[center_32%]"
           fetchPriority="high"
         />
+        {/* Desktop: localized left/bottom scrim — keep photograph bright */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-charcoal-ink/90 via-charcoal-ink/45 to-charcoal-ink/15"
+          className="pointer-events-none absolute inset-0 hidden lg:block"
+          style={{
+            background:
+              "linear-gradient(90deg, oklch(0.18 0.02 260 / 0.62) 0%, oklch(0.18 0.02 260 / 0.28) 38%, transparent 62%), linear-gradient(0deg, oklch(0.18 0.02 260 / 0.35) 0%, transparent 42%)",
+          }}
         />
+        {/* Mobile: soft bottom panel behind copy — never full-image darkening */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-r from-charcoal-ink/55 via-transparent to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-warm-ivory via-warm-ivory/92 to-transparent lg:hidden"
         />
-        <PageContainer className="relative flex min-h-[92svh] flex-col justify-end gap-6 pb-10 pt-28 sm:pb-14 lg:justify-center lg:pb-24 lg:pt-32">
-          <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-3 duration-700">
-            <p className="eyebrow-wide text-mango">Sukoon House</p>
-            <h1 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
+
+        <PageContainer className="relative flex min-h-[100svh] flex-col justify-end gap-5 pb-[calc(var(--mobile-bottom-nav-h)+1.25rem)] pt-24 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
+          <div className="max-w-xl animate-in fade-in slide-in-from-bottom-3 duration-700 lg:max-w-2xl">
+            <p className="eyebrow-wide text-berry lg:text-mango">Sukoon House</p>
+            <h1 className="mt-3 font-display text-[2.15rem] leading-[1.08] tracking-tight text-charcoal-ink sm:text-5xl lg:mt-4 lg:text-7xl lg:text-white">
               Modest fashion &amp; daily essentials for modern Muslim families
             </h1>
-            <p className="mt-4 max-w-md text-sm leading-6 text-white/85 sm:text-base sm:leading-7">
+            <p className="mt-3 max-w-md text-sm leading-6 text-charcoal-ink/75 sm:mt-4 sm:text-base sm:leading-7 lg:text-white/90">
               Worn cambric suits, Friday kurtas, prayer corners, and gifts — one trusted store for
               the whole household.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7 sm:gap-3">
               <Button
                 size="lg"
-                className="border-berry bg-berry text-berry-foreground hover:bg-berry/90"
+                className="min-h-11 border-berry bg-berry px-4 text-berry-foreground hover:bg-berry/90 sm:px-5"
                 asChild
               >
                 <Link to="/collection" search={{ category: "women" }}>
@@ -301,7 +308,8 @@ function HomePage() {
               </Button>
               <Button
                 size="lg"
-                className="border-emerald bg-emerald text-emerald-foreground hover:bg-emerald/90"
+                variant="outline"
+                className="min-h-11 border-charcoal-ink/25 bg-background/80 px-4 text-charcoal-ink backdrop-blur-sm hover:bg-background sm:px-5 lg:border-white/70 lg:bg-white/10 lg:text-white lg:hover:bg-white/20"
                 asChild
               >
                 <Link to="/collection">Shop The Family</Link>
@@ -313,9 +321,9 @@ function HomePage() {
 
       <PromiseTicker />
 
-      {/* Asymmetric category visual entrances */}
-      <section aria-labelledby="family-pillars" className="bg-warm-ivory">
-        <PageContainer className="section-space">
+      {/* Asymmetric category visual entrances — tight bridge from ticker */}
+      <section aria-labelledby="family-pillars" className="border-t border-border/60 bg-warm-ivory">
+        <PageContainer className="pb-[var(--space-section-block)] pt-8 sm:pt-10 lg:pb-[var(--space-section-block-wide)] lg:pt-12">
           <Reveal>
             <p className="eyebrow-wide text-teal">Shop the household</p>
             <h2 id="family-pillars" className="mt-3 max-w-2xl font-display text-4xl sm:text-5xl">
@@ -719,30 +727,40 @@ function HomePage() {
         </PageContainer>
       </section>
 
-      {/* Emerald prayer sanctuary */}
-      <section aria-labelledby="prayer-sanctuary" className="bg-pillar-prayer-bg">
-        <PageContainer className="section-space">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+      {/* Prayer sanctuary — deliberate quieter pace, not a visual wall */}
+      <section aria-labelledby="prayer-sanctuary" className="border-y border-border bg-blush-cream/40">
+        <PageContainer className="py-12 sm:py-16 lg:py-20">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12">
             <div>
               <p className="eyebrow-wide font-bold text-emerald">The Prayer Sanctuary</p>
-              <h2 id="prayer-sanctuary" className="mt-3 font-display text-4xl sm:text-5xl">
+              <h2 id="prayer-sanctuary" className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl">
                 A quiet corner, properly kept.
               </h2>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
+              <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
                 Memory foam mats that spare the knees, steam-bent rehals for the Quran, and natural
                 botanical attars for Friday mornings.
               </p>
+              <Button
+                className="mt-6 bg-emerald text-emerald-foreground hover:bg-emerald/90"
+                asChild
+              >
+                <Link to="/collection" search={{ category: "prayer" }}>
+                  Explore prayer &amp; worship
+                </Link>
+              </Button>
             </div>
-            <Button
-              className="bg-emerald text-emerald-foreground hover:bg-emerald/90"
-              asChild
-            >
-              <Link to="/collection" search={{ category: "prayer" }}>
-                Explore prayer &amp; worship
-              </Link>
-            </Button>
+            <div className="media-frame aspect-[5/4] overflow-hidden lg:aspect-[4/3]">
+              <img
+                src={productPrayerSet}
+                alt="Olive prayer mat with wooden Quran stand"
+                width={900}
+                height={720}
+                loading="lazy"
+                className="size-full object-cover"
+              />
+            </div>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:mt-12">
             {prayerProducts.map((product) => (
               <ProductCard
                 key={product.handle}
@@ -759,7 +777,7 @@ function HomePage() {
                 rating={product.rating}
                 reviewCount={product.reviews}
                 inStock={product.inStock}
-                  colors={product.colors}
+                colors={product.colors}
                 href={`/products/${product.handle}`}
               />
             ))}

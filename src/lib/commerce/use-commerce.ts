@@ -283,17 +283,19 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   const medusaPrimaryWeak =
     medusaImages.length === 0 || isWeakCatalogImage(medusaImages[0]?.url || p.thumbnail);
 
-  // Prefer curated worn/silhouette galleries whenever Medusa still serves weak assets.
+  // Prefer curated multi-angle galleries when they offer more useful views than Medusa.
+  const curatedGallery = curated?.gallery;
   const gallery =
-    curated?.gallery && medusaPrimaryWeak
-      ? curated.gallery
+    curatedGallery &&
+    (medusaPrimaryWeak || curatedGallery.length > medusaImages.length || curatedGallery.length >= 3)
+      ? curatedGallery
       : medusaImages.length > 0 && !medusaPrimaryWeak
         ? medusaImages.map((img) => ({
             src: img.url,
             alt: p.title,
             position: "object-center" as const,
           }))
-        : (curated?.gallery ?? [
+        : (curatedGallery ?? [
             {
               src: p.thumbnail || "/images/salwar-suit-sage.jpg",
               alt: p.title,

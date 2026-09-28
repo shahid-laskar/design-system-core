@@ -505,7 +505,6 @@ const SLUG_ALIASES: Record<string, string> = {
   // Gift box aliases
   "serene-prayer-sanctuary-gift-box": "the-serene-prayer-sanctuary-gift-box",
   // Women's apparel aliases & catalog truth mapping
-  "berry-floral-cambric-salwar-suit": "blue-floral-salwar-suit",
   "berry-floral-salwar-suit": "blue-floral-salwar-suit",
   "berry-floral-print-cambric-salwar-suit-set": "blue-floral-salwar-suit",
 
