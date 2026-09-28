@@ -897,10 +897,6 @@ function CollectionPage() {
             </div>
 
             <div className="flex shrink-0 items-center justify-between sm:justify-end gap-2">
-              <p className="min-w-0 text-xs text-muted-foreground hidden md:block">
-                Showing <span className="font-semibold text-foreground">{shown.length}</span> of{" "}
-                <span className="font-semibold text-foreground">{filtered.length}</span> products
-              </p>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden">
