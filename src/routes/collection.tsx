@@ -910,14 +910,23 @@ function CollectionPage() {
                     ) : null}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[88vw] overflow-y-auto">
-                  <SheetHeader className="mb-8 text-left">
+                <SheetContent side="left" className="flex w-[88vw] flex-col p-0">
+                  <SheetHeader className="border-b border-border p-6 text-left">
                     <SheetTitle className="font-display text-2xl">Refine the collection</SheetTitle>
                     <SheetDescription>Choose only what matters to you.</SheetDescription>
                   </SheetHeader>
-                  {filters}
+                  <div className="flex-1 overflow-y-auto p-6">{filters}</div>
+                  <div className="sticky bottom-0 flex gap-2 border-t border-border bg-background p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                    <Button variant="outline" className="flex-1" onClick={resetFilters}>
+                      Reset all
+                    </Button>
+                    <SheetClose asChild>
+                      <Button className="flex-[1.5]">View {filtered.length} products</Button>
+                    </SheetClose>
+                  </div>
                 </SheetContent>
               </Sheet>
+
               <Select value={sort} onValueChange={setSort}>
                 <SelectTrigger className="w-36 sm:w-48" aria-label="Sort products">
                   <SelectValue />
