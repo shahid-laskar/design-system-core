@@ -5,9 +5,15 @@ import { ProductCard } from "@/components/brand/product-card";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { Button } from "@/components/ui/button";
 import { PageContainer } from "@/components/brand/design-primitives";
+import { BrassBadge, JaliPattern, MehrabArch } from "@/components/brand/ornament";
+import { PromiseTicker } from "@/components/brand/promise-ticker";
+import { FamilyEnsemble } from "@/components/brand/family-ensemble";
+import { OpacityTester } from "@/components/brand/opacity-tester";
 import { useCommerceProducts, type CollectionProduct } from "@/lib/commerce/use-commerce";
 import { snapshotHandlesForCollection } from "@/lib/commerce/snapshot-fallback";
+import { resolveProductBySlug } from "@/lib/commerce/catalog-data";
 import { cn } from "@/lib/utils";
+
 import heroHome from "@/assets/hero-home.jpg";
 import productModestSet from "@/assets/product-modest-set.jpg";
 import productMenKurta from "@/assets/product-men-kurta.jpg";
