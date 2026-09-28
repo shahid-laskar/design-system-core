@@ -122,8 +122,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     return (
       product.variants.find(
         (variant) =>
-          (!size || matches(variant, size)) &&
-          (color === "Default" || matches(variant, color)),
+          (!size || matches(variant, size)) && (color === "Default" || matches(variant, color)),
       ) ??
       product.variants.find((variant) => (size ? matches(variant, size) : true)) ??
       product.variants.find((variant) => (color === "Default" ? true : matches(variant, color))) ??
@@ -131,9 +130,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     );
   }, [color, product.variants, size]);
   const displayPrice = selectedVariant?.price ?? product.price;
-  const displayMrp = selectedVariant?.originalPrice && selectedVariant.originalPrice > displayPrice
-    ? selectedVariant.originalPrice
-    : product.mrp;
+  const displayMrp =
+    selectedVariant?.originalPrice && selectedVariant.originalPrice > displayPrice
+      ? selectedVariant.originalPrice
+      : product.mrp;
   const displaySku = selectedVariant?.sku ?? product.sku;
   const savings = displayMrp - displayPrice;
   const discount = displayMrp > 0 ? Math.round((savings / displayMrp) * 100) : 0;
@@ -167,8 +167,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-       price: displayPrice,
-       originalPrice: displayMrp,
+      price: displayPrice,
+      originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size,
       color,
@@ -210,8 +210,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       variantId: matchedVariantId,
       name: product.name,
       category: product.category,
-       price: displayPrice,
-       originalPrice: displayMrp,
+      price: displayPrice,
+      originalPrice: displayMrp,
       image: product.gallery[0]?.src ?? "",
       size: chosenSize,
       color,
@@ -237,8 +237,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
           <Link to="/" className="shrink-0 transition-colors hover:text-foreground">
             Home
           </Link>
-          {product.categoryTrail.map((item) => (
-            <span key={item} className="contents">
+          {product.categoryTrail.map((item, idx) => (
+            <span key={`${item}-${idx}`} className="contents">
               <ChevronRight className="size-3 shrink-0" />
               <Link to="/collection" className="shrink-0 transition-colors hover:text-foreground">
                 {item}
@@ -689,13 +689,15 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         <section className="border-t border-border bg-blush-cream/30 py-12 lg:py-16">
           <PageContainer>
             <div className="mb-8">
-              <p className="eyebrow font-bold text-pillar-women-accent">Fabric Transparency Proof</p>
+              <p className="eyebrow font-bold text-pillar-women-accent">
+                Fabric Transparency Proof
+              </p>
               <h2 className="mt-2 font-display text-3xl sm:text-4xl">
                 100% Opacity Tested &amp; Guaranteed
               </h2>
               <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-                Every cambric cotton piece features an attached opaque cotton voil lining.
-                Test our daylight versus backlight opacity live below.
+                Every cambric cotton piece features an attached opaque cotton voil lining. Test our
+                daylight versus backlight opacity live below.
               </p>
             </div>
             <OpacityTester />
@@ -985,7 +987,8 @@ function PincodeChecker() {
         </div>
       ) : (
         <p className="mt-2 text-[0.7rem] text-muted-foreground">
-          Enter your delivery pincode to check dispatch timelines (24–48h dispatch) &amp; COD availability.
+          Enter your delivery pincode to check dispatch timelines (24–48h dispatch) &amp; COD
+          availability.
         </p>
       )}
     </div>

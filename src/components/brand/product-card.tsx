@@ -41,7 +41,6 @@ export function deriveSizeStock(
   return map;
 }
 
-
 export type PillarKey = "women" | "men" | "kids" | "prayer" | "gifts";
 
 export function resolvePillarKey(pillar?: string, category?: string, name?: string): PillarKey {
@@ -229,7 +228,6 @@ export function ProductCard({
 
   return (
     <article className="group min-w-0 rounded-lg border border-border bg-card p-2.5 shadow-soft transition-all duration-brand-fast ease-brand hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-lifted">
-
       <div className="media-frame relative aspect-[4/5]">
         <Link to={targetHref} className="block size-full" aria-label={`View ${name}`}>
           <img
@@ -390,9 +388,7 @@ export function ProductCard({
                           ? `Only 2 left in size ${size}`
                           : `Add size ${size} to basket`
                     }
-                    aria-label={
-                      soldOut ? `Size ${size} sold out` : `Add size ${size} to basket`
-                    }
+                    aria-label={soldOut ? `Size ${size} sold out` : `Add size ${size} to basket`}
                     className={cn(
                       "relative inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-2 text-xs font-semibold transition-colors duration-brand-fast ease-brand",
                       soldOut
@@ -413,12 +409,16 @@ export function ProductCard({
                 Only 2 left in {sizes!.filter((s) => stockMap[s] === "low").join(", ")}
               </p>
             ) : null}
-            <Button variant="outline" size="sm" className="mt-3 w-full min-w-0 px-2 text-xs" asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-3 w-full min-w-0 px-2 text-xs"
+              asChild
+            >
               <Link to={targetHref} className="truncate">
                 View details
               </Link>
             </Button>
-
           </div>
         ) : (
           <Button className="mt-4 w-full" disabled={!inStock} onClick={handleAdd}>
@@ -426,7 +426,6 @@ export function ProductCard({
             {inStock ? (added ? "Added ✓" : "Add to basket") : "Notify me"}
           </Button>
         )}
-
       </div>
     </article>
   );

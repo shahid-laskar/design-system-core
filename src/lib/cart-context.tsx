@@ -130,6 +130,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     async (incoming: NewCartItem) => {
       const qty = incoming.quantity ?? 1;
       setIsSyncing(true);
+      setIsOpen(true);
 
       try {
         // 1. Get or create persistent Medusa cart
@@ -141,11 +142,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
         if (!targetVariantId) {
           targetVariantId =
-            (await resolveVariantIdForProduct(
-              incoming.id,
-              incoming.size,
-              incoming.color
-            )) ?? undefined;
+            (await resolveVariantIdForProduct(incoming.id, incoming.size, incoming.color)) ??
+            undefined;
         }
 
         if (targetVariantId) {
@@ -157,13 +155,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
         // Optimistic fallback if variant not resolved
         setItems((current) => {
-          const existing = current.find(
-            (i) => i.id === incoming.id && i.size === incoming.size
-          );
+          const existing = current.find((i) => i.id === incoming.id && i.size === incoming.size);
           if (existing) {
-            return current.map((i) =>
-              i === existing ? { ...i, quantity: i.quantity + qty } : i
-            );
+            return current.map((i) => (i === existing ? { ...i, quantity: i.quantity + qty } : i));
           }
           return [
             ...current,
@@ -178,13 +172,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         console.warn("Direct Medusa cart sync failed, retaining item locally:", err);
         // Fallback optimistic local state
         setItems((current) => {
-          const existing = current.find(
-            (i) => i.id === incoming.id && i.size === incoming.size
-          );
+          const existing = current.find((i) => i.id === incoming.id && i.size === incoming.size);
           if (existing) {
-            return current.map((i) =>
-              i === existing ? { ...i, quantity: i.quantity + qty } : i
-            );
+            return current.map((i) => (i === existing ? { ...i, quantity: i.quantity + qty } : i));
           }
           return [
             ...current,
@@ -199,7 +189,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setIsSyncing(false);
       }
     },
-    []
+    [setIsOpen],
   );
 
   const updateQuantity = useCallback(
@@ -214,11 +204,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             const updated = await removeMedusaLineItem(activeCartId, targetItem.lineId);
             setItems(mapMedusaCartToItems(updated));
           } else {
-            const updated = await updateMedusaLineItem(
-              activeCartId,
-              targetItem.lineId,
-              quantity
-            );
+            const updated = await updateMedusaLineItem(activeCartId, targetItem.lineId, quantity);
             setItems(mapMedusaCartToItems(updated));
           }
           return;
@@ -234,18 +220,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems((current) => current.filter((i) => !(i.id === id && i.size === size)));
       } else {
         setItems((current) =>
-          current.map((i) => (i.id === id && i.size === size ? { ...i, quantity } : i))
+          current.map((i) => (i.id === id && i.size === size ? { ...i, quantity } : i)),
         );
       }
     },
-    [cartId, items]
+    [cartId, items],
   );
 
   const removeItem = useCallback(
     async (id: string, size?: string) => {
       await updateQuantity(id, size, 0);
     },
-    [updateQuantity]
+    [updateQuantity],
   );
 
   const clearCart = useCallback(() => {

@@ -1008,9 +1008,9 @@ function CollectionPage() {
                 </SheetContent>
               </Sheet>
 
-              <Select value={sort} onValueChange={setSort}>
+              <Select value={sort} defaultValue="featured" onValueChange={setSort}>
                 <SelectTrigger className="w-36 sm:w-48" aria-label="Sort products">
-                  <SelectValue />
+                  <SelectValue placeholder="Sort: Featured" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="featured">Featured</SelectItem>
@@ -1079,7 +1079,6 @@ function CollectionPage() {
             <span className="font-semibold text-foreground">{filtered.length}</span> pieces · Free
             express shipping over ₹999
           </p>
-
         </PageContainer>
       </div>
 
@@ -1124,7 +1123,7 @@ function CollectionPage() {
                     />
                   ))}
                 </div>
-                 {visible < filtered.length ? (
+                {visible < filtered.length ? (
                   <div className="mt-14 border-t border-border pt-8 text-center">
                     <Button variant="outline" onClick={() => setVisible((c) => c + PAGE)}>
                       Load more

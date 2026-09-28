@@ -8,15 +8,13 @@ import { PageContainer } from "@/components/brand/design-primitives";
 import { PromiseTicker } from "@/components/brand/promise-ticker";
 import { FamilyEnsemble } from "@/components/brand/family-ensemble";
 import { OpacityTester } from "@/components/brand/opacity-tester";
+import { MehrabArch } from "@/components/brand/ornament";
 import {
   useCommerceProducts,
   mapMedusaToCollectionProduct,
   type CollectionProduct,
 } from "@/lib/commerce/use-commerce";
-import {
-  SNAPSHOT_PRODUCTS,
-  snapshotHandlesForCollection,
-} from "@/lib/commerce/snapshot-fallback";
+import { SNAPSHOT_PRODUCTS, snapshotHandlesForCollection } from "@/lib/commerce/snapshot-fallback";
 import { cn } from "@/lib/utils";
 
 import heroHome from "@/assets/hero-home.jpg";
@@ -250,8 +248,9 @@ function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-border bg-warm-ivory">
-        <PageContainer className="grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
+      <section className="relative overflow-hidden border-b border-border bg-warm-ivory">
+        <MehrabArch className="pointer-events-none absolute -right-16 -top-12 h-[520px] w-[380px] opacity-[0.06] text-primary" />
+        <PageContainer className="relative grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
           <div>
             <p className="eyebrow-wide font-bold text-pillar-women-accent">
               Curated for everyday Muslim family life
@@ -372,8 +371,14 @@ function HomePage() {
       <section id="shop" className="scroll-mt-24">
         <PageContainer className="section-space">
           <p className="eyebrow-wide text-muted-foreground">02 · Curated occasions</p>
-          <h2 className="mt-3 font-display text-4xl sm:text-5xl">Shop the moment you're dressing for.</h2>
-          <div className="mt-8 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Occasions">
+          <h2 className="mt-3 font-display text-4xl sm:text-5xl">
+            Shop the moment you're dressing for.
+          </h2>
+          <div
+            className="mt-8 flex gap-2 overflow-x-auto pb-1"
+            role="tablist"
+            aria-label="Occasions"
+          >
             {occasionTabs.map((tab) => {
               const active = occasion === tab.id;
               return (
@@ -453,13 +458,16 @@ function HomePage() {
                 The three-piece set families keep re-ordering.
               </h2>
               <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-                Pure 60s cambric cotton kurta, matching pants and a soft malmal dupatta — cut for long
-                Indian summers and long days.
+                Pure 60s cambric cotton kurta, matching pants and a soft malmal dupatta — cut for
+                long Indian summers and long days.
               </p>
               <ul className="mt-6 space-y-3">
                 {modestyCommitments.map((item) => (
                   <li key={item} className="flex gap-3 text-sm leading-6">
-                    <ShieldCheck className="mt-0.5 size-4 shrink-0 text-pillar-women-accent" aria-hidden />
+                    <ShieldCheck
+                      className="mt-0.5 size-4 shrink-0 text-pillar-women-accent"
+                      aria-hidden
+                    />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -467,7 +475,9 @@ function HomePage() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <span className="font-display text-3xl">{inr(cambric.price)}</span>
                 {cambric.mrp ? (
-                  <span className="text-sm text-muted-foreground line-through">{inr(cambric.mrp)}</span>
+                  <span className="text-sm text-muted-foreground line-through">
+                    {inr(cambric.mrp)}
+                  </span>
                 ) : null}
                 <Button size="lg" asChild>
                   <Link to="/products/$productId" params={{ productId: cambric.handle }}>
@@ -560,7 +570,9 @@ function HomePage() {
       <section id="journal" className="scroll-mt-24">
         <PageContainer className="section-space">
           <p className="eyebrow-wide text-muted-foreground">06 · The journal</p>
-          <h2 className="mt-3 font-display text-4xl sm:text-5xl">Ideas with a place in real life.</h2>
+          <h2 className="mt-3 font-display text-4xl sm:text-5xl">
+            Ideas with a place in real life.
+          </h2>
           <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
             Notes on home, family rhythm and intentional living — written slowly, published
             occasionally.

@@ -13,9 +13,7 @@ export type SizeName = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "3XL";
 
 function variantOptionValues(
   options:
-    | Record<string, string>
-    | Array<{ value?: string; option?: { title?: string } }>
-    | undefined,
+    Record<string, string> | Array<{ value?: string; option?: { title?: string } }> | undefined,
 ) {
   if (Array.isArray(options)) {
     return options.reduce<Record<string, string>>((result, option) => {
@@ -97,7 +95,7 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   // supplies one (product metadata, or a Medusa original_amount above the
   // calculated amount because a price list is active).
   const metadataMrp = Number(
-    (p.metadata?.["mrp"] as number) ?? (p.metadata?.["original_price"] as number) ?? 0
+    (p.metadata?.["mrp"] as number) ?? (p.metadata?.["original_price"] as number) ?? 0,
   );
   const originalAmount = firstVariant?.calculated_price?.original_amount ?? 0;
   const mrpCandidate = metadataMrp || originalAmount;
@@ -130,10 +128,7 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
     price: calculatedPrice,
     mrp: mrpCandidate > calculatedPrice ? mrpCandidate : undefined,
     note:
-      (p.metadata?.["fabric"] as string) ||
-      (p.metadata?.["opacity"] as string) ||
-      p.subtitle ||
-      "",
+      (p.metadata?.["fabric"] as string) || (p.metadata?.["opacity"] as string) || p.subtitle || "",
     materials: [(p.metadata?.["fabric"] as string) || "Pure Cotton"],
     sizes,
     rating,
@@ -160,7 +155,7 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   const mrp = Number((p.metadata?.["mrp"] as number) || Math.round(price * 1.2));
 
   const colorOption = p.options?.find(
-    (o) => o.title.toLowerCase() === "colour" || o.title.toLowerCase() === "color"
+    (o) => o.title.toLowerCase() === "colour" || o.title.toLowerCase() === "color",
   );
   const colors = colorOption?.values?.map((v) => {
     const val = v.value.toLowerCase();
@@ -168,10 +163,10 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
       val.includes("sage") || val.includes("green") || val.includes("olive")
         ? "bg-primary"
         : val.includes("blue")
-        ? "bg-mineral"
-        : val.includes("sand") || val.includes("oat")
-        ? "bg-secondary"
-        : "bg-clay";
+          ? "bg-mineral"
+          : val.includes("sand") || val.includes("oat")
+            ? "bg-secondary"
+            : "bg-clay";
     return { name: v.value, swatch };
   }) || [{ name: "Default", swatch: "bg-primary" }];
 
@@ -220,13 +215,19 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
         },
       ]);
 
+  const rawTrail =
+    curated?.categoryTrail && curated.categoryTrail.length > 0
+      ? curated.categoryTrail
+      : [categoryName, p.categories?.[0]?.name || "Essentials"];
+  const categoryTrail = Array.from(new Set(rawTrail.filter(Boolean)));
+
   return {
     id: p.handle,
     sku: firstVariant?.sku || `SKU-${p.handle.toUpperCase()}`,
     kind: isApparel ? "apparel" : "non-apparel",
     name: p.title,
     category: categoryName,
-    categoryTrail: [categoryName, p.categories?.[0]?.name || "Essentials"],
+    categoryTrail,
     price,
     mrp,
     rating: (p.metadata?.["rating"] as string) || "4.9",
@@ -237,22 +238,26 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     sizes: isApparel ? sizes : undefined,
     modelNote:
       (p.metadata?.["model_note"] as string) ||
-      (isApparel ? "Model is 5'6\" wearing Size M (Garment Bust 38\", Kurta Length 44\")" : undefined),
+      (isApparel
+        ? 'Model is 5\'6" wearing Size M (Garment Bust 38", Kurta Length 44")'
+        : undefined),
     specifications: [
       ["Fabric", (p.metadata?.["fabric"] as string) || "Pure 60s Cambric Cotton"],
       ["Opacity", (p.metadata?.["opacity"] as string) || "100% Non-Transparent"],
       ["Lining", (p.metadata?.["lining"] as string) || "Attached Pure Cotton Voil Inner"],
-      ["Stitch Quality", (p.metadata?.["margins"] as string) || "Interlock reinforced seams with 2-inch tailoring margins"],
+      [
+        "Stitch Quality",
+        (p.metadata?.["margins"] as string) ||
+          "Interlock reinforced seams with 2-inch tailoring margins",
+      ],
     ],
     genericName:
-      (p.metadata?.["lmpc_generic_name"] as string) ||
-      "Women's 3-Piece Stitched Salwar Suit Set",
+      (p.metadata?.["lmpc_generic_name"] as string) || "Women's 3-Piece Stitched Salwar Suit Set",
     netQuantity:
       (p.metadata?.["lmpc_net_quantity"] as string) ||
       "1 Set (Kurta: 1 N, Pant: 1 N, Dupatta: 1 N)",
     countryOfOrigin:
-      (p.metadata?.["lmpc_country_of_origin"] as string) ||
-      "India (Handcrafted in Surat)",
+      (p.metadata?.["lmpc_country_of_origin"] as string) || "India (Handcrafted in Surat)",
     handle: p.handle,
     variants: p.variants?.map((v) => ({
       id: v.id,
