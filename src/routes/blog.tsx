@@ -9,7 +9,7 @@ import { useCommerceProducts } from "@/lib/commerce/use-commerce";
 import { cn } from "@/lib/utils";
 
 import imgEditorial from "@/assets/editorial-home-calm.jpg";
-import imgFamily from "@/assets/editorial-family-rhythm.jpg";
+const imgJournalCraft = "/images/journal-cambric-craft.jpg";
 import imgEid from "@/assets/occasion-eid.jpg";
 import imgRamadan from "@/assets/occasion-ramadan.jpg";
 import imgPrayer from "@/assets/product-prayer-set.jpg";
@@ -42,7 +42,7 @@ const FALLBACK_POSTS: StoreBlogPost[] = [
     excerpt:
       "Mindful cold washing, natural line-drying, and gentle steam ironing ensure your cotton salwar suits retain their soft drape, colorfastness, and opacity across seasons.",
     body: "Cambric cotton is woven from fine, closely spun yarns that create an exceptionally smooth surface while remaining naturally breathable...",
-    featured_image: imgFamily,
+    featured_image: imgJournalCraft,
     author: "Fatima Zahra",
     category: "Modesty",
     tags: ["cotton-care", "cambric", "modest-wear", "longevity"],

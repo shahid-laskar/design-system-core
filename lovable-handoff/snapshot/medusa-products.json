@@ -2,13 +2,13 @@
   "products": [
     {
       "id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-      "title": "Blue Floral Salwar Suit",
+      "title": "Berry Floral Print Cambric Salwar Suit Set",
       "subtitle": null,
-      "description": "A breathable three-piece salwar suit in pure 60s cambric cotton featuring delicate hand-block floral motifs, fully lined with soft cotton voil for guaranteed everyday modesty.",
+      "description": "A breathable three-piece salwar suit in pure 60s cambric cotton featuring delicate hand-block floral motifs in rich berry maroon, fully lined with soft cotton voil for guaranteed everyday modesty.",
       "handle": "blue-floral-salwar-suit",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/salwar-suit-berry.jpg",
+      "thumbnail": "/images/salwar-suit-berry-front.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -24,7 +24,7 @@
       "variants": [
         {
           "id": "variant_01M39BVMWQ7VP4KFZMR5XTWNWQ",
-          "title": "S / Blue",
+          "title": "S / Berry Plum",
           "sku": "BFSS-BLU-S",
           "barcode": null,
           "ean": null,
@@ -68,7 +68,7 @@
             },
             {
               "id": "optval_01M39BVMGCH2010H2W1N8JM7G8",
-              "value": "Blue",
+              "value": "Berry Plum",
               "rank": null,
               "metadata": null,
               "option_id": "opt_01M39BVMG0TQK8WHA7ZZEXKEXN",
@@ -121,7 +121,7 @@
         },
         {
           "id": "variant_01M39BVMWRRX8QEPAKHGR3BF8P",
-          "title": "M / Blue",
+          "title": "M / Berry Plum",
           "sku": "BFSS-BLU-M",
           "barcode": null,
           "ean": null,
@@ -165,7 +165,7 @@
             },
             {
               "id": "optval_01M39BVMGCH2010H2W1N8JM7G8",
-              "value": "Blue",
+              "value": "Berry Plum",
               "rank": null,
               "metadata": null,
               "option_id": "opt_01M39BVMG0TQK8WHA7ZZEXKEXN",
@@ -218,7 +218,7 @@
         },
         {
           "id": "variant_01M39BVMWSDDHJ91DDMAX9ZB1G",
-          "title": "L / Blue",
+          "title": "L / Berry Plum",
           "sku": "BFSS-BLU-L",
           "barcode": null,
           "ean": null,
@@ -262,7 +262,7 @@
             },
             {
               "id": "optval_01M39BVMGCH2010H2W1N8JM7G8",
-              "value": "Blue",
+              "value": "Berry Plum",
               "rank": null,
               "metadata": null,
               "option_id": "opt_01M39BVMG0TQK8WHA7ZZEXKEXN",
@@ -315,7 +315,7 @@
         },
         {
           "id": "variant_01M39BVMWVHB86VYE2286JJM38",
-          "title": "XL / Blue",
+          "title": "XL / Berry Plum",
           "sku": "BFSS-BLU-XL",
           "barcode": null,
           "ean": null,
@@ -359,7 +359,7 @@
             },
             {
               "id": "optval_01M39BVMGCH2010H2W1N8JM7G8",
-              "value": "Blue",
+              "value": "Berry Plum",
               "rank": null,
               "metadata": null,
               "option_id": "opt_01M39BVMG0TQK8WHA7ZZEXKEXN",
@@ -476,7 +476,7 @@
           "values": [
             {
               "id": "optval_01M39BVMGCH2010H2W1N8JM7G8",
-              "value": "Blue",
+              "value": "Berry Plum",
               "rank": null,
               "metadata": null,
               "option_id": "opt_01M39BVMG0TQK8WHA7ZZEXKEXN",
@@ -491,33 +491,23 @@
       "images": [
         {
           "id": "img_01M3KJKVGS9DT3XQM7PCD4W84V",
-          "url": "/images/salwar-suit-berry.jpg",
-          "metadata": null,
-          "rank": 0,
-          "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-          "created_at": "2026-09-28T08:37:59.962Z",
-          "updated_at": "2026-09-28T08:37:59.962Z",
-          "deleted_at": null
+          "url": "/images/salwar-suit-berry-front.jpg",
+          "rank": 0
+        },
+        {
+          "id": "img_01M3KJKVGS9DT3XQM7PCD4W84A",
+          "url": "/images/salwar-suit-berry-angle.jpg",
+          "rank": 1
+        },
+        {
+          "id": "img_01M3KJKVGS9DT3XQM7PCD4W84B",
+          "url": "/images/salwar-suit-berry-back.jpg",
+          "rank": 2
         },
         {
           "id": "img_01M3KJKVGSF3TJD95ERP8YB69M",
-          "url": "/images/salwar-fabric-detail.jpg",
-          "metadata": null,
-          "rank": 1,
-          "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-          "created_at": "2026-09-28T08:37:59.962Z",
-          "updated_at": "2026-09-28T08:37:59.962Z",
-          "deleted_at": null
-        },
-        {
-          "id": "img_01M3KJKVGSR1Y5BJXP36KTCF7J",
-          "url": "/images/editorial-home-calm.jpg",
-          "metadata": null,
-          "rank": 2,
-          "product_id": "prod_01M39BVMFZ576J1P2MY4207N2P",
-          "created_at": "2026-09-28T08:37:59.962Z",
-          "updated_at": "2026-09-28T08:37:59.962Z",
-          "deleted_at": null
+          "url": "/images/salwar-suit-berry-detail.jpg",
+          "rank": 3
         }
       ],
       "categories": [
@@ -1530,7 +1520,7 @@
       "handle": "classic-friday-cotton-kurta",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/men-kurta-ivory.jpg",
+      "thumbnail": "/images/men-kurta-ivory-front.jpg",
       "collection_id": null,
       "type_id": null,
       "weight": null,
@@ -1915,24 +1905,24 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M3KJKW6G38P5N194V2M8ZWG4",
-          "url": "/images/men-kurta-ivory.jpg",
-          "metadata": null,
-          "rank": 0,
-          "product_id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
-          "created_at": "2026-09-28T08:38:00.658Z",
-          "updated_at": "2026-09-28T08:38:00.658Z",
-          "deleted_at": null
+          "id": "img_men_0",
+          "url": "/images/men-kurta-ivory-front.jpg",
+          "rank": 0
         },
         {
-          "id": "img_01M3KJKW6HVEAWAKHERVX7XDCE",
-          "url": "/images/men-kurta-detail.jpg",
-          "metadata": null,
-          "rank": 1,
-          "product_id": "prod_01M39BVPNZ996VNWCS77ZMQR8E",
-          "created_at": "2026-09-28T08:38:00.658Z",
-          "updated_at": "2026-09-28T08:38:00.658Z",
-          "deleted_at": null
+          "id": "img_men_1",
+          "url": "/images/men-kurta-ivory-angle.jpg",
+          "rank": 1
+        },
+        {
+          "id": "img_men_2",
+          "url": "/images/men-kurta-ivory-back.jpg",
+          "rank": 2
+        },
+        {
+          "id": "img_men_3",
+          "url": "/images/men-kurta-ivory-detail.jpg",
+          "rank": 3
         }
       ],
       "categories": [
@@ -4524,7 +4514,7 @@
       "handle": "boys-festive-cotton-kurta-set",
       "is_giftcard": false,
       "discountable": true,
-      "thumbnail": "/images/kids-kurta-mustard.jpg",
+      "thumbnail": "/images/kids-kurta-mustard-front.jpg",
       "collection_id": "pcol_01M39BVMDWFFSNW2DA88TA07T1",
       "type_id": null,
       "weight": null,
@@ -4918,14 +4908,14 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M3KJKWDDEKJGVQW5RCKDWVQ2",
-          "url": "/images/kids-kurta-mustard.jpg",
-          "metadata": null,
-          "rank": 0,
-          "product_id": "prod_01M3KJHE6E1WR7BXW0QTTW48DQ",
-          "created_at": "2026-09-28T08:38:00.878Z",
-          "updated_at": "2026-09-28T08:38:00.878Z",
-          "deleted_at": null
+          "id": "img_boy_0",
+          "url": "/images/kids-kurta-mustard-front.jpg",
+          "rank": 0
+        },
+        {
+          "id": "img_boy_1",
+          "url": "/images/kids-kurta-mustard-lifestyle.jpg",
+          "rank": 1
         }
       ],
       "categories": [
@@ -5086,14 +5076,14 @@
       "tags": [],
       "images": [
         {
-          "id": "img_01M3KJKWKXJDD62313YD3WDFB7",
+          "id": "img_bak_0",
           "url": "/images/brass-bakhoor-burner.jpg",
-          "metadata": null,
-          "rank": 0,
-          "product_id": "prod_01M3KJHEPSRXV565E6EPWZ0SVV",
-          "created_at": "2026-09-28T08:38:01.087Z",
-          "updated_at": "2026-09-28T08:38:01.087Z",
-          "deleted_at": null
+          "rank": 0
+        },
+        {
+          "id": "img_bak_1",
+          "url": "/images/brass-bakhoor-burner-warm.jpg",
+          "rank": 1
         }
       ],
       "categories": [

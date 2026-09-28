@@ -71,8 +71,8 @@ const categoryEntrances: CategoryEntrance[] = [
     handle: "men",
     title: "Men",
     subtitle: "Friday kurtas & pathanis",
-    image: "/images/men-kurta-ivory.jpg",
-    imageAlt: "Man wearing ivory handloom cotton kurta",
+    image: "/images/men-category-mosaic.jpg",
+    imageAlt: "Indian Muslim man in ivory handloom cotton kurta with mandarin collar",
     tone: "from-teal/80 via-teal/15 to-transparent",
     span: "md:col-span-2",
   },
@@ -96,8 +96,8 @@ const categoryEntrances: CategoryEntrance[] = [
     handle: "home",
     title: "Home",
     subtitle: "Bakhoor, attars & calm corners",
-    image: editorialHomeCalm,
-    imageAlt: "Calm home corner with warm textiles",
+    image: "/images/brass-bakhoor-burner.jpg",
+    imageAlt: "Handcrafted solid cast brass charcoal bakhoor incense burner on walnut tray",
     tone: "from-emerald/70 via-charcoal-ink/20 to-transparent",
   },
   {
@@ -193,13 +193,13 @@ const editorials = [
     readTime: "4 min read",
   },
   {
-    image: editorialFamilyRhythm,
-    imageAlt: "A family's daily rhythm expressed through warm, ordered spaces",
-    topic: "Family rhythm",
-    title: "Routines that hold a family together",
+    image: "/images/journal-cambric-craft.jpg",
+    imageAlt: "Artisan hands inspecting pure cambric cotton weave with tailor scissors and thread",
+    topic: "Craft & Longevity",
+    title: "Caring for Pure Cambric Cotton",
     summary:
-      "Practical ideas for weaving prayer, meals and play into a rhythm children can grow inside.",
-    readTime: "6 min read",
+      "Mindful cold washing, natural line-drying, and gentle steam ironing ensure your cotton salwar suits retain soft drape and opacity across seasons.",
+    readTime: "4 min read",
   },
 ];
 

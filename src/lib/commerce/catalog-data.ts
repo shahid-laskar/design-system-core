@@ -2,19 +2,26 @@ import { ProductDetail } from "./use-commerce";
 
 // Real Pilot Catalog Assets
 const imgSalwarSage = "/images/salwar-suit-sage.jpg";
-const imgSalwarBerry = "/images/salwar-suit-berry.jpg";
+const imgSalwarBerry = "/images/salwar-suit-berry-front.jpg";
+const imgSalwarBerryAngle = "/images/salwar-suit-berry-angle.jpg";
+const imgSalwarBerryBack = "/images/salwar-suit-berry-back.jpg";
+const imgSalwarBerryDetail = "/images/salwar-suit-berry-detail.jpg";
 const imgSalwarEmerald = "/images/salwar-suit-emerald.jpg";
 const imgSalwarDetail = "/images/salwar-fabric-detail.jpg";
 const imgKurtaMustard = "/images/kurta-set-mustard.jpg";
 const imgDressRose = "/images/modest-dress-rose.jpg";
 const imgHijabOat = "/images/daily-hijab-oat.jpg";
 const imgAbayaStone = "/images/everyday-abaya-stone.jpg";
-const imgMenKurta = "/images/men-kurta-ivory.jpg";
-const imgMenKurtaDetail = "/images/men-kurta-detail.jpg";
+const imgMenKurta = "/images/men-kurta-ivory-front.jpg";
+const imgMenKurtaAngle = "/images/men-kurta-ivory-angle.jpg";
+const imgMenKurtaBack = "/images/men-kurta-ivory-back.jpg";
+const imgMenKurtaDetail = "/images/men-kurta-ivory-detail.jpg";
 const imgPrayer = "/images/prayer-mat-set.jpg";
-const imgChildKurta = "/images/kids-kurta-mustard.jpg";
+const imgChildKurta = "/images/kids-kurta-mustard-front.jpg";
+const imgChildKurtaLifestyle = "/images/kids-kurta-mustard-lifestyle.jpg";
 const imgHabitBoard = "/images/children-habit-board.jpg";
 const imgBakhoor = "/images/brass-bakhoor-burner.jpg";
+const imgBakhoorWarm = "/images/brass-bakhoor-burner-warm.jpg";
 const imgGiftBox = "/images/serene-gift-box.jpg";
 
 /**
@@ -61,12 +68,12 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     countryOfOrigin: "India (Surat)",
   },
 
-  // 2. Blue Floral Salwar Suit (Berry Floral)
+  // 2. Berry Floral Print Cambric Salwar Suit Set (Resolves Blue Floral Mismatch to Product Truth)
   "blue-floral-salwar-suit": {
     id: "blue-floral-salwar-suit",
-    sku: "BFSS-BLU",
+    sku: "SH-WCS-001-BR",
     kind: "apparel",
-    name: "Blue Floral Salwar Suit",
+    name: "Berry Floral Print Cambric Salwar Suit Set",
     category: "Women's Ethnic & Modest",
     categoryTrail: ["Women's Ethnic & Modest", "Salwar Suit Sets"],
     price: 1499,
@@ -74,12 +81,14 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     rating: "4.8",
     reviewCount: 28,
     description:
-      "A breathable three-piece salwar suit in pure 60s cambric cotton featuring delicate hand-block floral motifs, fully lined with soft cotton voil for guaranteed everyday modesty.",
+      "A breathable three-piece salwar suit in pure 60s cambric cotton featuring delicate hand-block floral motifs in rich berry maroon, fully lined with soft cotton voil for guaranteed everyday modesty.",
     gallery: [
-      { src: imgSalwarBerry, alt: "Model wearing floral printed cambric cotton salwar suit with draped dupatta", position: "object-center" },
-      { src: imgSalwarDetail, alt: "Fine thread embroidery and breathable cambric weave close-up", position: "object-top" },
+      { src: imgSalwarBerry, alt: "Full front view of Indian Muslim woman wearing rich berry floral printed cambric cotton salwar suit with draped dupatta", position: "object-center" },
+      { src: imgSalwarBerryAngle, alt: "Three-quarter side profile view showing garment silhouette, sleeve cuffs, and draped dupatta fall", position: "object-center" },
+      { src: imgSalwarBerryBack, alt: "Back view showing graceful dupatta drape, clean tailored back cut, and matching salwar pants", position: "object-center" },
+      { src: imgSalwarBerryDetail, alt: "Macro detail shot of fine zari neckline embroidery, floral block print, and 60s cambric cotton weave", position: "object-top" },
     ],
-    colors: [{ name: "Blue", swatch: "bg-mineral" }],
+    colors: [{ name: "Berry Plum", swatch: "bg-[#7B243B]" }],
     sizes: [
       { name: "S", stock: "in-stock" },
       { name: "M", stock: "in-stock" },
@@ -88,7 +97,7 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     ],
     modelNote: 'Model is 5\'6" wearing Size M (Garment Bust 38", Kurta Length 44")',
     specifications: [
-      ["Top Fabric", "Pure 60s Cambric Cotton (Hand-block floral print)"],
+      ["Top Fabric", "Pure 60s Cambric Cotton (Hand-block floral print in Berry/Maroon)"],
       ["Bottom", "Matching cotton straight pants with side pockets"],
       ["Dupatta", "Soft lightweight pure cotton malmal (2.25 meters)"],
       ["Lining", "Attached pure cotton voil inner across torso"],
@@ -292,8 +301,10 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Pure breathable handloom cotton kurta with relaxed fit, mandarin collar, coconut buttons, and deep pockets. Ideal for Friday prayers and daily wear.",
     gallery: [
-      { src: imgMenKurta, alt: "Model wearing ivory handloom cotton kurta with mandarin collar", position: "object-center" },
-      { src: imgMenKurtaDetail, alt: "Textured handloom slub cotton weave and button detail", position: "object-top" },
+      { src: imgMenKurta, alt: "Full front view of Indian Muslim man wearing ivory handloom cotton kurta with mandarin collar", position: "object-center" },
+      { src: imgMenKurtaAngle, alt: "Three-quarter side profile view showing fit, length, and slub fabric texture", position: "object-center" },
+      { src: imgMenKurtaBack, alt: "Back view showing shoulder yoke, straight back cut, and side hem slits", position: "object-center" },
+      { src: imgMenKurtaDetail, alt: "Macro detail shot of handloom cotton slub weave and coconut shell button", position: "object-top" },
     ],
     colors: [{ name: "Ivory", swatch: "bg-secondary" }],
     sizes: [
@@ -360,7 +371,8 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Comfortable 100% cotton printed kurta with white pyjama for boys. Features modest round neckline with embroidery and soft elasticated waistband.",
     gallery: [
-      { src: imgChildKurta, alt: "Young Indian boy wearing mustard cotton kurta pajama set", position: "object-center" },
+      { src: imgChildKurta, alt: "Indian boy wearing mustard yellow printed cotton kurta with white pajama pants", position: "object-center" },
+      { src: imgChildKurtaLifestyle, alt: "Young boy in mustard yellow festive kurta smiling in a warm sunlit home living room", position: "object-center" },
     ],
     colors: [{ name: "Mustard Yellow", swatch: "bg-clay" }],
     sizes: [
@@ -420,9 +432,10 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     rating: "4.7",
     reviewCount: 33,
     description:
-      "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice lid for fragrant home ambiance and peaceful gathering.",
+      "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice dome lid on walnut tray for fragrant home ambiance and peaceful gathering.",
     gallery: [
-      { src: imgBakhoor, alt: "Solid cast brass charcoal incense burner with decorative pierced lid", position: "object-center" },
+      { src: imgBakhoor, alt: "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice dome lid on walnut tray", position: "object-center" },
+      { src: imgBakhoorWarm, alt: "Warm ambient setting with rising aromatic bakhoor smoke and natural sunlight", position: "object-center" },
     ],
     colors: [{ name: "Antique Brass", swatch: "bg-clay" }],
     specifications: [
@@ -464,6 +477,9 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
   },
 };
 
+// Dual-key support for catalog truth: both new canonical berry handle and legacy handle resolve identically
+MASTER_CATALOG["berry-floral-cambric-salwar-suit"] = MASTER_CATALOG["blue-floral-salwar-suit"];
+
 // Aliases mapping common or alternative slugs to canonical catalog keys
 const SLUG_ALIASES: Record<string, string> = {
   // Salwar suit aliases
@@ -488,7 +504,10 @@ const SLUG_ALIASES: Record<string, string> = {
 
   // Gift box aliases
   "serene-prayer-sanctuary-gift-box": "the-serene-prayer-sanctuary-gift-box",
-  "cast-brass-bakhoor-burner": "cast-brass-charcoal-bakhoor-burner",
+  // Women's apparel aliases & catalog truth mapping
+  "berry-floral-cambric-salwar-suit": "blue-floral-salwar-suit",
+  "berry-floral-salwar-suit": "blue-floral-salwar-suit",
+  "berry-floral-print-cambric-salwar-suit-set": "blue-floral-salwar-suit",
 
   // Medusa product IDs (prod_01M...)
   "prod-01m39bvmfz576j1p2my4207n2p": "blue-floral-salwar-suit",
