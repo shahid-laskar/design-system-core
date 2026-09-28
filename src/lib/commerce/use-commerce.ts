@@ -216,6 +216,65 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
 }
 
 /**
+ * Builds the PDP specification table.
+ *
+ * Order of truth:
+ *  1. Medusa product metadata (any of the known spec keys that are actually present)
+ *  2. The curated catalogue entry for this handle
+ *  3. A minimal, category-appropriate generic fallback
+ *
+ * Never falls back to women's salwar-suit specifications for non-apparel or
+ * non-women products — that produced "voil lining" on prayer mats and gift boxes.
+ */
+function buildSpecifications(
+  p: MedusaStoreProduct,
+  curated: ProductDetail | null | undefined,
+  categoryName: string,
+): [string, string][] {
+  const meta = p.metadata ?? {};
+  const specKeys: [string, string][] = [
+    ["fabric", "Fabric"],
+    ["material", "Material"],
+    ["opacity", "Opacity"],
+    ["lining", "Lining"],
+    ["fit", "Fit"],
+    ["dimensions", "Dimensions"],
+    ["weight", "Weight"],
+    ["care", "Care"],
+    ["margins", "Stitch Quality"],
+  ];
+
+  const fromMeta = specKeys
+    .filter(([key]) => typeof meta[key] === "string" && String(meta[key]).trim().length > 0)
+    .map(([key, label]) => [label, String(meta[key])] as [string, string]);
+
+  if (fromMeta.length > 0) return fromMeta;
+  if (curated?.specifications && curated.specifications.length > 0) return curated.specifications;
+
+  // Generic, honest fallbacks — never invent measurements we do not have.
+  const isChildren = /children|kids|tarbiyah/i.test(categoryName);
+  const isMen = /men/i.test(categoryName) && !/women/i.test(categoryName);
+  const isApparelCategory = /apparel|ethnic|modest|kurta|abaya|hijab|children|kids/i.test(
+    categoryName,
+  );
+
+  if (isApparelCategory) {
+    return [
+      ["Fabric", "See product description"],
+      [isMen || isChildren ? "Chest" : "Bust", "Refer to the size & fit guide"],
+      ["Care", "Gentle cold wash, line dry in shade"],
+      ["Country of Origin", "India"],
+    ];
+  }
+
+  return [
+    ["Material", "See product description"],
+    ["Care", "Wipe clean or spot clean as advised"],
+    ["Country of Origin", "India"],
+  ];
+}
+
+/**
  * Maps a Medusa product to the detailed ProductDetail shape for the PDP.
  */
 export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
@@ -324,28 +383,12 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     gallery,
     colors,
     sizes: isApparel ? sizes : undefined,
-    modelNote:
-      (p.metadata?.["model_note"] as string) ||
-      (isApparel
-        ? 'Model is 5\'6" wearing Size M (Garment Bust 38", Kurta Length 44")'
-        : undefined),
-    specifications: [
-      ["Fabric", (p.metadata?.["fabric"] as string) || "Pure 60s Cambric Cotton"],
-      ["Opacity", (p.metadata?.["opacity"] as string) || "100% Non-Transparent"],
-      ["Lining", (p.metadata?.["lining"] as string) || "Attached Pure Cotton Voil Inner"],
-      [
-        "Stitch Quality",
-        (p.metadata?.["margins"] as string) ||
-          "Interlock reinforced seams with 2-inch tailoring margins",
-      ],
-    ],
-    genericName:
-      (p.metadata?.["lmpc_generic_name"] as string) || "Women's 3-Piece Stitched Salwar Suit Set",
-    netQuantity:
-      (p.metadata?.["lmpc_net_quantity"] as string) ||
-      "1 Set (Kurta: 1 N, Pant: 1 N, Dupatta: 1 N)",
+    modelNote: (p.metadata?.["model_note"] as string) || (isApparel ? curated?.modelNote : undefined),
+    specifications: buildSpecifications(p, curated, categoryName),
+    genericName: (p.metadata?.["lmpc_generic_name"] as string) || curated?.genericName || p.title,
+    netQuantity: (p.metadata?.["lmpc_net_quantity"] as string) || curated?.netQuantity || "1 N",
     countryOfOrigin:
-      (p.metadata?.["lmpc_country_of_origin"] as string) || "India (Handcrafted in Surat)",
+      (p.metadata?.["lmpc_country_of_origin"] as string) || curated?.countryOfOrigin || "India",
     handle: p.handle,
     variants: p.variants?.map((v) => ({
       id: v.id,
