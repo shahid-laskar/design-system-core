@@ -764,7 +764,7 @@ function CollectionPage() {
           </div>
 
           {availableSubs.length > 0 ? (
-            <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+            <div className="mt-2 flex gap-2 overflow-x-auto pb-0.5 lg:pb-1">
               <Chip
                 active={!sub}
                 activeClass={theme.accent}
