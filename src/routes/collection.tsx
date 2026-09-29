@@ -742,7 +742,7 @@ function CollectionPage() {
           </div>
 
           {/* Pillar + subcategory discovery */}
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+          <div className="mt-3 hidden gap-2 overflow-x-auto pb-1 lg:flex">
             {pillars.map((p) => {
               const active = pillar === p.id;
               return (
