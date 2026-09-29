@@ -435,7 +435,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             </div>
             <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
 
-            {product.kind === "apparel" ? <ModestyGuarantee /> : null}
+            {product.kind === "apparel" ? <ModestyGuarantee lined={guideCategory === "women"} /> : null}
 
             {/* A single-variant hard good (gift box, burner) has no real colour choice —
                 showing an apparel-style swatch picker labelled with the bundle name is noise. */}
