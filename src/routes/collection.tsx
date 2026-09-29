@@ -466,6 +466,22 @@ function CollectionPage() {
 
   const filters = (
     <div className="space-y-8">
+      <fieldset className="lg:hidden">
+        <legend className="eyebrow mb-3 text-foreground">Shop</legend>
+        <div className="flex flex-wrap gap-2">
+          {pillars.map((p) => (
+            <Chip
+              key={p.id}
+              active={pillar === p.id}
+              activeClass={pillarTheme[p.id].accent}
+              onClick={() => choosePillar(p.id as "All" | Pillar)}
+            >
+              {p.short}
+            </Chip>
+          ))}
+        </div>
+      </fieldset>
+
       {apparelContext ? (
         <fieldset>
           <legend className="eyebrow mb-3 text-foreground">Size</legend>
