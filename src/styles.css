@@ -499,7 +499,12 @@
   animation: ticker-fade 4s var(--motion-ease) both;
 }
 
-
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

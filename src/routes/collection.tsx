@@ -310,6 +310,36 @@ function CollectionPage() {
   const [mobileDensity, setMobileDensity] = useState<"two" | "one">("two");
   const [visible, setVisible] = useState(PAGE);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [showSubcategories, setShowSubcategories] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          // When near the top, always keep subcategories visible
+          if (currentScrollY < 60) {
+            setShowSubcategories(true);
+          } else if (currentScrollY > lastScrollY + 8) {
+            // Scrolling down -> hide subcategory bar to maximize product real estate
+            setShowSubcategories(false);
+          } else if (currentScrollY < lastScrollY - 8) {
+            // Scrolling up -> reveal subcategories smoothly
+            setShowSubcategories(true);
+          }
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (search.category) {
@@ -651,10 +681,10 @@ function CollectionPage() {
         </section>
       ) : null}
 
-      {/* Toolbar */}
+      {/* Toolbar: Sleek 44px single row on mobile */}
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
-        <PageContainer className="py-2 sm:py-3">
-          <div className="flex items-center gap-2 lg:justify-between">
+        <PageContainer className="py-1 sm:py-2.5">
+          <div className="flex h-11 items-center gap-2 lg:h-auto lg:justify-between">
             <div className="relative hidden max-w-md flex-1 lg:block">
               <Search className="absolute left-3 top-2.5 size-3.5 text-muted-foreground" />
               <Input
@@ -741,7 +771,7 @@ function CollectionPage() {
             </div>
           </div>
 
-          {/* Pillar + subcategory discovery */}
+          {/* Desktop Pillar discovery */}
           <div className="mt-3 hidden gap-2 overflow-x-auto pb-1 lg:flex">
             {pillars.map((p) => {
               const active = pillar === p.id;
@@ -763,84 +793,43 @@ function CollectionPage() {
             })}
           </div>
 
+          {/* Subcategories: Single-line horizontal scroll, auto-hides on scroll-down and reappears on scroll-up */}
           {availableSubs.length > 0 ? (
-            <div className="mt-2 flex gap-2 overflow-x-auto pb-0.5 lg:pb-1">
-              <Chip
-                active={!sub}
-                activeClass={theme.accent}
-                onClick={() => {
-                  setSub(null);
-                  touch();
-                }}
-              >
-                All {pillar}
-              </Chip>
-              {availableSubs.map((s) => (
+            <div
+              className={cn(
+                "transition-all duration-300 ease-in-out lg:!max-h-14 lg:!opacity-100 lg:!pointer-events-auto",
+                showSubcategories
+                  ? "max-h-12 opacity-100 mt-1 pointer-events-auto"
+                  : "max-h-0 opacity-0 -mt-0.5 pointer-events-none overflow-hidden",
+              )}
+            >
+              <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5 scrollbar-none">
                 <Chip
-                  key={s}
-                  active={sub === s}
+                  active={!sub}
                   activeClass={theme.accent}
+                  className="min-h-8 text-xs px-3"
                   onClick={() => {
-                    setSub(s);
+                    setSub(null);
                     touch();
                   }}
                 >
-                  {s}
+                  All {pillar}
                 </Chip>
-              ))}
-            </div>
-          ) : null}
-
-          {activeFilters > 0 ? (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              {selSizes.map((size) => (
-                <RemovableChip
-                  key={size}
-                  label={`Size ${size}`}
-                  onRemove={() => toggle(size, selSizes, setSelSizes)}
-                />
-              ))}
-              {selColors.map((color) => (
-                <RemovableChip
-                  key={color}
-                  label={color}
-                  onRemove={() => toggle(color, selColors, setSelColors)}
-                />
-              ))}
-              {band ? (
-                <RemovableChip
-                  label={priceBands.find((item) => item.id === band)?.label ?? band}
-                  onRemove={() => {
-                    setBand(null);
-                    touch();
-                  }}
-                />
-              ) : null}
-              {under999 ? (
-                <RemovableChip
-                  label="Under ₹999"
-                  onRemove={() => {
-                    setUnder999(false);
-                    touch();
-                  }}
-                />
-              ) : null}
-              {inStockOnly ? (
-                <RemovableChip
-                  label="In stock"
-                  onRemove={() => {
-                    setInStockOnly(false);
-                    touch();
-                  }}
-                />
-              ) : null}
-              <button
-                type="button"
-                onClick={resetFilters}
-                className="text-xs font-semibold text-primary underline underline-offset-4"
-              >
-                Clear all
-              </button>
+                {availableSubs.map((s) => (
+                  <Chip
+                    key={s}
+                    active={sub === s}
+                    activeClass={theme.accent}
+                    className="min-h-8 text-xs px-3"
+                    onClick={() => {
+                      setSub(s);
+                      touch();
+                    }}
+                  >
+                    {s}
+                  </Chip>
+                ))}
+              </div>
             </div>
           ) : null}
         </PageContainer>
@@ -857,6 +846,60 @@ function CollectionPage() {
           </aside>
 
           <div className="min-w-0">
+            {/* Active Filter Chips: scroll away naturally with products */}
+            {activeFilters > 0 ? (
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                {selSizes.map((size) => (
+                  <RemovableChip
+                    key={size}
+                    label={`Size ${size}`}
+                    onRemove={() => toggle(size, selSizes, setSelSizes)}
+                  />
+                ))}
+                {selColors.map((color) => (
+                  <RemovableChip
+                    key={color}
+                    label={color}
+                    onRemove={() => toggle(color, selColors, setSelColors)}
+                  />
+                ))}
+                {band ? (
+                  <RemovableChip
+                    label={priceBands.find((item) => item.id === band)?.label ?? band}
+                    onRemove={() => {
+                      setBand(null);
+                      touch();
+                    }}
+                  />
+                ) : null}
+                {under999 ? (
+                  <RemovableChip
+                    label="Under ₹999"
+                    onRemove={() => {
+                      setUnder999(false);
+                      touch();
+                    }}
+                  />
+                ) : null}
+                {inStockOnly ? (
+                  <RemovableChip
+                    label="In stock"
+                    onRemove={() => {
+                      setInStockOnly(false);
+                      touch();
+                    }}
+                  />
+                ) : null}
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="text-xs font-semibold text-primary underline underline-offset-4"
+                >
+                  Clear all
+                </button>
+              </div>
+            ) : null}
+
             <div className="mb-5 flex items-center justify-between gap-3">
               <p className="text-sm text-muted-foreground">
                 Showing{" "}
@@ -959,11 +1002,13 @@ function Chip({
   onClick,
   children,
   activeClass,
+  className,
 }: {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
   activeClass?: string;
+  className?: string;
 }) {
   return (
     <button
@@ -975,6 +1020,7 @@ function Chip({
         active
           ? (activeClass ?? "border-primary bg-primary text-primary-foreground")
           : "border-border bg-background text-muted-foreground hover:text-foreground",
+        className,
       )}
     >
       {children}
