@@ -36,7 +36,8 @@ function resolvePostImage(post: StoreBlogPost): string {
   if (cat.includes("home") || slug.includes("prayer") || slug.includes("corner")) return imgPrayer;
   if (cat.includes("occasion") || slug.includes("eid")) return imgEid;
   if (cat.includes("faith") || slug.includes("ramadan")) return imgRamadan;
-  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton")) return imgJournalCraft;
+  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton"))
+    return imgJournalCraft;
   return imgEditorial;
 }
 
@@ -60,12 +61,11 @@ function BlogPostPage() {
         if (isMounted) {
           setPost({
             id: "fallback",
-            title:
-              slug.includes("prayer")
-                ? "Creating a Calm Prayer Corner: Designing Spaces for Stillness"
-                : slug.includes("eid")
-                  ? "Eid Preparation for the Whole Family"
-                  : "Caring for Pure Cambric Cotton: A Guide to Modest Longevity",
+            title: slug.includes("prayer")
+              ? "Creating a Calm Prayer Corner: Designing Spaces for Stillness"
+              : slug.includes("eid")
+                ? "Eid Preparation for the Whole Family"
+                : "Caring for Pure Cambric Cotton: A Guide to Modest Longevity",
             slug,
             excerpt:
               "Mindful routines and thoughtful pieces that support modest family life — from fabric care to quiet prayer corners.",
@@ -74,7 +74,7 @@ function BlogPostPage() {
               ? imgPrayer
               : slug.includes("eid")
                 ? imgEid
-                : imgFamily,
+                : imgJournalCraft,
             author: "Fatima Zahra",
             category: slug.includes("prayer")
               ? "Home"
@@ -112,14 +112,16 @@ function BlogPostPage() {
     }
 
     const list = catalog ?? [];
-    const hay = `${post?.title ?? ""} ${post?.category ?? ""} ${post?.tags?.join(" ") ?? ""} ${slug}`.toLowerCase();
-    const preferredPillars = hay.includes("prayer") || hay.includes("home")
-      ? ["Prayer", "Home"]
-      : hay.includes("eid") || hay.includes("gift")
-        ? ["Gifts", "Women", "Children"]
-        : hay.includes("cotton") || hay.includes("modesty") || hay.includes("cambric")
-          ? ["Women", "Men"]
-          : ["Women", "Prayer", "Gifts"];
+    const hay =
+      `${post?.title ?? ""} ${post?.category ?? ""} ${post?.tags?.join(" ") ?? ""} ${slug}`.toLowerCase();
+    const preferredPillars =
+      hay.includes("prayer") || hay.includes("home")
+        ? ["Prayer", "Home"]
+        : hay.includes("eid") || hay.includes("gift")
+          ? ["Gifts", "Women", "Children"]
+          : hay.includes("cotton") || hay.includes("modesty") || hay.includes("cambric")
+            ? ["Women", "Men"]
+            : ["Women", "Prayer", "Gifts"];
 
     return list
       .filter((p) => preferredPillars.includes(p.pillar))
@@ -245,7 +247,10 @@ function BlogPostPage() {
 
           <div className="mt-8 space-y-6 font-display text-base leading-8 text-foreground/90 sm:text-lg">
             {post.body.split("\n\n").map((para, i) => (
-              <p key={i} className="font-sans text-sm leading-7 text-foreground/90 sm:text-base sm:leading-8">
+              <p
+                key={i}
+                className="font-sans text-sm leading-7 text-foreground/90 sm:text-base sm:leading-8"
+              >
                 {para}
               </p>
             ))}
@@ -257,7 +262,10 @@ function BlogPostPage() {
                 <Tag className="size-3.5" /> Tags
               </span>
               {post.tags.map((t) => (
-                <span key={t} className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">
+                <span
+                  key={t}
+                  className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground"
+                >
                   #{t}
                 </span>
               ))}

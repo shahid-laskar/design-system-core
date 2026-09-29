@@ -111,7 +111,7 @@ export async function createMedusaCart(): Promise<MedusaCart> {
 export async function getMedusaCart(cartId: string): Promise<MedusaCart | null> {
   try {
     const res = await fetchMedusa<{ cart: MedusaCart }>(
-      `/store/carts/${cartId}?fields=*items,*items.variant,*shipping_methods`
+      `/store/carts/${cartId}?fields=*items,*items.variant,*shipping_methods`,
     );
     if (res.cart && res.cart.completed_at) {
       setStoredCartId(null);
@@ -144,7 +144,7 @@ export async function getOrCreateMedusaCart(): Promise<MedusaCart> {
 export async function resolveVariantIdForProduct(
   productIdOrHandle: string,
   size?: string,
-  color?: string
+  color?: string,
 ): Promise<string | null> {
   if (!productIdOrHandle) return null;
 
@@ -165,14 +165,10 @@ export async function resolveVariantIdForProduct(
         const title = v.title?.toLowerCase() || "";
         const sizeMatch =
           title.includes(size.toLowerCase()) ||
-          Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === size.toLowerCase()
-          );
+          Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase());
         const colorMatch =
           title.includes(color.toLowerCase()) ||
-          Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === color.toLowerCase()
-          );
+          Object.values(v.options || {}).some((val) => val.toLowerCase() === color.toLowerCase());
         return sizeMatch && colorMatch;
       });
       if (matchBoth) return matchBoth.id;
@@ -184,9 +180,7 @@ export async function resolveVariantIdForProduct(
         const title = v.title?.toLowerCase() || "";
         return (
           title.includes(size.toLowerCase()) ||
-          Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === size.toLowerCase()
-          )
+          Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase())
         );
       });
       if (matchSize) return matchSize.id;
@@ -198,9 +192,7 @@ export async function resolveVariantIdForProduct(
         const title = v.title?.toLowerCase() || "";
         return (
           title.includes(color.toLowerCase()) ||
-          Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === color.toLowerCase()
-          )
+          Object.values(v.options || {}).some((val) => val.toLowerCase() === color.toLowerCase())
         );
       });
       if (matchColor) return matchColor.id;
@@ -227,7 +219,7 @@ export async function ensureMedusaCartSynchronized(
     quantity: number;
     size?: string;
     color?: string;
-  }>
+  }>,
 ): Promise<MedusaCart> {
   let activeCart = (await getMedusaCart(medusaCart.id)) || medusaCart;
 
@@ -249,11 +241,8 @@ export async function ensureMedusaCartSynchronized(
     let variantId = localItem.variantId;
     if (!variantId) {
       variantId =
-        (await resolveVariantIdForProduct(
-          localItem.id,
-          localItem.size,
-          localItem.color
-        )) ?? undefined;
+        (await resolveVariantIdForProduct(localItem.id, localItem.size, localItem.color)) ??
+        undefined;
     }
 
     if (!variantId) continue;
@@ -264,7 +253,7 @@ export async function ensureMedusaCartSynchronized(
         activeCart = await addLineItemToMedusaCart(
           activeCart.id,
           variantId,
-          localItem.quantity || 1
+          localItem.quantity || 1,
         );
         remoteVariantMap.set(variantId, "added");
         cartUpdated = true;
@@ -288,18 +277,15 @@ export async function ensureMedusaCartSynchronized(
 export async function addLineItemToMedusaCart(
   cartId: string,
   variantId: string,
-  quantity = 1
+  quantity = 1,
 ): Promise<MedusaCart> {
-  const res = await fetchMedusa<{ cart: MedusaCart }>(
-    `/store/carts/${cartId}/line-items`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        variant_id: variantId,
-        quantity,
-      }),
-    }
-  );
+  const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/line-items`, {
+    method: "POST",
+    body: JSON.stringify({
+      variant_id: variantId,
+      quantity,
+    }),
+  });
   return res.cart;
 }
 
@@ -309,7 +295,7 @@ export async function addLineItemToMedusaCart(
 export async function updateMedusaLineItem(
   cartId: string,
   lineId: string,
-  quantity: number
+  quantity: number,
 ): Promise<MedusaCart> {
   const res = await fetchMedusa<{ cart: MedusaCart }>(
     `/store/carts/${cartId}/line-items/${lineId}`,
@@ -318,7 +304,7 @@ export async function updateMedusaLineItem(
       body: JSON.stringify({
         quantity,
       }),
-    }
+    },
   );
   return res.cart;
 }
@@ -326,15 +312,12 @@ export async function updateMedusaLineItem(
 /**
  * Removes a line item from the cart.
  */
-export async function removeMedusaLineItem(
-  cartId: string,
-  lineId: string
-): Promise<MedusaCart> {
+export async function removeMedusaLineItem(cartId: string, lineId: string): Promise<MedusaCart> {
   const res = await fetchMedusa<{ cart: MedusaCart }>(
     `/store/carts/${cartId}/line-items/${lineId}`,
     {
       method: "DELETE",
-    }
+    },
   );
   return res.cart;
 }
@@ -347,7 +330,7 @@ export async function updateMedusaCartDetails(
   details: {
     email: string;
     shipping_address: MedusaAddress;
-  }
+  },
 ): Promise<MedusaCart> {
   const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}`, {
     method: "POST",
@@ -362,11 +345,9 @@ export async function updateMedusaCartDetails(
 /**
  * Fetches available shipping options for a cart.
  */
-export async function getMedusaShippingOptions(
-  cartId: string
-): Promise<MedusaShippingOption[]> {
+export async function getMedusaShippingOptions(cartId: string): Promise<MedusaShippingOption[]> {
   const res = await fetchMedusa<{ shipping_options: MedusaShippingOption[] }>(
-    `/store/shipping-options?cart_id=${cartId}`
+    `/store/shipping-options?cart_id=${cartId}`,
   );
   return res.shipping_options || [];
 }
@@ -376,17 +357,14 @@ export async function getMedusaShippingOptions(
  */
 export async function addMedusaShippingMethod(
   cartId: string,
-  optionId: string
+  optionId: string,
 ): Promise<MedusaCart> {
-  const res = await fetchMedusa<{ cart: MedusaCart }>(
-    `/store/carts/${cartId}/shipping-methods`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        option_id: optionId,
-      }),
-    }
-  );
+  const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/shipping-methods`, {
+    method: "POST",
+    body: JSON.stringify({
+      option_id: optionId,
+    }),
+  });
   return res.cart;
 }
 
@@ -401,7 +379,7 @@ export async function getOrCreatePaymentCollection(cartId: string): Promise<stri
       body: JSON.stringify({
         cart_id: cartId,
       }),
-    }
+    },
   );
   return res.payment_collection.id;
 }
@@ -411,7 +389,7 @@ export async function getOrCreatePaymentCollection(cartId: string): Promise<stri
  */
 export async function initiatePaymentSession(
   paymentCollectionId: string,
-  providerId = "pp_razorpay_razorpay"
+  providerId = "pp_razorpay_razorpay",
 ): Promise<{
   payment_session: {
     id: string;
@@ -434,9 +412,9 @@ export async function initiatePaymentSession(
     }),
   });
 
-  const session = res.payment_collection.payment_sessions?.find(
-    (s) => s.provider_id === providerId
-  ) || res.payment_collection.payment_sessions?.[0];
+  const session =
+    res.payment_collection.payment_sessions?.find((s) => s.provider_id === providerId) ||
+    res.payment_collection.payment_sessions?.[0];
 
   return { payment_session: session! };
 }
@@ -568,16 +546,13 @@ export type CustomerOrderLookupResult = {
  */
 export async function lookupOrder(
   orderId: string,
-  email: string
+  email: string,
 ): Promise<CustomerOrderLookupResult | null> {
   try {
-    const res = await fetchMedusa<{ order: CustomerOrderLookupResult }>(
-      "/store/orders/lookup",
-      {
-        method: "POST",
-        body: JSON.stringify({ order_id: orderId, email }),
-      }
-    );
+    const res = await fetchMedusa<{ order: CustomerOrderLookupResult }>("/store/orders/lookup", {
+      method: "POST",
+      body: JSON.stringify({ order_id: orderId, email }),
+    });
     return res.order;
   } catch (err) {
     console.error("Failed to lookup order:", err);
@@ -604,11 +579,8 @@ export async function submitReturnRequest(data: {
   }>;
   customer_notes?: string;
 }): Promise<any> {
-  return await fetchMedusa<{ return_request: any }>(
-    "/store/return-requests/request",
-    {
-      method: "POST",
-      body: JSON.stringify(data),
-    }
-  );
+  return await fetchMedusa<{ return_request: any }>("/store/return-requests/request", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }

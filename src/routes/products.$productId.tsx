@@ -349,11 +349,17 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 onScroll={handleGalleryScroll}
               >
                 {gallery.map((image, index) => (
-                  <div key={`${image.src}-${index}`} className="aspect-[4/5] w-full shrink-0 snap-center">
+                  <div
+                    key={`${image.src}-${index}`}
+                    className="aspect-[4/5] w-full shrink-0 snap-center"
+                  >
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className={cn("size-full object-cover", image.position || "object-[center_18%]")}
+                      className={cn(
+                        "size-full object-cover",
+                        image.position || "object-[center_18%]",
+                      )}
                       width={800}
                       height={1000}
                     />
@@ -429,62 +435,63 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             </div>
             <p className="pt-5 text-sm leading-6 text-muted-foreground">{product.description}</p>
 
-            {product.kind === "apparel" ? <ModestyGuarantee /> : null}
+            {product.kind === "apparel" ? (
+              <ModestyGuarantee lined={guideCategory === "women"} />
+            ) : null}
 
             {/* A single-variant hard good (gift box, burner) has no real colour choice —
                 showing an apparel-style swatch picker labelled with the bundle name is noise. */}
             {product.kind === "apparel" || product.colors.length > 1 ? (
-            <div className="border-b border-border py-5">
-              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                <p className="text-sm font-semibold">
-                  Colour: <span className="font-normal">{color}</span>
-                </p>
-                {product.colors.length > 1 ? (
-                  <span className="text-xs text-muted-foreground">
-                    {product.colors.length} options
-                  </span>
-                ) : null}
-              </div>
-              <div className="mt-3 flex flex-wrap gap-3" role="radiogroup" aria-label="Colour">
-                {product.colors.map((option) => (
-                  <button
-                    key={option.name}
-                    type="button"
-                    role="radio"
-                    aria-checked={color === option.name}
-                    aria-label={option.name}
-                    onClick={() => setColor(option.name)}
-                    className={cn(
-                      "group flex flex-col items-center gap-1.5",
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "flex size-10 items-center justify-center rounded-full border-2 transition-colors",
-                        color === option.name
-                          ? "border-foreground"
-                          : "border-transparent group-hover:border-border",
-                      )}
+              <div className="border-b border-border py-5">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                  <p className="text-sm font-semibold">
+                    Colour: <span className="font-normal">{color}</span>
+                  </p>
+                  {product.colors.length > 1 ? (
+                    <span className="text-xs text-muted-foreground">
+                      {product.colors.length} options
+                    </span>
+                  ) : null}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-3" role="radiogroup" aria-label="Colour">
+                  {product.colors.map((option) => (
+                    <button
+                      key={option.name}
+                      type="button"
+                      role="radio"
+                      aria-checked={color === option.name}
+                      aria-label={option.name}
+                      onClick={() => setColor(option.name)}
+                      className={cn("group flex flex-col items-center gap-1.5")}
                     >
                       <span
                         className={cn(
-                          "size-8 rounded-full border border-black/10",
-                          option.swatch,
+                          "flex size-10 items-center justify-center rounded-full border-2 transition-colors",
+                          color === option.name
+                            ? "border-foreground"
+                            : "border-transparent group-hover:border-border",
                         )}
-                      />
-                    </span>
-                    <span
-                      className={cn(
-                        "text-[0.65rem] font-medium",
-                        color === option.name ? "text-foreground" : "text-muted-foreground",
-                      )}
-                    >
-                      {option.name}
-                    </span>
-                  </button>
-                ))}
+                      >
+                        <span
+                          className={cn(
+                            "size-8 rounded-full border border-black/10",
+                            option.swatch,
+                          )}
+                        />
+                      </span>
+                      <span
+                        className={cn(
+                          "text-[0.65rem] font-medium",
+                          color === option.name ? "text-foreground" : "text-muted-foreground",
+                        )}
+                      >
+                        {option.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
 
             {product.kind === "apparel" && product.sizes ? (
               <div className="border-b border-border py-5">
@@ -735,7 +742,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
               </div>
             </AccordionContent>
           </AccordionItem>
-          {product.kind === 'apparel' && (
+          {product.kind === "apparel" && (
             <>
               <AccordionItem value="modesty">
                 <AccordionTrigger className="text-left font-semibold hover:no-underline">
@@ -743,12 +750,24 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 </AccordionTrigger>
                 <AccordionContent className="space-y-3 pr-6 leading-6 text-muted-foreground">
                   <p>
-                    This product is made with 100% opaque fabric and is designed for comfortable, modest wear.
+                    This product is made with 100% opaque fabric and is designed for comfortable,
+                    modest wear.
                   </p>
                   <ul className="space-y-2 text-sm">
-                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> Attached pure cotton voil lining across the torso — no separate slip needed.</li>
-                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> 100% opacity checked against direct backlight on every fabric batch.</li>
-                    <li className="flex gap-2"><span className="mt-0.5 text-primary">✓</span> 2-inch inner tailoring margins for adjustments.</li>
+                    {guideCategory === "women" ? (
+                      <li className="flex gap-2">
+                        <span className="mt-0.5 text-primary">✓</span> Attached pure cotton voil
+                        lining across the torso — no separate slip needed.
+                      </li>
+                    ) : null}
+                    <li className="flex gap-2">
+                      <span className="mt-0.5 text-primary">✓</span> 100% opacity checked against
+                      direct backlight on every fabric batch.
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="mt-0.5 text-primary">✓</span> 2-inch inner tailoring margins
+                      for adjustments.
+                    </li>
                   </ul>
                 </AccordionContent>
               </AccordionItem>
@@ -764,13 +783,18 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   </div>
                   <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
                     <span className="font-semibold text-foreground">Chest Ease:</span>
-                    <span>3–4 inches additional ease over body measurements for comfortable modest coverage</span>
+                    <span>
+                      3–4 inches additional ease over body measurements for comfortable modest
+                      coverage
+                    </span>
                   </div>
                   <div className="grid gap-1 sm:grid-cols-[10rem_minmax(0,1fr)]">
                     <span className="font-semibold text-foreground">Length:</span>
                     <span>Full-length kurta to knee or below for modest coverage</span>
                   </div>
-                  <p className="text-xs">Refer to the Size Guide for exact garment measurements by size.</p>
+                  <p className="text-xs">
+                    Refer to the Size Guide for exact garment measurements by size.
+                  </p>
                 </AccordionContent>
               </AccordionItem>
             </>
@@ -815,7 +839,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         </Accordion>
       </PageContainer>
 
-      {product.kind === "apparel" || Boolean(product.sizes?.length) ? (
+      {/* Voil lining + backlight opacity proof is a women's cambric-suit promise only. */}
+      {guideCategory === "women" && product.kind === "apparel" ? (
         <section className="border-t border-border bg-blush-cream/30 py-12 lg:py-16">
           <PageContainer>
             <div className="mb-8">
@@ -984,15 +1009,16 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
   );
 }
 
-function ModestyGuarantee() {
+function ModestyGuarantee({ lined }: { lined: boolean }) {
   return (
     <aside className="mt-5 flex items-start gap-3 border-y border-border py-4">
       <ShieldCheck className="mt-0.5 size-4 shrink-0 text-berry" />
       <div>
         <p className="text-sm font-semibold">Modesty assurance</p>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          Opaque fabric with attached cotton voil lining, backlight-checked, and 2″ inner
-          tailoring margins. Full details in the accordion below.
+          {lined
+            ? "Opaque fabric with attached cotton voil lining, backlight-checked, and 2″ inner tailoring margins. Full details in the accordion below."
+            : "Opaque fabric, backlight-checked for coverage, with generous inner tailoring margins. Full details in the accordion below."}
         </p>
       </div>
     </aside>
@@ -1228,7 +1254,17 @@ function CrossSellEnsemble({ product }: { product: ProductDetail }) {
     const pool = sameCategory.length >= 2 ? sameCategory : others;
     // Prefer different products each time by mixing apparel/non-apparel diversity first.
     const preferred = [
-      ...pool.filter((p) => p.pillar === (product.categoryTrail[0]?.includes("Men") ? "Men" : product.categoryTrail[0]?.includes("Children") ? "Children" : product.kind === "apparel" ? "Women" : p.pillar)),
+      ...pool.filter(
+        (p) =>
+          p.pillar ===
+          (product.categoryTrail[0]?.includes("Men")
+            ? "Men"
+            : product.categoryTrail[0]?.includes("Children")
+              ? "Children"
+              : product.kind === "apparel"
+                ? "Women"
+                : p.pillar),
+      ),
       ...pool,
     ];
     const seen = new Set<string>();
@@ -1244,8 +1280,7 @@ function CrossSellEnsemble({ product }: { product: ProductDetail }) {
   if (related.length === 0) return null;
 
   const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
-  const heading =
-    product.kind === "apparel" ? "More from this wardrobe" : "You may also like";
+  const heading = product.kind === "apparel" ? "More from this wardrobe" : "You may also like";
 
   return (
     <section className="border-t border-border bg-warm-ivory py-12 lg:py-16">

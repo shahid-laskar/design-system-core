@@ -69,9 +69,7 @@ function OrderConfirmedPage() {
         <div className="inline-flex items-center justify-center size-20 rounded-full bg-primary/10 text-primary mb-6">
           <CheckCircle2 className="size-10" />
         </div>
-        <Eyebrow className="text-primary font-semibold tracking-wider">
-          Order received
-        </Eyebrow>
+        <Eyebrow className="text-primary font-semibold tracking-wider">Order received</Eyebrow>
         <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-foreground">
           Thank you for your order
         </h1>
@@ -114,7 +112,10 @@ function OrderConfirmedPage() {
                   {order.shipping_address.address_2 && <p>{order.shipping_address.address_2}</p>}
                   <p>
                     {order.shipping_address.city}
-                    {order.shipping_address.province ? `, ${order.shipping_address.province}` : ""} -{" "}
+                    {order.shipping_address.province
+                      ? `, ${order.shipping_address.province}`
+                      : ""}{" "}
+                    -{" "}
                     <span className="font-mono text-foreground font-medium">
                       {order.shipping_address.postal_code}
                     </span>
@@ -238,12 +239,7 @@ function OrderConfirmedPage() {
           </p>
         </div>
         <div className="mt-4 md:mt-0 flex flex-wrap gap-3 justify-center">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.print()}
-            className="gap-2"
-          >
+          <Button variant="outline" size="sm" onClick={() => window.print()} className="gap-2">
             <Printer className="size-4" /> Print Receipt
           </Button>
           <Button variant="secondary" size="sm" asChild className="gap-2">

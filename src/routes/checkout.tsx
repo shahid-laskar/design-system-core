@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import {
-  ArrowLeft,
-  CreditCard,
-  Lock,
-  Package,
-  ShieldCheck,
-  Tag,
-  Truck,
-  X,
-} from "lucide-react";
+import { ArrowLeft, CreditCard, Lock, Package, ShieldCheck, Tag, Truck, X } from "lucide-react";
 import { Eyebrow, PageContainer } from "@/components/brand/design-primitives";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -95,7 +86,9 @@ function CheckoutPage() {
   const [couponCode, setCouponCode] = useState("");
   const [appliedPromotion, setAppliedPromotion] = useState<PromotionValidationResult | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
-  const [couponMessage, setCouponMessage] = useState<{ text: string; isError: boolean } | null>(null);
+  const [couponMessage, setCouponMessage] = useState<{ text: string; isError: boolean } | null>(
+    null,
+  );
 
   const discountAmount = appliedPromotion?.valid ? appliedPromotion.discount_amount : 0;
   const shippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD;
@@ -226,10 +219,7 @@ function CheckoutPage() {
       const providerId =
         paymentMethod === "razorpay" ? "pp_razorpay_razorpay" : "pp_system_default";
 
-      const { payment_session } = await initiatePaymentSession(
-        paymentCollectionId,
-        providerId
-      );
+      const { payment_session } = await initiatePaymentSession(paymentCollectionId, providerId);
 
       // 5. Complete Order
       const result = await completeMedusaCart(cart.id);
@@ -307,7 +297,10 @@ function CheckoutPage() {
       </header>
 
       {/* Progress */}
-      <div className="mb-8 flex flex-wrap items-center gap-x-0 gap-y-2" aria-label="Checkout progress">
+      <div
+        className="mb-8 flex flex-wrap items-center gap-x-0 gap-y-2"
+        aria-label="Checkout progress"
+      >
         {[
           { n: 1, label: "Details" },
           { n: 2, label: "Delivery" },
@@ -371,9 +364,7 @@ function CheckoutPage() {
               <div>
                 <Label htmlFor="phone">Phone / WhatsApp Number (10 digits) *</Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-sm text-muted-foreground">
-                    +91
-                  </span>
+                  <span className="absolute left-3 top-2.5 text-sm text-muted-foreground">+91</span>
                   <Input
                     id="phone"
                     type="tel"
@@ -392,9 +383,7 @@ function CheckoutPage() {
           {/* Section 2: Delivery Address */}
           <section className="border-b border-border pb-7">
             <h2 className="font-display text-xl font-medium">2. Delivery</h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Where should we send this order?
-            </p>
+            <p className="mt-1 text-xs text-muted-foreground">Where should we send this order?</p>
 
             <div className="mt-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -485,7 +474,10 @@ function CheckoutPage() {
                   type="checkbox"
                   className="size-4 accent-primary cursor-pointer rounded"
                 />
-                <label htmlFor="save-address" className="text-sm text-muted-foreground cursor-pointer">
+                <label
+                  htmlFor="save-address"
+                  className="text-sm text-muted-foreground cursor-pointer"
+                >
                   Save this address for future orders
                 </label>
               </div>
@@ -495,9 +487,7 @@ function CheckoutPage() {
           {/* Section 3: Payment Method */}
           <section className="pb-2">
             <h2 className="font-display text-xl font-medium">3. Payment</h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Choose how you would like to pay.
-            </p>
+            <p className="mt-1 text-xs text-muted-foreground">Choose how you would like to pay.</p>
 
             <div className="mt-4 space-y-3">
               <label
@@ -505,7 +495,7 @@ function CheckoutPage() {
                   "flex cursor-pointer items-start gap-3 rounded-md border p-4 transition-all",
                   paymentMethod === "razorpay"
                     ? "border-primary bg-primary/5"
-                    : "border-border hover:bg-muted/30"
+                    : "border-border hover:bg-muted/30",
                 )}
               >
                 <input
@@ -536,7 +526,7 @@ function CheckoutPage() {
                   "flex cursor-pointer items-start gap-3 rounded-md border p-4 transition-all",
                   paymentMethod === "cod"
                     ? "border-primary bg-primary/5"
-                    : "border-border hover:bg-muted/30"
+                    : "border-border hover:bg-muted/30",
                 )}
               >
                 <input
@@ -589,15 +579,8 @@ function CheckoutPage() {
 
             <div className="mt-4 divide-y divide-border">
               {items.map((item) => (
-                <div
-                  key={`${item.id}-${item.size || ""}`}
-                  className="flex items-center gap-3 py-3"
-                >
-                  <img
-                    src={item.image}
-                    alt=""
-                    className="size-14 rounded object-cover"
-                  />
+                <div key={`${item.id}-${item.size || ""}`} className="flex items-center gap-3 py-3">
+                  <img src={item.image} alt="" className="size-14 rounded object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-semibold leading-tight">{item.name}</p>
                     {item.size || item.color ? (
@@ -627,7 +610,9 @@ function CheckoutPage() {
                 <div className="mt-2.5 flex items-center justify-between rounded bg-success/10 px-3 py-2 text-xs font-medium text-success border border-success/30">
                   <div className="flex items-center gap-2">
                     <span className="font-bold tracking-wider">{appliedPromotion.code}</span>
-                    <span className="text-[0.68rem] text-success/80">(-{formatPrice(appliedPromotion.discount_amount)})</span>
+                    <span className="text-[0.68rem] text-success/80">
+                      (-{formatPrice(appliedPromotion.discount_amount)})
+                    </span>
                   </div>
                   <button
                     type="button"
@@ -683,7 +668,7 @@ function CheckoutPage() {
                 <p
                   className={cn(
                     "mt-2 text-[0.7rem] font-medium",
-                    couponMessage.isError ? "text-destructive" : "text-success"
+                    couponMessage.isError ? "text-destructive" : "text-success",
                   )}
                 >
                   {couponMessage.text}
@@ -724,8 +709,8 @@ function CheckoutPage() {
                 <Truck className="size-4 text-primary" /> Delivery Promise
               </p>
               <p className="mt-1">
-                Dispatches within 24–48 hours from Surat/Panipat hubs. Arrives in 3–5 business
-                days with tracking updates.
+                Dispatches within 24–48 hours from Surat/Panipat hubs. Arrives in 3–5 business days
+                with tracking updates.
               </p>
             </div>
           </div>

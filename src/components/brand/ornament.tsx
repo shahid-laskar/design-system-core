@@ -48,12 +48,7 @@ export function JaliPattern({ className }: { className?: string }) {
     >
       <defs>
         <pattern id="sukoon-jali" width="30" height="30" patternUnits="userSpaceOnUse">
-          <path
-            d="M15 0 30 15 15 30 0 15Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.9"
-          />
+          <path d="M15 0 30 15 15 30 0 15Z" fill="none" stroke="currentColor" strokeWidth="0.9" />
           <circle cx="15" cy="15" r="3" fill="none" stroke="currentColor" strokeWidth="0.7" />
         </pattern>
       </defs>

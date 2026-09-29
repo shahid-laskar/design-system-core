@@ -44,8 +44,16 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "A breathable three-piece salwar suit in pure 60s cambric cotton featuring an attached opaque cotton voil lining, semi-elasticated pants, and pure malmal dupatta. Designed with 2-inch inner tailoring margins for modest comfort.",
     gallery: [
-      { src: imgSalwarSage, alt: "Sage green pure cambric cotton salwar suit set with dupatta", position: "object-center" },
-      { src: imgSalwarDetail, alt: "Macro detail of pure 60s cambric cotton weave, embroidery and attached voil lining", position: "object-top" },
+      {
+        src: imgSalwarSage,
+        alt: "Sage green pure cambric cotton salwar suit set with dupatta",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarDetail,
+        alt: "Macro detail of pure 60s cambric cotton weave, embroidery and attached voil lining",
+        position: "object-top",
+      },
     ],
     colors: [{ name: "Sage Green", swatch: "bg-primary" }],
     sizes: [
@@ -83,10 +91,26 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "A breathable three-piece salwar suit in pure 60s cambric cotton featuring delicate hand-block floral motifs in rich berry maroon, fully lined with soft cotton voil for guaranteed everyday modesty.",
     gallery: [
-      { src: imgSalwarBerry, alt: "Full front view of Indian Muslim woman wearing rich berry floral printed cambric cotton salwar suit with draped dupatta", position: "object-center" },
-      { src: imgSalwarBerryAngle, alt: "Three-quarter side profile view showing garment silhouette, sleeve cuffs, and draped dupatta fall", position: "object-center" },
-      { src: imgSalwarBerryBack, alt: "Back view showing graceful dupatta drape, clean tailored back cut, and matching salwar pants", position: "object-center" },
-      { src: imgSalwarBerryDetail, alt: "Macro detail shot of fine zari neckline embroidery, floral block print, and 60s cambric cotton weave", position: "object-top" },
+      {
+        src: imgSalwarBerry,
+        alt: "Full front view of Indian Muslim woman wearing rich berry floral printed cambric cotton salwar suit with draped dupatta",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarBerryAngle,
+        alt: "Three-quarter side profile view showing garment silhouette, sleeve cuffs, and draped dupatta fall",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarBerryBack,
+        alt: "Back view showing graceful dupatta drape, clean tailored back cut, and matching salwar pants",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarBerryDetail,
+        alt: "Macro detail shot of fine zari neckline embroidery, floral block print, and 60s cambric cotton weave",
+        position: "object-top",
+      },
     ],
     colors: [{ name: "Berry Plum", swatch: "bg-[#7B243B]" }],
     sizes: [
@@ -123,8 +147,16 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Vibrant jewel-tone emerald green cambric cotton salwar suit with detailed zari embroidery along the neckline, matching pants, and lightweight printed dupatta.",
     gallery: [
-      { src: imgSalwarEmerald, alt: "Emerald green paisley cambric salwar suit with dupatta on model", position: "object-center" },
-      { src: imgSalwarDetail, alt: "Intricate zari embroidery and fabric texture detail", position: "object-top" },
+      {
+        src: imgSalwarEmerald,
+        alt: "Emerald green paisley cambric salwar suit with dupatta on model",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarDetail,
+        alt: "Intricate zari embroidery and fabric texture detail",
+        position: "object-top",
+      },
     ],
     colors: [{ name: "Emerald Green", swatch: "bg-primary" }],
     sizes: [
@@ -162,8 +194,16 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Comfortable everyday cotton kurta set featuring mustard floral motifs, delicate neckline embroidery, contrast coral pants, and lightweight dupatta.",
     gallery: [
-      { src: imgKurtaMustard, alt: "Mustard yellow embroidered kurta set with coral pants on model", position: "object-center" },
-      { src: imgSalwarDetail, alt: "Neckline embroidery and cotton weave detail", position: "object-top" },
+      {
+        src: imgKurtaMustard,
+        alt: "Mustard yellow embroidered kurta set with coral pants on model",
+        position: "object-center",
+      },
+      {
+        src: imgSalwarDetail,
+        alt: "Neckline embroidery and cotton weave detail",
+        position: "object-top",
+      },
     ],
     colors: [{ name: "Mustard Yellow", swatch: "bg-clay" }],
     sizes: [
@@ -199,7 +239,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Flowing modest maxi dress crafted from soft jacquard textured fabric with multi-tiered silhouette, cuffed sleeves, and full cotton lining.",
     gallery: [
-      { src: imgDressRose, alt: "Dusty rose tiered modest maxi dress with hijab on model", position: "object-center" },
+      {
+        src: imgDressRose,
+        alt: "Dusty rose tiered modest maxi dress with hijab on model",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Dusty Rose", swatch: "bg-clay" }],
     sizes: [
@@ -234,7 +278,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Ultra-soft modal silk hijab with a fluid drape that stays securely in place without pins or hair pulling.",
     gallery: [
-      { src: imgHijabOat, alt: "Oat micro-modal silk hijab draped gracefully on model", position: "object-center" },
+      {
+        src: imgHijabOat,
+        alt: "Oat micro-modal silk hijab draped gracefully on model",
+        position: "object-center",
+      },
     ],
     colors: [
       { name: "Oat", swatch: "bg-secondary" },
@@ -267,7 +315,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Korean-weave Nida abaya featuring a fluid A-line flare, contrast aubergine lapel trim, hidden side pockets, and snap button cuffs for wudhu convenience.",
     gallery: [
-      { src: imgAbayaStone, alt: "Stone grey and aubergine trim everyday abaya on model", position: "object-center" },
+      {
+        src: imgAbayaStone,
+        alt: "Stone grey and aubergine trim everyday abaya on model",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Stone Grey", swatch: "bg-mineral" }],
     sizes: [
@@ -301,10 +353,26 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Pure breathable handloom cotton kurta with relaxed fit, mandarin collar, coconut buttons, and deep pockets. Ideal for Friday prayers and daily wear.",
     gallery: [
-      { src: imgMenKurta, alt: "Full front view of Indian Muslim man wearing ivory handloom cotton kurta with mandarin collar", position: "object-center" },
-      { src: imgMenKurtaAngle, alt: "Three-quarter side profile view showing fit, length, and slub fabric texture", position: "object-center" },
-      { src: imgMenKurtaBack, alt: "Back view showing shoulder yoke, straight back cut, and side hem slits", position: "object-center" },
-      { src: imgMenKurtaDetail, alt: "Macro detail shot of handloom cotton slub weave and coconut shell button", position: "object-top" },
+      {
+        src: imgMenKurta,
+        alt: "Full front view of Indian Muslim man wearing ivory handloom cotton kurta with mandarin collar",
+        position: "object-center",
+      },
+      {
+        src: imgMenKurtaAngle,
+        alt: "Three-quarter side profile view showing fit, length, and slub fabric texture",
+        position: "object-center",
+      },
+      {
+        src: imgMenKurtaBack,
+        alt: "Back view showing shoulder yoke, straight back cut, and side hem slits",
+        position: "object-center",
+      },
+      {
+        src: imgMenKurtaDetail,
+        alt: "Macro detail shot of handloom cotton slub weave and coconut shell button",
+        position: "object-top",
+      },
     ],
     colors: [{ name: "Ivory", swatch: "bg-secondary" }],
     sizes: [
@@ -339,7 +407,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "A softly woven linen-cotton prayer mat with 20mm orthopaedic memory foam and solid beech folding rehal, made for quiet daily devotion.",
     gallery: [
-      { src: imgPrayer, alt: "Orthopaedic memory foam prayer mat and solid beech folding rehal set", position: "object-center" },
+      {
+        src: imgPrayer,
+        alt: "Orthopaedic memory foam prayer mat and solid beech folding rehal set",
+        position: "object-center",
+      },
     ],
     colors: [
       { name: "Olive", swatch: "bg-primary" },
@@ -371,8 +443,16 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Comfortable 100% cotton printed kurta with white pyjama for boys. Features modest round neckline with embroidery and soft elasticated waistband.",
     gallery: [
-      { src: imgChildKurta, alt: "Indian boy wearing mustard yellow printed cotton kurta with white pajama pants", position: "object-center" },
-      { src: imgChildKurtaLifestyle, alt: "Young boy in mustard yellow festive kurta smiling in a warm sunlit home living room", position: "object-center" },
+      {
+        src: imgChildKurta,
+        alt: "Indian boy wearing mustard yellow printed cotton kurta with white pajama pants",
+        position: "object-center",
+      },
+      {
+        src: imgChildKurtaLifestyle,
+        alt: "Young boy in mustard yellow festive kurta smiling in a warm sunlit home living room",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Mustard Yellow", swatch: "bg-clay" }],
     sizes: [
@@ -406,7 +486,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Natural beechwood and birch habit tracker with 35 magnetic tokens to encourage children in daily prayer habits and tarbiyah routines.",
     gallery: [
-      { src: imgHabitBoard, alt: "Natural wooden magnetic daily prayer habit tracker board", position: "object-center" },
+      {
+        src: imgHabitBoard,
+        alt: "Natural wooden magnetic daily prayer habit tracker board",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Natural Birch", swatch: "bg-secondary" }],
     specifications: [
@@ -434,8 +518,16 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice dome lid on walnut tray for fragrant home ambiance and peaceful gathering.",
     gallery: [
-      { src: imgBakhoor, alt: "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice dome lid on walnut tray", position: "object-center" },
-      { src: imgBakhoorWarm, alt: "Warm ambient setting with rising aromatic bakhoor smoke and natural sunlight", position: "object-center" },
+      {
+        src: imgBakhoor,
+        alt: "Handcrafted solid cast brass charcoal incense burner with pierced floral lattice dome lid on walnut tray",
+        position: "object-center",
+      },
+      {
+        src: imgBakhoorWarm,
+        alt: "Warm ambient setting with rising aromatic bakhoor smoke and natural sunlight",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Antique Brass", swatch: "bg-clay" }],
     specifications: [
@@ -463,7 +555,11 @@ export const MASTER_CATALOG: Record<string, ProductDetail> = {
     description:
       "Curated milestone gift set featuring 20mm orthopaedic memory foam prayer mat, solid beech wood rehal, 99-bead natural stone tasbih, and 12ml non-alcoholic attar in presentation box.",
     gallery: [
-      { src: imgGiftBox, alt: "Luxury milestone gift box presentation with prayer mat and rehal", position: "object-center" },
+      {
+        src: imgGiftBox,
+        alt: "Luxury milestone gift box presentation with prayer mat and rehal",
+        position: "object-center",
+      },
     ],
     colors: [{ name: "Sanctuary Gift Set", swatch: "bg-primary" }],
     specifications: [

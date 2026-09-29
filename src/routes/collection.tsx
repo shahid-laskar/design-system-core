@@ -1,14 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ChevronRight,
-  Grid2X2,
-  ListFilter,
-  PackageOpen,
-  Rows3,
-  Search,
-  X,
-} from "lucide-react";
+import { ChevronRight, Grid2X2, ListFilter, PackageOpen, Rows3, Search, X } from "lucide-react";
 import { PageContainer } from "@/components/brand/design-primitives";
 import { ProductCard } from "@/components/brand/product-card";
 import { StatusState } from "@/components/brand/status-state";
@@ -164,7 +156,13 @@ const pillarTheme: Record<
 };
 
 const subcategories: Record<Pillar, string[]> = {
-  Women: ["Salwar Suit Sets", "Kurtas & Kurtis", "Modest Dresses", "Abayas", "Hijabs & Accessories"],
+  Women: [
+    "Salwar Suit Sets",
+    "Kurtas & Kurtis",
+    "Modest Dresses",
+    "Abayas",
+    "Hijabs & Accessories",
+  ],
   Men: ["Kurtas", "Kurta-Pajama Sets", "Pathani Suits", "Prayer Caps"],
   Children: ["Boys' Wear", "Girls' Wear", "Habit Boards", "Learning Toys"],
   Prayer: ["Memory Foam Mats", "Pocket Travel Mats", "Bentwood Rehals", "Stone Tasbihs"],
@@ -266,7 +264,8 @@ const occasionHero: Record<string, { title: string; subtitle: string; image: str
 
 function matchesOccasion(product: Product, occasion: string | undefined) {
   if (!occasion) return true;
-  const hay = `${product.name} ${product.subcategory} ${product.pillar} ${product.note}`.toLowerCase();
+  const hay =
+    `${product.name} ${product.subcategory} ${product.pillar} ${product.note}`.toLowerCase();
   if (occasion === "eid") {
     return Boolean(product.festive) || /salwar|kurta|abaya|gift|festive|eid/.test(hay);
   }
@@ -386,8 +385,7 @@ function CollectionPage() {
         (pillar === "All" || p.pillar === pillar) &&
         (!sub || p.subcategory === sub) &&
         (selSizes.length === 0 || (p.sizes?.some((s) => selSizes.includes(s)) ?? false)) &&
-        (selColors.length === 0 ||
-          (p.colors?.some((c) => selColors.includes(c.name)) ?? false)) &&
+        (selColors.length === 0 || (p.colors?.some((c) => selColors.includes(c.name)) ?? false)) &&
         (!band || inBand(p.price, band)) &&
         (!under999 || p.price < 999) &&
         (!inStockOnly || p.inStock) &&
@@ -501,10 +499,14 @@ function CollectionPage() {
                   onClick={() => toggle(c.name, selColors, setSelColors)}
                   className={cn(
                     "inline-flex shrink-0 items-center gap-2 border px-3 py-2 text-xs font-semibold transition-colors",
-                    active ? theme.accent : "border-border bg-background hover:border-foreground/30",
+                    active
+                      ? theme.accent
+                      : "border-border bg-background hover:border-foreground/30",
                   )}
                 >
-                  <span className={cn("size-4 shrink-0 rounded-full border border-black/10", c.swatch)} />
+                  <span
+                    className={cn("size-4 shrink-0 rounded-full border border-black/10", c.swatch)}
+                  />
                   <span className="max-w-[9rem] truncate sm:max-w-none">{c.name}</span>
                 </button>
               );
@@ -824,10 +826,7 @@ function CollectionPage() {
       <PageContainer className="pt-8 pb-6">
         <div className="grid items-start gap-10 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
           <aside
-            className={cn(
-              "hidden border-r pr-6 lg:sticky lg:top-24 lg:block",
-              theme.rail,
-            )}
+            className={cn("hidden border-r pr-6 lg:sticky lg:top-24 lg:block", theme.rail)}
             aria-label="Product filters"
           >
             <p className="eyebrow mb-5 text-foreground">Refine</p>
@@ -878,12 +877,7 @@ function CollectionPage() {
                 />
                 <div className="mt-8 flex flex-wrap gap-2">
                   {(["Women", "Men", "Children", "Prayer"] as Pillar[]).map((p) => (
-                    <Button
-                      key={p}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => choosePillar(p)}
-                    >
+                    <Button key={p} variant="outline" size="sm" onClick={() => choosePillar(p)}>
                       Browse {p}
                     </Button>
                   ))}
@@ -965,13 +959,7 @@ function Chip({
   );
 }
 
-function RemovableChip({
-  label,
-  onRemove,
-}: {
-  label: string;
-  onRemove: () => void;
-}) {
+function RemovableChip({ label, onRemove }: { label: string; onRemove: () => void }) {
   return (
     <span className="inline-flex items-center gap-1.5 border border-border bg-card px-2.5 py-1 text-xs font-semibold">
       {label}
