@@ -55,6 +55,8 @@ type CategoryEntrance = {
   imageAlt: string;
   tone: string;
   span?: string;
+  /** Crop anchor — keeps faces inside short landscape tiles. */
+  position?: string;
 };
 
 const categoryEntrances: CategoryEntrance[] = [
