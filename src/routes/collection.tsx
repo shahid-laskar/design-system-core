@@ -466,6 +466,22 @@ function CollectionPage() {
 
   const filters = (
     <div className="space-y-8">
+      <fieldset className="lg:hidden">
+        <legend className="eyebrow mb-3 text-foreground">Shop</legend>
+        <div className="flex flex-wrap gap-2">
+          {pillars.map((p) => (
+            <Chip
+              key={p.id}
+              active={pillar === p.id}
+              activeClass={pillarTheme[p.id].accent}
+              onClick={() => choosePillar(p.id as "All" | Pillar)}
+            >
+              {p.short}
+            </Chip>
+          ))}
+        </div>
+      </fieldset>
+
       {apparelContext ? (
         <fieldset>
           <legend className="eyebrow mb-3 text-foreground">Size</legend>
@@ -637,9 +653,9 @@ function CollectionPage() {
 
       {/* Toolbar */}
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
-        <PageContainer className="py-3">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative max-w-md flex-1">
+        <PageContainer className="py-2 sm:py-3">
+          <div className="flex items-center gap-2 lg:justify-between">
+            <div className="relative hidden max-w-md flex-1 lg:block">
               <Search className="absolute left-3 top-2.5 size-3.5 text-muted-foreground" />
               <Input
                 placeholder="Search salwar, kurta, mats..."
@@ -664,10 +680,10 @@ function CollectionPage() {
               ) : null}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 items-center gap-2 lg:flex-none">
               <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden">
+                  <Button variant="outline" size="sm" className="h-9 shrink-0 lg:hidden">
                     <ListFilter /> Filter
                     {activeFilters ? (
                       <span className={cn("rounded-sm px-1.5 text-xs", theme.chip)}>
@@ -700,8 +716,15 @@ function CollectionPage() {
                 </SheetContent>
               </Sheet>
 
+              <p className="flex-1 text-center text-xs text-muted-foreground lg:hidden">
+                <span className="font-semibold text-foreground">{filtered.length}</span> pieces
+              </p>
+
               <Select value={sort} onValueChange={setSort}>
-                <SelectTrigger className="w-40 sm:w-48" aria-label="Sort products">
+                <SelectTrigger
+                  className="h-9 w-[7.5rem] shrink-0 text-xs sm:w-40 sm:text-sm lg:w-48"
+                  aria-label="Sort products"
+                >
                   <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent>
@@ -712,14 +735,14 @@ function CollectionPage() {
                 </SelectContent>
               </Select>
 
-              <p className="hidden text-xs text-muted-foreground sm:block">
+              <p className="hidden text-xs text-muted-foreground lg:block">
                 <span className="font-semibold text-foreground">{filtered.length}</span> pieces
               </p>
             </div>
           </div>
 
           {/* Pillar + subcategory discovery */}
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+          <div className="mt-3 hidden gap-2 overflow-x-auto pb-1 lg:flex">
             {pillars.map((p) => {
               const active = pillar === p.id;
               return (
@@ -741,7 +764,7 @@ function CollectionPage() {
           </div>
 
           {availableSubs.length > 0 ? (
-            <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+            <div className="mt-2 flex gap-2 overflow-x-auto pb-0.5 lg:pb-1">
               <Chip
                 active={!sub}
                 activeClass={theme.accent}
@@ -823,7 +846,7 @@ function CollectionPage() {
         </PageContainer>
       </div>
 
-      <PageContainer className="pt-8 pb-6">
+      <PageContainer className="pt-4 pb-6 sm:pt-8">
         <div className="grid items-start gap-10 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
           <aside
             className={cn("hidden border-r pr-6 lg:sticky lg:top-24 lg:block", theme.rail)}
