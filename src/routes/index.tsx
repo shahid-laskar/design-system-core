@@ -17,7 +17,7 @@ import {
 import { SNAPSHOT_PRODUCTS } from "@/lib/commerce/snapshot-fallback";
 import { cn } from "@/lib/utils";
 
-import heroFamily from "@/assets/editorial-family-rhythm.jpg";
+import heroFamily from "@/assets/hero-cinematic-sukoon-house.jpg";
 import occasionEid from "@/assets/occasion-eid.jpg";
 import occasionRamadan from "@/assets/occasion-ramadan.jpg";
 import pillarGifts from "@/assets/pillar-gifts.jpg";
@@ -266,15 +266,15 @@ function HomePage() {
 
   return (
     <>
-      {/* Full-bleed family hero — warm & readable, not cinematic-dark */}
+       {/* Full-bleed family hero — warm & readable, not cinematic-dark */}
       {/* Mobile height subtracts the announcement bar + sticky header so the headline
           AND both CTAs stay above the fold instead of sliding under the bottom dock. */}
       <section className="relative isolate min-h-[calc(100svh-7rem)] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white">
         <img
           src={heroFamily}
-          alt="Muslim family sharing a bright morning meal in modest everyday dress"
-          width={1600}
-          height={1200}
+          alt="Woman in a berry-plum cambric salwar suit in a sunlit courtyard with her family"
+          width={1920}
+          height={1080}
           className="absolute inset-0 size-full object-cover object-[center_22%] sm:object-[center_28%] lg:object-[center_32%]"
           fetchPriority="high"
         />
