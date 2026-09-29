@@ -77,6 +77,7 @@ const categoryEntrances: CategoryEntrance[] = [
     imageAlt: "Indian Muslim man in ivory handloom cotton kurta with mandarin collar",
     tone: "from-teal/80 via-teal/15 to-transparent",
     span: "md:col-span-2",
+    position: "object-[center_18%]",
   },
   {
     handle: "children",
@@ -346,7 +347,10 @@ function HomePage() {
                     width={800}
                     height={1000}
                     loading="lazy"
-                    className="size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.04]"
+                    className={cn(
+                      "size-full object-cover transition-transform duration-brand-slow ease-brand group-hover:scale-[1.04]",
+                      tile.position ?? "object-center",
+                    )}
                   />
                   <div
                     aria-hidden
