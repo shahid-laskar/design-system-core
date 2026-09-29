@@ -291,7 +291,7 @@ function HomePage() {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-warm-ivory via-warm-ivory/92 to-transparent lg:hidden"
         />
 
-        <PageContainer className="relative flex min-h-[100svh] flex-col justify-end gap-5 pb-[calc(var(--mobile-bottom-nav-h)+1.25rem)] pt-24 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
+        <PageContainer className="relative flex min-h-[calc(100svh-7rem)] flex-col justify-end gap-4 pb-[calc(var(--mobile-bottom-nav-h)+1rem)] pt-20 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
           <div className="max-w-xl animate-in fade-in slide-in-from-bottom-3 duration-700 lg:max-w-2xl">
             <p className="eyebrow-wide text-berry lg:text-mango">Sukoon House</p>
             <h1 className="mt-3 font-display text-[2.15rem] leading-[1.08] tracking-tight text-charcoal-ink sm:text-5xl lg:mt-4 lg:text-7xl lg:text-white">
