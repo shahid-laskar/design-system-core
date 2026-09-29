@@ -265,7 +265,9 @@ function HomePage() {
   return (
     <>
       {/* Full-bleed family hero — warm & readable, not cinematic-dark */}
-      <section className="relative isolate min-h-[100svh] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white">
+      {/* Mobile height subtracts the announcement bar + sticky header so the headline
+          AND both CTAs stay above the fold instead of sliding under the bottom dock. */}
+      <section className="relative isolate min-h-[calc(100svh-7rem)] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white">
         <img
           src={heroFamily}
           alt="Muslim family sharing a bright morning meal in modest everyday dress"
