@@ -716,8 +716,15 @@ function CollectionPage() {
                 </SheetContent>
               </Sheet>
 
+              <p className="flex-1 text-center text-xs text-muted-foreground lg:hidden">
+                <span className="font-semibold text-foreground">{filtered.length}</span> pieces
+              </p>
+
               <Select value={sort} onValueChange={setSort}>
-                <SelectTrigger className="w-40 sm:w-48" aria-label="Sort products">
+                <SelectTrigger
+                  className="h-9 w-[7.5rem] shrink-0 text-xs sm:w-40 sm:text-sm lg:w-48"
+                  aria-label="Sort products"
+                >
                   <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent>
@@ -728,7 +735,7 @@ function CollectionPage() {
                 </SelectContent>
               </Select>
 
-              <p className="hidden text-xs text-muted-foreground sm:block">
+              <p className="hidden text-xs text-muted-foreground lg:block">
                 <span className="font-semibold text-foreground">{filtered.length}</span> pieces
               </p>
             </div>
