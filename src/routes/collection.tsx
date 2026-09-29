@@ -653,9 +653,9 @@ function CollectionPage() {
 
       {/* Toolbar */}
       <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
-        <PageContainer className="py-3">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative max-w-md flex-1">
+        <PageContainer className="py-2 sm:py-3">
+          <div className="flex items-center gap-2 lg:justify-between">
+            <div className="relative hidden max-w-md flex-1 lg:block">
               <Search className="absolute left-3 top-2.5 size-3.5 text-muted-foreground" />
               <Input
                 placeholder="Search salwar, kurta, mats..."
