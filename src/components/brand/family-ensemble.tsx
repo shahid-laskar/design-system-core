@@ -35,7 +35,7 @@ const members: Member[] = [
     imageAlt: "Sage cambric cotton salwar suit set showing full garment silhouette",
     sizes: ["S", "M", "L", "XL", "XXL"],
     soldOut: ["XXL"],
-    sizeNote: "Kurta length 44\" in Size M",
+    sizeNote: 'Kurta length 44" in Size M',
   },
   {
     role: "For him",
@@ -47,7 +47,7 @@ const members: Member[] = [
     image: productMenKurta,
     imageAlt: "Ivory handloom cotton kurta worn full-length with mandarin collar",
     sizes: ["M", "L", "XL", "XXL"],
-    sizeNote: "Kurta length 42\" in Size L",
+    sizeNote: 'Kurta length 42" in Size L',
   },
   {
     role: "For the little one",

@@ -47,7 +47,8 @@ function pickRecommendations(
 
   const score = (product: CollectionProduct) => {
     let s = 0;
-    const hay = `${product.name} ${product.pillar} ${product.subcategory} ${product.note}`.toLowerCase();
+    const hay =
+      `${product.name} ${product.pillar} ${product.subcategory} ${product.note}`.toLowerCase();
     if (cartText.includes("salwar") || cartText.includes("women")) {
       if (product.pillar === "Women" && /hijab|abaya|modesty/i.test(hay)) s += 5;
       if (product.pillar === "Women") s += 2;
@@ -71,9 +72,7 @@ function pickRecommendations(
     return s;
   };
 
-  return [...available]
-    .sort((a, b) => score(b) - score(a) || a.price - b.price)
-    .slice(0, 3);
+  return [...available].sort((a, b) => score(b) - score(a) || a.price - b.price).slice(0, 3);
 }
 
 export function CartDrawer() {
@@ -176,8 +175,8 @@ export function CartDrawer() {
                 </p>
               ) : (
                 <p className="text-sm font-medium leading-5">
-                  Add <span className="font-bold text-primary">{formatPrice(remaining)}</span> more for
-                  free shipping
+                  Add <span className="font-bold text-primary">{formatPrice(remaining)}</span> more
+                  for free shipping
                   <span className="mt-0.5 block font-normal text-muted-foreground">
                     Flat {formatPrice(STANDARD_SHIPPING_PRICE)} below{" "}
                     {formatPrice(FREE_SHIPPING_THRESHOLD)}
@@ -365,7 +364,13 @@ export function CartDrawer() {
                   className="h-9 text-xs"
                   aria-label="Coupon code"
                 />
-                <Button type="button" variant="outline" size="sm" className="h-9" onClick={applyCoupon}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9"
+                  onClick={applyCoupon}
+                >
                   Apply
                 </Button>
               </div>
@@ -391,7 +396,8 @@ export function CartDrawer() {
                 highlight={couponDiscount > 0}
               />
               <p className="flex items-center gap-2 pt-1 text-xs text-muted-foreground">
-                <Truck className="size-4 shrink-0 text-primary" /> Express delivery: 2–4 business days
+                <Truck className="size-4 shrink-0 text-primary" /> Express delivery: 2–4 business
+                days
               </p>
               <div className="flex items-baseline justify-between border-t border-border pt-3 text-base font-bold">
                 <span>Total</span>

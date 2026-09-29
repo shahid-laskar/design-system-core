@@ -161,7 +161,7 @@ export function mapMedusaToCollectionProduct(p: MedusaStoreProduct): CollectionP
   const curatedHover = curated?.gallery?.[1]?.src;
 
   // Prefer curated worn/silhouette photography whenever Medusa still serves weak assets.
-  let image =
+  const image =
     curatedPrimary && isWeakCatalogImage(medusaPrimary)
       ? curatedPrimary
       : medusaPrimary || curatedPrimary || "/images/salwar-suit-sage.jpg";
@@ -292,23 +292,24 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
   const colorOption = p.options?.find(
     (o) => o.title.toLowerCase() === "colour" || o.title.toLowerCase() === "color",
   );
-  const colors =
-    colorOption?.values?.map((v) => {
-      const val = v.value.toLowerCase();
-      const swatch =
-        val.includes("sage") || val.includes("green") || val.includes("olive") || val.includes("emerald")
-          ? "bg-primary"
-          : val.includes("blue") || val.includes("berry") || val.includes("maroon")
-            ? "bg-berry"
-            : val.includes("sand") || val.includes("oat") || val.includes("ivory")
-              ? "bg-secondary"
-              : val.includes("mustard") || val.includes("mango") || val.includes("rose")
-                ? "bg-clay"
-                : "bg-mineral";
-      return { name: v.value, swatch };
-    }) ||
-    curated?.colors ||
-    [{ name: "Default", swatch: "bg-primary" }];
+  const colors = colorOption?.values?.map((v) => {
+    const val = v.value.toLowerCase();
+    const swatch =
+      val.includes("sage") ||
+      val.includes("green") ||
+      val.includes("olive") ||
+      val.includes("emerald")
+        ? "bg-primary"
+        : val.includes("blue") || val.includes("berry") || val.includes("maroon")
+          ? "bg-berry"
+          : val.includes("sand") || val.includes("oat") || val.includes("ivory")
+            ? "bg-secondary"
+            : val.includes("mustard") || val.includes("mango") || val.includes("rose")
+              ? "bg-clay"
+              : "bg-mineral";
+    return { name: v.value, swatch };
+  }) ||
+    curated?.colors || [{ name: "Default", swatch: "bg-primary" }];
 
   const sizeOption = p.options?.find((o) => o.title.toLowerCase() === "size");
   const sizes = sizeOption?.values?.map((v) => {
@@ -383,7 +384,8 @@ export function mapMedusaToProductDetail(p: MedusaStoreProduct): ProductDetail {
     gallery,
     colors,
     sizes: isApparel ? sizes : undefined,
-    modelNote: (p.metadata?.["model_note"] as string) || (isApparel ? curated?.modelNote : undefined),
+    modelNote:
+      (p.metadata?.["model_note"] as string) || (isApparel ? curated?.modelNote : undefined),
     specifications: buildSpecifications(p, curated, categoryName),
     genericName: (p.metadata?.["lmpc_generic_name"] as string) || curated?.genericName || p.title,
     netQuantity: (p.metadata?.["lmpc_net_quantity"] as string) || curated?.netQuantity || "1 N",

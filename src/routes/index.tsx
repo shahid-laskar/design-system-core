@@ -250,7 +250,9 @@ function HomePage() {
         women.find((p) => p.handle.includes("floral") || p.handle.includes("berry")) ??
         women[0] ??
         catalogue[0]!,
-      side: women.filter((p) => !(p.handle.includes("floral") || p.handle.includes("berry"))).slice(0, 2),
+      side: women
+        .filter((p) => !(p.handle.includes("floral") || p.handle.includes("berry")))
+        .slice(0, 2),
     };
   }, [catalogue]);
 
@@ -414,40 +416,41 @@ function HomePage() {
                 <p className="mt-2 text-sm text-white/80">
                   {inr(featuredLook.lead.price)}
                   {featuredLook.lead.mrp ? (
-                    <span className="ml-2 line-through opacity-70">{inr(featuredLook.lead.mrp)}</span>
+                    <span className="ml-2 line-through opacity-70">
+                      {inr(featuredLook.lead.mrp)}
+                    </span>
                   ) : null}
                 </p>
               </div>
             </Link>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              {(featuredLook.side.length > 0
-                ? featuredLook.side
-                : newArrivals.slice(1, 3)
-              ).map((product) => (
-                <Link
-                  key={product.handle}
-                  to="/products/$productId"
-                  params={{ productId: product.handle }}
-                  className="group grid grid-cols-[0.9fr_1.1fr] overflow-hidden rounded-md border border-border bg-card"
-                >
-                  <div className="media-frame aspect-[4/5]">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      width={600}
-                      height={750}
-                      loading="lazy"
-                      className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center p-4 sm:p-5">
-                    <p className="eyebrow-wide text-berry">{product.subcategory}</p>
-                    <h3 className="mt-2 font-display text-xl leading-snug">{product.name}</h3>
-                    <p className="mt-2 text-sm font-semibold">{inr(product.price)}</p>
-                  </div>
-                </Link>
-              ))}
+              {(featuredLook.side.length > 0 ? featuredLook.side : newArrivals.slice(1, 3)).map(
+                (product) => (
+                  <Link
+                    key={product.handle}
+                    to="/products/$productId"
+                    params={{ productId: product.handle }}
+                    className="group grid grid-cols-[0.9fr_1.1fr] overflow-hidden rounded-md border border-border bg-card"
+                  >
+                    <div className="media-frame aspect-[4/5]">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        width={600}
+                        height={750}
+                        loading="lazy"
+                        className="size-full object-cover transition-transform duration-brand-slow group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-center p-4 sm:p-5">
+                      <p className="eyebrow-wide text-berry">{product.subcategory}</p>
+                      <h3 className="mt-2 font-display text-xl leading-snug">{product.name}</h3>
+                      <p className="mt-2 text-sm font-semibold">{inr(product.price)}</p>
+                    </div>
+                  </Link>
+                ),
+              )}
             </div>
           </div>
         </PageContainer>
@@ -624,10 +627,7 @@ function HomePage() {
       </section>
 
       {/* Mango value rail */}
-      <section
-        className="border-y border-border bg-mango/15"
-        aria-labelledby="under-999"
-      >
+      <section className="border-y border-border bg-mango/15" aria-labelledby="under-999">
         <PageContainer className="section-space">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -720,7 +720,11 @@ function HomePage() {
                     {inr(cambric.mrp)}
                   </span>
                 ) : null}
-                <Button size="lg" className="bg-berry text-berry-foreground hover:bg-berry/90" asChild>
+                <Button
+                  size="lg"
+                  className="bg-berry text-berry-foreground hover:bg-berry/90"
+                  asChild
+                >
                   <Link to="/products/$productId" params={{ productId: cambric.handle }}>
                     View the set <ArrowRight />
                   </Link>
@@ -736,12 +740,18 @@ function HomePage() {
       </section>
 
       {/* Prayer sanctuary — deliberate quieter pace, not a visual wall */}
-      <section aria-labelledby="prayer-sanctuary" className="border-y border-border bg-blush-cream/40">
+      <section
+        aria-labelledby="prayer-sanctuary"
+        className="border-y border-border bg-blush-cream/40"
+      >
         <PageContainer className="py-12 sm:py-16 lg:py-20">
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12">
             <div>
               <p className="eyebrow-wide font-bold text-emerald">The Prayer Sanctuary</p>
-              <h2 id="prayer-sanctuary" className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl">
+              <h2
+                id="prayer-sanctuary"
+                className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl"
+              >
                 A quiet corner, properly kept.
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
@@ -816,14 +826,16 @@ function HomePage() {
             ))}
           </ul>
           <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-xs text-teal-foreground/80">
-            {["Free express shipping over ₹999", "7-day hassle-free size exchanges", "Cash on delivery available"].map(
-              (item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <Check className="size-3.5" aria-hidden />
-                  {item}
-                </li>
-              ),
-            )}
+            {[
+              "Free express shipping over ₹999",
+              "7-day hassle-free size exchanges",
+              "Cash on delivery available",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <Check className="size-3.5" aria-hidden />
+                {item}
+              </li>
+            ))}
           </ul>
         </PageContainer>
       </section>

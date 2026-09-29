@@ -110,7 +110,8 @@ function resolvePostImage(post: StoreBlogPost): string {
   if (cat.includes("home") || slug.includes("prayer") || slug.includes("corner")) return imgPrayer;
   if (cat.includes("occasion") || slug.includes("eid")) return imgEid;
   if (cat.includes("faith") || slug.includes("ramadan")) return imgRamadan;
-  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton")) return imgJournalCraft;
+  if (cat.includes("family") || cat.includes("modesty") || slug.includes("cotton"))
+    return imgJournalCraft;
   return imgEditorial;
 }
 
@@ -157,9 +158,7 @@ function BlogIndexPage() {
 
   const shopEdit = useMemo(() => {
     const list = products ?? [];
-    return list
-      .filter((p) => ["Women", "Gifts", "Prayer", "Home"].includes(p.pillar))
-      .slice(0, 4);
+    return list.filter((p) => ["Women", "Gifts", "Prayer", "Home"].includes(p.pillar)).slice(0, 4);
   }, [products]);
 
   return (
@@ -210,7 +209,9 @@ function BlogIndexPage() {
                 <BookOpen className="size-6" />
               </div>
               <p className="mt-4 font-display text-2xl">No stories in this category yet</p>
-              <p className="mt-2 text-sm text-muted-foreground">Browse another topic, or shop the edit below.</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Browse another topic, or shop the edit below.
+              </p>
               <Button className="mt-6" variant="outline" onClick={() => setSelectedCategory("All")}>
                 View all stories
               </Button>
@@ -264,7 +265,10 @@ function BlogIndexPage() {
 
                   <div className="flex flex-col gap-8 lg:col-span-5">
                     {secondary.map((post) => (
-                      <article key={post.id} className="group grid grid-cols-[7.5rem_minmax(0,1fr)] gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]">
+                      <article
+                        key={post.id}
+                        className="group grid grid-cols-[7.5rem_minmax(0,1fr)] gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]"
+                      >
                         <Link
                           to="/blog/$slug"
                           params={{ slug: post.slug }}
@@ -341,7 +345,9 @@ function BlogIndexPage() {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <Eyebrow>Shop the edit</Eyebrow>
-                <h2 className="mt-2 font-display text-3xl">Pieces that live beside these stories</h2>
+                <h2 className="mt-2 font-display text-3xl">
+                  Pieces that live beside these stories
+                </h2>
               </div>
               <Button variant="outline" asChild>
                 <Link to="/collection">

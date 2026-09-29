@@ -143,10 +143,10 @@ function persistRecentSearch(term: string) {
   if (typeof window === "undefined") return;
   const cleaned = term.trim();
   if (!cleaned) return;
-  const next = [cleaned, ...readRecentSearches().filter((item) => item.toLowerCase() !== cleaned.toLowerCase())].slice(
-    0,
-    6,
-  );
+  const next = [
+    cleaned,
+    ...readRecentSearches().filter((item) => item.toLowerCase() !== cleaned.toLowerCase()),
+  ].slice(0, 6);
   window.localStorage.setItem(RECENT_SEARCH_KEY, JSON.stringify(next));
 }
 
@@ -193,7 +193,13 @@ export function SiteShell({ children }: SiteShellProps) {
     if (!normalizedQuery) return [] as CollectionProduct[];
     return (products ?? [])
       .filter((product) =>
-        [product.name, product.pillar, product.subcategory, product.note, product.materials?.join(" ")]
+        [
+          product.name,
+          product.pillar,
+          product.subcategory,
+          product.note,
+          product.materials?.join(" "),
+        ]
           .join(" ")
           .toLowerCase()
           .includes(normalizedQuery),
@@ -221,7 +227,10 @@ export function SiteShell({ children }: SiteShellProps) {
       "Jummah essentials",
     ];
     return pool
-      .filter((term) => term.toLowerCase().includes(normalizedQuery) && term.toLowerCase() !== normalizedQuery)
+      .filter(
+        (term) =>
+          term.toLowerCase().includes(normalizedQuery) && term.toLowerCase() !== normalizedQuery,
+      )
       .slice(0, 5);
   }, [normalizedQuery]);
 
@@ -288,14 +297,22 @@ export function SiteShell({ children }: SiteShellProps) {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="flex h-full w-[88vw] max-w-sm flex-col gap-0 p-0 z-[60]">
+            <SheetContent
+              side="left"
+              className="flex h-full w-[88vw] max-w-sm flex-col gap-0 p-0 z-[60]"
+            >
               <SheetHeader className="border-b border-border bg-blush-cream/50 px-6 py-7 text-left">
                 <SheetTitle>
                   <BrandMark />
                 </SheetTitle>
-                <SheetDescription>Shop thoughtfully for every part of family life.</SheetDescription>
+                <SheetDescription>
+                  Shop thoughtfully for every part of family life.
+                </SheetDescription>
               </SheetHeader>
-              <nav className="flex flex-1 flex-col overflow-y-auto px-6 pb-7" aria-label="Mobile navigation">
+              <nav
+                className="flex flex-1 flex-col overflow-y-auto px-6 pb-7"
+                aria-label="Mobile navigation"
+              >
                 <Accordion type="single" collapsible className="w-full">
                   {pillars.map((pillar) => (
                     <AccordionItem key={pillar.category} value={pillar.category}>
@@ -424,7 +441,13 @@ export function SiteShell({ children }: SiteShellProps) {
             <Button variant="ghost" size="icon" aria-label="Search" onClick={openSearch}>
               <Search />
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Wishlist" className="hidden sm:inline-flex" asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Wishlist"
+              className="hidden sm:inline-flex"
+              asChild
+            >
               <Link to="/collection">
                 <Heart />
               </Link>
@@ -443,7 +466,13 @@ export function SiteShell({ children }: SiteShellProps) {
                 </span>
               ) : null}
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Account" className="hidden sm:inline-flex" asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Account"
+              className="hidden sm:inline-flex"
+              asChild
+            >
               <Link to="/order-tracking">
                 <User />
               </Link>
@@ -460,7 +489,9 @@ export function SiteShell({ children }: SiteShellProps) {
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogContent className="top-[4%] max-h-[92vh] max-w-2xl translate-y-0 gap-0 overflow-hidden p-0 sm:top-[8%]">
           <DialogHeader className="border-b border-border bg-blush-cream/40 px-5 py-5 text-left sm:px-7">
-            <DialogTitle className="font-display text-2xl">Find something for the family</DialogTitle>
+            <DialogTitle className="font-display text-2xl">
+              Find something for the family
+            </DialogTitle>
             <DialogDescription>Search products, departments, or occasions.</DialogDescription>
             <div className="relative mt-4">
               <Search className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
@@ -609,7 +640,9 @@ export function SiteShell({ children }: SiteShellProps) {
                             />
                           </div>
                           <span className="min-w-0 flex-1">
-                            <span className="block truncate text-sm font-semibold">{product.name}</span>
+                            <span className="block truncate text-sm font-semibold">
+                              {product.name}
+                            </span>
                             <span className="mt-0.5 block text-xs text-muted-foreground">
                               {product.pillar} · {product.note}
                             </span>
@@ -702,12 +735,18 @@ export function SiteShell({ children }: SiteShellProps) {
             <h2 className="eyebrow text-background/50">Customer care</h2>
             <ul className="mt-4 space-y-2.5 text-sm text-background/75">
               <li>
-                <Link to="/order-tracking" className="transition-colors hover:text-background hover:underline">
+                <Link
+                  to="/order-tracking"
+                  className="transition-colors hover:text-background hover:underline"
+                >
                   Track Order
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="transition-colors hover:text-background hover:underline">
+                <Link
+                  to="/blog"
+                  className="transition-colors hover:text-background hover:underline"
+                >
                   Journal
                 </Link>
               </li>
@@ -720,7 +759,10 @@ export function SiteShell({ children }: SiteShellProps) {
                 </a>
               </li>
               <li>
-                <Link to="/collection" className="transition-colors hover:text-background hover:underline">
+                <Link
+                  to="/collection"
+                  className="transition-colors hover:text-background hover:underline"
+                >
                   7-Day Size Exchange
                 </Link>
               </li>

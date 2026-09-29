@@ -151,7 +151,7 @@ function OrderTrackingPage() {
       setReturnSuccess(
         returnType === "EXCHANGE"
           ? `Size exchange request submitted for Size ${targetSize}. Our concierge will arrange complimentary doorstep pickup.`
-          : `Return request submitted. Our courier partner will pick up the unwashed parcel.`
+          : `Return request submitted. Our courier partner will pick up the unwashed parcel.`,
       );
       setShowReturnModal(false);
       // Refresh order details
@@ -175,7 +175,8 @@ function OrderTrackingPage() {
           Track Your Sukoon Order
         </h1>
         <p className="mt-3 text-base text-muted-foreground max-w-lg mx-auto">
-          Enter your order reference number and the email address used at checkout to view real-time delivery status and courier tracking.
+          Enter your order reference number and the email address used at checkout to view real-time
+          delivery status and courier tracking.
         </p>
       </header>
 
@@ -246,14 +247,18 @@ function OrderTrackingPage() {
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Placed on {new Date(order.created_at).toLocaleDateString("en-IN", { dateStyle: "long" })}
+                Placed on{" "}
+                {new Date(order.created_at).toLocaleDateString("en-IN", { dateStyle: "long" })}
               </p>
             </div>
 
             {order.awb && (
               <div className="text-right">
                 <p className="text-xs text-muted-foreground">
-                  Courier: <span className="font-medium text-foreground">{order.courier || "Delhivery Surface"}</span>
+                  Courier:{" "}
+                  <span className="font-medium text-foreground">
+                    {order.courier || "Delhivery Surface"}
+                  </span>
                 </p>
                 <p className="text-sm font-mono font-semibold text-foreground">AWB: {order.awb}</p>
                 {order.tracking_url && (
@@ -291,7 +296,10 @@ function OrderTrackingPage() {
                   const isDone = idx <= currentStep;
                   const isCurrent = idx === currentStep;
                   return (
-                    <div key={step.key} className="flex md:flex-col items-center gap-3 md:text-center">
+                    <div
+                      key={step.key}
+                      className="flex md:flex-col items-center gap-3 md:text-center"
+                    >
                       <div
                         className={`size-8 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 transition-colors ${
                           isDone
@@ -327,7 +335,10 @@ function OrderTrackingPage() {
                 </h3>
                 <div className="space-y-3">
                   {order.tracking_timeline.scans.map((scan, i) => (
-                    <div key={i} className="text-xs flex justify-between items-start text-muted-foreground">
+                    <div
+                      key={i}
+                      className="text-xs flex justify-between items-start text-muted-foreground"
+                    >
                       <div className="flex gap-2 items-start">
                         <Clock className="size-3.5 text-primary mt-0.5 shrink-0" />
                         <div>
@@ -335,7 +346,12 @@ function OrderTrackingPage() {
                           <p>{scan.location}</p>
                         </div>
                       </div>
-                      <span className="font-mono">{new Date(scan.date).toLocaleString("en-IN", { timeStyle: "short", dateStyle: "short" })}</span>
+                      <span className="font-mono">
+                        {new Date(scan.date).toLocaleString("en-IN", {
+                          timeStyle: "short",
+                          dateStyle: "short",
+                        })}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -349,20 +365,30 @@ function OrderTrackingPage() {
               <div className="flex items-center gap-2 text-primary font-semibold">
                 <Repeat className="size-5" />
                 <span>
-                  {order.existing_return.type === "EXCHANGE" ? "Size Exchange" : "Return Request"} in Progress
+                  {order.existing_return.type === "EXCHANGE" ? "Size Exchange" : "Return Request"}{" "}
+                  in Progress
                 </span>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
-                Status: <span className="font-semibold text-foreground capitalize">{order.existing_return.status}</span>
+                Status:{" "}
+                <span className="font-semibold text-foreground capitalize">
+                  {order.existing_return.status}
+                </span>
               </p>
               {order.existing_return.reverse_awb && (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Doorstep Reverse Pickup AWB: <span className="font-mono text-foreground">{order.existing_return.reverse_awb}</span>
+                  Doorstep Reverse Pickup AWB:{" "}
+                  <span className="font-mono text-foreground">
+                    {order.existing_return.reverse_awb}
+                  </span>
                 </p>
               )}
               {order.existing_return.replacement_awb && (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Replacement Delivery AWB: <span className="font-mono text-foreground">{order.existing_return.replacement_awb}</span>
+                  Replacement Delivery AWB:{" "}
+                  <span className="font-mono text-foreground">
+                    {order.existing_return.replacement_awb}
+                  </span>
                 </p>
               )}
             </div>
@@ -383,7 +409,9 @@ function OrderTrackingPage() {
                       />
                       <div>
                         <p className="text-sm font-medium text-foreground">{item.title}</p>
-                        <p className="text-xs text-muted-foreground">{item.subtitle || item.variant_sku}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {item.subtitle || item.variant_sku}
+                        </p>
                         <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
                       </div>
                     </div>
@@ -402,7 +430,8 @@ function OrderTrackingPage() {
                   <span>Sukoon 7-Day Fit Guarantee</span>
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Ordered the wrong size? Enjoy complimentary doorstep size exchanges within 7 days of delivery.
+                  Ordered the wrong size? Enjoy complimentary doorstep size exchanges within 7 days
+                  of delivery.
                 </p>
 
                 {order.return_eligible && !order.existing_return && (
@@ -420,9 +449,13 @@ function OrderTrackingPage() {
 
               <div className="mt-6 border-t border-border pt-4 text-xs text-muted-foreground">
                 <p className="font-medium text-foreground mb-1">Shipping Address:</p>
-                <p>{order.shipping_address?.first_name} {order.shipping_address?.last_name}</p>
+                <p>
+                  {order.shipping_address?.first_name} {order.shipping_address?.last_name}
+                </p>
                 <p>{order.shipping_address?.address_1}</p>
-                <p>{order.shipping_address?.city}, {order.shipping_address?.postal_code}</p>
+                <p>
+                  {order.shipping_address?.city}, {order.shipping_address?.postal_code}
+                </p>
               </div>
             </div>
           </div>
@@ -516,8 +549,8 @@ function OrderTrackingPage() {
 
               <div className="rounded bg-muted/60 p-3 text-xs text-muted-foreground">
                 <p>
-                  <strong>Doorstep Policy:</strong> Please keep original tags attached and garment unwashed.
-                  Our courier representative will inspect the item during reverse pickup.
+                  <strong>Doorstep Policy:</strong> Please keep original tags attached and garment
+                  unwashed. Our courier representative will inspect the item during reverse pickup.
                 </p>
               </div>
 
