@@ -835,7 +835,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         </Accordion>
       </PageContainer>
 
-      {product.kind === "apparel" || Boolean(product.sizes?.length) ? (
+      {/* Voil lining + backlight opacity proof is a women's cambric-suit promise only. */}
+      {guideCategory === "women" && product.kind === "apparel" ? (
         <section className="border-t border-border bg-blush-cream/30 py-12 lg:py-16">
           <PageContainer>
             <div className="mb-8">
