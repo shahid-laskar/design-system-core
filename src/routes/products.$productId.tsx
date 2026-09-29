@@ -485,6 +485,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                 ))}
               </div>
             </div>
+            ) : null}
 
             {product.kind === "apparel" && product.sizes ? (
               <div className="border-b border-border py-5">
