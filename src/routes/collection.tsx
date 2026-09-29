@@ -846,7 +846,7 @@ function CollectionPage() {
         </PageContainer>
       </div>
 
-      <PageContainer className="pt-8 pb-6">
+      <PageContainer className="pt-4 pb-6 sm:pt-8">
         <div className="grid items-start gap-10 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
           <aside
             className={cn("hidden border-r pr-6 lg:sticky lg:top-24 lg:block", theme.rail)}
