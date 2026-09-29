@@ -74,7 +74,7 @@ function BlogPostPage() {
               ? imgPrayer
               : slug.includes("eid")
                 ? imgEid
-                : imgFamily,
+                : imgJournalCraft,
             author: "Fatima Zahra",
             category: slug.includes("prayer")
               ? "Home"
