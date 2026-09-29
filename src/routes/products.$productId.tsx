@@ -752,10 +752,12 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     modest wear.
                   </p>
                   <ul className="space-y-2 text-sm">
-                    <li className="flex gap-2">
-                      <span className="mt-0.5 text-primary">✓</span> Attached pure cotton voil
-                      lining across the torso — no separate slip needed.
-                    </li>
+                    {guideCategory === "women" ? (
+                      <li className="flex gap-2">
+                        <span className="mt-0.5 text-primary">✓</span> Attached pure cotton voil
+                        lining across the torso — no separate slip needed.
+                      </li>
+                    ) : null}
                     <li className="flex gap-2">
                       <span className="mt-0.5 text-primary">✓</span> 100% opacity checked against
                       direct backlight on every fabric batch.
