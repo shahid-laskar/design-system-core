@@ -680,7 +680,7 @@ function CollectionPage() {
               ) : null}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 items-center gap-2 lg:flex-none">
               <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden">
