@@ -1007,15 +1007,16 @@ function StockMessage({ stock, size }: { stock?: SizeOption["stock"]; size?: Siz
   );
 }
 
-function ModestyGuarantee() {
+function ModestyGuarantee({ lined }: { lined: boolean }) {
   return (
     <aside className="mt-5 flex items-start gap-3 border-y border-border py-4">
       <ShieldCheck className="mt-0.5 size-4 shrink-0 text-berry" />
       <div>
         <p className="text-sm font-semibold">Modesty assurance</p>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          Opaque fabric with attached cotton voil lining, backlight-checked, and 2″ inner tailoring
-          margins. Full details in the accordion below.
+          {lined
+            ? "Opaque fabric with attached cotton voil lining, backlight-checked, and 2″ inner tailoring margins. Full details in the accordion below."
+            : "Opaque fabric, backlight-checked for coverage, with generous inner tailoring margins. Full details in the accordion below."}
         </p>
       </div>
     </aside>
