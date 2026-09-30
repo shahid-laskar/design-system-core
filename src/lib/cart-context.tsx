@@ -12,8 +12,10 @@ import {
   addLineItemToMedusaCart,
   getMedusaCart,
   getOrCreateMedusaCart,
+  getOrPrepareCartId,
   getStoredCartId,
   MedusaCart,
+  prepareCart,
   removeMedusaLineItem,
   resolveVariantIdForProduct,
   setStoredCartId,
@@ -56,6 +58,7 @@ type CartContextValue = {
   updateQuantity: (id: string, size: string | undefined, quantity: number) => Promise<void>;
   clearCart: () => void;
   refreshCart: () => Promise<void>;
+  prepareCart: () => Promise<string>;
 };
 
 // Keep one shared context across hot reloads so the header never loses the basket.
@@ -132,9 +135,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setIsSyncing(true);
 
       try {
-        // 1. Get or create persistent Medusa cart
-        const cart = await getOrCreateMedusaCart();
-        setCartId(cart.id);
+        // 1. Get or prepare cart ID without a blocking GET request
+        const activeCartId = await getOrPrepareCartId();
+        setCartId(activeCartId);
 
         // 2. Resolve variant ID if not explicitly provided
         let targetVariantId = incoming.variantId;
@@ -146,8 +149,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
 
         if (targetVariantId) {
-          // Add to Medusa cart
-          const updatedCart = await addLineItemToMedusaCart(cart.id, targetVariantId, qty);
+          // Add directly to Medusa cart
+          const updatedCart = await addLineItemToMedusaCart(activeCartId, targetVariantId, qty);
+          setCartId(updatedCart.id);
           setItems(mapMedusaCartToItems(updatedCart));
           setIsOpen(true);
           return;
@@ -229,6 +233,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       updateQuantity,
       clearCart,
       refreshCart,
+      prepareCart,
     };
   }, [
     items,

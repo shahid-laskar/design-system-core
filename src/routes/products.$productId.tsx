@@ -28,6 +28,7 @@ import {
   ThumbsUp,
   Truck,
   Zap,
+  Loader2,
 } from "lucide-react";
 
 import { PageContainer } from "@/components/brand/design-primitives";
@@ -105,7 +106,7 @@ function ProductPage() {
 }
 
 function ProductExperience({ product }: { product: ProductDetail }) {
-  const { addItem, setIsOpen } = useCart();
+  const { addItem, setIsOpen, prepareCart } = useCart();
   const navigate = useNavigate();
   const gallery = useMemo(() => {
     const seen = new Set<string>();
@@ -121,11 +122,17 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const [size, setSize] = useState<SizeName | undefined>(firstAvailableSize);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const addResetRef = useRef<number | undefined>(undefined);
   const galleryScrollerRef = useRef<HTMLDivElement | null>(null);
+
+  // Pre-warm cart in background on PDP mount so customer never waits for cart creation
+  useEffect(() => {
+    void prepareCart();
+  }, [prepareCart]);
 
   useEffect(() => {
     if (firstAvailableSize && (!size || product.sizes?.find((s) => s.name === size)?.stock === "sold-out")) {
@@ -173,8 +180,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   );
 
   async function addToBasket() {
+    if (isAdding) return;
     window.clearTimeout(addResetRef.current);
     setErrorMessage(null);
+    setIsAdding(true);
 
     const targetVariantId = selectedVariant?.id || product.variants?.[0]?.id;
 
@@ -200,6 +209,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
           ? "This size is currently out of stock. Please select another size."
           : "Unable to add this item to your basket. Please try again.",
       );
+    } finally {
+      setIsAdding(false);
     }
   }
 
@@ -208,7 +219,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       setSizeDrawerOpen(true);
       return;
     }
-    if (isSoldOut) return;
+    if (isSoldOut || isAdding) return;
     void addToBasket();
   }
 
@@ -217,17 +228,19 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       setSizeDrawerOpen(true);
       return;
     }
-    if (isSoldOut) return;
+    if (isSoldOut || isAdding) return;
     void addToBasket().then(() => {
       navigate({ to: "/checkout" });
     });
   }
 
   async function handleSelectSizeAndAdd(chosenSize: SizeName) {
+    if (isAdding) return;
     setSize(chosenSize);
     setSizeDrawerOpen(false);
     window.clearTimeout(addResetRef.current);
     setErrorMessage(null);
+    setIsAdding(true);
 
     const normalize = (val?: string) => val?.trim().toLowerCase() || "";
     const targetNorm = normalize(chosenSize);
@@ -251,7 +264,7 @@ function ProductExperience({ product }: { product: ProductDetail }) {
         image: gallery[0]?.src ?? "",
         size: chosenSize,
         color,
-        quantity,
+        quantity: 1,
       });
       setAdded(true);
       addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
@@ -262,6 +275,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
           ? "This size is currently out of stock. Please select another size."
           : "Unable to add this item to your basket. Please try again.",
       );
+    } finally {
+      setIsAdding(false);
     }
   }
 
@@ -611,16 +626,20 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     <Plus />
                   </Button>
                 </div>
-                <Button size="lg" className="h-12 w-full" disabled={isSoldOut} onClick={addToBasket}>
+                <Button size="lg" className="h-12 w-full" disabled={isSoldOut || isAdding} onClick={addToBasket}>
                   {isSoldOut ? (
                     "Sold Out"
+                  ) : isAdding ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin mr-2" /> Adding to Basket…
+                    </>
                   ) : added ? (
                     <>
-                      <Check /> Added{size ? ` · Size ${size}` : ""}
+                      <Check className="mr-1.5" /> Added{size ? ` · Size ${size}` : ""}
                     </>
                   ) : (
                     <>
-                      <ShoppingBag /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}
+                      <ShoppingBag className="mr-1.5" /> Add to Basket · ₹{orderTotal.toLocaleString("en-IN")}
                     </>
                   )}
                 </Button>
@@ -907,11 +926,16 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <Button
               size="lg"
               className="h-11 min-w-[5.5rem] px-2.5 text-[0.7rem] font-semibold sm:min-w-0 sm:px-3 sm:text-xs"
-              disabled={isSoldOut}
+              disabled={isSoldOut || isAdding}
               onClick={handleMobilePurchaseClick}
             >
               {isSoldOut ? (
                 <span>Sold out</span>
+              ) : isAdding ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span className="ml-1">Adding…</span>
+                </>
               ) : added ? (
                 <>
                   <Check className="size-4" />

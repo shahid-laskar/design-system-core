@@ -104,18 +104,75 @@ export async function fetchMedusa<T>(path: string, options: RequestInit = {}): P
   }
 }
 
+export const DEFAULT_REGION_ID = "reg_01M39BTQNHGNKDQHSQP2KFJXF9";
+const REGION_STORAGE_KEY = "sukoon_medusa_region_id";
+
 let cachedRegionId: string | null = null;
 
-export async function getDefaultRegionId(): Promise<string> {
+export function getCachedRegionIdSync(): string {
   if (cachedRegionId) return cachedRegionId;
+  if (typeof window !== "undefined") {
+    try {
+      const stored = localStorage.getItem(REGION_STORAGE_KEY);
+      if (stored) {
+        cachedRegionId = stored;
+        return stored;
+      }
+    } catch {}
+  }
+  return DEFAULT_REGION_ID;
+}
+
+export function invalidateCachedRegionId(): void {
+  cachedRegionId = null;
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.removeItem(REGION_STORAGE_KEY);
+    } catch {}
+  }
+}
+
+export async function getDefaultRegionId(forceRefresh = false): Promise<string> {
+  if (!forceRefresh) {
+    if (cachedRegionId) return cachedRegionId;
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(REGION_STORAGE_KEY);
+        if (stored) {
+          cachedRegionId = stored;
+          return stored;
+        }
+      } catch {}
+    }
+  }
+
   try {
     const res = await fetchMedusa<{ regions: Array<{ id: string; currency_code: string }> }>(
       "/store/regions",
     );
-    cachedRegionId = res.regions?.[0]?.id || "reg_01M39BTQNHGNKDQHSQP2KFJXF9";
-    return cachedRegionId;
+    const resolved = res.regions?.[0]?.id || DEFAULT_REGION_ID;
+    cachedRegionId = resolved;
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(REGION_STORAGE_KEY, resolved);
+      } catch {}
+    }
+    return resolved;
   } catch {
-    return "reg_01M39BTQNHGNKDQHSQP2KFJXF9";
+    cachedRegionId = DEFAULT_REGION_ID;
+    return DEFAULT_REGION_ID;
+  }
+}
+
+// In-memory cache for products by handle to avoid redundant network queries
+const productByHandleCache = new Map<string, MedusaStoreProduct>();
+
+export function primeProductCache(products: MedusaStoreProduct[]): void {
+  if (!products) return;
+  for (const p of products) {
+    if (p.handle) {
+      productByHandleCache.set(p.handle.toLowerCase(), p);
+    }
   }
 }
 
@@ -132,7 +189,7 @@ export async function getStoreProducts(params?: {
   const { snapshotProducts } = await import("./snapshot-fallback");
   try {
     const query = new URLSearchParams();
-    const regionId = params?.regionId || (await getDefaultRegionId());
+    const regionId = params?.regionId || getCachedRegionIdSync();
     query.set("region_id", regionId);
     query.set(
       "fields",
@@ -146,7 +203,10 @@ export async function getStoreProducts(params?: {
     const res = await fetchMedusa<{ products: MedusaStoreProduct[]; count: number }>(
       `/store/products?${query.toString()}`,
     );
-    if (res.products && res.products.length > 0) return res;
+    if (res.products && res.products.length > 0) {
+      primeProductCache(res.products);
+      return res;
+    }
     return snapshotProducts(params);
   } catch {
     // Remote backend unavailable — serve the canonical local snapshot instead.
@@ -183,7 +243,7 @@ export const PRODUCT_HANDLE_ALIASES: Record<string, string> = {
 };
 
 /**
- * Fetch a single product by its handle/slug with alias support and resilient fallback.
+ * Fetch a single product by its handle/slug with alias support, in-memory cache, and resilient fallback.
  */
 export async function getStoreProductByHandle(handle: string): Promise<MedusaStoreProduct | null> {
   if (!handle) return null;
@@ -193,9 +253,14 @@ export async function getStoreProductByHandle(handle: string): Promise<MedusaSto
     .replace(/^\/products\//, "");
   const canonical = PRODUCT_HANDLE_ALIASES[cleanHandle] || cleanHandle;
 
+  // 0. Check in-memory cache first (0 ms)
+  const cached = productByHandleCache.get(canonical) || productByHandleCache.get(cleanHandle);
+  if (cached) return cached;
+
   // 1. Direct query with canonical handle
   let res = await getStoreProducts({ handle: canonical, limit: 1 });
   if (res.products && res.products.length > 0) {
+    primeProductCache(res.products);
     return res.products[0];
   }
 
@@ -203,6 +268,7 @@ export async function getStoreProductByHandle(handle: string): Promise<MedusaSto
   if (canonical !== cleanHandle) {
     res = await getStoreProducts({ handle: cleanHandle, limit: 1 });
     if (res.products && res.products.length > 0) {
+      primeProductCache(res.products);
       return res.products[0];
     }
   }
@@ -211,6 +277,7 @@ export async function getStoreProductByHandle(handle: string): Promise<MedusaSto
   try {
     const all = await getStoreProducts({ limit: 50 });
     if (all.products && all.products.length > 0) {
+      primeProductCache(all.products);
       const match = all.products.find((p) => {
         const pHandle = p.handle.toLowerCase();
         const pTitle = p.title.toLowerCase();

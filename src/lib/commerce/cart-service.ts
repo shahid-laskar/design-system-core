@@ -1,8 +1,10 @@
 import {
   fetchMedusa,
+  getCachedRegionIdSync,
   getDefaultRegionId,
   getStoreProductByHandle,
   getStoreProducts,
+  invalidateCachedRegionId,
   MedusaStoreProduct,
 } from "./client";
 
@@ -43,6 +45,7 @@ export type MedusaCart = {
     id: string;
     name: string;
     amount: number;
+    shipping_option_id?: string;
   }>;
   shipping_address?: MedusaAddress | null;
   payment_collection?: {
@@ -89,20 +92,74 @@ export function setStoredCartId(cartId: string | null): void {
   }
 }
 
+// Singleton in-flight promise to prevent concurrent duplicate cart creations
+let inFlightCartPromise: Promise<string> | null = null;
+
 /**
  * Creates a new Medusa cart for the India Region.
+ * Uses cached region ID with automatic fallback refresh.
  */
 export async function createMedusaCart(): Promise<MedusaCart> {
-  const regionId = await getDefaultRegionId();
-  const res = await fetchMedusa<{ cart: MedusaCart }>("/store/carts", {
-    method: "POST",
-    body: JSON.stringify({
-      region_id: regionId,
-    }),
-  });
+  const regionId = getCachedRegionIdSync();
+  try {
+    const res = await fetchMedusa<{ cart: MedusaCart }>("/store/carts", {
+      method: "POST",
+      body: JSON.stringify({
+        region_id: regionId,
+      }),
+    });
 
-  setStoredCartId(res.cart.id);
-  return res.cart;
+    setStoredCartId(res.cart.id);
+    return res.cart;
+  } catch (err: any) {
+    // If region was invalid/expired, refresh region once and retry
+    if (err?.message?.toLowerCase().includes("region")) {
+      invalidateCachedRegionId();
+      const freshRegionId = await getDefaultRegionId(true);
+      const retryRes = await fetchMedusa<{ cart: MedusaCart }>("/store/carts", {
+        method: "POST",
+        body: JSON.stringify({
+          region_id: freshRegionId,
+        }),
+      });
+      setStoredCartId(retryRes.cart.id);
+      return retryRes.cart;
+    }
+    throw err;
+  }
+}
+
+/**
+ * Pre-warms or prepares a cart ID in the background.
+ * If a cart already exists in storage, returns it synchronously.
+ * Deduplicates in-flight creation calls so multiple simultaneous clicks
+ * or effects never create multiple carts.
+ */
+export async function prepareCart(): Promise<string> {
+  const storedId = getStoredCartId();
+  if (storedId) return storedId;
+
+  if (inFlightCartPromise) return inFlightCartPromise;
+
+  inFlightCartPromise = (async () => {
+    try {
+      const cart = await createMedusaCart();
+      return cart.id;
+    } finally {
+      inFlightCartPromise = null;
+    }
+  })();
+
+  return inFlightCartPromise;
+}
+
+/**
+ * Returns an existing cart ID or prepares one without a blocking GET request.
+ */
+export async function getOrPrepareCartId(): Promise<string> {
+  const storedId = getStoredCartId();
+  if (storedId) return storedId;
+  return prepareCart();
 }
 
 /**
@@ -284,14 +341,35 @@ export async function addLineItemToMedusaCart(
   variantId: string,
   quantity = 1,
 ): Promise<MedusaCart> {
-  const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/line-items`, {
-    method: "POST",
-    body: JSON.stringify({
-      variant_id: variantId,
-      quantity,
-    }),
-  });
-  return res.cart;
+  try {
+    const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/line-items`, {
+      method: "POST",
+      body: JSON.stringify({
+        variant_id: variantId,
+        quantity,
+      }),
+    });
+    return res.cart;
+  } catch (err: any) {
+    const msg = (err?.message || "").toLowerCase();
+    // If the cart was completed, deleted or not found, recover by creating a fresh cart and retrying once
+    if (msg.includes("not found") || msg.includes("completed") || msg.includes("404")) {
+      setStoredCartId(null);
+      const freshCart = await createMedusaCart();
+      const retryRes = await fetchMedusa<{ cart: MedusaCart }>(
+        `/store/carts/${freshCart.id}/line-items`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            variant_id: variantId,
+            quantity,
+          }),
+        },
+      );
+      return retryRes.cart;
+    }
+    throw err;
+  }
 }
 
 /**

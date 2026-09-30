@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, CreditCard, Lock, Package, ShieldCheck, Tag, Truck, X } from "lucide-react";
 import { Eyebrow, PageContainer } from "@/components/brand/design-primitives";
@@ -22,6 +22,7 @@ import {
   getOrCreateMedusaCart,
   getOrCreatePaymentCollection,
   initiatePaymentSession,
+  MedusaCart,
   MedusaShippingOption,
   removePromotionsFromMedusaCart,
   updateMedusaCartDetails,
@@ -80,6 +81,7 @@ function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod">("razorpay");
   const [shippingOptions, setShippingOptions] = useState<MedusaShippingOption[]>([]);
   const [selectedShippingId, setSelectedShippingId] = useState<string>("");
+  const activeCartRef = useRef<MedusaCart | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -111,8 +113,9 @@ function CheckoutPage() {
 
         // Also sync promotion to the Medusa cart so server total and payment collection reflect the discount
         try {
-          const cart = await getOrCreateMedusaCart();
-          await addPromotionsToMedusaCart(cart.id, [code]);
+          const cart = activeCartRef.current || (await getOrCreateMedusaCart());
+          const updated = await addPromotionsToMedusaCart(cart.id, [code]);
+          activeCartRef.current = updated;
         } catch (syncErr) {
           console.warn("Could not sync promotion to Medusa cart immediately:", syncErr);
         }
@@ -136,8 +139,9 @@ function CheckoutPage() {
 
     if (codeToRemove) {
       try {
-        const cart = await getOrCreateMedusaCart();
-        await removePromotionsFromMedusaCart(cart.id, [codeToRemove]);
+        const cart = activeCartRef.current || (await getOrCreateMedusaCart());
+        const updated = await removePromotionsFromMedusaCart(cart.id, [codeToRemove]);
+        activeCartRef.current = updated;
       } catch (err) {
         console.warn("Could not remove promotion from Medusa cart:", err);
       }
@@ -154,15 +158,20 @@ function CheckoutPage() {
     }
   }, []);
 
-  // Fetch shipping options from backend
+  // Fetch shipping options from backend and pre-attach default shipping option
   useEffect(() => {
+    let isMounted = true;
     async function loadOptions() {
       try {
-        let cart = await getOrCreateMedusaCart();
+        let cart = activeCartRef.current || (await getOrCreateMedusaCart());
         if (items.length > 0 && (!cart.items || cart.items.length === 0)) {
           cart = await ensureMedusaCartSynchronized(cart, items);
         }
+        if (!isMounted) return;
+        activeCartRef.current = cart;
+
         const options = await getMedusaShippingOptions(cart.id);
+        if (!isMounted) return;
         setShippingOptions(options);
 
         // Pick free or standard option based on threshold
@@ -170,13 +179,34 @@ function CheckoutPage() {
           const matchingOption = shippingUnlocked
             ? options.find((o) => o.amount === 0) || options[0]
             : options.find((o) => o.amount > 0) || options[0];
-          if (matchingOption) setSelectedShippingId(matchingOption.id);
+          if (matchingOption) {
+            setSelectedShippingId(matchingOption.id);
+
+            // Pre-attach the shipping method in background while customer fills the form
+            // This removes ~14 seconds of blocking delay from the final submit button!
+            const alreadyAttached = cart.shipping_methods?.some(
+              (m: any) =>
+                m.shipping_option_id === matchingOption.id || m.name === matchingOption.name,
+            );
+            if (!alreadyAttached) {
+              addMedusaShippingMethod(cart.id, matchingOption.id)
+                .then((updated) => {
+                  if (isMounted) activeCartRef.current = updated;
+                })
+                .catch((e) => {
+                  console.warn("Background shipping method attach deferred:", e);
+                });
+            }
+          }
         }
       } catch {
         // Handled silently
       }
     }
     loadOptions();
+    return () => {
+      isMounted = false;
+    };
   }, [shippingUnlocked, items]);
 
   // Validation
@@ -197,11 +227,13 @@ function CheckoutPage() {
     setError(null);
 
     try {
-      // 1. Get or create cart
-      let cart = await getOrCreateMedusaCart();
+      // 1. Get or reuse existing cart
+      let cart = activeCartRef.current || (await getOrCreateMedusaCart());
 
-      // 1b. Validate & synchronize all line items with commerce backend
-      cart = await ensureMedusaCartSynchronized(cart, items);
+      // 1b. Validate & synchronize all line items with commerce backend if needed
+      if (!cart.items || cart.items.length === 0) {
+        cart = await ensureMedusaCartSynchronized(cart, items);
+      }
 
       if (!cart.items || cart.items.length === 0) {
         setError("Your basket is empty. Please add items before checking out.");
@@ -224,13 +256,23 @@ function CheckoutPage() {
           country_code: "in",
         },
       });
+      activeCartRef.current = cart;
 
-      // 3. Add shipping method
+      // 3. Add shipping method only if not already attached to the cart
       if (selectedShippingId) {
-        try {
-          cart = await addMedusaShippingMethod(cart.id, selectedShippingId);
-        } catch {
-          // Continue if already selected
+        const selectedOpt = shippingOptions.find((o) => o.id === selectedShippingId);
+        const alreadyAttached = cart.shipping_methods?.some(
+          (m: any) =>
+            m.shipping_option_id === selectedShippingId ||
+            (selectedOpt && m.name === selectedOpt.name),
+        );
+        if (!alreadyAttached) {
+          try {
+            cart = await addMedusaShippingMethod(cart.id, selectedShippingId);
+            activeCartRef.current = cart;
+          } catch {
+            // Continue if already selected
+          }
         }
       }
 
@@ -238,6 +280,7 @@ function CheckoutPage() {
       if (appliedPromotion?.valid && appliedPromotion.code) {
         try {
           cart = await addPromotionsToMedusaCart(cart.id, [appliedPromotion.code]);
+          activeCartRef.current = cart;
         } catch (promoErr) {
           console.warn("Could not attach promotion during checkout:", promoErr);
         }
