@@ -83,7 +83,7 @@ function mapMedusaCartToItems(medusaCart: MedusaCart): CartItem[] {
     }
 
     return {
-      id: item.product_id,
+      id: (item as any).product_handle || (item as any).product?.handle || item.product_id,
       lineId: item.id,
       variantId: item.variant_id,
       name: item.product_title || item.title,
@@ -130,7 +130,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     async (incoming: NewCartItem) => {
       const qty = incoming.quantity ?? 1;
       setIsSyncing(true);
-      setIsOpen(true);
 
       try {
         // 1. Get or create persistent Medusa cart
@@ -150,41 +149,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
           // Add to Medusa cart
           const updatedCart = await addLineItemToMedusaCart(cart.id, targetVariantId, qty);
           setItems(mapMedusaCartToItems(updatedCart));
+          setIsOpen(true);
           return;
         }
 
-        // Optimistic fallback if variant not resolved
-        setItems((current) => {
-          const existing = current.find((i) => i.id === incoming.id && i.size === incoming.size);
-          if (existing) {
-            return current.map((i) => (i === existing ? { ...i, quantity: i.quantity + qty } : i));
-          }
-          return [
-            ...current,
-            {
-              ...incoming,
-              quantity: qty,
-              originalPrice: incoming.originalPrice ?? incoming.price,
-            },
-          ];
-        });
+        throw new Error("Unable to resolve product variant.");
       } catch (err) {
-        console.warn("Direct Medusa cart sync failed, retaining item locally:", err);
-        // Fallback optimistic local state
-        setItems((current) => {
-          const existing = current.find((i) => i.id === incoming.id && i.size === incoming.size);
-          if (existing) {
-            return current.map((i) => (i === existing ? { ...i, quantity: i.quantity + qty } : i));
-          }
-          return [
-            ...current,
-            {
-              ...incoming,
-              quantity: qty,
-              originalPrice: incoming.originalPrice ?? incoming.price,
-            },
-          ];
-        });
+        console.error("Medusa cart sync failed:", err);
+        throw err;
       } finally {
         setIsSyncing(false);
       }

@@ -121,19 +121,32 @@ function ProductExperience({ product }: { product: ProductDetail }) {
   const [size, setSize] = useState<SizeName | undefined>(firstAvailableSize);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const addResetRef = useRef<number | undefined>(undefined);
   const galleryScrollerRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (firstAvailableSize && (!size || product.sizes?.find((s) => s.name === size)?.stock === "sold-out")) {
+      setSize(firstAvailableSize);
+    }
+  }, [firstAvailableSize]);
+
   const selectedSize = product.sizes?.find((option) => option.name === size);
+  const isSoldOut = product.kind === "apparel" && Boolean(size && selectedSize?.stock === "sold-out");
+
   const selectedVariant = useMemo(() => {
     if (!product.variants?.length) return undefined;
-    const matches = (variant: NonNullable<ProductDetail["variants"]>[number], value: string) =>
-      variant.title.toLowerCase().includes(value.toLowerCase()) ||
-      Object.values(variant.options ?? {}).some(
-        (option) => option.toLowerCase() === value.toLowerCase(),
+    const normalize = (val?: string) => val?.trim().toLowerCase() || "";
+    const matches = (variant: NonNullable<ProductDetail["variants"]>[number], value: string) => {
+      const targetNorm = normalize(value);
+      const titleTokens = (variant.title || "").split("/").map(normalize);
+      if (titleTokens.includes(targetNorm)) return true;
+      return Object.values(variant.options ?? {}).some(
+        (option) => normalize(typeof option === "string" ? option : (option as any)?.value) === targetNorm,
       );
+    };
     return (
       product.variants.find(
         (variant) =>
@@ -159,38 +172,35 @@ function ProductExperience({ product }: { product: ProductDetail }) {
     `Hello Sukoon House, I would like to order ${product.name} (SKU: ${displaySku})${size ? `, Size: ${size}` : ""}, Colour: ${color}, Quantity: ${quantity}.`,
   );
 
-  function addToBasket() {
+  async function addToBasket() {
     window.clearTimeout(addResetRef.current);
-    setAdded(true);
+    setErrorMessage(null);
 
-    let matchedVariantId: string | undefined;
-    if (product.variants && product.variants.length > 0) {
-      const match = product.variants.find((v) => {
-        if (size) {
-          return (
-            v.title?.toLowerCase().includes(size.toLowerCase()) ||
-            Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase())
-          );
-        }
-        return true;
+    const targetVariantId = selectedVariant?.id || product.variants?.[0]?.id;
+
+    try {
+      await addItem({
+        id: product.handle || product.id,
+        variantId: targetVariantId,
+        name: product.name,
+        category: product.category,
+        price: displayPrice,
+        originalPrice: displayMrp,
+        image: gallery[0]?.src ?? "",
+        size,
+        color,
+        quantity,
       });
-      matchedVariantId = match?.id || product.variants[0].id;
+      setAdded(true);
+      addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
+    } catch (err: any) {
+      const isInv = err?.message?.toLowerCase().includes("inventory") || err?.message?.toLowerCase().includes("stock");
+      setErrorMessage(
+        isInv
+          ? "This size is currently out of stock. Please select another size."
+          : "Unable to add this item to your basket. Please try again.",
+      );
     }
-
-    addItem({
-      id: product.handle || product.id,
-      variantId: matchedVariantId,
-      name: product.name,
-      category: product.category,
-      price: displayPrice,
-      originalPrice: displayMrp,
-      image: gallery[0]?.src ?? "",
-      size,
-      color,
-      quantity,
-    });
-    setIsOpen(true);
-    addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
   }
 
   function handleMobilePurchaseClick() {
@@ -198,7 +208,8 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       setSizeDrawerOpen(true);
       return;
     }
-    addToBasket();
+    if (isSoldOut) return;
+    void addToBasket();
   }
 
   function buyNow() {
@@ -206,43 +217,52 @@ function ProductExperience({ product }: { product: ProductDetail }) {
       setSizeDrawerOpen(true);
       return;
     }
-    addToBasket();
-    navigate({ to: "/checkout" });
+    if (isSoldOut) return;
+    void addToBasket().then(() => {
+      navigate({ to: "/checkout" });
+    });
   }
 
-  function handleSelectSizeAndAdd(chosenSize: SizeName) {
+  async function handleSelectSizeAndAdd(chosenSize: SizeName) {
     setSize(chosenSize);
     setSizeDrawerOpen(false);
     window.clearTimeout(addResetRef.current);
-    setAdded(true);
+    setErrorMessage(null);
 
-    let matchedVariantId: string | undefined;
-    if (product.variants && product.variants.length > 0) {
-      const match = product.variants.find((v) => {
-        return (
-          v.title?.toLowerCase().includes(chosenSize.toLowerCase()) ||
-          Object.values(v.options || {}).some(
-            (val) => val.toLowerCase() === chosenSize.toLowerCase(),
-          )
-        );
-      });
-      matchedVariantId = match?.id || product.variants[0].id;
-    }
-
-    addItem({
-      id: product.handle || product.id,
-      variantId: matchedVariantId,
-      name: product.name,
-      category: product.category,
-      price: displayPrice,
-      originalPrice: displayMrp,
-      image: gallery[0]?.src ?? "",
-      size: chosenSize,
-      color,
-      quantity,
+    const normalize = (val?: string) => val?.trim().toLowerCase() || "";
+    const targetNorm = normalize(chosenSize);
+    const match = product.variants?.find((v) => {
+      const tokens = (v.title || "").split("/").map(normalize);
+      if (tokens.includes(targetNorm)) return true;
+      return Object.values(v.options ?? {}).some(
+        (option) => normalize(typeof option === "string" ? option : (option as any)?.value) === targetNorm,
+      );
     });
-    setIsOpen(true);
-    addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
+    const targetVariantId = match?.id || selectedVariant?.id || product.variants?.[0]?.id;
+
+    try {
+      await addItem({
+        id: product.handle || product.id,
+        variantId: targetVariantId,
+        name: product.name,
+        category: product.category,
+        price: displayPrice,
+        originalPrice: displayMrp,
+        image: gallery[0]?.src ?? "",
+        size: chosenSize,
+        color,
+        quantity,
+      });
+      setAdded(true);
+      addResetRef.current = window.setTimeout(() => setAdded(false), 2600);
+    } catch (err: any) {
+      const isInv = err?.message?.toLowerCase().includes("inventory") || err?.message?.toLowerCase().includes("stock");
+      setErrorMessage(
+        isInv
+          ? "This size is currently out of stock. Please select another size."
+          : "Unable to add this item to your basket. Please try again.",
+      );
+    }
   }
 
   function handleGalleryScroll(event: UIEvent<HTMLDivElement>) {
@@ -591,8 +611,10 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                     <Plus />
                   </Button>
                 </div>
-                <Button size="lg" className="h-12 w-full" onClick={addToBasket}>
-                  {added ? (
+                <Button size="lg" className="h-12 w-full" disabled={isSoldOut} onClick={addToBasket}>
+                  {isSoldOut ? (
+                    "Sold Out"
+                  ) : added ? (
                     <>
                       <Check /> Added{size ? ` · Size ${size}` : ""}
                     </>
@@ -603,6 +625,9 @@ function ProductExperience({ product }: { product: ProductDetail }) {
                   )}
                 </Button>
               </div>
+              {errorMessage && (
+                <p className="mt-2 text-xs font-medium text-destructive">{errorMessage}</p>
+              )}
               <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
                   <CircleCheck className="size-3.5 text-success" /> Dispatched in 24–48 hours
@@ -882,9 +907,12 @@ function ProductExperience({ product }: { product: ProductDetail }) {
             <Button
               size="lg"
               className="h-11 min-w-[5.5rem] px-2.5 text-[0.7rem] font-semibold sm:min-w-0 sm:px-3 sm:text-xs"
+              disabled={isSoldOut}
               onClick={handleMobilePurchaseClick}
             >
-              {added ? (
+              {isSoldOut ? (
+                <span>Sold out</span>
+              ) : added ? (
                 <>
                   <Check className="size-4" />
                   <span className="ml-1">Added</span>

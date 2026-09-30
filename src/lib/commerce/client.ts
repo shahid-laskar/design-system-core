@@ -136,7 +136,7 @@ export async function getStoreProducts(params?: {
     query.set("region_id", regionId);
     query.set(
       "fields",
-      "*categories,*variants,*variants.options,*variants.calculated_price,*images",
+      "*categories,*variants,*variants.options,*variants.calculated_price,+variants.inventory_quantity,*images",
     );
     if (params?.categoryId) query.set("category_id", params.categoryId);
     if (params?.handle) query.set("handle[]", params.handle);

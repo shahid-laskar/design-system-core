@@ -159,47 +159,52 @@ export async function resolveVariantIdForProduct(
       return null;
     }
 
+    const normalize = (val?: string) => val?.trim().toLowerCase() || "";
+
+    const matchesOptionOrToken = (v: (typeof product.variants)[number], target?: string) => {
+      if (!target) return true;
+      const targetNorm = normalize(target);
+      // 1. Check title tokens (split by /)
+      const titleTokens = (v.title || "").split("/").map(normalize);
+      if (titleTokens.includes(targetNorm)) return true;
+
+      // 2. Check option values array or record
+      if (Array.isArray(v.options)) {
+        return v.options.some((opt: any) => normalize(opt?.value) === targetNorm);
+      }
+      if (typeof v.options === "object" && v.options) {
+        return Object.values(v.options).some((val: any) =>
+          normalize(typeof val === "string" ? val : val?.value) === targetNorm
+        );
+      }
+      return false;
+    };
+
     // 1. Try matching both size and color if provided
-    if (size && color) {
-      const matchBoth = product.variants.find((v) => {
-        const title = v.title?.toLowerCase() || "";
-        const sizeMatch =
-          title.includes(size.toLowerCase()) ||
-          Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase());
-        const colorMatch =
-          title.includes(color.toLowerCase()) ||
-          Object.values(v.options || {}).some((val) => val.toLowerCase() === color.toLowerCase());
-        return sizeMatch && colorMatch;
-      });
+    if (size && color && color !== "Default") {
+      const matchBoth = product.variants.find(
+        (v) => matchesOptionOrToken(v, size) && matchesOptionOrToken(v, color)
+      );
       if (matchBoth) return matchBoth.id;
     }
 
     // 2. Try matching size
     if (size) {
-      const matchSize = product.variants.find((v) => {
-        const title = v.title?.toLowerCase() || "";
-        return (
-          title.includes(size.toLowerCase()) ||
-          Object.values(v.options || {}).some((val) => val.toLowerCase() === size.toLowerCase())
-        );
-      });
+      const matchSize = product.variants.find((v) => matchesOptionOrToken(v, size));
       if (matchSize) return matchSize.id;
     }
 
     // 3. Try matching color
-    if (color) {
-      const matchColor = product.variants.find((v) => {
-        const title = v.title?.toLowerCase() || "";
-        return (
-          title.includes(color.toLowerCase()) ||
-          Object.values(v.options || {}).some((val) => val.toLowerCase() === color.toLowerCase())
-        );
-      });
+    if (color && color !== "Default") {
+      const matchColor = product.variants.find((v) => matchesOptionOrToken(v, color));
       if (matchColor) return matchColor.id;
     }
 
-    // 4. Default to first variant
-    return product.variants[0].id;
+    // 4. Default to first in-stock or first variant
+    const inStock = product.variants.find(
+      (v) => (v.inventory_quantity !== undefined ? v.inventory_quantity > 0 : true)
+    );
+    return inStock?.id || product.variants[0].id;
   } catch (err) {
     console.error("Failed to resolve variant ID:", err);
     return null;
@@ -313,13 +318,13 @@ export async function updateMedusaLineItem(
  * Removes a line item from the cart.
  */
 export async function removeMedusaLineItem(cartId: string, lineId: string): Promise<MedusaCart> {
-  const res = await fetchMedusa<{ cart: MedusaCart }>(
+  const res = await fetchMedusa<{ cart?: MedusaCart; parent?: MedusaCart }>(
     `/store/carts/${cartId}/line-items/${lineId}`,
     {
       method: "DELETE",
     },
   );
-  return res.cart;
+  return (res.parent || res.cart)!;
 }
 
 /**
