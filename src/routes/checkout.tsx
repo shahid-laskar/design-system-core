@@ -15,6 +15,7 @@ import {
 import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_PRICE, useCart } from "@/lib/cart-context";
 import {
   addMedusaShippingMethod,
+  addPromotionsToMedusaCart,
   completeMedusaCart,
   ensureMedusaCartSynchronized,
   getMedusaShippingOptions,
@@ -22,6 +23,7 @@ import {
   getOrCreatePaymentCollection,
   initiatePaymentSession,
   MedusaShippingOption,
+  removePromotionsFromMedusaCart,
   updateMedusaCartDetails,
 } from "@/lib/commerce/cart-service";
 import { validateStorePromotion, type PromotionValidationResult } from "@/lib/commerce/client";
@@ -106,6 +108,14 @@ function CheckoutPage() {
         setAppliedPromotion(res);
         setCouponMessage({ text: res.message, isError: false });
         setCouponCode(code);
+
+        // Also sync promotion to the Medusa cart so server total and payment collection reflect the discount
+        try {
+          const cart = await getOrCreateMedusaCart();
+          await addPromotionsToMedusaCart(cart.id, [code]);
+        } catch (syncErr) {
+          console.warn("Could not sync promotion to Medusa cart immediately:", syncErr);
+        }
       } else {
         setAppliedPromotion(null);
         setCouponMessage({ text: res.message || "Invalid coupon code", isError: true });
@@ -118,10 +128,20 @@ function CheckoutPage() {
     }
   }
 
-  function handleRemoveCoupon() {
+  async function handleRemoveCoupon() {
+    const codeToRemove = appliedPromotion?.code || couponCode;
     setAppliedPromotion(null);
     setCouponCode("");
     setCouponMessage(null);
+
+    if (codeToRemove) {
+      try {
+        const cart = await getOrCreateMedusaCart();
+        await removePromotionsFromMedusaCart(cart.id, [codeToRemove]);
+      } catch (err) {
+        console.warn("Could not remove promotion from Medusa cart:", err);
+      }
+    }
   }
 
   // Load Razorpay script
@@ -211,6 +231,15 @@ function CheckoutPage() {
           cart = await addMedusaShippingMethod(cart.id, selectedShippingId);
         } catch {
           // Continue if already selected
+        }
+      }
+
+      // 3b. Ensure applied promotion is attached to Medusa cart before creating payment collection
+      if (appliedPromotion?.valid && appliedPromotion.code) {
+        try {
+          cart = await addPromotionsToMedusaCart(cart.id, [appliedPromotion.code]);
+        } catch (promoErr) {
+          console.warn("Could not attach promotion during checkout:", promoErr);
         }
       }
 

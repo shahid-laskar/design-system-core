@@ -369,6 +369,38 @@ export async function addMedusaShippingMethod(
 }
 
 /**
+ * Adds promotion codes to the Medusa cart.
+ */
+export async function addPromotionsToMedusaCart(
+  cartId: string,
+  promoCodes: string[],
+): Promise<MedusaCart> {
+  const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/promotions`, {
+    method: "POST",
+    body: JSON.stringify({
+      promo_codes: promoCodes,
+    }),
+  });
+  return res.cart;
+}
+
+/**
+ * Removes promotion codes from the Medusa cart.
+ */
+export async function removePromotionsFromMedusaCart(
+  cartId: string,
+  promoCodes: string[],
+): Promise<MedusaCart> {
+  const res = await fetchMedusa<{ cart: MedusaCart }>(`/store/carts/${cartId}/promotions`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      promo_codes: promoCodes,
+    }),
+  });
+  return res.cart;
+}
+
+/**
  * Creates or gets the payment collection for the cart.
  */
 export async function getOrCreatePaymentCollection(cartId: string): Promise<string> {

@@ -19,6 +19,7 @@ import { CommerceImage } from "@/components/brand/commerce-image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { validateStorePromotion } from "@/lib/commerce/client";
+import { addPromotionsToMedusaCart, getStoredCartId } from "@/lib/commerce/cart-service";
 import {
   Sheet,
   SheetContent,
@@ -144,6 +145,16 @@ export function CartDrawer() {
       const result = await validateStorePromotion(code, subtotal);
       setCouponDiscount(result.valid ? result.discount_amount : 0);
       setCouponMessage(result.message);
+      if (result.valid) {
+        try {
+          const storedCartId = getStoredCartId();
+          if (storedCartId) {
+            await addPromotionsToMedusaCart(storedCartId, [result.code || code.toUpperCase()]);
+          }
+        } catch (syncErr) {
+          console.warn("Could not sync promotion to Medusa cart in drawer:", syncErr);
+        }
+      }
     } catch {
       setCouponDiscount(0);
       setCouponMessage("Offer codes are checked at checkout. Please try again there.");
