@@ -522,3 +522,13 @@
     transform: none !important;
   }
 }
+
+/* Hero carousel: progress bar fills from left over the slide interval. */
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

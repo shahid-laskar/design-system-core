@@ -224,7 +224,7 @@ const heroSlides = [
     copy: "Opaque, breathable cotton sets made for full days, family gatherings, and quiet mornings.",
     image: "/images/Emerald%20Elegance%20in%20a%20Sunlit%20Courtyard.png",
     alt: "Woman in an emerald modest cotton set in a sunlit courtyard",
-    position: "object-[center_27%]",
+    position: "object-[78%_22%] lg:object-[center_27%]",
     cta: "Explore women",
   },
   {
@@ -235,7 +235,7 @@ const heroSlides = [
     copy: "Easy cotton silhouettes with a quiet, tailored finish — from Friday prayer to family lunch.",
     image: "/images/Sunlit%20Courtyard%20Portrait%20in%20Teal%20Kurta.png",
     alt: "Man wearing a teal kurta in a sunlit courtyard",
-    position: "object-[center_44%]",
+    position: "object-[72%_18%] lg:object-[center_25%]",
     cta: "Explore men",
   },
   {
@@ -246,7 +246,7 @@ const heroSlides = [
     copy: "Festive cottons and gentle habit-building pieces that make everyday family rituals feel special.",
     image: "/images/Golden%20Courtyard%20Daily%20Steps.png",
     alt: "Two children learning together in a golden courtyard",
-    position: "object-[center_43%]",
+    position: "object-[68%_30%] lg:object-[center_35%]",
     cta: "Explore children",
   },
   {
@@ -257,7 +257,7 @@ const heroSlides = [
     copy: "Memory-foam mats, bentwood rehals, and natural fragrance for the rituals that bring us home.",
     image: "/images/Serene%20Islamic%20Prayer%20Nook%20at%20Golden%20Hour.png",
     alt: "Serene Islamic prayer nook with an olive prayer mat and Quran stand",
-    position: "object-[center_54%]",
+    position: "object-[68%_45%] lg:object-[center_50%]",
     cta: "Explore prayer",
   },
   {
@@ -268,7 +268,7 @@ const heroSlides = [
     copy: "Curated keepsakes for new beginnings, Eid mornings, nikah celebrations, and the people you love.",
     image: "/images/Luxury%20Sukoon%20House%20Gift%20Set.png",
     alt: "Luxury Sukoon House gift set with prayer and fragrance essentials",
-    position: "object-[center_52%]",
+    position: "object-[68%_46%] lg:object-[center_50%]",
     cta: "Explore gifts",
   },
   {
@@ -279,7 +279,7 @@ const heroSlides = [
     copy: "Modest clothing, prayer essentials, children's joy, and gifts — thoughtfully gathered under one roof.",
     image: "/images/Sunlit%20Family%20Portrait%20by%20the%20Archway.png",
     alt: "Family walking together beneath a sunlit courtyard archway",
-    position: "object-[center_43%]",
+    position: "object-[68%_24%] lg:object-[center_30%]",
     cta: "Shop the family",
   },
 ] as const;
@@ -290,6 +290,7 @@ function HomePage() {
   const [activeHero, setActiveHero] = useState(0);
   const [heroPaused, setHeroPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [progressKey, setProgressKey] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const catalogue = useMemo<CollectionProduct[]>(() => {
     if (liveProducts && liveProducts.length > 0) {
@@ -356,7 +357,8 @@ function HomePage() {
     if (heroPaused || reducedMotion) return;
     const timer = window.setInterval(() => {
       setActiveHero((current) => (current + 1) % heroSlides.length);
-    }, 5500);
+      setProgressKey((k) => k + 1);
+    }, 5000);
     return () => window.clearInterval(timer);
   }, [heroPaused, reducedMotion]);
 
@@ -365,6 +367,7 @@ function HomePage() {
     setActiveHero(
       (current) => (current + direction + heroSlides.length) % heroSlides.length,
     );
+    setProgressKey((k) => k + 1);
   };
 
   return (
@@ -413,7 +416,7 @@ function HomePage() {
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-warm-ivory via-warm-ivory/95 to-transparent lg:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-warm-ivory via-warm-ivory/95 to-transparent lg:hidden"
         />
 
         <PageContainer className="relative flex min-h-[min(47rem,calc(100svh-7rem))] flex-col justify-end gap-4 pb-[calc(var(--mobile-bottom-nav-h)+1rem)] pt-56 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
@@ -451,24 +454,43 @@ function HomePage() {
 
           <div className="mt-3 flex items-center justify-between gap-3 sm:mt-5 lg:mt-8">
             <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" role="tablist" aria-label="Hero categories">
-              {heroSlides.map((slide, index) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={index === activeHero}
-                  aria-label={`Show ${slide.label} story`}
-                  onClick={() => setActiveHero(index)}
-                  className={cn(
-                    "min-h-9 shrink-0 rounded-sm border px-3 text-xs font-semibold transition-colors duration-brand-fast",
-                    index === activeHero
-                      ? "border-berry bg-berry text-berry-foreground lg:border-mango lg:bg-mango lg:text-mango-foreground"
-                      : "border-charcoal-ink/20 bg-background/75 text-charcoal-ink hover:border-charcoal-ink/45 lg:border-white/50 lg:bg-white/10 lg:text-white lg:hover:bg-white/20",
-                  )}
-                >
-                  {slide.label}
-                </button>
-              ))}
+              {heroSlides.map((slide, index) => {
+                const isActive = index === activeHero;
+                return (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`Show ${slide.label} story`}
+                    onClick={() => {
+                      setActiveHero(index);
+                      setProgressKey((k) => k + 1);
+                    }}
+                    className={cn(
+                      "relative min-h-9 shrink-0 overflow-hidden rounded-sm border px-3 text-xs font-semibold transition-colors duration-brand-fast",
+                      isActive
+                        ? "border-berry bg-berry text-berry-foreground lg:border-mango lg:bg-mango lg:text-mango-foreground"
+                        : "border-charcoal-ink/20 bg-background/75 text-charcoal-ink hover:border-charcoal-ink/45 lg:border-white/50 lg:bg-white/10 lg:text-white lg:hover:bg-white/20",
+                    )}
+                  >
+                    <span className="relative z-10">{slide.label}</span>
+                    {isActive && !reducedMotion && (
+                      <span
+                        key={progressKey}
+                        aria-hidden
+                        className={cn(
+                          "absolute inset-x-0 bottom-0 h-[3px] origin-left rounded-full bg-white/50",
+                          heroPaused ? "[animation-play-state:paused]" : "",
+                        )}
+                        style={{
+                          animation: "hero-progress 5s linear forwards",
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
             </div>
             <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
               <Button
