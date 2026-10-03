@@ -257,7 +257,7 @@ const heroSlides = [
     copy: "Memory-foam mats, bentwood rehals, and natural fragrance for the rituals that bring us home.",
     image: "/images/Serene%20Islamic%20Prayer%20Nook%20at%20Golden%20Hour.png",
     alt: "Serene Islamic prayer nook with an olive prayer mat and Quran stand",
-    position: "object-[68%_45%] lg:object-[center_50%]",
+    position: "object-[82%_42%] lg:object-[center_50%]",
     cta: "Explore prayer",
   },
   {
@@ -279,7 +279,7 @@ const heroSlides = [
     copy: "Modest clothing, prayer essentials, children's joy, and gifts — thoughtfully gathered under one roof.",
     image: "/images/Sunlit%20Family%20Portrait%20by%20the%20Archway.png",
     alt: "Family walking together beneath a sunlit courtyard archway",
-    position: "object-[68%_24%] lg:object-[center_30%]",
+    position: "object-[75%_20%] lg:object-[center_30%]",
     cta: "Shop the family",
   },
 ] as const;
