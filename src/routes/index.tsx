@@ -1,6 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, IndianRupee, RefreshCcw, ShieldCheck, Shirt } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  IndianRupee,
+  RefreshCcw,
+  ShieldCheck,
+  Shirt,
+} from "lucide-react";
 import { ProductCard } from "@/components/brand/product-card";
 import { EditorialCard } from "@/components/brand/editorial-card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +25,6 @@ import {
 import { SNAPSHOT_PRODUCTS } from "@/lib/commerce/snapshot-fallback";
 import { cn } from "@/lib/utils";
 
-import heroFamily from "@/assets/hero-cinematic-sukoon-house.jpg";
 import occasionEid from "@/assets/occasion-eid.jpg";
 import occasionRamadan from "@/assets/occasion-ramadan.jpg";
 import pillarGifts from "@/assets/pillar-gifts.jpg";
@@ -208,9 +215,82 @@ const editorials = [
 
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
+const heroSlides = [
+  {
+    id: "women",
+    label: "Women",
+    eyebrow: "Pure cambric · everyday ease",
+    title: "Kurtas with a softer kind of confidence.",
+    copy: "Opaque, breathable cotton sets made for full days, family gatherings, and quiet mornings.",
+    image: "/images/Emerald%20Elegance%20in%20a%20Sunlit%20Courtyard.png",
+    alt: "Woman in an emerald modest cotton set in a sunlit courtyard",
+    position: "object-[center_27%]",
+    cta: "Explore women",
+  },
+  {
+    id: "men",
+    label: "Men",
+    eyebrow: "Handloom · Friday ready",
+    title: "A considered kurta for every gathering.",
+    copy: "Easy cotton silhouettes with a quiet, tailored finish — from Friday prayer to family lunch.",
+    image: "/images/Sunlit%20Courtyard%20Portrait%20in%20Teal%20Kurta.png",
+    alt: "Man wearing a teal kurta in a sunlit courtyard",
+    position: "object-[center_44%]",
+    cta: "Explore men",
+  },
+  {
+    id: "children",
+    label: "Children",
+    eyebrow: "Little rituals · big joy",
+    title: "Beautiful beginnings, made for little hands.",
+    copy: "Festive cottons and gentle habit-building pieces that make everyday family rituals feel special.",
+    image: "/images/Golden%20Courtyard%20Daily%20Steps.png",
+    alt: "Two children learning together in a golden courtyard",
+    position: "object-[center_43%]",
+    cta: "Explore children",
+  },
+  {
+    id: "prayer",
+    label: "Prayer",
+    eyebrow: "A corner for calm",
+    title: "Make room for stillness.",
+    copy: "Memory-foam mats, bentwood rehals, and natural fragrance for the rituals that bring us home.",
+    image: "/images/Serene%20Islamic%20Prayer%20Nook%20at%20Golden%20Hour.png",
+    alt: "Serene Islamic prayer nook with an olive prayer mat and Quran stand",
+    position: "object-[center_54%]",
+    cta: "Explore prayer",
+  },
+  {
+    id: "gifts",
+    label: "Gifts",
+    eyebrow: "Thoughtful by nature",
+    title: "Give something that settles into a home.",
+    copy: "Curated keepsakes for new beginnings, Eid mornings, nikah celebrations, and the people you love.",
+    image: "/images/Luxury%20Sukoon%20House%20Gift%20Set.png",
+    alt: "Luxury Sukoon House gift set with prayer and fragrance essentials",
+    position: "object-[center_52%]",
+    cta: "Explore gifts",
+  },
+  {
+    id: "family",
+    label: "Family",
+    eyebrow: "Made for the household",
+    title: "One warm place for everyone you call home.",
+    copy: "Modest clothing, prayer essentials, children's joy, and gifts — thoughtfully gathered under one roof.",
+    image: "/images/Sunlit%20Family%20Portrait%20by%20the%20Archway.png",
+    alt: "Family walking together beneath a sunlit courtyard archway",
+    position: "object-[center_43%]",
+    cta: "Shop the family",
+  },
+] as const;
+
 function HomePage() {
   const { data: liveProducts } = useCommerceProducts();
   const [occasion, setOccasion] = useState<(typeof occasionTabs)[number]["id"]>("all");
+  const [activeHero, setActiveHero] = useState(0);
+  const [heroPaused, setHeroPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const touchStartX = useRef<number | null>(null);
   const catalogue = useMemo<CollectionProduct[]>(() => {
     if (liveProducts && liveProducts.length > 0) {
       const seen = new Set(liveProducts.map((p) => p.handle));
@@ -264,44 +344,86 @@ function HomePage() {
     [catalogue],
   );
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () => setReducedMotion(mediaQuery.matches);
+    updateMotionPreference();
+    mediaQuery.addEventListener("change", updateMotionPreference);
+    return () => mediaQuery.removeEventListener("change", updateMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    if (heroPaused || reducedMotion) return;
+    const timer = window.setInterval(() => {
+      setActiveHero((current) => (current + 1) % heroSlides.length);
+    }, 5500);
+    return () => window.clearInterval(timer);
+  }, [heroPaused, reducedMotion]);
+
+  const currentHero = heroSlides[activeHero];
+  const moveHero = (direction: 1 | -1) => {
+    setActiveHero(
+      (current) => (current + direction + heroSlides.length) % heroSlides.length,
+    );
+  };
+
   return (
     <>
-       {/* Full-bleed family hero — warm & readable, not cinematic-dark */}
-      {/* Mobile height subtracts the announcement bar + sticky header so the headline
-          AND both CTAs stay above the fold instead of sliding under the bottom dock. */}
-      <section className="relative isolate min-h-[calc(100svh-7rem)] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white">
-        <img
-          src={heroFamily}
-          alt="Woman in a berry-plum cambric salwar suit in a sunlit courtyard with her family"
-          width={1920}
-          height={1080}
-          className="absolute inset-0 size-full object-cover object-[center_22%] sm:object-[center_28%] lg:object-[center_32%]"
-          fetchPriority="high"
-        />
-        {/* Desktop: localized left/bottom scrim — keep photograph bright */}
+      {/* Full-bleed editorial hero: image-first on mobile, with a calm reading panel below. */}
+      <section
+        aria-roledescription="carousel"
+        aria-label="Sukoon House collections"
+        className="relative isolate min-h-[min(47rem,calc(100svh-7rem))] overflow-hidden bg-warm-ivory text-foreground lg:min-h-[92svh] lg:text-white"
+        onMouseEnter={() => setHeroPaused(true)}
+        onMouseLeave={() => setHeroPaused(false)}
+        onTouchStart={(event) => {
+          setHeroPaused(true);
+          touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+        }}
+        onTouchEnd={(event) => {
+          const startX = touchStartX.current;
+          const endX = event.changedTouches[0]?.clientX;
+          touchStartX.current = null;
+          setHeroPaused(false);
+          if (startX === null || endX === undefined) return;
+          const distance = endX - startX;
+          if (Math.abs(distance) < 45) return;
+          moveHero(distance < 0 ? 1 : -1);
+        }}
+      >
+        {heroSlides.map((slide, index) => (
+          <img
+            key={slide.id}
+            src={slide.image}
+            alt={slide.alt}
+            width={1536}
+            height={1024}
+            aria-hidden={index !== activeHero}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            className={cn(
+              "absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-brand",
+              slide.position,
+              index === activeHero ? "scale-100 opacity-100" : "scale-[1.025] opacity-0",
+            )}
+          />
+        ))}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 hidden lg:block"
-          style={{
-            background:
-              "linear-gradient(90deg, oklch(0.18 0.02 260 / 0.62) 0%, oklch(0.18 0.02 260 / 0.28) 38%, transparent 62%), linear-gradient(0deg, oklch(0.18 0.02 260 / 0.35) 0%, transparent 42%)",
-          }}
+          className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,oklch(0.18_0.02_260_/_0.62)_0%,oklch(0.18_0.02_260_/_0.28)_38%,transparent_62%),linear-gradient(0deg,oklch(0.18_0.02_260_/_0.35)_0%,transparent_42%)] lg:block"
         />
-        {/* Mobile: soft bottom panel behind copy — never full-image darkening */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-warm-ivory via-warm-ivory/92 to-transparent lg:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-warm-ivory via-warm-ivory/95 to-transparent lg:hidden"
         />
 
-        <PageContainer className="relative flex min-h-[calc(100svh-7rem)] flex-col justify-end gap-4 pb-[calc(var(--mobile-bottom-nav-h)+1rem)] pt-20 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
+        <PageContainer className="relative flex min-h-[min(47rem,calc(100svh-7rem))] flex-col justify-end gap-4 pb-[calc(var(--mobile-bottom-nav-h)+1rem)] pt-56 sm:gap-6 sm:pb-[calc(var(--mobile-bottom-nav-h)+1.75rem)] lg:min-h-[92svh] lg:justify-center lg:pb-24 lg:pt-32">
           <div className="max-w-xl animate-in fade-in slide-in-from-bottom-3 duration-700 lg:max-w-2xl">
-            <p className="eyebrow-wide text-berry lg:text-mango">Sukoon House</p>
-            <h1 className="mt-3 font-display text-[2.15rem] leading-[1.08] tracking-tight text-charcoal-ink sm:text-5xl lg:mt-4 lg:text-7xl lg:text-white">
-              Modest fashion &amp; daily essentials for modern Muslim families
+            <p className="eyebrow-wide text-berry lg:text-mango">{currentHero.eyebrow}</p>
+            <h1 className="mt-3 max-w-[21rem] font-display text-[2.15rem] leading-[1.08] tracking-tight text-charcoal-ink sm:max-w-xl sm:text-5xl lg:mt-4 lg:max-w-2xl lg:text-7xl lg:text-white">
+              {currentHero.title}
             </h1>
             <p className="mt-3 max-w-md text-sm leading-6 text-charcoal-ink/75 sm:mt-4 sm:text-base sm:leading-7 lg:text-white/90">
-              Worn cambric suits, Friday kurtas, prayer corners, and gifts — one trusted store for
-              the whole household.
+              {currentHero.copy}
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7 sm:gap-3">
               <Button
@@ -309,20 +431,71 @@ function HomePage() {
                 className="min-h-11 border-berry bg-berry px-4 text-berry-foreground hover:bg-berry/90 sm:px-5"
                 asChild
               >
-                <Link to="/collection" search={{ category: "women" }}>
-                  Shop Women <ArrowRight />
+                <Link
+                  to="/collection"
+                  search={{ category: currentHero.id === "family" ? undefined : currentHero.id }}
+                >
+                  {currentHero.cta} <ArrowRight />
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="min-h-11 border-charcoal-ink/25 bg-background/80 px-4 text-charcoal-ink backdrop-blur-sm hover:bg-background sm:px-5 lg:border-white/70 lg:bg-white/10 lg:text-white lg:hover:bg-white/20"
-                asChild
+                onClick={() => moveHero(1)}
               >
-                <Link to="/collection">Shop The Family</Link>
+                Next story <ArrowRight />
               </Button>
             </div>
           </div>
+
+          <div className="mt-3 flex items-center justify-between gap-3 sm:mt-5 lg:mt-8">
+            <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" role="tablist" aria-label="Hero categories">
+              {heroSlides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === activeHero}
+                  aria-label={`Show ${slide.label} story`}
+                  onClick={() => setActiveHero(index)}
+                  className={cn(
+                    "min-h-9 shrink-0 rounded-sm border px-3 text-xs font-semibold transition-colors duration-brand-fast",
+                    index === activeHero
+                      ? "border-berry bg-berry text-berry-foreground lg:border-mango lg:bg-mango lg:text-mango-foreground"
+                      : "border-charcoal-ink/20 bg-background/75 text-charcoal-ink hover:border-charcoal-ink/45 lg:border-white/50 lg:bg-white/10 lg:text-white lg:hover:bg-white/20",
+                  )}
+                >
+                  {slide.label}
+                </button>
+              ))}
+            </div>
+            <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                aria-label="Previous story"
+                className="border-charcoal-ink/20 bg-background/75 text-charcoal-ink lg:border-white/50 lg:bg-white/10 lg:text-white"
+                onClick={() => moveHero(-1)}
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                aria-label="Next story"
+                className="border-charcoal-ink/20 bg-background/75 text-charcoal-ink lg:border-white/50 lg:bg-white/10 lg:text-white"
+                onClick={() => moveHero(1)}
+              >
+                <ArrowRight />
+              </Button>
+            </div>
+          </div>
+          <span className="sr-only" aria-live="polite">
+            Showing {currentHero.label} collection story, {activeHero + 1} of {heroSlides.length}
+          </span>
         </PageContainer>
       </section>
 
