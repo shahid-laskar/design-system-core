@@ -4,3 +4,4 @@
 - [x] Product detail variant selection updates SKU, price, MRP and cart values
 - [x] Apparel PDP modesty guarantee and safe-area mobile purchase dock
 - [x] Storefront typecheck and responsive interaction verification
+- [x] Mobile-first six-scene editorial hero carousel for the five core shopping pillars
